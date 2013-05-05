@@ -12,7 +12,7 @@ import java.util.Properties;
  */
 public class GestorBBDD {
 
-    private final String propertiesFile = "resources/conf/jdbc.properties";
+    private final String propertiesFile = "conf/jdbc.properties";
     private final String driver = "org.postgresql.Driver";
 
     /**
