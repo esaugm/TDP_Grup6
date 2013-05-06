@@ -20,67 +20,67 @@ import java.util.Date;
  */
 public class Client implements java.io.Serializable {
 
-	private Integer	numClient;
-	private String	Nom;
-	private String	Cognoms;
-	private String	Adreça;
+	private Integer	numclient;
+	private String	nom;
+	private String	cognoms;
+	private String	adreca;
 	private String	nif;
 	private String	poblacio;
-	private Integer	codiPostal;
-	private Date	dataAlta;
+	private Integer	codipostal;
+	private Date	dataalta;
 
 	public static final Integer CLIENT_UNDEF = -1;
 
 	public Client() {
 	}
 
-	public Client(String Nom, String Cognoms, String Adreça, String nif, String poblacio, Integer codiPostal, Integer numClient, Date dataAlta) {
+	public Client(String nom, String cognoms, String adreca, String nif, String poblacio, Integer codipostal, Integer numclient, Date dataalta) {
 		super();
-		this.Nom = Nom;
-		this.Cognoms = Cognoms;
-		this.Adreça = Adreça;
+		this.nom = nom;
+		this.cognoms = cognoms;
+		this.adreca = adreca;
 		this.nif = nif;
 		this.poblacio = poblacio;
-		this.codiPostal = codiPostal;
-		this.numClient = numClient;
-		this.dataAlta = dataAlta;
+		this.codipostal = codipostal;
+		this.numclient = numclient;
+		this.dataalta = dataalta;
 	}
 
 
-	public Client(String Nom, String Cognoms, String Adreça, String nif, String poblacio, Integer codiPostal, Date dataAlta) {
+	public Client(String nom, String cognoms, String adreca, String nif, String poblacio, Integer codipostal, Date dataalta) {
 		super();
-		this.Nom = Nom;
-		this.Cognoms = Cognoms;
-		this.Adreça = Adreça;
+		this.nom = nom;
+		this.cognoms = cognoms;
+		this.adreca = adreca;
 		this.nif = nif;
 		this.poblacio = poblacio;
-		this.codiPostal = codiPostal;
-		this.dataAlta = dataAlta;
-		this.numClient = CLIENT_UNDEF;
+		this.codipostal = codipostal;
+		this.dataalta = dataalta;
+		this.numclient = CLIENT_UNDEF;
 	}
 
-	public String getNom() {
-		return Nom;
+	public String getnom() {
+		return nom;
 	}
 
-	public void setNom(String Nom) {
-		this.Nom = Nom;
+	public void setnom(String nom) {
+		this.nom = nom;
 	}
 
-	public String getCognoms() {
-		return Cognoms;
+	public String getcognoms() {
+		return cognoms;
 	}
 
-	public void setCognoms(String Cognoms) {
-		this.Cognoms = Cognoms;
+	public void setcognoms(String cognoms) {
+		this.cognoms = cognoms;
 	}
 
-	public String getAdreça() {
-		return Adreça;
+	public String getadreca() {
+		return adreca;
 	}
 
-	public void setAdreça(String Adreça) {
-		this.Adreça = Adreça;
+	public void setadreca(String adreca) {
+		this.adreca = adreca;
 	}
 
 	public String getNif() {
@@ -100,44 +100,44 @@ public class Client implements java.io.Serializable {
 	}
 
 	public Integer getCodiPostal() {
-		return codiPostal;
+		return codipostal;
 	}
 
-	public void setCodiPostal(Integer codiPostal) {
-		this.codiPostal = codiPostal;
+	public void setCodiPostal(Integer codipostal) {
+		this.codipostal = codipostal;
 	}
 
 	public Integer getNumClient() {
-		return numClient;
+		return numclient;
 	}
 
-	public void setNumClient(Integer numClient) {
-		this.numClient = numClient;
+	public void setNumClient(Integer numclient) {
+		this.numclient = numclient;
 	}
 
 	public Date getDataAlta() {
-		return dataAlta;
+		return dataalta;
 	}
 
-	public void setDataAlta(Date dataAlta) {
-		this.dataAlta = dataAlta;
+	public void setDataAlta(Date dataalta) {
+		this.dataalta = dataalta;
 	}
 
 	@Override
 	public String toString() {
-		return "Client{" + "Nom=" + Nom + ", Cognoms=" + Cognoms + ", Adre\u00e7a=" + Adreça + ", nif=" + nif + ", poblacio=" + poblacio + ", codiPostal=" + codiPostal + ", numClient=" + numClient + ", dataAlta=" + dataAlta + '}';
+		return "\n\nClient{\n" + "nom=" + nom + ", cognoms=" + cognoms + ", adreca=" + adreca + ", nif=" + nif + ", poblacio=" + poblacio + ", codipostal=" + codipostal + ", numclient=" + numclient + ", dataalta=" + dataalta + "\n}";
 	}
 
 	public Object[] toArray() {
 		ArrayList<Object> values = new ArrayList<Object>();
-		values.add(Nom);
-		values.add(Cognoms);
-		values.add(Adreça);
+		values.add(nom);
+		values.add(cognoms);
+		values.add(adreca);
 		values.add(nif);
 		values.add(poblacio);
-		values.add(codiPostal);
-		values.add(numClient);
-		values.add(dataAlta);
+		values.add(codipostal);
+		values.add(numclient);
+		values.add(dataalta);
 
 		return values.toArray();
 	}
