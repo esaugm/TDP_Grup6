@@ -1,10 +1,8 @@
 package common.utils;
 
 import java.io.IOException;
-<<<<<<< HEAD
+
 import java.io.InputStream;
-=======
->>>>>>> fb95cc3b310b9ccc2b2563ff7d0aa94e59bda616
 import java.sql.*;
 import java.util.Properties;
 /**
@@ -46,11 +44,7 @@ public class GestorBBDD {
      * @param rs ResultSet, pot ser null
      */
     public static void freeResources(Connection conn, PreparedStatement ps, ResultSet rs){
-<<<<<<< HEAD
 
-=======
-                        
->>>>>>> fb95cc3b310b9ccc2b2563ff7d0aa94e59bda616
         if (rs!=null ){
             try {
                 if (!rs.isClosed()) rs.close();
@@ -72,11 +66,7 @@ public class GestorBBDD {
                 if (!conn.isClosed()) conn.close();
             } catch (SQLException e) {
                 System.out.println("Exception trying to close Connection");
-<<<<<<< HEAD
                 e.printStackTrace();
-=======
-                e.printStackTrace();    
->>>>>>> fb95cc3b310b9ccc2b2563ff7d0aa94e59bda616
             }
         }
     }
