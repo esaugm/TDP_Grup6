@@ -33,8 +33,8 @@ public class ClientDAOImpl extends GestorBBDD implements GestorClientInterface {
 	public ClientDAOImpl() {
 	}
 
-		@Override
-		public ArrayList <Client> getClient ()  {
+	@Override
+	public ArrayList <Client> getClient ()  {
 		String SQL="SELECT * from \"Client\"";
 		ArrayList <Client> listaclient = new ArrayList<Client>();
 
@@ -57,7 +57,7 @@ public class ClientDAOImpl extends GestorBBDD implements GestorClientInterface {
 				Client cliente = new Client(
 					resultset.getString("Nom"),
 					resultset.getString("Cognoms"),
-					resultset.getString("adreÃ§a"),
+					resultset.getString("adreça"),
 					resultset.getString("nif"),
 					resultset.getString("poblacio"),
 					resultset.getInt("codiPostal"),
