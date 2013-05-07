@@ -6,6 +6,7 @@ package ss2.dao;
 
 import ss2.beans.Client;
 import java.util.ArrayList;
+import ss2.exception.AppException;
 
 /**
  ***************************************
@@ -19,6 +20,6 @@ import java.util.ArrayList;
  */
 public interface GestorClientInterface {
 
-		ArrayList<Client> getClient();
+		ArrayList<Client> getClient() throws AppException;
 
 }

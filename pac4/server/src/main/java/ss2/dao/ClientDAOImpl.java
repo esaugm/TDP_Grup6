@@ -13,6 +13,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import ss2.exception.AppException;
 
 /**
  ***************************************
@@ -34,15 +35,18 @@ public class ClientDAOImpl extends GestorBBDD implements GestorClientInterface {
 	}
 
 	@Override
-	public ArrayList <Client> getClient ()  {
-		String SQL="SELECT * from \"Client\"";
+	public ArrayList <Client> getClient () throws AppException {
+		String SQL="SELECT * from client";
 		ArrayList <Client> listaclient = new ArrayList<Client>();
 
 		try {
 			connection = getConnection();
 		} catch (ClassNotFoundException ex) {
+			throw new AppException(ex);
 		} catch (IOException ex) {
+			throw new AppException(ex);
 		} catch (SQLException ex) {
+			throw new AppException(ex);
 		}
 
 		System.out.println(SQL);
@@ -51,18 +55,18 @@ public class ClientDAOImpl extends GestorBBDD implements GestorClientInterface {
 			resultset = preparedstatement.executeQuery();
 			System.out.println(resultset);
 
-//public Client(String Nom, String Cognoms, String Adreça, String nif, String poblacio, Integer codiPostal, Integer numClient, Date dataAlta) {
+//public Client(String Nom, String Cognoms, String AdreÃ§a, String nif, String poblacio, Integer codiPostal, Integer numClient, Date dataAlta) {
 
 			while (resultset.next()) {
 				Client cliente = new Client(
-					resultset.getString("Nom"),
-					resultset.getString("Cognoms"),
-					resultset.getString("adre�a"),
+					resultset.getString("nom"),
+					resultset.getString("cognoms"),
+					resultset.getString("adreca"),
 					resultset.getString("nif"),
 					resultset.getString("poblacio"),
-					resultset.getInt("codiPostal"),
-					resultset.getInt("numClient"),
-					resultset.getDate("dataAlta")
+					resultset.getInt("codipostal"),
+					resultset.getInt("numclient"),
+					resultset.getDate("dataalta")
 					);
 				System.out.println(cliente);
 				listaclient.add(cliente);
@@ -70,6 +74,7 @@ public class ClientDAOImpl extends GestorBBDD implements GestorClientInterface {
 			System.out.println(listaclient);
 
 		} catch (SQLException ex) {
+			throw new AppException(ex);
 		} finally {
 			freeResources(connection, preparedstatement, resultset);
 		}

@@ -19,114 +19,114 @@ import java.util.ArrayList;
  */
 public class Peca implements java.io.Serializable {
 
-	private Integer	CodiPeca;
-	private String	Descripcio;
-	private Float	PVP;
-	private Float	PVD;
-	private String	Marca;
-	private String	Model;
-	private Integer	IdProveidor;
+	private Integer	codipeca;
+	private String	descripcio;
+	private Float	pvp;
+	private Float	pvd;
+	private String	marca;
+	private String	model;
+	private Integer	idproveidor;
 
 	public static final Integer PECA_UNDEF = -1;
 
 	public Peca() {
 	}
 
-	public Peca(String Descripcio, Float PVP, Float PVD, String Marca, String Model, Integer IdProveidor) {
+	public Peca(String descripcio, Float pvp, Float pvd, String marca, String model, Integer idproveidor) {
 		super();
-		this.Descripcio = Descripcio;
-		this.PVP = PVP;
-		this.PVD = PVD;
-		this.Marca = Marca;
-		this.Model = Model;
-		this.IdProveidor = IdProveidor;
-		this.CodiPeca = PECA_UNDEF;
+		this.descripcio = descripcio;
+		this.pvp = pvp;
+		this.pvd = pvd;
+		this.marca = marca;
+		this.model = model;
+		this.idproveidor = idproveidor;
+		this.codipeca = PECA_UNDEF;
 	}
 
-	public Peca(Integer CodiPeca, String Descripcio, Float PVP, Float PVD, String Marca, String Model, Integer IdProveidor) {
+	public Peca(Integer codipeca, String descripcio, Float pvp, Float pvd, String marca, String model, Integer idproveidor) {
 		super();
-		this.CodiPeca = CodiPeca;
-		this.Descripcio = Descripcio;
-		this.PVP = PVP;
-		this.PVD = PVD;
-		this.Marca = Marca;
-		this.Model = Model;
-		this.IdProveidor = IdProveidor;
+		this.codipeca = codipeca;
+		this.descripcio = descripcio;
+		this.pvp = pvp;
+		this.pvd = pvd;
+		this.marca = marca;
+		this.model = model;
+		this.idproveidor = idproveidor;
 	}
 
-	public Integer getCodiPeca() {
-		return CodiPeca;
+	public Integer getcodipeca() {
+		return codipeca;
 	}
 
-	public void setCodiPeca(Integer CodiPeca) {
-		this.CodiPeca = CodiPeca;
+	public void setcodipeca(Integer codipeca) {
+		this.codipeca = codipeca;
 	}
 
-	public String getDescripcio() {
-		return Descripcio;
+	public String getdescripcio() {
+		return descripcio;
 	}
 
-	public void setDescripcio(String Descripcio) {
-		this.Descripcio = Descripcio;
+	public void setdescripcio(String descripcio) {
+		this.descripcio = descripcio;
 	}
 
-	public Float getPVP() {
-		return PVP;
+	public Float getpvp() {
+		return pvp;
 	}
 
-	public void setPVP(Float PVP) {
-		this.PVP = PVP;
+	public void setpvp(Float pvp) {
+		this.pvp = pvp;
 	}
 
-	public Float getPVD() {
-		return PVD;
+	public Float getpvd() {
+		return pvd;
 	}
 
-	public void setPVD(Float PVD) {
-		this.PVD = PVD;
+	public void setpvd(Float pvd) {
+		this.pvd = pvd;
 	}
 
-	public String getMarca() {
-		return Marca;
+	public String getmarca() {
+		return marca;
 	}
 
-	public void setMarca(String Marca) {
-		this.Marca = Marca;
+	public void setmarca(String marca) {
+		this.marca = marca;
 	}
 
-	public String getModel() {
-		return Model;
+	public String getmodel() {
+		return model;
 	}
 
-	public void setModel(String Model) {
-		this.Model = Model;
+	public void setmodel(String model) {
+		this.model = model;
 	}
 
-	public Integer getIdProveidor() {
-		return IdProveidor;
+	public Integer getidproveidor() {
+		return idproveidor;
 	}
 
-	public void setIdProveidor(Integer IdProveidor) {
-		this.IdProveidor = IdProveidor;
+	public void setidproveidor(Integer idproveidor) {
+		this.idproveidor = idproveidor;
 	}
 
 	@Override
 	public String toString() {
-		return "Peca{" + "CodiPeca=" + CodiPeca + ", Descripcio=" + Descripcio + ", PVP=" + PVP + ", PVD=" + PVD + ", Marca=" + Marca + ", Model=" + Model + ", IdProveidor=" + IdProveidor + '}';
+		return "Peca{" + "codipeca=" + codipeca + ", descripcio=" + descripcio + ", pvp=" + pvp + ", pvd=" + pvd + ", marca=" + marca + ", model=" + model + ", idproveidor=" + idproveidor + '}';
 	}
 
 	public Object[] toArray() {
 		ArrayList<Object> values = new ArrayList<Object>();
 
-		values.add(CodiPeca);
-		values.add(Descripcio);
-		values.add(PVP);
-		values.add(PVD);
-		values.add(Marca);
-		values.add(Model);
-		values.add(IdProveidor);
+		values.add(codipeca);
+		values.add(descripcio);
+		values.add(pvp);
+		values.add(pvd);
+		values.add(marca);
+		values.add(model);
+		values.add(idproveidor);
 
 		return values.toArray();
 	}
-	
+
 }
