@@ -17,14 +17,14 @@ import java.util.Date;
  *
  * @author josi
  */
-public final class NewMain { //implements GestorClientInterface{
+public final class testClientMain { //implements GestorClientInterface{
 
     //final ClientDAOImpl gestorClient;
     //final ArrayList <Client> lcliente;
     ArrayList<Client> lcliente;
 
     //final private ClientDAOImpl	gClient;
-    public NewMain() {
+    public testClientMain() {
     }
 
     /**
