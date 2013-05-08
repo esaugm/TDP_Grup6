@@ -1,12 +1,14 @@
 package ss1.service.impl;
 
 import ss1.dao.IUsuariDAO;
+import ss1.dao.exception.ExceptionContrasenyaIncorrecta;
 import ss1.dao.exception.ExceptionErrorDataBase;
+import ss1.dao.exception.ExceptionTipoObjetoFiltroNoPermitido;
 import ss1.dao.impl.UsuariDAO;
 import ss1.entity.Usuari;
 import ss1.service.ChangePasswordItem;
 import ss1.service.IUsuariService;
-import ss1.service.filter.FilterItem;
+import ss1.service.filter.FilterItems;
 
 import java.util.List;
 
@@ -44,18 +46,28 @@ public class UsuariService implements IUsuariService {
         usuariDAO.modifyUsuari(pUsuari);
     }
 
-    public void changePassword(ChangePasswordItem pChangePasswordItem){
-        //todo implement it!
+    public void changePassword(ChangePasswordItem pChangePasswordItem) throws ExceptionErrorDataBase, ExceptionContrasenyaIncorrecta {
+        if (oldPasswordCorrect(pChangePasswordItem)){
+            Usuari usuari = pChangePasswordItem.getUsuari();
+            usuari.setContrasenya(pChangePasswordItem.getNewPassword());
+            usuariDAO.modifyUsuari(usuari);
+        } else {
+            throw new ExceptionContrasenyaIncorrecta("Error contrasenya incorrecta");
+
+        }
     }
 
-    public List<Usuari> findAllUsuari(){
-        //todo implement it!
-        return null;
+    private boolean oldPasswordCorrect(ChangePasswordItem pChangePasswordItem) throws ExceptionErrorDataBase {
+        Usuari usuariPersisted = usuariDAO.findByPK(pChangePasswordItem.getUsuari().getId());
+        return usuariPersisted.getContrasenya().equals(pChangePasswordItem.getOldPassword());
     }
 
-    public List<Usuari> findAllUsuariByUsuariFilter(FilterItem pUsuariFilter){
-        //todo implement it!
-        return null;
+    public List<Usuari> findAllUsuari() throws ExceptionErrorDataBase {
+        return usuariDAO.findAll();
+    }
+
+    public List<Usuari> findAllUsuariByUsuariFilter(FilterItems pUsuariFilter) throws ExceptionErrorDataBase, ExceptionTipoObjetoFiltroNoPermitido {
+        return usuariDAO.findUsuariByFilter(pUsuariFilter);
     }
 
     public Integer getIdForNewUsuari(){

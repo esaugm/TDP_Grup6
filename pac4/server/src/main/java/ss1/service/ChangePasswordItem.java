@@ -1,5 +1,7 @@
 package ss1.service;
 
+import ss1.entity.Usuari;
+
 /**
  * TDP Grup6
  * User: Esaú González
@@ -10,17 +12,17 @@ package ss1.service;
  */
 public class ChangePasswordItem {
     
-    private String usuari;
+    private Usuari usuari;
     private String oldPassword;
     private String newPassword;
 
-    public ChangePasswordItem(String usuari, String oldPassword, String newPassword) {
+    public ChangePasswordItem(Usuari usuari, String oldPassword, String newPassword) {
         this.usuari = usuari;
         this.oldPassword = oldPassword;
         this.newPassword = newPassword;
     }
 
-    public String getUsuari() {
+    public Usuari getUsuari() {
         return usuari;
     }
 

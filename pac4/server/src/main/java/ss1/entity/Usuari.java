@@ -1,7 +1,6 @@
 package ss1.entity;
 
 import common.entity.PerfilUsuari;
-import common.entity.Persona;
 
 import java.util.Date;
 
@@ -12,14 +11,14 @@ import java.util.Date;
  * Time: 15:49
  * Clase que implementa la entidad Usuari
  */
-public class Usuari extends Persona {
+public class Usuari {
     
     private Integer id;
     private Integer taller;
     private String usuari;
     private PerfilUsuari perfil;
     private String contrasenya;
-    private boolean actiu;
+    private Boolean actiu;
     private Date dataAlta;
     private Date dataModificacio;
     private Date dataBaixa;
@@ -65,11 +64,11 @@ public class Usuari extends Persona {
         this.contrasenya = contrasenya;
     }
 
-    public boolean isActiu() {
+    public Boolean isActiu() {
         return actiu;
     }
 
-    public void setActiu(boolean actiu) {
+    public void setActiu(Boolean actiu) {
         this.actiu = actiu;
     }
 

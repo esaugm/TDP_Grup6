@@ -1,8 +1,10 @@
 package ss1.service;
 
+import ss1.dao.exception.ExceptionContrasenyaIncorrecta;
 import ss1.dao.exception.ExceptionErrorDataBase;
+import ss1.dao.exception.ExceptionTipoObjetoFiltroNoPermitido;
 import ss1.entity.Usuari;
-import ss1.service.filter.FilterItem;
+import ss1.service.filter.FilterItems;
 
 import java.util.List;
 
@@ -24,11 +26,11 @@ public interface IUsuariService {
 
     public void modificaUsuari(Usuari pUsuari) throws ExceptionErrorDataBase;
 
-    public void changePassword(ChangePasswordItem pChangePasswordItem);
+    public void changePassword(ChangePasswordItem pChangePasswordItem) throws ExceptionErrorDataBase, ExceptionContrasenyaIncorrecta;
 
-    public List<Usuari> findAllUsuari();
+    public List<Usuari> findAllUsuari() throws ExceptionErrorDataBase;
 
-    public List<Usuari> findAllUsuariByUsuariFilter(FilterItem pUsuariFilter);
+    public List<Usuari> findAllUsuariByUsuariFilter(FilterItems pUsuariFilter) throws ExceptionErrorDataBase, ExceptionTipoObjetoFiltroNoPermitido;
 
     //todo ESAU: creo que no es seguro pedir el nuevo id a la sequencia de BD antes de persistir el nuevo Usuari
     //todo ESAU: (pueden abortar el alta a medias y quedaran id's vacios que no se podrán recuperar)
