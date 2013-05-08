@@ -1,7 +1,7 @@
-package main.java.ss1.dao;
+package ss1.dao;
 
-import ss1.dao.TallerDAO;
 import ss1.dao.exception.ExceptionErrorDataBase;
+import ss1.dao.impl.TallerDAO;
 import ss1.entity.Taller;
 
 /**
@@ -13,12 +13,12 @@ import ss1.entity.Taller;
 public class TallerDAOTest {
     
     public static void main(String[] args){
-        TallerDAO tallerDAO = new TallerDAO();
+        ITallerDAO tallerDAO = new TallerDAO();
         
         testFindTallerById(tallerDAO);
     }
 
-    private static void testFindTallerById(TallerDAO tallerDAO) {
+    private static void testFindTallerById(ITallerDAO tallerDAO) {
         try {
             Taller taller = tallerDAO.findByPK(1);
             System.out.println("Taller1: " + taller.getAdreca());

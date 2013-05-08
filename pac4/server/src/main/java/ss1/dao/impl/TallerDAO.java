@@ -1,6 +1,8 @@
-package ss1.dao;
+package ss1.dao.impl;
 
-import common.utils.GestorBBDD;
+import common.dao.impl.GenericDaoImpl;
+import common.utils.ConnectionFactory;
+import ss1.dao.ITallerDAO;
 import ss1.dao.exception.ExceptionErrorDataBase;
 import ss1.entity.Taller;
 
@@ -16,20 +18,16 @@ import java.sql.SQLException;
  * Date: 5/05/13
  * Time: 17:51
  */
-public class TallerDAO {
-    private GestorBBDD gdb;
+public class TallerDAO extends GenericDaoImpl implements ITallerDAO {
 
-    public TallerDAO() {
-        this.gdb = new GestorBBDD();
-    }
-    
+    @Override
     public Taller findByPK(Integer pTallerId) throws ExceptionErrorDataBase {
         Connection conn=null;
         PreparedStatement ps = null;
         ResultSet rs = null;
         Taller toReturn = null;
         try{
-            conn = gdb.getConnection();
+            conn = getConnection();
             ps = conn.prepareStatement("select id, cif, adreca, capacitat, capTaller, telefon, web, actiu, dataApertura, " +
                                        "dataModificacio, dataBaixa from taller where id = ?");
             ps.setLong(1,pTallerId);
@@ -61,7 +59,7 @@ public class TallerDAO {
             //todo ESAU: log exception
             throw new ExceptionErrorDataBase("Error conectando a BD", e);
         } finally {
-            GestorBBDD.freeResources(conn,ps,rs);
+            ConnectionFactory.freeResources(conn, ps, rs);
         }
         return toReturn;
     }

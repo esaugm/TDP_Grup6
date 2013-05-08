@@ -1,8 +1,11 @@
-package ss1.service;
+package ss1.service.impl;
 
-import ss1.dao.UsuariDAO;
+import ss1.dao.IUsuariDAO;
 import ss1.dao.exception.ExceptionErrorDataBase;
+import ss1.dao.impl.UsuariDAO;
 import ss1.entity.Usuari;
+import ss1.service.ChangePasswordItem;
+import ss1.service.IUsuariService;
 import ss1.service.filter.FilterItem;
 
 import java.util.List;
@@ -13,9 +16,9 @@ import java.util.List;
  * Date: 5/05/13
  * Time: 17:35
  */
-public class UsuariService implements IUsuariService{
+public class UsuariService implements IUsuariService {
     
-    private UsuariDAO usuariDAO;
+    private IUsuariDAO usuariDAO;
 
     public UsuariService() {
         this.usuariDAO = new UsuariDAO();

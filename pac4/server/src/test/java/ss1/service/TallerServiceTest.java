@@ -1,8 +1,8 @@
-package main.java.ss1.service;
+package ss1.service;
 
 import ss1.dao.exception.ExceptionErrorDataBase;
 import ss1.entity.Taller;
-import ss1.service.TallerService;
+import ss1.service.impl.TallerService;
 
 /**
  * TDP Grup6

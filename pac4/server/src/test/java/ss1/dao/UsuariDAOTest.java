@@ -1,8 +1,8 @@
-package main.java.ss1.dao;
+package ss1.dao;
 
 import common.entity.PerfilUsuari;
-import ss1.dao.UsuariDAO;
 import ss1.dao.exception.ExceptionErrorDataBase;
+import ss1.dao.impl.UsuariDAO;
 import ss1.entity.Usuari;
 
 /**
@@ -13,7 +13,7 @@ import ss1.entity.Usuari;
  */
 public class UsuariDAOTest {
     public static void main(String[] args){
-        UsuariDAO usuariDAO = new UsuariDAO();
+        IUsuariDAO usuariDAO = new UsuariDAO();
 
         testFindUsuariByPK(usuariDAO);
         
@@ -28,7 +28,7 @@ public class UsuariDAOTest {
 
     }
 
-    private static void testAltaUsuari(UsuariDAO usuariDAO) {
+    private static void testAltaUsuari(IUsuariDAO usuariDAO) {
         Usuari usuariNou = new Usuari();
         usuariNou.setTaller(1);
         usuariNou.setUsuari("test1");
@@ -53,7 +53,7 @@ public class UsuariDAOTest {
         System.out.println("Usuari creat correctament!");
     }
 
-    private static void testBaixaUsuari(UsuariDAO usuariDAO) {
+    private static void testBaixaUsuari(IUsuariDAO usuariDAO) {
 
         try {
             Usuari usuariPerBorrar = usuariDAO.findByUsuariLogin("test1");
@@ -64,7 +64,7 @@ public class UsuariDAOTest {
         System.out.println("Usuari esborrat correctament!");
     }
 
-    private static void testModificacioUsuari(UsuariDAO usuariDAO) {
+    private static void testModificacioUsuari(IUsuariDAO usuariDAO) {
         Usuari usuariPerModificar = null;
         try {
             usuariPerModificar = usuariDAO.findByUsuariLogin("test2");
@@ -80,7 +80,7 @@ public class UsuariDAOTest {
         System.out.println("USuari modificat correctament!");
     }
 
-    private static void testFindUsuariByUsuariLogin(UsuariDAO usuariDAO) {
+    private static void testFindUsuariByUsuariLogin(IUsuariDAO usuariDAO) {
         try {
             Usuari usuari = usuariDAO.findByUsuariLogin("pepelui1");
             System.out.println("Usuari con login pepelui1, password " + usuari.getContrasenya());
@@ -89,7 +89,7 @@ public class UsuariDAOTest {
         }
     }
 
-    private static void testFindUsuariByPK(UsuariDAO usuariDAO){
+    private static void testFindUsuariByPK(IUsuariDAO usuariDAO){
         try {
             Usuari usuari = usuariDAO.findByPK(1);
             System.out.println("Usuari1: " +usuari.getUsuari());

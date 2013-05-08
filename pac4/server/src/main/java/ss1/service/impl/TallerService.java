@@ -1,8 +1,10 @@
-package ss1.service;
+package ss1.service.impl;
 
-import ss1.dao.TallerDAO;
+import ss1.dao.ITallerDAO;
 import ss1.dao.exception.ExceptionErrorDataBase;
+import ss1.dao.impl.TallerDAO;
 import ss1.entity.Taller;
+import ss1.service.ITallerService;
 import ss1.service.filter.FilterItem;
 
 import java.util.List;
@@ -13,9 +15,9 @@ import java.util.List;
  * Date: 5/05/13
  * Time: 18:07
  */
-public class TallerService implements ITallerService{
+public class TallerService implements ITallerService {
 
-    private TallerDAO tallerDAO;
+    private ITallerDAO tallerDAO;
 
     public TallerService() {
         this.tallerDAO = new TallerDAO();

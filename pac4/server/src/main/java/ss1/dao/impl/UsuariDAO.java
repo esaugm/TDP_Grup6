@@ -1,8 +1,9 @@
-package ss1.dao;
+package ss1.dao.impl;
 
 import common.dao.impl.GenericDaoImpl;
 import common.entity.PerfilUsuari;
-import common.utils.GestorBBDD;
+import common.utils.ConnectionFactory;
+import ss1.dao.IUsuariDAO;
 import ss1.dao.exception.ExceptionErrorDataBase;
 import ss1.entity.Usuari;
 
@@ -19,25 +20,22 @@ import java.util.List;
  * Date: 5/05/13
  * Time: 15:53
  */
-public class UsuariDAO extends GenericDaoImpl {
-    private GestorBBDD gdb;
-    public UsuariDAO() {
-        super();
-        gdb = new GestorBBDD();
-    }
+public class UsuariDAO extends GenericDaoImpl implements IUsuariDAO {
 
+    @Override
     public List<Usuari> findAll(){
         //todo ESAU: implementar
         return null;
     }
     
+    @Override
     public Usuari findByPK(Integer pUsuariId) throws ExceptionErrorDataBase {
         Connection conn=null;
         PreparedStatement ps = null;
         ResultSet rs = null;
         Usuari toReturn = null;
         try{
-            conn = gdb.getConnection();
+            conn = getConnection();
             ps = conn.prepareStatement("select id, taller, usuari, perfil, contrasenya, actiu, dataAlta, dataModificacio, " +
                                        "dataBaixa, reparacionsassignades from usuari where id = ?");
             ps.setLong(1,pUsuariId);
@@ -68,18 +66,19 @@ public class UsuariDAO extends GenericDaoImpl {
             //todo ESAU: log exception
             throw new ExceptionErrorDataBase("Error conectando a BD", e);
         } finally {
-            GestorBBDD.freeResources(conn,ps,rs);
+            ConnectionFactory.freeResources(conn,ps,rs);
         }
         return toReturn;
     }
     
+    @Override
     public Usuari findByUsuariLogin(String pUsuariLogin) throws ExceptionErrorDataBase {
         Connection conn=null;
         PreparedStatement ps = null;
         ResultSet rs = null;
         Usuari toReturn = null;
         try{
-            conn = gdb.getConnection();
+            conn = getConnection();
             ps = conn.prepareStatement("select id, taller, usuari, perfil, contrasenya, actiu, dataAlta, dataModificacio, " +
                     "dataBaixa, reparacionsassignades from usuari where usuari = ?");
             ps.setString(1, pUsuariLogin);
@@ -110,16 +109,17 @@ public class UsuariDAO extends GenericDaoImpl {
             //todo ESAU: log exception
             throw new ExceptionErrorDataBase("Error conectando a BD", e);
         } finally {
-            GestorBBDD.freeResources(conn,ps,rs);
+            ConnectionFactory.freeResources(conn,ps,rs);
         }
         return toReturn;
     }
 
+    @Override
     public void createUsuari(Usuari pUsuari) throws ExceptionErrorDataBase {
         Connection conn=null;
         PreparedStatement ps = null;
         try{
-            conn = gdb.getConnection();
+            conn = getConnection();
             ps = conn.prepareStatement("insert into usuari (taller, usuari, perfil, contrasenya, actiu, dataAlta) " +
                                        " values (?,?,?,?,true, now())");
             ps.setInt(1, pUsuari.getTaller());
@@ -146,15 +146,16 @@ public class UsuariDAO extends GenericDaoImpl {
             //todo ESAU: log exception
             throw new ExceptionErrorDataBase("Error conectando a BD", e);
         } finally {
-            GestorBBDD.freeResources(conn,ps,null);
+            ConnectionFactory.freeResources(conn, ps, null);
         }
     }
 
+    @Override
     public void deleteUsuari(Usuari pUsuari) throws ExceptionErrorDataBase {
         Connection conn=null;
         PreparedStatement ps = null;
         try{
-            conn = gdb.getConnection();
+            conn = getConnection();
             ps = conn.prepareStatement("delete from usuari where id = ? ");
 
             ps.setInt(1, pUsuari.getId());
@@ -173,15 +174,16 @@ public class UsuariDAO extends GenericDaoImpl {
             //todo ESAU: log exception
             throw new ExceptionErrorDataBase("Error conectando a BD", e);
         } finally {
-            GestorBBDD.freeResources(conn,ps,null);
+            ConnectionFactory.freeResources(conn,ps,null);
         }
     }
 
+    @Override
     public void modifyUsuari(Usuari pUsuari) throws ExceptionErrorDataBase {
         Connection conn=null;
         PreparedStatement ps = null;
         try{
-            conn = gdb.getConnection();
+            conn = getConnection();
             ps = conn.prepareStatement("update usuari set taller=?, usuari=?, perfil=?, contrasenya=?, actiu=?, " +
                                        "dataModificacio=now(), reparacionsassignades=? where id=?");
 
@@ -207,7 +209,7 @@ public class UsuariDAO extends GenericDaoImpl {
             //todo ESAU: log exception
             throw new ExceptionErrorDataBase("Error conectando a BD", e);
         } finally {
-            GestorBBDD.freeResources(conn,ps,null);
+            ConnectionFactory.freeResources(conn,ps,null);
         }
     }
 }
