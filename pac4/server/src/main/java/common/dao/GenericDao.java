@@ -1,5 +1,6 @@
 package common.dao;
 
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
 
@@ -12,5 +13,5 @@ import java.sql.SQLException;
  */
 public interface GenericDao {
 
-    public Connection getConnection() throws SQLException;
+    public Connection getConnection() throws SQLException, ClassNotFoundException, IOException;
 }

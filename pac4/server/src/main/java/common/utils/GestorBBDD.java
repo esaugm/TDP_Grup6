@@ -1,8 +1,6 @@
 package common.utils;
 
 import java.io.IOException;
-
-import java.io.InputStream;
 import java.sql.*;
 import java.util.Properties;
 /**
@@ -11,6 +9,7 @@ import java.util.Properties;
  * Date: 5/05/13
  * Time: 12:43
  * Clase de utilidades para BBDD: crea conexiones y libera recursos despues de usarlos.
+ * @deprecated utilizar ConnectionFactory
  */
 public class GestorBBDD {
 
