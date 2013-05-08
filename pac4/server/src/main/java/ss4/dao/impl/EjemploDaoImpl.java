@@ -3,6 +3,7 @@ package ss4.dao.impl;
 import common.dao.impl.GenericDaoImpl;
 import ss4.dao.EjemploDao;
 
+import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -30,6 +31,10 @@ public class EjemploDaoImpl extends GenericDaoImpl implements EjemploDao {
             }
 
         } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
             e.printStackTrace();
         } finally {
             try {
