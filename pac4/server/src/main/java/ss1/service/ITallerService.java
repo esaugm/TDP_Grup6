@@ -2,7 +2,7 @@ package ss1.service;
 
 import ss1.dao.exception.ExceptionErrorDataBase;
 import ss1.entity.Taller;
-import ss1.service.filter.FilterItem;
+import ss1.service.filter.FilterItems;
 
 import java.util.List;
 
@@ -25,7 +25,7 @@ public interface ITallerService {
 
     public List<Taller> findAllTaller();
 
-    public List<Taller> findAllTallerByTallerFilter(FilterItem pUsuariFilter);
+    public List<Taller> findAllTallerByTallerFilter(FilterItems pUsuariFilter);
 
 
 }

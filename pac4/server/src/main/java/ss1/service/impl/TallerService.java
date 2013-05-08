@@ -5,7 +5,7 @@ import ss1.dao.exception.ExceptionErrorDataBase;
 import ss1.dao.impl.TallerDAO;
 import ss1.entity.Taller;
 import ss1.service.ITallerService;
-import ss1.service.filter.FilterItem;
+import ss1.service.filter.FilterItems;
 
 import java.util.List;
 
@@ -58,7 +58,7 @@ public class TallerService implements ITallerService {
     }
 
     @Override
-    public List<Taller> findAllTallerByTallerFilter(FilterItem pUsuariFilter) {
+    public List<Taller> findAllTallerByTallerFilter(FilterItems pUsuariFilter) {
         return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
 }
