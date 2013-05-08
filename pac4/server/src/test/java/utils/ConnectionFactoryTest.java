@@ -1,7 +1,7 @@
-package main.java.common.utils;
+package utils;
 
 
-import common.utils.GestorBBDD;
+import common.utils.ConnectionFactory;
 
 import java.io.IOException;
 import java.sql.Connection;
@@ -16,14 +16,13 @@ import java.sql.SQLException;
  * Time: 12:47
  * Tester para el componente GestorBBDD
  */
-public class GestorBBDDTest {
+public class ConnectionFactoryTest {
     
     public static void main(String[] args){
-
-        GestorBBDD gbd = new GestorBBDD();
-
+        //todo ESAU: no usar main, hacer JUnit
         try {
-            Connection conn = gbd.getConnection();
+            ConnectionFactory factory = ConnectionFactory.getInstance();
+            Connection conn = factory.getConnection();
             System.out.println("¡CONEXIÓN A BD CREADA!");
 
             PreparedStatement ps = conn.prepareStatement("select * from usuari");
@@ -31,7 +30,7 @@ public class GestorBBDDTest {
             while (rs.next()){
                 System.out.println("Id marca: " + rs.getLong("id") + ". Nom: " + rs.getString("usuari") + ". Perfil: " + rs.getString("perfil") + ". Data alta: " + rs.getDate("dataAlta") + ".");
             }
-            GestorBBDD.freeResources(conn,ps,rs);
+            ConnectionFactory.freeResources(conn,ps,rs);
             System.out.println("¡RECURSOS DE BD LIBERADOS!");
         } catch (SQLException e) {
             e.printStackTrace();
