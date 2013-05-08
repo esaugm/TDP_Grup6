@@ -17,20 +17,59 @@ import ss2.exception.AppException;
 
 /**
  ***************************************
- * edu.uoc.tdp.pac4.SS2 ClientDAOImpl.java (UTF8)
+ * edu.uoc.tdp.pac4.SS2 ClientService.java (UTF8)
  * ************************************** Uoc Primavera 2013, Grup06 Fecha:
  * 2013.05.05 23:38:32
  *
  * @author jiquintana (jiquintana@uoc.edu)
  *
  */
-public class ClientDAOImpl extends GestorBBDD implements GestorClientInterface {
+public class ClientService extends GestorBBDD implements IClientService {
 
     protected Connection connection;
     protected PreparedStatement preparedstatement;
     protected ResultSet resultset;
 
-    public ClientDAOImpl() {
+    public ClientService() {
+    }
+
+    @Override
+    public void checkAndInitDAO() throws AppException {
+        checkSequence("client_id_seq");
+    }
+
+    private void checkSequence(String sequenceName) throws AppException {
+        String SQL1 = "SELECT * from " + sequenceName;
+        String SQL2 = "CREATE SEQUENCE " + sequenceName + " start 250000";
+        Boolean wasconnected = false;
+        Boolean sequenceexists = false;
+        Integer result;
+
+        Client client = new Client();
+
+        try {
+            connection = getConnection();
+            wasconnected = true;
+            preparedstatement = connection.prepareStatement(SQL1);
+            resultset = preparedstatement.executeQuery();
+        } catch (ClassNotFoundException ex) {
+        } catch (IOException ex) {
+        } catch (SQLException ex) {
+            if (wasconnected && !sequenceexists) {
+                // No existe la secuencia => la creamos
+                try {
+                    preparedstatement = connection.prepareStatement(SQL2);
+                    preparedstatement.executeUpdate();
+                } catch (SQLException ex2) {
+                    // no hemos podido crear la secuencia => throw
+                    throw new AppException(ex2);
+                }
+            } else {
+                // la secuencia ya existe => do nothing
+            }
+        } finally {
+            freeResources(connection, preparedstatement, resultset);
+        }
     }
 
     @Override
@@ -40,15 +79,7 @@ public class ClientDAOImpl extends GestorBBDD implements GestorClientInterface {
 
         try {
             connection = getConnection();
-        } catch (ClassNotFoundException ex) {
-            throw new AppException(ex);
-        } catch (IOException ex) {
-            throw new AppException(ex);
-        } catch (SQLException ex) {
-            throw new AppException(ex);
-        }
 
-        try {
             preparedstatement = connection.prepareStatement(SQL);
             resultset = preparedstatement.executeQuery();
             while (resultset.next()) {
@@ -63,6 +94,10 @@ public class ClientDAOImpl extends GestorBBDD implements GestorClientInterface {
                         resultset.getDate("dataalta"));
                 listaclient.add(cliente);
             }
+        } catch (ClassNotFoundException ex) {
+            throw new AppException(ex);
+        } catch (IOException ex) {
+            throw new AppException(ex);
         } catch (SQLException ex) {
             throw new AppException(ex);
         } finally {
@@ -78,15 +113,6 @@ public class ClientDAOImpl extends GestorBBDD implements GestorClientInterface {
 
         try {
             connection = getConnection();
-        } catch (ClassNotFoundException ex) {
-            throw new AppException(ex);
-        } catch (IOException ex) {
-            throw new AppException(ex);
-        } catch (SQLException ex) {
-            throw new AppException(ex);
-        }
-
-		try {
             preparedstatement = connection.prepareStatement(SQL);
             preparedstatement.setString(1, nif + '%');
             resultset = preparedstatement.executeQuery();
@@ -103,6 +129,10 @@ public class ClientDAOImpl extends GestorBBDD implements GestorClientInterface {
                         resultset.getDate("dataalta"));
                 listaclient.add(cliente);
             }
+        } catch (ClassNotFoundException ex) {
+            throw new AppException(ex);
+        } catch (IOException ex) {
+            throw new AppException(ex);
         } catch (SQLException ex) {
             throw new AppException(ex);
         } finally {
@@ -118,15 +148,6 @@ public class ClientDAOImpl extends GestorBBDD implements GestorClientInterface {
 
         try {
             connection = getConnection();
-        } catch (ClassNotFoundException ex) {
-            throw new AppException(ex);
-        } catch (IOException ex) {
-            throw new AppException(ex);
-        } catch (SQLException ex) {
-            throw new AppException(ex);
-        }
-
-        try {
             preparedstatement = connection.prepareStatement(SQL);
             preparedstatement.setLong(1, numclient);
             resultset = preparedstatement.executeQuery();
@@ -142,7 +163,10 @@ public class ClientDAOImpl extends GestorBBDD implements GestorClientInterface {
                         resultset.getInt("numclient"),
                         resultset.getDate("dataalta"));
             }
-
+        } catch (ClassNotFoundException ex) {
+            throw new AppException(ex);
+        } catch (IOException ex) {
+            throw new AppException(ex);
         } catch (SQLException ex) {
             throw new AppException(ex);
         } finally {
@@ -151,23 +175,13 @@ public class ClientDAOImpl extends GestorBBDD implements GestorClientInterface {
         return client;
     }
 
-
-	@Override
+    @Override
     public ArrayList<Client> getClientbyANY(String freetext) throws AppException {
         String SQL = "SELECT * from client where (client.*)::text ilike ?";
         ArrayList<Client> listaclient = new ArrayList<Client>();
 
         try {
             connection = getConnection();
-        } catch (ClassNotFoundException ex) {
-            throw new AppException(ex);
-        } catch (IOException ex) {
-            throw new AppException(ex);
-        } catch (SQLException ex) {
-            throw new AppException(ex);
-        }
-
-		try {
             preparedstatement = connection.prepareStatement(SQL);
             preparedstatement.setString(1, '%' + freetext + '%');
             resultset = preparedstatement.executeQuery();
@@ -184,6 +198,10 @@ public class ClientDAOImpl extends GestorBBDD implements GestorClientInterface {
                         resultset.getDate("dataalta"));
                 listaclient.add(cliente);
             }
+        } catch (ClassNotFoundException ex) {
+            throw new AppException(ex);
+        } catch (IOException ex) {
+            throw new AppException(ex);
         } catch (SQLException ex) {
             throw new AppException(ex);
         } finally {
@@ -192,70 +210,103 @@ public class ClientDAOImpl extends GestorBBDD implements GestorClientInterface {
         return listaclient;
     }
 
-	@Override
+    @Override
     public Boolean createClient(Client cliente) throws AppException {
-		Boolean succeded = true;
-        String SQL = "INSERT INTO Client "+
-					 "(nom,cognoms,adreca,nif,poblacio,codipostal,numclient,dataalta) "+
-					 "VALUES (?,?,?,?,?,?,nextval('client_id_seq'),now())";
+        Boolean succeded = false;
+        Boolean wasconnected = false;
+        String SQL = "INSERT INTO Client "
+                + "(nom,cognoms,adreca,nif,poblacio,codipostal,numclient,dataalta) "
+                + "VALUES (?,?,?,?,?,?,nextval('client_id_seq'),now())";
+
         try {
             connection = getConnection();
+            wasconnected = true;
+            preparedstatement = connection.prepareStatement(SQL);
+            preparedstatement.setString(1, cliente.getnom());
+            preparedstatement.setString(2, cliente.getcognoms());
+            preparedstatement.setString(3, cliente.getadreca());
+            preparedstatement.setString(4, cliente.getNif());
+            preparedstatement.setString(5, cliente.getPoblacio());
+            preparedstatement.setInt(6, cliente.getCodiPostal());
+            //preparedstatement.setInt(7,cliente.getNumClient());
+            if (preparedstatement.executeUpdate() > 0) {
+                succeded = true;
+            }
         } catch (ClassNotFoundException ex) {
             throw new AppException(ex);
         } catch (IOException ex) {
             throw new AppException(ex);
         } catch (SQLException ex) {
-            throw new AppException(ex);
-        }
-
-		try {
-            preparedstatement = connection.prepareStatement(SQL);
-            preparedstatement.setString(1,cliente.getnom());
-            preparedstatement.setString(2,cliente.getcognoms());
-            preparedstatement.setString(3,cliente.getadreca());
-            preparedstatement.setString(4,cliente.getNif());
-            preparedstatement.setString(5,cliente.getPoblacio());
-			preparedstatement.setInt(6,cliente.getCodiPostal());
-            //preparedstatement.setInt(7,cliente.getNumClient());
-			preparedstatement.executeUpdate();
-        } catch (SQLException ex) {
-            // throw new AppException(ex);
-			succeded = false;
+            if (!wasconnected) {
+                throw new AppException(ex);
+            }
         } finally {
             freeResources(connection, preparedstatement, resultset);
         }
         return succeded;
-	}
+    }
 
-	@Override
+    @Override
     public Boolean modifyClient(Client cliente) throws AppException {
-		Boolean succeded = true;
-        String SQL = "UPDATE Client SET "+
-					 "nom = ?, cognoms = ?, adreca = ?, poblacio = ?, "+
-					 "codipostal = ? where nif = ?";
+        Integer rowsmodified;
+        Boolean succeded = false;
+        Boolean wasconnected = false;
+
+        String SQL = "UPDATE Client SET "
+                + "nom = ?, cognoms = ?, adreca = ?, poblacio = ?, "
+                + "codipostal = ? where nif = ?";
 
         try {
             connection = getConnection();
+            wasconnected = true;
+            preparedstatement = connection.prepareStatement(SQL);
+            preparedstatement.setString(1, cliente.getnom());
+            preparedstatement.setString(2, cliente.getcognoms());
+            preparedstatement.setString(3, cliente.getadreca());
+            preparedstatement.setString(4, cliente.getPoblacio());
+            preparedstatement.setInt(5, cliente.getCodiPostal());
+            preparedstatement.setString(6, cliente.getNif());
+            if (preparedstatement.executeUpdate() > 0) {
+                succeded = true;
+            }
         } catch (ClassNotFoundException ex) {
             throw new AppException(ex);
         } catch (IOException ex) {
             throw new AppException(ex);
         } catch (SQLException ex) {
-            throw new AppException(ex);
+            if (!wasconnected) {
+                throw new AppException(ex);
+            }
+        } finally {
+            freeResources(connection, preparedstatement, resultset);
         }
+        return succeded;
+    }
 
-		try {
+    @Override
+    public Boolean deleteClient(Client cliente) throws AppException {
+        Integer rowsmodified;
+        Boolean succeded = false;
+        Boolean wasconnected = false;
+
+        String SQL = "DELETE FROM Client WHERE nif = ?";
+
+        try {
+            connection = getConnection();
+            wasconnected = true;
             preparedstatement = connection.prepareStatement(SQL);
-            preparedstatement.setString(1,cliente.getnom());
-            preparedstatement.setString(2,cliente.getcognoms());
-            preparedstatement.setString(3,cliente.getadreca());
-            preparedstatement.setString(4,cliente.getPoblacio());
-			preparedstatement.setInt(5,cliente.getCodiPostal());
-			preparedstatement.setString(6,cliente.getNif());
-			preparedstatement.executeUpdate();
+            preparedstatement.setString(1, cliente.getNif());
+            if (preparedstatement.executeUpdate() > 0) {
+                succeded = true;
+            }
+        } catch (ClassNotFoundException ex) {
+            throw new AppException(ex);
+        } catch (IOException ex) {
+            throw new AppException(ex);
         } catch (SQLException ex) {
-            // throw new AppException(ex);
-			succeded = false;
+            if (!wasconnected) {
+                throw new AppException(ex);
+            }
         } finally {
             freeResources(connection, preparedstatement, resultset);
         }

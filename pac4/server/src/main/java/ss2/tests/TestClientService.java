@@ -4,8 +4,8 @@
  */
 package ss2.tests;
 
-import ss2.dao.ClientDAOImpl;
-import ss2.dao.GestorClientInterface;
+import ss2.dao.ClientService;
+import ss2.dao.IClientService;
 import ss2.beans.Client;
 import java.util.ArrayList;
 import java.util.Locale;
@@ -17,14 +17,14 @@ import java.util.Date;
  *
  * @author josi
  */
-public final class testClientMain { //implements GestorClientInterface{
+public final class TestClientService { //implements IClientService{
 
-    //final ClientDAOImpl gestorClient;
+    //final ClientService gestorClient;
     //final ArrayList <Client> lcliente;
     ArrayList<Client> lcliente;
 
-    //final private ClientDAOImpl	gClient;
-    public testClientMain() {
+    //final private ClientService	gClient;
+    public TestClientService() {
     }
 
     /**
@@ -48,10 +48,11 @@ public final class testClientMain { //implements GestorClientInterface{
         }
 
 
-        GestorClientInterface gClient = new ClientDAOImpl();
+        IClientService gClient = new ClientService();
+
 
         try {
-            ArrayList<Client> lcliente = gClient.getClient();
+            gClient.checkAndInitDAO();
         } catch (AppException ex) {
             ex.printStackTrace();
         }
@@ -70,7 +71,7 @@ public final class testClientMain { //implements GestorClientInterface{
             ex.printStackTrace();
         }
 
-		try {
+        try {
             ArrayList<Client> lcliente = gClient.getClientbyANY("2000");
             System.out.println(">>" + lcliente + "<<");
         } catch (AppException ex) {
@@ -78,19 +79,26 @@ public final class testClientMain { //implements GestorClientInterface{
         }
 
 
-		Client newclient = new Client("nom1", "cognom", "adreca", "n1i143f", "poblacio", 1234, new Date());
+        Client newclient = new Client("nom1", "cognom", "adreca", "n1i1143f", "poblacio", 1234, new Date());
 
-		try {
-			System.out.println(gClient.createClient(newclient));
-		} catch (AppException ex) {
+        try {
+            System.out.println(gClient.createClient(newclient));
+        } catch (AppException ex) {
             ex.printStackTrace();
         }
 
-		newclient.setnom("modnom4");
-		newclient.setcognoms("modcognom4");
-		try {
-			System.out.println(gClient.modifyClient(newclient));
-		} catch (AppException ex) {
+        newclient.setnom("modnom4");
+        newclient.setcognoms("modcognom4");
+        try {
+            System.out.println(gClient.modifyClient(newclient));
+        } catch (AppException ex) {
+            ex.printStackTrace();
+        }
+
+
+        try {
+            System.out.println(gClient.deleteClient(newclient));
+        } catch (AppException ex) {
             ex.printStackTrace();
         }
     }
