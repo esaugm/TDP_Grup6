@@ -19,7 +19,7 @@ public class FilterItems {
         filterMap = new HashMap<String, Object>();
     }
     
-    public void addFilterValue(String pAttributeName, String pValue){
+    public void addFilterValue(String pAttributeName, Object pValue){
         filterMap.put(pAttributeName,pValue);
     }
     
@@ -27,8 +27,8 @@ public class FilterItems {
         return filterMap.containsKey(pAttributeName);
     }
     
-    public Object getFilterValueForAttribute(String Object){
-        return filterMap.get(Object);
+    public Object getFilterValueForAttribute(String pAttributeName){
+        return filterMap.get(pAttributeName);
     }
     
     public Set<String> getAllAtributeNames(){

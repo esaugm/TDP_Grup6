@@ -2,8 +2,12 @@ package ss1.dao;
 
 import common.entity.PerfilUsuari;
 import ss1.dao.exception.ExceptionErrorDataBase;
+import ss1.dao.exception.ExceptionTipoObjetoFiltroNoPermitido;
 import ss1.dao.impl.UsuariDAO;
 import ss1.entity.Usuari;
+import ss1.service.filter.FilterItems;
+
+import java.util.List;
 
 /**
  * TDP Grup6
@@ -14,6 +18,10 @@ import ss1.entity.Usuari;
 public class UsuariDAOTest {
     public static void main(String[] args){
         IUsuariDAO usuariDAO = new UsuariDAO();
+        
+        prepareEnvironmentForTest(usuariDAO);
+        
+        testFindAllUsuari(usuariDAO);
 
         testFindUsuariByPK(usuariDAO);
         
@@ -24,8 +32,118 @@ public class UsuariDAOTest {
         testBaixaUsuari(usuariDAO);
         
         testModificacioUsuari(usuariDAO);
+        
+        testFindUsuariByFilter(usuariDAO);
 
 
+    }
+
+    private static void testFindUsuariByFilter(IUsuariDAO usuariDAO) {
+        //solo filtramos por taller (Integer), usuari (String) y perfil (PerfilUsuari)
+        System.out.println("Filtro por usuario pepelui1");
+        FilterItems filterItemUsuari = new FilterItems();
+        filterItemUsuari.addFilterValue("usuari", "pepelui1");
+        getUsuarisByFilterAndPrintLog(filterItemUsuari, usuariDAO);
+
+        System.out.println("Filtro por taller 2");
+        FilterItems filterItemTaller = new FilterItems();
+        filterItemTaller.addFilterValue("taller", 2);
+        getUsuarisByFilterAndPrintLog(filterItemTaller,usuariDAO);
+
+        System.out.println("Filtro por perfil ADMINISTRATIU");
+        FilterItems filterItemPerfil = new FilterItems();
+        filterItemPerfil.addFilterValue("perfil", PerfilUsuari.ADMINISTRATIU );
+        getUsuarisByFilterAndPrintLog(filterItemPerfil,usuariDAO);
+
+        System.out.println("Filtro por usuario testModif, taller 2");
+        FilterItems filterItemUsuariTaller = new FilterItems();
+        filterItemUsuariTaller.addFilterValue("usuari", "testModif");
+        filterItemUsuariTaller.addFilterValue("taller", 2);
+        getUsuarisByFilterAndPrintLog(filterItemUsuariTaller, usuariDAO);
+
+        System.out.println("Filtro por usuario pepelui1, perfil ADMINISTRATIU");
+        FilterItems filterItemUsuariPerfil = new FilterItems();
+        filterItemUsuariPerfil.addFilterValue("usuari", "pepelui1");
+        filterItemUsuariPerfil.addFilterValue("perfil", PerfilUsuari.ADMINISTRATIU);
+        getUsuarisByFilterAndPrintLog(filterItemUsuariPerfil, usuariDAO);
+
+        System.out.println("Filtro por taller 2, perfil CAPTALLER");
+        FilterItems filterItemTallerPerfil = new FilterItems();
+        filterItemTallerPerfil.addFilterValue("taller", 2);
+        filterItemTallerPerfil.addFilterValue("perfil", PerfilUsuari.CAPTALLER);
+        getUsuarisByFilterAndPrintLog(filterItemTallerPerfil,usuariDAO);
+
+        System.out.println("Filtro por usuario testModif, taller 2, perfil CAPTALLER");
+        FilterItems filterItemUsuariTallerPerfil = new FilterItems();
+        filterItemUsuariTallerPerfil.addFilterValue("usuari", "testModif");
+        filterItemUsuariTallerPerfil.addFilterValue("taller", 2);
+        filterItemUsuariTallerPerfil.addFilterValue("perfil", PerfilUsuari.CAPTALLER);
+        getUsuarisByFilterAndPrintLog(filterItemUsuariTallerPerfil, usuariDAO);
+
+        System.out.println("Intento de filtro sin filtro");
+        FilterItems filterItemEmpty = new FilterItems();
+        getUsuarisByFilterAndPrintLog(filterItemEmpty,usuariDAO);
+
+        System.out.println("Intento de filtro con datos no existentes: usuario cabesa");
+        FilterItems filterItemUsuariNoExistente = new FilterItems();
+        filterItemUsuariNoExistente.addFilterValue("usuari", "cabesa");
+        getUsuarisByFilterAndPrintLog(filterItemUsuariNoExistente, usuariDAO);
+
+        System.out.println("Intento de filtro con datos no existentes:  taller 1, perfil ADMINISTRATIU");
+        FilterItems filterItemTallerPerfilNoExiste = new FilterItems();
+        filterItemTallerPerfilNoExiste.addFilterValue("taller", 1);
+        filterItemTallerPerfilNoExiste.addFilterValue("perfil", PerfilUsuari.ADMINISTRATIU);
+        getUsuarisByFilterAndPrintLog(filterItemTallerPerfilNoExiste,usuariDAO);
+
+        System.out.println("Intento de filtro con datos no existentes: usuario test1, taller 3, perfil ");
+        FilterItems filterItemUsuariTallerPerfilNoExiste = new FilterItems();
+        filterItemUsuariTallerPerfilNoExiste.addFilterValue("usuari", "test1");
+        filterItemUsuariTallerPerfilNoExiste.addFilterValue("taller", 3);
+        filterItemUsuariTallerPerfilNoExiste.addFilterValue("perfil", PerfilUsuari.MECANIC);
+        getUsuarisByFilterAndPrintLog(filterItemUsuariTallerPerfilNoExiste, usuariDAO);
+        
+        
+    }
+
+    private static void getUsuarisByFilterAndPrintLog(FilterItems filterItems, IUsuariDAO usuariDAO) {
+        try {
+            List<Usuari> usuaris = usuariDAO.findUsuariByFilter(filterItems);
+            for (Usuari usuari : usuaris) {
+                System.out.println(usuari.getUsuari());
+            }
+        } catch (ExceptionTipoObjetoFiltroNoPermitido exceptionTipoObjetoFiltroNoPermitido) {
+            exceptionTipoObjetoFiltroNoPermitido.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+        } catch (ExceptionErrorDataBase exceptionErrorDataBase) {
+            exceptionErrorDataBase.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+        }
+    }
+
+    private static void testFindAllUsuari(IUsuariDAO usuariDAO) {
+        try {
+            List<Usuari> usuaris = usuariDAO.findAll();
+            for (Usuari usuari : usuaris) {
+                System.out.println(usuari.getUsuari());
+            }
+        } catch (ExceptionErrorDataBase exceptionErrorDataBase) {
+            exceptionErrorDataBase.printStackTrace();
+        }
+    }
+
+    private static void prepareEnvironmentForTest(IUsuariDAO usuariDAO) {
+        try {
+            Usuari toDelete = usuariDAO.findByUsuariLogin("test1");
+            if (toDelete!=null) usuariDAO.deleteUsuari(toDelete);
+
+            toDelete = usuariDAO.findByUsuariLogin("test2");
+            if (toDelete!=null) usuariDAO.deleteUsuari(toDelete);
+            
+            toDelete = usuariDAO.findByUsuariLogin("testModif");
+            if (toDelete!=null) usuariDAO.deleteUsuari(toDelete);
+            
+            
+        } catch (ExceptionErrorDataBase exceptionErrorDataBase) {
+            exceptionErrorDataBase.printStackTrace();
+        }
     }
 
     private static void testAltaUsuari(IUsuariDAO usuariDAO) {

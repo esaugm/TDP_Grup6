@@ -16,7 +16,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
@@ -279,25 +278,23 @@ public class UsuariDAO extends GenericDaoImpl implements IUsuariDAO {
                 }
                 
             }
-            if (i>0) query = query.substring(query.length()-4, query.length());
+            if (i>0) query = query.substring(0, query.length()-4);
             ps = conn.prepareStatement(query);
             for (FilterTupla filterTupla : filterTuplas) {
-                if (filterTupla.getFieldToFilter() instanceof String || (filterTupla.getFieldToFilter() instanceof PerfilUsuari)){
+                if (filterTupla.getFieldToFilter() instanceof String) {
                     ps.setString(filterTupla.getQueryPosition(),(String)filterTupla.getFieldToFilter());
+                } else if ((filterTupla.getFieldToFilter() instanceof PerfilUsuari)){
+                    ps.setString(filterTupla.getQueryPosition(), (filterTupla.getFieldToFilter()).toString());
                 } else if (filterTupla.getFieldToFilter() instanceof Integer){
                         ps.setInt(filterTupla.getQueryPosition(), (Integer)filterTupla.getFieldToFilter());
-                } else if (filterTupla.getFieldToFilter() instanceof Date){
-                        ps.setDate(filterTupla.getQueryPosition(),new java.sql.Date(((Date)filterTupla.getFieldToFilter()).getTime()));
-                } else if (filterTupla.getFieldToFilter() instanceof Boolean ){
-                        ps.setBoolean(filterTupla.getQueryPosition(),(Boolean)filterTupla.getFieldToFilter());
-                } else {
+                }  else {
                     throw new ExceptionTipoObjetoFiltroNoPermitido("Error tipo de objeto " + filterTupla.getFieldToFilter() + " no permitido para este filtro.");
                 }
 
             }
 
 
-            rs = ps.executeQuery(query);
+            rs = ps.executeQuery();
 
             while (rs.next()){
                 Usuari usuari = new Usuari();
