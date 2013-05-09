@@ -11,8 +11,13 @@ import java.sql.SQLException;
 import java.util.MissingResourceException;
 
 /**
- *
- * @author josi
+ ***************************************
+ * AppException.java (UTF8)
+ ***************************************
+ * Uoc Primavera 2013,
+ * Grup06
+ * Fecha: 2013.05.05 ??.??.??
+ * @author jiquintana (jiquintana@uoc.edu)
  */
 public class AppException extends Exception {
 

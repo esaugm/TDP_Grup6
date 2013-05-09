@@ -4,9 +4,9 @@
  */
 package ss2.tests;
 
-import ss2.dao.ClientService;
-import ss2.dao.IClientService;
-import ss2.beans.Client;
+import ss2.dao.impl.ClientDAO;
+import ss2.dao.IClient;
+import ss2.entity.Client;
 import java.util.ArrayList;
 import java.util.Locale;
 import ss2.exception.AppException;
@@ -17,13 +17,13 @@ import java.util.Date;
  *
  * @author josi
  */
-public final class TestClientService { //implements IClientService{
+public final class TestClientService { //implements IClient{
 
-    //final ClientService gestorClient;
+    //final ClientDAO gestorClient;
     //final ArrayList <Client> lcliente;
     ArrayList<Client> lcliente;
 
-    //final private ClientService	gClient;
+    //final private ClientDAO	gClient;
     public TestClientService() {
     }
 
@@ -48,7 +48,7 @@ public final class TestClientService { //implements IClientService{
         }
 
 
-        IClientService gClient = new ClientService();
+        IClient gClient = new ClientDAO();
 
 
         try {

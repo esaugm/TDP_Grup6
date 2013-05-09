@@ -2,35 +2,37 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package ss2.dao;
+package ss2.dao.impl;
 
-import common.utils.GestorBBDD;
+import common.dao.impl.GenericDaoImpl;
+//import common.utils.GestorBBDD;
 import static common.utils.GestorBBDD.freeResources;
-import ss2.beans.Client;
+import ss2.entity.Client;
 import java.io.IOException;
-import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import ss2.dao.IClient;
 import ss2.exception.AppException;
 
 /**
  ***************************************
- * edu.uoc.tdp.pac4.SS2 ClientService.java (UTF8)
- * ************************************** Uoc Primavera 2013, Grup06 Fecha:
- * 2013.05.05 23:38:32
- *
+ * ClientDAO.java (UTF8)
+ * *************************************
+ * Uoc Primavera 2013,
+ * Grup06
+ * Fecha: 2013.05.05 23:38:32
  * @author jiquintana (jiquintana@uoc.edu)
  *
  */
-public class ClientService extends GestorBBDD implements IClientService {
+public class ClientDAO extends GenericDaoImpl implements IClient {
 
-    protected Connection connection;
+   // protected Connection connection;
     protected PreparedStatement preparedstatement;
     protected ResultSet resultset;
 
-    public ClientService() {
+    public ClientDAO() {
     }
 
     @Override

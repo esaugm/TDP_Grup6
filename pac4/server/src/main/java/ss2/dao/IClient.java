@@ -6,7 +6,7 @@
 package ss2.dao;
 
 //~--- non-JDK imports --------------------------------------------------------
-import ss2.beans.Client;
+import ss2.entity.Client;
 
 import ss2.exception.AppException;
 
@@ -17,15 +17,16 @@ import java.rmi.Remote;
 import java.util.ArrayList;
 
 /**
- *
- * edu.uoc.tdp.pac4.SS2 IClientService.java (windows-1252)
- * ************************************** Uoc Primavera 2013, Grup06 Fecha:
- * 2013.05.06 0:47:17
- *
+ * **************************************
+ * IClient.java (UTF-8)
+ * **************************************
+ * Uoc Primavera 2013,
+ * Grup06
+ * Fecha: 2013.05.06 0:47:17
  * @author jiquintana (jiquintana@uoc.edu)
  *
  */
-public interface IClientService extends Remote {
+public interface IClient extends Remote {
 
     public void checkAndInitDAO() throws AppException;
 

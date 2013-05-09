@@ -3,17 +3,17 @@
  * and open the template in the editor.
  */
 
-package ss2.beans;
+package ss2.entity;
 
 import java.util.ArrayList;
 import java.util.Date;
 
 /**
  ***************************************
- * edu.uoc.tdp.pac4.beans
  * Client.java (UTF8)
  ***************************************
- * Uoc Primavera 2013, Grup06
+ * Uoc Primavera 2013,
+ * Grup06
  * Fecha: 2013.05.05 20:15:39
  * @author jiquintana (jiquintana@uoc.edu)
  *

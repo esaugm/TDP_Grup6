@@ -3,16 +3,16 @@
  * and open the template in the editor.
  */
 
-package ss2.beans;
+package ss2.entity;
 
 import java.util.ArrayList;
 
 /**
  ***************************************
- * edu.uoc.tdp.pac4.beans
- * Peca.java (windows-1252)
+ * Peca.java (UTF-8)
  ***************************************
- * Uoc Primavera 2013, Grup06
+ * Uoc Primavera 2013,
+ * Grup06
  * Fecha: 2013.05.05 20:50:08
  * @author jiquintana (jiquintana@uoc.edu)
  *
