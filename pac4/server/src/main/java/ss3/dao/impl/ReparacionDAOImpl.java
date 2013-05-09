@@ -77,11 +77,10 @@ public class ReparacionDAOImpl extends GenericDaoImpl implements ReparacionDAO {
         try{
             conn = getConnection();
             ps = conn.prepareStatement("select * from reparacio where dataassignacio = ?");
-            String fecha = "2013-03-01";
             java.sql.Date fechaDate = null;
             try {
                   SimpleDateFormat sdf = new java.text.SimpleDateFormat("yyyy-MM-dd");
-                  fechaDate = new java.sql.Date(sdf.parse(fecha).getTime());
+                  fechaDate = new java.sql.Date(sdf.parse(pDataAssignacio).getTime());
             } catch (Exception ex) {
                   System.out.println("Error al obtener el formato de la fecha/hora: " + ex.getMessage());
             }
@@ -129,7 +128,14 @@ public class ReparacionDAOImpl extends GenericDaoImpl implements ReparacionDAO {
         try{
             conn = getConnection();
             ps = conn.prepareStatement("select * from reparacio where datainici = ?");
-            ps.setString(1,pDataInici);
+            java.sql.Date fechaDate2 = null;
+            try {
+                  SimpleDateFormat sdf = new java.text.SimpleDateFormat("yyyy-MM-dd");
+                  fechaDate2 = new java.sql.Date(sdf.parse(pDataInici).getTime());
+            } catch (Exception ex) {
+                  System.out.println("Error al obtener el formato de la fecha/hora: " + ex.getMessage());
+            }
+            ps.setDate(1,fechaDate2);
 
             rs = ps.executeQuery();
 
@@ -173,7 +179,14 @@ public class ReparacionDAOImpl extends GenericDaoImpl implements ReparacionDAO {
         try{
             conn = getConnection();
             ps = conn.prepareStatement("select * from reparacio where datafi = ?");
-            ps.setString(1,pDataFi);
+            java.sql.Date fechaDate3 = null;
+            try {
+                  SimpleDateFormat sdf = new java.text.SimpleDateFormat("yyyy-MM-dd");
+                  fechaDate3 = new java.sql.Date(sdf.parse(pDataFi).getTime());
+            } catch (Exception ex) {
+                  System.out.println("Error al obtener el formato de la fecha/hora: " + ex.getMessage());
+            }
+            ps.setDate(1,fechaDate3);
 
             rs = ps.executeQuery();
 

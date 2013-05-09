@@ -4,10 +4,6 @@
  */
 package ss3.service.impl;
 
-import java.io.IOException;
-import java.sql.Connection;
-import java.sql.Date;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import ss1.dao.exception.ExceptionErrorDataBase;
 import ss3.beans.Reparacion;
@@ -39,5 +35,13 @@ public class ReparacionServiceImpl implements ReparacionService {
     
     public ArrayList<Reparacion> ConsultaFechaAsig(String fechaAsig) throws ExceptionErrorDataBase{
         return reparacion.findByDataAssignacio(fechaAsig);
+    }
+    
+    public ArrayList<Reparacion> ConsultaFechaIni(String fechaIni) throws ExceptionErrorDataBase{
+        return reparacion.findByDataInici(fechaIni);
+    }
+    
+    public ArrayList<Reparacion> ConsultaFechaFin(String fechaFin) throws ExceptionErrorDataBase{
+        return reparacion.findByDataFi(fechaFin);
     }
 }

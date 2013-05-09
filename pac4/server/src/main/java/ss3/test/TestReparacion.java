@@ -53,16 +53,31 @@ public final class TestReparacion {
         System.out.println(">>" + reparacion + "<<\n");
         
         
-        System.out.println("\nObteniendo datos de reparación. Consulta por Orden: \n");
+        System.out.println("\nObteniendo datos de reparación. Consulta por Fecha de Asignacion: \n");
         ReparacionService gReparacion2 = new ReparacionServiceImpl();
-        ArrayList<Reparacion> reparaciones = gReparacion2.ConsultaFechaAsig("2013-03-02");
-        Iterator it = reparaciones.iterator();
+        ArrayList<Reparacion> reparacionesAsig = gReparacion2.ConsultaFechaAsig("2013-03-02");
+        Iterator it = reparacionesAsig.iterator();
         if (!it.hasNext())
             System.out.println("No hay datos.");
         while (it.hasNext())
             System.out.println(">>" + it.next() + "<<");
         
+        System.out.println("\nObteniendo datos de reparación. Consulta por Fecha de Inicio: \n");
+        ReparacionService gReparacion3 = new ReparacionServiceImpl();
+        ArrayList<Reparacion> reparacionesIni = gReparacion3.ConsultaFechaIni("2013-04-04");
+        Iterator it2 = reparacionesIni.iterator();
+        if (!it2.hasNext())
+            System.out.println("No hay datos.");
+        while (it2.hasNext())
+            System.out.println(">>" + it2.next() + "<<");
         
-
+        System.out.println("\nObteniendo datos de reparación. Consulta por Fecha de Fin: \n");
+        ReparacionService gReparacion4 = new ReparacionServiceImpl();
+        ArrayList<Reparacion> reparacionesFin = gReparacion4.ConsultaFechaFin("2013-04-04");
+        Iterator it3 = reparacionesFin.iterator();
+        if (!it3.hasNext())
+            System.out.println("No hay datos.");
+        while (it3.hasNext())
+            System.out.println(">>" + it3.next() + "<<");
     }
 }
