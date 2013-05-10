@@ -41,18 +41,8 @@ public class UsuariDAO extends GenericDaoImpl implements IUsuariDAO {
             rs = ps.executeQuery();
 
             while (rs.next()){
-                Usuari usuari = new Usuari();
-                usuari.setId(rs.getInt("id"));
-                usuari.setTaller(rs.getInt("taller"));
-                usuari.setUsuari(rs.getString("usuari"));
-                usuari.setPerfil(PerfilUsuari.getPerfilUsuari(rs.getString("perfil")));
-                usuari.setContrasenya(rs.getString("contrasenya"));
-                usuari.setActiu(rs.getBoolean("actiu"));
-                usuari.setDataAlta(rs.getDate("dataAlta"));
-                usuari.setDataModificacio(rs.getDate("dataModificacio"));
-                usuari.setDataBaixa(rs.getDate("dataBaixa"));
-                usuari.setReparacionsAssignades(rs.getInt("reparacionsassignades"));
-                toReturn.add(usuari);
+
+                toReturn.add(createUsuariByResultSet(rs));
             }
 
         } catch (ClassNotFoundException e) {
@@ -69,7 +59,22 @@ public class UsuariDAO extends GenericDaoImpl implements IUsuariDAO {
         }
         return toReturn;
     }
-    
+
+    private Usuari createUsuariByResultSet(ResultSet rs) throws SQLException {
+        Usuari usuari = new Usuari();
+        usuari.setId(rs.getInt("id"));
+        usuari.setTaller(rs.getInt("taller"));
+        usuari.setUsuari(rs.getString("usuari"));
+        usuari.setPerfil(PerfilUsuari.getPerfilUsuari(rs.getString("perfil")));
+        usuari.setContrasenya(rs.getString("contrasenya"));
+        usuari.setActiu(rs.getBoolean("actiu"));
+        usuari.setDataAlta(rs.getDate("dataAlta"));
+        usuari.setDataModificacio(rs.getDate("dataModificacio"));
+        usuari.setDataBaixa(rs.getDate("dataBaixa"));
+        usuari.setReparacionsAssignades(rs.getInt("reparacionsassignades"));
+        return usuari;
+    }
+
     @Override
     public Usuari findByPK(Integer pUsuariId) throws ExceptionErrorDataBase {
         Connection conn=null;
@@ -85,17 +90,7 @@ public class UsuariDAO extends GenericDaoImpl implements IUsuariDAO {
             rs = ps.executeQuery();
 
             if (rs.next()){
-                toReturn = new Usuari();
-                toReturn.setId(rs.getInt("id"));
-                toReturn.setTaller(rs.getInt("taller"));
-                toReturn.setUsuari(rs.getString("usuari"));
-                toReturn.setPerfil(PerfilUsuari.getPerfilUsuari(rs.getString("perfil")));
-                toReturn.setContrasenya(rs.getString("contrasenya"));
-                toReturn.setActiu(rs.getBoolean("actiu"));
-                toReturn.setDataAlta(rs.getDate("dataAlta"));
-                toReturn.setDataModificacio(rs.getDate("dataModificacio"));
-                toReturn.setDataBaixa(rs.getDate("dataBaixa"));
-                toReturn.setReparacionsAssignades(rs.getInt("reparacionsassignades"));
+                toReturn = createUsuariByResultSet(rs);
             }
 
         } catch (ClassNotFoundException e) {
@@ -128,17 +123,7 @@ public class UsuariDAO extends GenericDaoImpl implements IUsuariDAO {
             rs = ps.executeQuery();
 
             if (rs.next()){
-                toReturn = new Usuari();
-                toReturn.setId(rs.getInt("id"));
-                toReturn.setTaller(rs.getInt("taller"));
-                toReturn.setUsuari(rs.getString("usuari"));
-                toReturn.setPerfil(PerfilUsuari.getPerfilUsuari(rs.getString("perfil")));
-                toReturn.setContrasenya(rs.getString("contrasenya"));
-                toReturn.setActiu(rs.getBoolean("actiu"));
-                toReturn.setDataAlta(rs.getDate("dataAlta"));
-                toReturn.setDataModificacio(rs.getDate("dataModificacio"));
-                toReturn.setDataBaixa(rs.getDate("dataBaixa"));
-                toReturn.setReparacionsAssignades(rs.getInt("reparacionsassignades"));
+                toReturn = createUsuariByResultSet(rs);
             }
 
         } catch (ClassNotFoundException e) {
@@ -182,7 +167,6 @@ public class UsuariDAO extends GenericDaoImpl implements IUsuariDAO {
                 System.out.println("ERROR: Usuari ya existent!");
                 //todo ESAU: throw new ExceptionUsuariExisteix
             }
-            e.getClass().toString();
             throw new ExceptionErrorDataBase("Error de sql", e);
         } catch (IOException e) {
             //todo ESAU: log exception
@@ -201,6 +185,35 @@ public class UsuariDAO extends GenericDaoImpl implements IUsuariDAO {
             ps = conn.prepareStatement("delete from usuari where id = ? ");
 
             ps.setInt(1, pUsuari.getId());
+
+            ps.executeUpdate();
+
+
+
+        } catch (ClassNotFoundException e) {
+            //todo ESAU: log exception
+            throw new ExceptionErrorDataBase("Error conectando a BD", e);
+        } catch (SQLException e) {
+            //todo ESAU: log exception
+            throw new ExceptionErrorDataBase("Error de sql", e);
+        } catch (IOException e) {
+            //todo ESAU: log exception
+            throw new ExceptionErrorDataBase("Error conectando a BD", e);
+        } finally {
+            ConnectionFactory.freeResources(conn,ps,null);
+        }
+    }
+
+    @Override
+    public void baixaUsuari(Usuari pUsuari) throws ExceptionErrorDataBase {
+        Connection conn=null;
+        PreparedStatement ps = null;
+        try{
+            conn = getConnection();
+            ps = conn.prepareStatement("update usuari set actiu=? , dataBaixa=now() where id=?");
+
+            ps.setBoolean(1, false);
+            ps.setInt(2, pUsuari.getId());
 
             ps.executeUpdate();
 
@@ -297,18 +310,7 @@ public class UsuariDAO extends GenericDaoImpl implements IUsuariDAO {
             rs = ps.executeQuery();
 
             while (rs.next()){
-                Usuari usuari = new Usuari();
-                usuari.setId(rs.getInt("id"));
-                usuari.setTaller(rs.getInt("taller"));
-                usuari.setUsuari(rs.getString("usuari"));
-                usuari.setPerfil(PerfilUsuari.getPerfilUsuari(rs.getString("perfil")));
-                usuari.setContrasenya(rs.getString("contrasenya"));
-                usuari.setActiu(rs.getBoolean("actiu"));
-                usuari.setDataAlta(rs.getDate("dataAlta"));
-                usuari.setDataModificacio(rs.getDate("dataModificacio"));
-                usuari.setDataBaixa(rs.getDate("dataBaixa"));
-                usuari.setReparacionsAssignades(rs.getInt("reparacionsassignades"));
-                toReturn.add(usuari);
+                toReturn.add(createUsuariByResultSet(rs));
             }
 
         } catch (ClassNotFoundException e) {

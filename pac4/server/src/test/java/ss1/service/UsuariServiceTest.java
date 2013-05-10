@@ -55,5 +55,9 @@ public class UsuariServiceTest {
         }
     }
 
+    private static void testBaixaUsuari(UsuariService usuariService){
+        //TODO implement
+    }
+
 
 }
