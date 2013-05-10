@@ -25,6 +25,8 @@ public interface IUsuariDAO extends GenericDao {
 
     void deleteUsuari(Usuari pUsuari) throws ExceptionErrorDataBase;
 
+    void baixaUsuari(Usuari pUsuari) throws ExceptionErrorDataBase;
+
     void modifyUsuari(Usuari pUsuari) throws ExceptionErrorDataBase;
 
     List<Usuari> findUsuariByFilter(FilterItems pUsuariFilter) throws ExceptionTipoObjetoFiltroNoPermitido, ExceptionErrorDataBase;
