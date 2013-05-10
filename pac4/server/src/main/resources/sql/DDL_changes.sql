@@ -1,0 +1,97 @@
+--
+-- ***************************************
+-- * SQL mods
+-- ***************************************
+-- * Uoc Primavera 2013,
+-- * Grup06
+-- * Fecha: 2013.05.10 10.05.13
+-- * @author jiquintana (jiquintana@uoc.edu)
+-- */
+
+-- Actualización del date style
+ALTER DATABASE "TDP_GRUP6" SET DateStyle='European';
+
+--
+-- Actualizacion de dataalta automatica on inserts
+-- Tablas Client + Solicitud
+CREATE OR REPLACE FUNCTION update_dataalta() RETURNS TRIGGER AS $$
+BEGIN
+	NEW.dataalta := now();
+        RETURN NEW;
+END; $$
+LANGUAGE plpgsql;
+
+
+-- ****************
+-- Modificacion tabla client::
+-- ****************
+
+--	creacion de secuencia a max(numclient)+1
+--
+CREATE SEQUENCE client_id_seq;
+select setval('client_id_seq', (select max(numclient) from client) + 1);
+
+--
+-- cambio valor defecto numclient a siguiente valor secuencia
+alter table client alter column numclient set default nextval('client_id_seq');
+
+--
+-- Eliminamos constrain not null dataalta
+alter table client alter column dataalta drop not null;
+
+--
+-- creacion trigger actualizacion dataalta on insert
+CREATE TRIGGER update_dataalta
+BEFORE INSERT ON client
+FOR EACH ROW EXECUTE PROCEDURE update_dataalta();
+
+
+-- ****************
+-- Modificacion tabla solicitud::
+-- ****************
+
+--
+-- Creamos una nueva columna idtaller
+alter table solicitud add column idtaller integer;
+
+--	creacion de secuencia a max(numsol)+1
+--
+CREATE SEQUENCE solicitud_numsol_seq;
+select setval('solicitud_numsol_seq', (select max(numsol) from solicitud) + 1);
+--
+-- cambio valor defecto numsol a siguiente valor secuencia
+alter table solicitud alter column numsol set default nextval('solicitud_numsol_seq');
+
+--
+-- Eliminamos constrain not null dataalta y datafinalitzacio
+alter table solicitud alter column dataalta drop not null;
+alter table solicitud alter column datafinalitzacio drop not null;
+
+--
+-- Forzamos valores por defecto
+alter table solicitud alter column pendent set default true;
+alter table solicitud alter column finalitzada set default false;
+
+-- creacion trigger actualizacion dataalta on insert
+CREATE TRIGGER update_dataalta
+BEFORE INSERT ON solicitud
+FOR EACH ROW EXECUTE PROCEDURE update_dataalta();
+
+--
+-- Actualizacion de datafinalitzacio automatica on updates
+-- Tablas Client + Solicitud
+CREATE OR REPLACE FUNCTION update_datafinalitzacio() RETURNS TRIGGER AS $$
+BEGIN
+	IF NEW.finalitzada THEN
+            NEW.datafinalitzacio := now();
+    ELSE
+	    NEW.datafinalitzacio := NULL;
+	END IF;
+    RETURN NEW;
+END; $$
+LANGUAGE plpgsql;
+
+-- creacion trigger actualizacion datafinalitzacio on updates
+CREATE TRIGGER update_datafinalitzacio
+BEFORE update ON solicitud
+FOR EACH ROW EXECUTE PROCEDURE update_datafinalitzacio();
