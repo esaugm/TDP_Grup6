@@ -1,6 +1,7 @@
 package ss1.service;
 
 import ss1.dao.exception.ExceptionErrorDataBase;
+import ss1.dao.exception.ExceptionTipoObjetoFiltroNoPermitido;
 import ss1.entity.Taller;
 import ss1.service.filter.FilterItems;
 
@@ -15,17 +16,17 @@ import java.util.List;
 public interface ITallerService {
     public Taller findTallerByID(Integer pId) throws ExceptionErrorDataBase;
 
-    public Taller findUsuariByUsuariLogin(String pUsuariLogin) throws ExceptionErrorDataBase;
+    public void altaTaller(Taller pUsuari) throws ExceptionErrorDataBase;
 
-    public void altaTaller(Taller pUsuari);
+    public void baixaTaller(Taller pUsuari) throws ExceptionErrorDataBase;
 
-    public void baixaTaller(Taller pUsuari);
+    public void modificaTaller(Taller pUsuari) throws ExceptionErrorDataBase;
 
-    public void modificaTaller(Taller pUsuari);
+    public void deleteTaller(Taller pTaller) throws ExceptionErrorDataBase;
 
-    public List<Taller> findAllTaller();
+    public List<Taller> findAllTaller() throws ExceptionErrorDataBase;
 
-    public List<Taller> findAllTallerByTallerFilter(FilterItems pUsuariFilter);
+    public List<Taller> findAllTallerByTallerFilter(FilterItems pUsuariFilter) throws ExceptionErrorDataBase, ExceptionTipoObjetoFiltroNoPermitido;
 
 
 }

@@ -2,6 +2,7 @@ package ss1.service.impl;
 
 import ss1.dao.ITallerDAO;
 import ss1.dao.exception.ExceptionErrorDataBase;
+import ss1.dao.exception.ExceptionTipoObjetoFiltroNoPermitido;
 import ss1.dao.impl.TallerDAO;
 import ss1.entity.Taller;
 import ss1.service.ITallerService;
@@ -29,36 +30,36 @@ public class TallerService implements ITallerService {
 
     @Override
     public Taller findTallerByID(Integer pId) throws ExceptionErrorDataBase {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+        return tallerDAO.findByPK(pId);
     }
 
     @Override
-    public Taller findUsuariByUsuariLogin(String pUsuariLogin) throws ExceptionErrorDataBase {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    public void altaTaller(Taller pTaller) throws ExceptionErrorDataBase {
+        tallerDAO.createTaller(pTaller);
     }
 
     @Override
-    public void altaTaller(Taller pUsuari) {
-        //To change body of implemented methods use File | Settings | File Templates.
+    public void baixaTaller(Taller pTaller) throws ExceptionErrorDataBase {
+        tallerDAO.baixaTaller(pTaller);
     }
 
     @Override
-    public void baixaTaller(Taller pUsuari) {
-        //To change body of implemented methods use File | Settings | File Templates.
+    public void modificaTaller(Taller pTaller) throws ExceptionErrorDataBase {
+        tallerDAO.modifyTaller(pTaller);
     }
 
     @Override
-    public void modificaTaller(Taller pUsuari) {
-        //To change body of implemented methods use File | Settings | File Templates.
+    public void deleteTaller(Taller pTaller) throws ExceptionErrorDataBase {
+        tallerDAO.deleteTaller(pTaller);
     }
 
     @Override
-    public List<Taller> findAllTaller() {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    public List<Taller> findAllTaller() throws ExceptionErrorDataBase {
+        return tallerDAO.findAll();
     }
 
     @Override
-    public List<Taller> findAllTallerByTallerFilter(FilterItems pUsuariFilter) {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    public List<Taller> findAllTallerByTallerFilter(FilterItems pTallerFilter) throws ExceptionErrorDataBase, ExceptionTipoObjetoFiltroNoPermitido {
+        return tallerDAO.findTallerByFilter(pTallerFilter);
     }
 }
