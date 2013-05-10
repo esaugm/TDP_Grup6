@@ -5,8 +5,7 @@
 package ss2.dao.impl;
 
 import common.dao.impl.GenericDaoImpl;
-//import common.utils.GestorBBDD;
-import static common.utils.GestorBBDD.freeResources;
+import common.utils.ConnectionFactory;
 import ss2.entity.Client;
 import java.io.IOException;
 import java.sql.PreparedStatement;
@@ -70,7 +69,7 @@ public class ClientDAO extends GenericDaoImpl implements IClient {
                 // la secuencia ya existe => do nothing
             }
         } finally {
-            freeResources(connection, preparedstatement, resultset);
+            ConnectionFactory.freeResources(connection, preparedstatement, resultset);
         }
     }
 
@@ -103,7 +102,7 @@ public class ClientDAO extends GenericDaoImpl implements IClient {
         } catch (SQLException ex) {
             throw new AppException(ex);
         } finally {
-            freeResources(connection, preparedstatement, resultset);
+            ConnectionFactory.freeResources(connection, preparedstatement, resultset);
         }
         return listaclient;
     }
@@ -138,7 +137,7 @@ public class ClientDAO extends GenericDaoImpl implements IClient {
         } catch (SQLException ex) {
             throw new AppException(ex);
         } finally {
-            freeResources(connection, preparedstatement, resultset);
+            ConnectionFactory.freeResources(connection, preparedstatement, resultset);
         }
         return listaclient;
     }
@@ -172,7 +171,7 @@ public class ClientDAO extends GenericDaoImpl implements IClient {
         } catch (SQLException ex) {
             throw new AppException(ex);
         } finally {
-            freeResources(connection, preparedstatement, resultset);
+            ConnectionFactory.freeResources(connection, preparedstatement, resultset);
         }
         return client;
     }
@@ -207,7 +206,7 @@ public class ClientDAO extends GenericDaoImpl implements IClient {
         } catch (SQLException ex) {
             throw new AppException(ex);
         } finally {
-            freeResources(connection, preparedstatement, resultset);
+            ConnectionFactory.freeResources(connection, preparedstatement, resultset);
         }
         return listaclient;
     }
@@ -217,8 +216,8 @@ public class ClientDAO extends GenericDaoImpl implements IClient {
         Boolean succeded = false;
         Boolean wasconnected = false;
         String SQL = "INSERT INTO Client "
-                + "(nom,cognoms,adreca,nif,poblacio,codipostal,numclient,dataalta) "
-                + "VALUES (?,?,?,?,?,?,nextval('client_id_seq'),now())";
+                + "(nom,cognoms,adreca,nif,poblacio,codipostal) "
+                + "VALUES (?,?,?,?,?,?)";
 
         try {
             connection = getConnection();
@@ -243,7 +242,7 @@ public class ClientDAO extends GenericDaoImpl implements IClient {
                 throw new AppException(ex);
             }
         } finally {
-            freeResources(connection, preparedstatement, resultset);
+            ConnectionFactory.freeResources(connection, preparedstatement, resultset);
         }
         return succeded;
     }
@@ -280,7 +279,7 @@ public class ClientDAO extends GenericDaoImpl implements IClient {
                 throw new AppException(ex);
             }
         } finally {
-            freeResources(connection, preparedstatement, resultset);
+            ConnectionFactory.freeResources(connection, preparedstatement, resultset);
         }
         return succeded;
     }
@@ -310,7 +309,7 @@ public class ClientDAO extends GenericDaoImpl implements IClient {
                 throw new AppException(ex);
             }
         } finally {
-            freeResources(connection, preparedstatement, resultset);
+            ConnectionFactory.freeResources(connection, preparedstatement, resultset);
         }
         return succeded;
     }

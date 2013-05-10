@@ -165,11 +165,4 @@ public class Solicitud implements java.io.Serializable{
 		return values.toArray();
 	}
 
-
-
-
-
-
-
-
 }
