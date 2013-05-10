@@ -236,7 +236,7 @@ public class SolicitudDAO extends GenericDaoImpl implements ISolicitud {
     public Boolean createSolicitud(Solicitud solicitud) throws AppException {
         Boolean succeded     = false;
         Boolean wasconnected = false;
-        String  SQL          = "INSERT INTO solicitud "
+        String  SQL          = "INSERT INTO solicitud "+
 				"(numsol,comentaris,dataalta,datafinalitzacio,client,numreparacio,"+
 				"pendent,finalitzada,asseguradora,numpoliza) VALUES ()";
                                //+ "VALUES (?,?,?,?,?,?,nextval('solicitud_id_seq'),now())";
@@ -245,12 +245,12 @@ public class SolicitudDAO extends GenericDaoImpl implements ISolicitud {
             connection        = getConnection();
             wasconnected      = true;
             preparedstatement = connection.prepareStatement(SQL);
-            preparedstatement.setString(1, solicitud.getnom());
-            preparedstatement.setString(2, solicitud.getcognoms());
-            preparedstatement.setString(3, solicitud.getadreca());
-            preparedstatement.setString(4, solicitud.getNif());
-            preparedstatement.setString(5, solicitud.getPoblacio());
-            preparedstatement.setInt(6, solicitud.getCodiPostal());
+// TODO           preparedstatement.setString(1, solicitud.getnom());
+// TODO           preparedstatement.setString(2, solicitud.getcognoms());
+// TODO           preparedstatement.setString(3, solicitud.getadreca());
+// TODO           preparedstatement.setString(4, solicitud.getNif());
+// TODO           preparedstatement.setString(5, solicitud.getPoblacio());
+// TODO           preparedstatement.setInt(6, solicitud.getCodiPostal());
 
             // preparedstatement.setInt(7,solicitud.getNumSolicitud());
             if (preparedstatement.executeUpdate() > 0) {
@@ -283,12 +283,12 @@ public class SolicitudDAO extends GenericDaoImpl implements ISolicitud {
             connection        = getConnection();
             wasconnected      = true;
             preparedstatement = connection.prepareStatement(SQL);
-            preparedstatement.setString(1, solicitud.getnom());
-            preparedstatement.setString(2, solicitud.getcognoms());
-            preparedstatement.setString(3, solicitud.getadreca());
-            preparedstatement.setString(4, solicitud.getPoblacio());
-            preparedstatement.setInt(5, solicitud.getCodiPostal());
-            preparedstatement.setString(6, solicitud.getNif());
+// TODO              preparedstatement.setString(1, solicitud.getnom());
+// TODO              preparedstatement.setString(2, solicitud.getcognoms());
+// TODO              preparedstatement.setString(3, solicitud.getadreca());
+// TODO              preparedstatement.setString(4, solicitud.getPoblacio());
+// TODO              preparedstatement.setInt(5, solicitud.getCodiPostal());
+// TODO              preparedstatement.setString(6, solicitud.getNif());
 
             if (preparedstatement.executeUpdate() > 0) {
                 succeded = true;
@@ -319,7 +319,7 @@ public class SolicitudDAO extends GenericDaoImpl implements ISolicitud {
             connection        = getConnection();
             wasconnected      = true;
             preparedstatement = connection.prepareStatement(SQL);
-            preparedstatement.setString(1, solicitud.getNif());
+// TODO              preparedstatement.setString(1, solicitud.getNif());
 
             if (preparedstatement.executeUpdate() > 0) {
                 succeded = true;
