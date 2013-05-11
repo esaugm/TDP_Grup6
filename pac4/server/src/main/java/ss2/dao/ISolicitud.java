@@ -1,46 +1,38 @@
-
 /*
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
 package ss2.dao;
 
-//~--- non-JDK imports --------------------------------------------------------
+import java.rmi.Remote;
+import java.util.ArrayList;
 import ss2.entity.Solicitud;
-
 import ss2.exception.AppException;
 
-//~--- JDK imports ------------------------------------------------------------
-
-import java.rmi.Remote;
-
-import java.util.ArrayList;
-
 /**
- * **************************************
- * ISolicitud.java (UTF-8)
- * **************************************
- * Uoc Primavera 2013,
- * Grup06
- * Fecha: 2013.05.06 0:47:17
+ ***************************************
+ * ss2.dao.impl
+ * ISolicitud32.java (windows-1252)
+ ***************************************
+ * Uoc Primavera 2013, Grup06
+ * Fecha: 2013.05.11 20:52:01
  * @author jiquintana (jiquintana@uoc.edu)
  *
  */
 public interface ISolicitud extends Remote {
 
-    public void checkAndInitDAO() throws AppException;
+		void checkAndInitDAO() throws AppException;
 
-    public ArrayList<Solicitud> getSolicitud() throws AppException;
+		Boolean createSolicitud(Solicitud solicitud) throws AppException;
 
-    public ArrayList<Solicitud> getSolicitudbyPK(String nif) throws AppException;
+		Boolean deleteSolicitud(Solicitud solicitud) throws AppException;
 
-    public Solicitud getSolicitudbyNumSolicitud(Integer numclient) throws AppException;
+		ArrayList<Solicitud> getSolicitud() throws AppException;
 
-    public ArrayList<Solicitud> getSolicitudbyANY(String freetext) throws AppException;
+		ArrayList<Solicitud> getSolicitudbyANY(String freetext) throws AppException;
 
-    public Boolean createSolicitud(Solicitud cliente) throws AppException;
+		Solicitud getSolicitudbyNumSolicitud(Integer numsolicitud) throws AppException;
 
-    public Boolean modifySolicitud(Solicitud cliente) throws AppException;
+		Boolean modifySolicitud(Solicitud solicitud) throws AppException;
 
-    public Boolean deleteSolicitud(Solicitud cliente) throws AppException;
 }

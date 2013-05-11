@@ -88,7 +88,7 @@ public class SolicitudDAO extends GenericDaoImpl implements ISolicitud {
 
     @Override
     public ArrayList<Solicitud> getSolicitud() throws AppException {
-        String            SQL         = "SELECT * from solicitud";
+        String SQL = "SELECT * from solicitud";
         ArrayList<Solicitud> listasolicitud = new ArrayList<Solicitud>();
 
         try {
@@ -98,52 +98,17 @@ public class SolicitudDAO extends GenericDaoImpl implements ISolicitud {
 
             while (resultset.next()) {
                 Solicitud solicitud = new Solicitud(
+					resultset.getInt("numsol"),
 					resultset.getString("comentaris"),
 					resultset.getDate("dataalta"),
 					resultset.getDate("datafinalitzacio"),
-					resultset.getString("solicitud"),
+					resultset.getString("client"),
                     resultset.getInt("numreparacio"),
                     resultSet.getBoolean("pendent"),
 					resultSet.getBoolean("finalitzada"),
 					resultset.getInt("asseguradora"),
-					resultset.getString("numPoliza"));
-                listasolicitud.add(solicitud);
-            }
-        } catch (ClassNotFoundException ex) {
-            throw new AppException(ex);
-        } catch (IOException ex) {
-            throw new AppException(ex);
-        } catch (SQLException ex) {
-            throw new AppException(ex);
-        } finally {
-            ConnectionFactory.freeResources(connection, preparedstatement, resultset);
-        }
-
-        return listasolicitud;
-    }
-
-    @Override
-    public ArrayList<Solicitud> getSolicitudbyPK(String nif) throws AppException {
-        String            SQL         = "SELECT * from solicitud where numsol = ?";
-        ArrayList<Solicitud> listasolicitud = new ArrayList<Solicitud>();
-
-        try {
-            connection        = getConnection();
-            preparedstatement = connection.prepareStatement(SQL);
-            preparedstatement.setString(1, nif + '%');
-            resultset = preparedstatement.executeQuery();
-
-            while (resultset.next()) {
-				Solicitud solicitud = new Solicitud(
-					resultset.getString("comentaris"),
-					resultset.getDate("dataalta"),
-					resultset.getDate("datafinalitzacio"),
-					resultset.getString("solicitud"),
-                    resultset.getInt("numreparacio"),
-                    resultSet.getBoolean("pendent"),
-					resultSet.getBoolean("finalitzada"),
-					resultset.getInt("asseguradora"),
-					resultset.getString("numPoliza"));
+					resultset.getString("numPoliza"),
+					resultset.getInt("idtaller"));
                 listasolicitud.add(solicitud);
             }
         } catch (ClassNotFoundException ex) {
@@ -172,15 +137,17 @@ public class SolicitudDAO extends GenericDaoImpl implements ISolicitud {
 
             while (resultset.next()) {
                 solicitud = new Solicitud(
+					resultset.getInt("numsol"),
 					resultset.getString("comentaris"),
 					resultset.getDate("dataalta"),
 					resultset.getDate("datafinalitzacio"),
-					resultset.getString("solicitud"),
+					resultset.getString("client"),
                     resultset.getInt("numreparacio"),
                     resultSet.getBoolean("pendent"),
 					resultSet.getBoolean("finalitzada"),
 					resultset.getInt("asseguradora"),
-					resultset.getString("numPoliza"));
+					resultset.getString("numPoliza"),
+					resultset.getInt("idtaller"));
             }
         } catch (ClassNotFoundException ex) {
             throw new AppException(ex);
@@ -208,16 +175,18 @@ public class SolicitudDAO extends GenericDaoImpl implements ISolicitud {
 
             while (resultset.next()) {
 				Solicitud solicitud = new Solicitud(
+					resultset.getInt("numsol"),
 					resultset.getString("comentaris"),
 					resultset.getDate("dataalta"),
 					resultset.getDate("datafinalitzacio"),
-					resultset.getString("solicitud"),
+					resultset.getString("client"),
                     resultset.getInt("numreparacio"),
                     resultSet.getBoolean("pendent"),
 					resultSet.getBoolean("finalitzada"),
 					resultset.getInt("asseguradora"),
-					resultset.getString("numPoliza"));
-                listasolicitud.add(solicitud);
+					resultset.getString("numPoliza"),
+					resultset.getInt("idtaller"));
+				listasolicitud.add(solicitud);
             }
         } catch (ClassNotFoundException ex) {
             throw new AppException(ex);
@@ -237,22 +206,20 @@ public class SolicitudDAO extends GenericDaoImpl implements ISolicitud {
         Boolean succeded     = false;
         Boolean wasconnected = false;
         String  SQL          = "INSERT INTO solicitud "+
-				"(numsol,comentaris,dataalta,datafinalitzacio,client,numreparacio,"+
-				"pendent,finalitzada,asseguradora,numpoliza) VALUES ()";
-                               //+ "VALUES (?,?,?,?,?,?,nextval('solicitud_id_seq'),now())";
+				"(comentaris,client,numreparacio,"+
+				"asseguradora,numpoliza,idtaller) VALUES (?,?,?,?,?,?)";
 
         try {
             connection        = getConnection();
             wasconnected      = true;
             preparedstatement = connection.prepareStatement(SQL);
-// TODO           preparedstatement.setString(1, solicitud.getnom());
-// TODO           preparedstatement.setString(2, solicitud.getcognoms());
-// TODO           preparedstatement.setString(3, solicitud.getadreca());
-// TODO           preparedstatement.setString(4, solicitud.getNif());
-// TODO           preparedstatement.setString(5, solicitud.getPoblacio());
-// TODO           preparedstatement.setInt(6, solicitud.getCodiPostal());
+			preparedstatement.setString(1, solicitud.getComentaris());
+			preparedstatement.setString(2, solicitud.getClient());
+			preparedstatement.setInt(3, solicitud.getNumReparacio());
+			preparedstatement.setInt(4, solicitud.getAsseguradora());
+			preparedstatement.setString(5, solicitud.getNumPoliza());
+			preparedstatement.setInt(6, solicitud.getIdtaller());
 
-            // preparedstatement.setInt(7,solicitud.getNumSolicitud());
             if (preparedstatement.executeUpdate() > 0) {
                 succeded = true;
             }
@@ -276,21 +243,24 @@ public class SolicitudDAO extends GenericDaoImpl implements ISolicitud {
         Integer rowsmodified;
         Boolean succeded     = false;
         Boolean wasconnected = false;
-        String  SQL          = "UPDATE Solicitud SET " + "nom = ?, cognoms = ?, adreca = ?, poblacio = ?, "
-                               + "codipostal = ? where nif = ?";
+        String  SQL          = "UPDATE Solicitud SET comentaris = ?, "
+				+ "client = ?, numreparacio = ?, pendent = ?, finalitzada = ?, "
+                + "asseguradora = ?, numpoliza = ?, idtaller = ? where numsol = ?";
 
         try {
             connection        = getConnection();
             wasconnected      = true;
             preparedstatement = connection.prepareStatement(SQL);
-// TODO              preparedstatement.setString(1, solicitud.getnom());
-// TODO              preparedstatement.setString(2, solicitud.getcognoms());
-// TODO              preparedstatement.setString(3, solicitud.getadreca());
-// TODO              preparedstatement.setString(4, solicitud.getPoblacio());
-// TODO              preparedstatement.setInt(5, solicitud.getCodiPostal());
-// TODO              preparedstatement.setString(6, solicitud.getNif());
+			preparedstatement.setString(1, solicitud.getComentaris());
+			preparedstatement.setString(2, solicitud.getClient());
+			preparedstatement.setInt(3, solicitud.getNumReparacio());
+			preparedstatement.setBoolean(4, solicitud.getPendent());
+			preparedstatement.setBoolean(5, solicitud.getFinalitzada());
+			preparedstatement.setInt(6, solicitud.getAsseguradora());
+			preparedstatement.setString(7, solicitud.getNumPoliza());
+			preparedstatement.setInt(8, solicitud.getIdtaller());
 
-            if (preparedstatement.executeUpdate() > 0) {
+		    if (preparedstatement.executeUpdate() > 0) {
                 succeded = true;
             }
         } catch (ClassNotFoundException ex) {
@@ -313,13 +283,13 @@ public class SolicitudDAO extends GenericDaoImpl implements ISolicitud {
         Integer rowsmodified;
         Boolean succeded     = false;
         Boolean wasconnected = false;
-        String  SQL          = "DELETE FROM Solicitud WHERE nif = ?";
+        String  SQL          = "DELETE FROM Solicitud WHERE numsol = ?";
 
         try {
             connection        = getConnection();
             wasconnected      = true;
             preparedstatement = connection.prepareStatement(SQL);
-// TODO              preparedstatement.setString(1, solicitud.getNif());
+			preparedstatement.setInt(1, solicitud.getNumSol());
 
             if (preparedstatement.executeUpdate() > 0) {
                 succeded = true;

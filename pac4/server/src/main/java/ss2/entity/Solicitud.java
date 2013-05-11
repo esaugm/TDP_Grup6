@@ -30,13 +30,14 @@ public class Solicitud implements java.io.Serializable{
 	private Boolean	finalitzada;
 	private Integer	asseguradora;
 	private String	numPoliza;
+	private Integer idtaller;
 
 	public static final Integer SOLICITUD_UNDEF = -1;
 
 	public Solicitud() {
 	}
 
-	public Solicitud(String comentaris, Date dataalta, Date datafinalitzacio, String client, Integer numreparacio, Boolean pendent, Boolean finalitzada, Integer asseguradora, String numPoliza) {
+	public Solicitud(String comentaris, Date dataalta, Date datafinalitzacio, String client, Integer numreparacio, Boolean pendent, Boolean finalitzada, Integer asseguradora, String numPoliza, Integer idtaller) {
 		super();
 		this.comentaris = comentaris;
 		this.dataalta = dataalta;
@@ -47,10 +48,12 @@ public class Solicitud implements java.io.Serializable{
 		this.finalitzada = finalitzada;
 		this.asseguradora = asseguradora;
 		this.numPoliza = numPoliza;
+		this.idtaller = idtaller;
 		this.numsol = SOLICITUD_UNDEF;
 	}
 
-	public Solicitud(Integer numsol, String comentaris, Date dataalta, Date datafinalitzacio, String client, Integer numreparacio, Boolean pendent, Boolean finalitzada, Integer asseguradora, String numPoliza) {
+	public Solicitud(Integer numsol, String comentaris, Date dataalta, Date datafinalitzacio, String client, Integer numreparacio, Boolean pendent, Boolean finalitzada, Integer asseguradora, String numPoliza, Integer idtaller) {
+		super();
 		this.numsol = numsol;
 		this.comentaris = comentaris;
 		this.dataalta = dataalta;
@@ -60,8 +63,21 @@ public class Solicitud implements java.io.Serializable{
 		this.pendent = pendent;
 		this.finalitzada = finalitzada;
 		this.asseguradora = asseguradora;
+		this.idtaller = idtaller;
 		this.numPoliza = numPoliza;
 	}
+
+		public Solicitud(String comentaris, String client, Integer numreparacio,
+				Integer asseguradora, String numPoliza, Integer idtaller) {
+		super();
+		this.comentaris = comentaris;
+		this.client = client;
+		this.numreparacio = numreparacio;
+		this.asseguradora = asseguradora;
+		this.numPoliza = numPoliza;
+		this.idtaller = idtaller;
+	}
+
 
 	public Integer getNumSol() {
 		return numsol;
@@ -83,16 +99,8 @@ public class Solicitud implements java.io.Serializable{
 		return dataalta;
 	}
 
-	public void setDataAlta(Date dataalta) {
-		this.dataalta = dataalta;
-	}
-
 	public Date getDataFinalitzacio() {
 		return datafinalitzacio;
-	}
-
-	public void setDataFinalitzacio(Date datafinalitzacio) {
-		this.datafinalitzacio = datafinalitzacio;
 	}
 
 	public String getClient() {
@@ -105,10 +113,6 @@ public class Solicitud implements java.io.Serializable{
 
 	public Integer getNumReparacio() {
 		return numreparacio;
-	}
-
-	public void setNumReparacio(Integer numreparacio) {
-		this.numreparacio = numreparacio;
 	}
 
 	public Boolean getPendent() {
@@ -143,9 +147,16 @@ public class Solicitud implements java.io.Serializable{
 		this.numPoliza = numPoliza;
 	}
 
+	public Integer getIdtaller() {
+		return idtaller;
+	}
+
+	public void setIdtaller(Integer idtaller) {
+		this.idtaller = idtaller;
+	}
 	@Override
 	public String toString() {
-		return "Solicitud{" + "numsol=" + numsol + ", comentaris=" + comentaris + ", dataalta=" + dataalta + ", datafinalitzacio=" + datafinalitzacio + ", client=" + client + ", numreparacio=" + numreparacio + ", pendent=" + pendent + ", finalitzada=" + finalitzada + ", asseguradora=" + asseguradora + ", numPoliza=" + numPoliza + '}';
+		return "Solicitud{" + "numsol=" + numsol + ", comentaris=" + comentaris + ", dataalta=" + dataalta + ", datafinalitzacio=" + datafinalitzacio + ", client=" + client + ", numreparacio=" + numreparacio + ", pendent=" + pendent + ", finalitzada=" + finalitzada + ", asseguradora=" + asseguradora + ", numPoliza=" + numPoliza + ", idtaller=" + idtaller +'}';
 	}
 
 	public Object[] toArray() {
@@ -161,6 +172,7 @@ public class Solicitud implements java.io.Serializable{
 		values.add(finalitzada);
 		values.add(asseguradora);
 		values.add(numPoliza);
+		values.add(idtaller);
 
 		return values.toArray();
 	}
