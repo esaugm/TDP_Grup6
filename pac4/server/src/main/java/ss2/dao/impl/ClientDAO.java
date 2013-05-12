@@ -27,10 +27,6 @@ import ss2.exception.AppException;
  */
 public class ClientDAO extends GenericDaoImpl implements IClient {
 
-   // protected Connection connection;
-    protected PreparedStatement preparedstatement;
-    protected ResultSet resultset;
-
     public ClientDAO() {
     }
 
@@ -51,16 +47,16 @@ public class ClientDAO extends GenericDaoImpl implements IClient {
         try {
             connection = getConnection();
             wasconnected = true;
-            preparedstatement = connection.prepareStatement(SQL1);
-            resultset = preparedstatement.executeQuery();
+            ptmt = connection.prepareStatement(SQL1);
+            resultSet = ptmt.executeQuery();
         } catch (ClassNotFoundException ex) {
         } catch (IOException ex) {
         } catch (SQLException ex) {
             if (wasconnected && !sequenceexists) {
                 // No existe la secuencia => la creamos
                 try {
-                    preparedstatement = connection.prepareStatement(SQL2);
-                    preparedstatement.executeUpdate();
+                    ptmt = connection.prepareStatement(SQL2);
+                    ptmt.executeUpdate();
                 } catch (SQLException ex2) {
                     // no hemos podido crear la secuencia => throw
                     throw new AppException(ex2);
@@ -69,7 +65,7 @@ public class ClientDAO extends GenericDaoImpl implements IClient {
                 // la secuencia ya existe => do nothing
             }
         } finally {
-            ConnectionFactory.freeResources(connection, preparedstatement, resultset);
+            ConnectionFactory.freeResources(connection, ptmt, resultSet);
         }
     }
 
@@ -81,18 +77,18 @@ public class ClientDAO extends GenericDaoImpl implements IClient {
         try {
             connection = getConnection();
 
-            preparedstatement = connection.prepareStatement(SQL);
-            resultset = preparedstatement.executeQuery();
-            while (resultset.next()) {
+            ptmt = connection.prepareStatement(SQL);
+            resultSet = ptmt.executeQuery();
+            while (resultSet.next()) {
                 Client cliente = new Client(
-                        resultset.getString("nom"),
-                        resultset.getString("cognoms"),
-                        resultset.getString("adreca"),
-                        resultset.getString("nif"),
-                        resultset.getString("poblacio"),
-                        resultset.getInt("codipostal"),
-                        resultset.getInt("numclient"),
-                        resultset.getDate("dataalta"));
+                        resultSet.getString("nom"),
+                        resultSet.getString("cognoms"),
+                        resultSet.getString("adreca"),
+                        resultSet.getString("nif"),
+                        resultSet.getString("poblacio"),
+                        resultSet.getInt("codipostal"),
+                        resultSet.getInt("numclient"),
+                        resultSet.getDate("dataalta"));
                 listaclient.add(cliente);
             }
         } catch (ClassNotFoundException ex) {
@@ -102,7 +98,7 @@ public class ClientDAO extends GenericDaoImpl implements IClient {
         } catch (SQLException ex) {
             throw new AppException(ex);
         } finally {
-            ConnectionFactory.freeResources(connection, preparedstatement, resultset);
+            ConnectionFactory.freeResources(connection, ptmt, resultSet);
         }
         return listaclient;
     }
@@ -114,20 +110,20 @@ public class ClientDAO extends GenericDaoImpl implements IClient {
 
         try {
             connection = getConnection();
-            preparedstatement = connection.prepareStatement(SQL);
-            preparedstatement.setString(1, nif + '%');
-            resultset = preparedstatement.executeQuery();
+            ptmt = connection.prepareStatement(SQL);
+            ptmt.setString(1, nif + '%');
+            resultSet = ptmt.executeQuery();
 
-            while (resultset.next()) {
+            while (resultSet.next()) {
                 Client cliente = new Client(
-                        resultset.getString("nom"),
-                        resultset.getString("cognoms"),
-                        resultset.getString("adreca"),
-                        resultset.getString("nif"),
-                        resultset.getString("poblacio"),
-                        resultset.getInt("codipostal"),
-                        resultset.getInt("numclient"),
-                        resultset.getDate("dataalta"));
+                        resultSet.getString("nom"),
+                        resultSet.getString("cognoms"),
+                        resultSet.getString("adreca"),
+                        resultSet.getString("nif"),
+                        resultSet.getString("poblacio"),
+                        resultSet.getInt("codipostal"),
+                        resultSet.getInt("numclient"),
+                        resultSet.getDate("dataalta"));
                 listaclient.add(cliente);
             }
         } catch (ClassNotFoundException ex) {
@@ -137,7 +133,7 @@ public class ClientDAO extends GenericDaoImpl implements IClient {
         } catch (SQLException ex) {
             throw new AppException(ex);
         } finally {
-            ConnectionFactory.freeResources(connection, preparedstatement, resultset);
+            ConnectionFactory.freeResources(connection, ptmt, resultSet);
         }
         return listaclient;
     }
@@ -149,20 +145,20 @@ public class ClientDAO extends GenericDaoImpl implements IClient {
 
         try {
             connection = getConnection();
-            preparedstatement = connection.prepareStatement(SQL);
-            preparedstatement.setLong(1, numclient);
-            resultset = preparedstatement.executeQuery();
+            ptmt = connection.prepareStatement(SQL);
+            ptmt.setLong(1, numclient);
+            resultSet = ptmt.executeQuery();
 
-            while (resultset.next()) {
+            while (resultSet.next()) {
                 client = new Client(
-                        resultset.getString("nom"),
-                        resultset.getString("cognoms"),
-                        resultset.getString("adreca"),
-                        resultset.getString("nif"),
-                        resultset.getString("poblacio"),
-                        resultset.getInt("codipostal"),
-                        resultset.getInt("numclient"),
-                        resultset.getDate("dataalta"));
+                        resultSet.getString("nom"),
+                        resultSet.getString("cognoms"),
+                        resultSet.getString("adreca"),
+                        resultSet.getString("nif"),
+                        resultSet.getString("poblacio"),
+                        resultSet.getInt("codipostal"),
+                        resultSet.getInt("numclient"),
+                        resultSet.getDate("dataalta"));
             }
         } catch (ClassNotFoundException ex) {
             throw new AppException(ex);
@@ -171,7 +167,7 @@ public class ClientDAO extends GenericDaoImpl implements IClient {
         } catch (SQLException ex) {
             throw new AppException(ex);
         } finally {
-            ConnectionFactory.freeResources(connection, preparedstatement, resultset);
+            ConnectionFactory.freeResources(connection, ptmt, resultSet);
         }
         return client;
     }
@@ -183,20 +179,20 @@ public class ClientDAO extends GenericDaoImpl implements IClient {
 
         try {
             connection = getConnection();
-            preparedstatement = connection.prepareStatement(SQL);
-            preparedstatement.setString(1, '%' + freetext + '%');
-            resultset = preparedstatement.executeQuery();
+            ptmt = connection.prepareStatement(SQL);
+            ptmt.setString(1, '%' + freetext + '%');
+            resultSet = ptmt.executeQuery();
 
-            while (resultset.next()) {
+            while (resultSet.next()) {
                 Client cliente = new Client(
-                        resultset.getString("nom"),
-                        resultset.getString("cognoms"),
-                        resultset.getString("adreca"),
-                        resultset.getString("nif"),
-                        resultset.getString("poblacio"),
-                        resultset.getInt("codipostal"),
-                        resultset.getInt("numclient"),
-                        resultset.getDate("dataalta"));
+                        resultSet.getString("nom"),
+                        resultSet.getString("cognoms"),
+                        resultSet.getString("adreca"),
+                        resultSet.getString("nif"),
+                        resultSet.getString("poblacio"),
+                        resultSet.getInt("codipostal"),
+                        resultSet.getInt("numclient"),
+                        resultSet.getDate("dataalta"));
                 listaclient.add(cliente);
             }
         } catch (ClassNotFoundException ex) {
@@ -206,7 +202,7 @@ public class ClientDAO extends GenericDaoImpl implements IClient {
         } catch (SQLException ex) {
             throw new AppException(ex);
         } finally {
-            ConnectionFactory.freeResources(connection, preparedstatement, resultset);
+            ConnectionFactory.freeResources(connection, ptmt, resultSet);
         }
         return listaclient;
     }
@@ -222,15 +218,15 @@ public class ClientDAO extends GenericDaoImpl implements IClient {
         try {
             connection = getConnection();
             wasconnected = true;
-            preparedstatement = connection.prepareStatement(SQL);
-            preparedstatement.setString(1, cliente.getnom());
-            preparedstatement.setString(2, cliente.getcognoms());
-            preparedstatement.setString(3, cliente.getadreca());
-            preparedstatement.setString(4, cliente.getNif());
-            preparedstatement.setString(5, cliente.getPoblacio());
-            preparedstatement.setInt(6, cliente.getCodiPostal());
-            //preparedstatement.setInt(7,cliente.getNumClient());
-            if (preparedstatement.executeUpdate() > 0) {
+            ptmt = connection.prepareStatement(SQL);
+            ptmt.setString(1, cliente.getnom());
+            ptmt.setString(2, cliente.getcognoms());
+            ptmt.setString(3, cliente.getadreca());
+            ptmt.setString(4, cliente.getNif());
+            ptmt.setString(5, cliente.getPoblacio());
+            ptmt.setInt(6, cliente.getCodiPostal());
+            //ptmt.setInt(7,cliente.getNumClient());
+            if (ptmt.executeUpdate() > 0) {
                 succeded = true;
             }
         } catch (ClassNotFoundException ex) {
@@ -242,7 +238,7 @@ public class ClientDAO extends GenericDaoImpl implements IClient {
                 throw new AppException(ex);
             }
         } finally {
-            ConnectionFactory.freeResources(connection, preparedstatement, resultset);
+            ConnectionFactory.freeResources(connection, ptmt, resultSet);
         }
         return succeded;
     }
@@ -260,14 +256,14 @@ public class ClientDAO extends GenericDaoImpl implements IClient {
         try {
             connection = getConnection();
             wasconnected = true;
-            preparedstatement = connection.prepareStatement(SQL);
-            preparedstatement.setString(1, cliente.getnom());
-            preparedstatement.setString(2, cliente.getcognoms());
-            preparedstatement.setString(3, cliente.getadreca());
-            preparedstatement.setString(4, cliente.getPoblacio());
-            preparedstatement.setInt(5, cliente.getCodiPostal());
-            preparedstatement.setString(6, cliente.getNif());
-            if (preparedstatement.executeUpdate() > 0) {
+            ptmt = connection.prepareStatement(SQL);
+            ptmt.setString(1, cliente.getnom());
+            ptmt.setString(2, cliente.getcognoms());
+            ptmt.setString(3, cliente.getadreca());
+            ptmt.setString(4, cliente.getPoblacio());
+            ptmt.setInt(5, cliente.getCodiPostal());
+            ptmt.setString(6, cliente.getNif());
+            if (ptmt.executeUpdate() > 0) {
                 succeded = true;
             }
         } catch (ClassNotFoundException ex) {
@@ -279,7 +275,7 @@ public class ClientDAO extends GenericDaoImpl implements IClient {
                 throw new AppException(ex);
             }
         } finally {
-            ConnectionFactory.freeResources(connection, preparedstatement, resultset);
+            ConnectionFactory.freeResources(connection, ptmt, resultSet);
         }
         return succeded;
     }
@@ -295,9 +291,9 @@ public class ClientDAO extends GenericDaoImpl implements IClient {
         try {
             connection = getConnection();
             wasconnected = true;
-            preparedstatement = connection.prepareStatement(SQL);
-            preparedstatement.setString(1, cliente.getNif());
-            if (preparedstatement.executeUpdate() > 0) {
+            ptmt = connection.prepareStatement(SQL);
+            ptmt.setString(1, cliente.getNif());
+            if (ptmt.executeUpdate() > 0) {
                 succeded = true;
             }
         } catch (ClassNotFoundException ex) {
@@ -309,7 +305,7 @@ public class ClientDAO extends GenericDaoImpl implements IClient {
                 throw new AppException(ex);
             }
         } finally {
-            ConnectionFactory.freeResources(connection, preparedstatement, resultset);
+            ConnectionFactory.freeResources(connection, ptmt, resultSet);
         }
         return succeded;
     }

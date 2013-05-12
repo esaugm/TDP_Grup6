@@ -36,11 +36,11 @@ public class Client implements java.io.Serializable {
 
 	public Client(String nom, String cognoms, String adreca, String nif, String poblacio, Integer codipostal, Integer numclient, Date dataalta) {
 		super();
-		this.nom = nom;
-		this.cognoms = cognoms;
-		this.adreca = adreca;
-		this.nif = nif;
-		this.poblacio = poblacio;
+		this.nom = nom.trim();
+		this.cognoms = cognoms.trim();
+		this.adreca = adreca.trim();
+		this.nif = nif.trim();
+		this.poblacio = poblacio.trim();
 		this.codipostal = codipostal;
 		this.numclient = numclient;
 		this.dataalta = dataalta;
@@ -49,11 +49,11 @@ public class Client implements java.io.Serializable {
 
 	public Client(String nom, String cognoms, String adreca, String nif, String poblacio, Integer codipostal, Date dataalta) {
 		super();
-		this.nom = nom;
-		this.cognoms = cognoms;
-		this.adreca = adreca;
-		this.nif = nif;
-		this.poblacio = poblacio;
+		this.nom = nom.trim();
+		this.cognoms = cognoms.trim();
+		this.adreca = adreca.trim();
+		this.nif = nif.trim();
+		this.poblacio = poblacio.trim();
 		this.codipostal = codipostal;
 		this.dataalta = dataalta;
 		this.numclient = CLIENT_UNDEF;
@@ -64,7 +64,7 @@ public class Client implements java.io.Serializable {
 	}
 
 	public void setnom(String nom) {
-		this.nom = nom;
+		this.nom = nom.trim();
 	}
 
 	public String getcognoms() {
@@ -72,7 +72,7 @@ public class Client implements java.io.Serializable {
 	}
 
 	public void setcognoms(String cognoms) {
-		this.cognoms = cognoms;
+		this.cognoms = cognoms.trim();
 	}
 
 	public String getadreca() {
@@ -80,7 +80,7 @@ public class Client implements java.io.Serializable {
 	}
 
 	public void setadreca(String adreca) {
-		this.adreca = adreca;
+		this.adreca = adreca.trim();
 	}
 
 	public String getNif() {
@@ -88,7 +88,7 @@ public class Client implements java.io.Serializable {
 	}
 
 	public void setNif(String nif) {
-		this.nif = nif;
+		this.nif = nif.trim();
 	}
 
 	public String getPoblacio() {
@@ -96,7 +96,7 @@ public class Client implements java.io.Serializable {
 	}
 
 	public void setPoblacio(String poblacio) {
-		this.poblacio = poblacio;
+		this.poblacio = poblacio.trim();
 	}
 
 	public Integer getCodiPostal() {
@@ -125,7 +125,7 @@ public class Client implements java.io.Serializable {
 
 	@Override
 	public String toString() {
-		return "\n\nClient{\n" + "nom=" + nom + ", cognoms=" + cognoms + ", adreca=" + adreca + ", nif=" + nif + ", poblacio=" + poblacio + ", codipostal=" + codipostal + ", numclient=" + numclient + ", dataalta=" + dataalta + "\n}";
+		return "\nClient{" + "nom=" + nom + ", cognoms=" + cognoms + ", adreca=" + adreca + ", nif=" + nif + ", poblacio=" + poblacio + ", codipostal=" + codipostal + ", numclient=" + numclient + ", dataalta=" + dataalta + "}\n";
 	}
 
 	public Object[] toArray() {

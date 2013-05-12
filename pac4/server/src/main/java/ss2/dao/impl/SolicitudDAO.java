@@ -21,8 +21,6 @@ import ss2.exception.AppException;
 
 import java.io.IOException;
 
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import java.util.ArrayList;
@@ -38,10 +36,6 @@ import java.util.ArrayList;
  *
  */
 public class SolicitudDAO extends GenericDaoImpl implements ISolicitud {
-
-    // protected Connection connection;
-    protected PreparedStatement preparedstatement;
-    protected ResultSet         resultset;
 
     public SolicitudDAO() {}
 
@@ -59,10 +53,10 @@ public class SolicitudDAO extends GenericDaoImpl implements ISolicitud {
         Solicitud  solicitud = new Solicitud();
 
         try {
-            connection        = getConnection();
-            wasconnected      = true;
-            preparedstatement = connection.prepareStatement(SQL1);
-            resultset         = preparedstatement.executeQuery();
+            connection      = getConnection();
+            wasconnected	= true;
+            ptmt			= connection.prepareStatement(SQL1);
+            resultSet        = ptmt.executeQuery();
         } catch (ClassNotFoundException ex) {}
         catch (IOException ex) {}
         catch (SQLException ex) {
@@ -70,8 +64,8 @@ public class SolicitudDAO extends GenericDaoImpl implements ISolicitud {
 
                 // No existe la secuencia => la creamos
                 try {
-                    preparedstatement = connection.prepareStatement(SQL2);
-                    preparedstatement.executeUpdate();
+                    ptmt = connection.prepareStatement(SQL2);
+                    ptmt.executeUpdate();
                 } catch (SQLException ex2) {
 
                     // no hemos podido crear la secuencia => throw
@@ -82,7 +76,7 @@ public class SolicitudDAO extends GenericDaoImpl implements ISolicitud {
                 // la secuencia ya existe => do nothing
             }
         } finally {
-            ConnectionFactory.freeResources(connection, preparedstatement, resultset);
+            ConnectionFactory.freeResources(connection, ptmt, resultSet);
         }
     }
 
@@ -93,22 +87,21 @@ public class SolicitudDAO extends GenericDaoImpl implements ISolicitud {
 
         try {
             connection        = getConnection();
-            preparedstatement = connection.prepareStatement(SQL);
-            resultset         = preparedstatement.executeQuery();
-
-            while (resultset.next()) {
+            ptmt = connection.prepareStatement(SQL);
+            resultSet         = ptmt.executeQuery();
+            while (resultSet.next()) {
                 Solicitud solicitud = new Solicitud(
-					resultset.getInt("numsol"),
-					resultset.getString("comentaris"),
-					resultset.getDate("dataalta"),
-					resultset.getDate("datafinalitzacio"),
-					resultset.getString("client"),
-                    resultset.getInt("numreparacio"),
-                    resultSet.getBoolean("pendent"),
+					resultSet.getInt("numsol"),
+					resultSet.getString("comentaris"),
+					resultSet.getDate("dataalta"),
+					resultSet.getDate("datafinalitzacio"),
+					resultSet.getString("client"),
+					resultSet.getInt("numreparacio"),
+					resultSet.getBoolean("pendent"),
 					resultSet.getBoolean("finalitzada"),
-					resultset.getInt("asseguradora"),
-					resultset.getString("numPoliza"),
-					resultset.getInt("idtaller"));
+					resultSet.getInt("asseguradora"),
+					resultSet.getString("numPoliza"),
+					resultSet.getInt("idtaller"));
                 listasolicitud.add(solicitud);
             }
         } catch (ClassNotFoundException ex) {
@@ -118,7 +111,7 @@ public class SolicitudDAO extends GenericDaoImpl implements ISolicitud {
         } catch (SQLException ex) {
             throw new AppException(ex);
         } finally {
-            ConnectionFactory.freeResources(connection, preparedstatement, resultset);
+            ConnectionFactory.freeResources(connection, ptmt, resultSet);
         }
 
         return listasolicitud;
@@ -126,28 +119,28 @@ public class SolicitudDAO extends GenericDaoImpl implements ISolicitud {
 
     @Override
     public Solicitud getSolicitudbyNumSolicitud(Integer numsolicitud) throws AppException {
-        String SQL    = "SELECT * from solicitud where numsolicitud = ?";
+        String SQL    = "SELECT * from solicitud where numsol = ?";
         Solicitud solicitud = new Solicitud();
 
         try {
             connection        = getConnection();
-            preparedstatement = connection.prepareStatement(SQL);
-            preparedstatement.setLong(1, numsolicitud);
-            resultset = preparedstatement.executeQuery();
+            ptmt = connection.prepareStatement(SQL);
+            ptmt.setLong(1, numsolicitud);
+            resultSet = ptmt.executeQuery();
 
-            while (resultset.next()) {
+            while (resultSet.next()) {
                 solicitud = new Solicitud(
-					resultset.getInt("numsol"),
-					resultset.getString("comentaris"),
-					resultset.getDate("dataalta"),
-					resultset.getDate("datafinalitzacio"),
-					resultset.getString("client"),
-                    resultset.getInt("numreparacio"),
+					resultSet.getInt("numsol"),
+					resultSet.getString("comentaris"),
+					resultSet.getDate("dataalta"),
+					resultSet.getDate("datafinalitzacio"),
+					resultSet.getString("client"),
+                    resultSet.getInt("numreparacio"),
                     resultSet.getBoolean("pendent"),
 					resultSet.getBoolean("finalitzada"),
-					resultset.getInt("asseguradora"),
-					resultset.getString("numPoliza"),
-					resultset.getInt("idtaller"));
+					resultSet.getInt("asseguradora"),
+					resultSet.getString("numPoliza"),
+					resultSet.getInt("idtaller"));
             }
         } catch (ClassNotFoundException ex) {
             throw new AppException(ex);
@@ -156,7 +149,7 @@ public class SolicitudDAO extends GenericDaoImpl implements ISolicitud {
         } catch (SQLException ex) {
             throw new AppException(ex);
         } finally {
-            ConnectionFactory.freeResources(connection, preparedstatement, resultset);
+            ConnectionFactory.freeResources(connection, ptmt, resultSet);
         }
 
         return solicitud;
@@ -169,23 +162,23 @@ public class SolicitudDAO extends GenericDaoImpl implements ISolicitud {
 
         try {
             connection        = getConnection();
-            preparedstatement = connection.prepareStatement(SQL);
-            preparedstatement.setString(1, '%' + freetext + '%');
-            resultset = preparedstatement.executeQuery();
+            ptmt = connection.prepareStatement(SQL);
+            ptmt.setString(1, '%' + freetext + '%');
+            resultSet = ptmt.executeQuery();
 
-            while (resultset.next()) {
+            while (resultSet.next()) {
 				Solicitud solicitud = new Solicitud(
-					resultset.getInt("numsol"),
-					resultset.getString("comentaris"),
-					resultset.getDate("dataalta"),
-					resultset.getDate("datafinalitzacio"),
-					resultset.getString("client"),
-                    resultset.getInt("numreparacio"),
+					resultSet.getInt("numsol"),
+					resultSet.getString("comentaris"),
+					resultSet.getDate("dataalta"),
+					resultSet.getDate("datafinalitzacio"),
+					resultSet.getString("client"),
+                    resultSet.getInt("numreparacio"),
                     resultSet.getBoolean("pendent"),
 					resultSet.getBoolean("finalitzada"),
-					resultset.getInt("asseguradora"),
-					resultset.getString("numPoliza"),
-					resultset.getInt("idtaller"));
+					resultSet.getInt("asseguradora"),
+					resultSet.getString("numPoliza"),
+					resultSet.getInt("idtaller"));
 				listasolicitud.add(solicitud);
             }
         } catch (ClassNotFoundException ex) {
@@ -195,7 +188,7 @@ public class SolicitudDAO extends GenericDaoImpl implements ISolicitud {
         } catch (SQLException ex) {
             throw new AppException(ex);
         } finally {
-            ConnectionFactory.freeResources(connection, preparedstatement, resultset);
+            ConnectionFactory.freeResources(connection, ptmt, resultSet);
         }
 
         return listasolicitud;
@@ -212,17 +205,19 @@ public class SolicitudDAO extends GenericDaoImpl implements ISolicitud {
         try {
             connection        = getConnection();
             wasconnected      = true;
-            preparedstatement = connection.prepareStatement(SQL);
-			preparedstatement.setString(1, solicitud.getComentaris());
-			preparedstatement.setString(2, solicitud.getClient());
-			preparedstatement.setInt(3, solicitud.getNumReparacio());
-			preparedstatement.setInt(4, solicitud.getAsseguradora());
-			preparedstatement.setString(5, solicitud.getNumPoliza());
-			preparedstatement.setInt(6, solicitud.getIdtaller());
+            ptmt = connection.prepareStatement(SQL);
+			ptmt.setString(1, solicitud.getComentaris());
+			ptmt.setString(2, solicitud.getClient());
+			ptmt.setInt(3, solicitud.getNumReparacio());
+			ptmt.setInt(4, solicitud.getAsseguradora());
+			ptmt.setString(5, solicitud.getNumPoliza());
+			ptmt.setInt(6, solicitud.getIdtaller());
 
-            if (preparedstatement.executeUpdate() > 0) {
+            if (ptmt.executeUpdate() > 0) {
                 succeded = true;
-            }
+            } else {
+					System.err.println(ptmt.getWarnings());
+			}
         } catch (ClassNotFoundException ex) {
             throw new AppException(ex);
         } catch (IOException ex) {
@@ -232,7 +227,7 @@ public class SolicitudDAO extends GenericDaoImpl implements ISolicitud {
                 throw new AppException(ex);
             }
         } finally {
-            ConnectionFactory.freeResources(connection, preparedstatement, resultset);
+            ConnectionFactory.freeResources(connection, ptmt, resultSet);
         }
 
         return succeded;
@@ -250,17 +245,17 @@ public class SolicitudDAO extends GenericDaoImpl implements ISolicitud {
         try {
             connection        = getConnection();
             wasconnected      = true;
-            preparedstatement = connection.prepareStatement(SQL);
-			preparedstatement.setString(1, solicitud.getComentaris());
-			preparedstatement.setString(2, solicitud.getClient());
-			preparedstatement.setInt(3, solicitud.getNumReparacio());
-			preparedstatement.setBoolean(4, solicitud.getPendent());
-			preparedstatement.setBoolean(5, solicitud.getFinalitzada());
-			preparedstatement.setInt(6, solicitud.getAsseguradora());
-			preparedstatement.setString(7, solicitud.getNumPoliza());
-			preparedstatement.setInt(8, solicitud.getIdtaller());
+            ptmt = connection.prepareStatement(SQL);
+			ptmt.setString(1, solicitud.getComentaris());
+			ptmt.setString(2, solicitud.getClient());
+			ptmt.setInt(3, solicitud.getNumReparacio());
+			ptmt.setBoolean(4, solicitud.getPendent());
+			ptmt.setBoolean(5, solicitud.getFinalitzada());
+			ptmt.setInt(6, solicitud.getAsseguradora());
+			ptmt.setString(7, solicitud.getNumPoliza());
+			ptmt.setInt(8, solicitud.getIdtaller());
 
-		    if (preparedstatement.executeUpdate() > 0) {
+		    if (ptmt.executeUpdate() > 0) {
                 succeded = true;
             }
         } catch (ClassNotFoundException ex) {
@@ -272,7 +267,7 @@ public class SolicitudDAO extends GenericDaoImpl implements ISolicitud {
                 throw new AppException(ex);
             }
         } finally {
-            ConnectionFactory.freeResources(connection, preparedstatement, resultset);
+            ConnectionFactory.freeResources(connection, ptmt, resultSet);
         }
 
         return succeded;
@@ -288,10 +283,10 @@ public class SolicitudDAO extends GenericDaoImpl implements ISolicitud {
         try {
             connection        = getConnection();
             wasconnected      = true;
-            preparedstatement = connection.prepareStatement(SQL);
-			preparedstatement.setInt(1, solicitud.getNumSol());
+            ptmt = connection.prepareStatement(SQL);
+			ptmt.setInt(1, solicitud.getNumSol());
 
-            if (preparedstatement.executeUpdate() > 0) {
+            if (ptmt.executeUpdate() > 0) {
                 succeded = true;
             }
         } catch (ClassNotFoundException ex) {
@@ -303,7 +298,7 @@ public class SolicitudDAO extends GenericDaoImpl implements ISolicitud {
                 throw new AppException(ex);
             }
         } finally {
-            ConnectionFactory.freeResources(connection, preparedstatement, resultset);
+            ConnectionFactory.freeResources(connection, ptmt, resultSet);
         }
 
         return succeded;
