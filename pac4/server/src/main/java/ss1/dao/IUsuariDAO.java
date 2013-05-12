@@ -3,6 +3,7 @@ package ss1.dao;
 import common.dao.GenericDao;
 import ss1.dao.exception.ExceptionErrorDataBase;
 import ss1.dao.exception.ExceptionTipoObjetoFiltroNoPermitido;
+import ss1.dao.exception.ExceptionUsuariNoExisteix;
 import ss1.entity.Usuari;
 import ss1.service.filter.FilterItems;
 
@@ -19,7 +20,7 @@ public interface IUsuariDAO extends GenericDao {
 
     Usuari findByPK(Integer pUsuariId) throws ExceptionErrorDataBase;
 
-    Usuari findByUsuariLogin(String pUsuariLogin) throws ExceptionErrorDataBase;
+    Usuari findByUsuariLogin(String pUsuariLogin) throws ExceptionErrorDataBase, ExceptionUsuariNoExisteix;
 
     void createUsuari(Usuari pUsuari) throws ExceptionErrorDataBase;
 

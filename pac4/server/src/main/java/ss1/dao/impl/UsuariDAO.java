@@ -6,6 +6,7 @@ import common.utils.ConnectionFactory;
 import ss1.dao.IUsuariDAO;
 import ss1.dao.exception.ExceptionErrorDataBase;
 import ss1.dao.exception.ExceptionTipoObjetoFiltroNoPermitido;
+import ss1.dao.exception.ExceptionUsuariNoExisteix;
 import ss1.entity.Usuari;
 import ss1.service.filter.FilterItems;
 import ss1.service.filter.FilterTupla;
@@ -109,7 +110,7 @@ public class UsuariDAO extends GenericDaoImpl implements IUsuariDAO {
     }
     
     @Override
-    public Usuari findByUsuariLogin(String pUsuariLogin) throws ExceptionErrorDataBase {
+    public Usuari findByUsuariLogin(String pUsuariLogin) throws ExceptionErrorDataBase, ExceptionUsuariNoExisteix {
         Connection conn=null;
         PreparedStatement ps = null;
         ResultSet rs = null;
@@ -124,7 +125,7 @@ public class UsuariDAO extends GenericDaoImpl implements IUsuariDAO {
 
             if (rs.next()){
                 toReturn = createUsuariByResultSet(rs);
-            }
+            } else throw new ExceptionUsuariNoExisteix("Error: usuari " + pUsuariLogin + " no encontrado.");
 
         } catch (ClassNotFoundException e) {
             //todo ESAU: log exception

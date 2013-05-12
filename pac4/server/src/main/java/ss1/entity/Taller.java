@@ -1,5 +1,6 @@
 package ss1.entity;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
@@ -8,7 +9,7 @@ import java.util.Date;
  * Date: 5/05/13
  * Time: 17:46
  */
-public class Taller {
+public class Taller implements Serializable {
     
     private Integer id;
     private String cif;

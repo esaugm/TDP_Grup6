@@ -33,4 +33,9 @@ public class ChangePasswordItem {
     public String getNewPassword() {
         return newPassword;
     }
+    
+    public Usuari getUsuariWithNewPassword(){
+        usuari.setContrasenya(newPassword);
+        return usuari;
+    }
 }

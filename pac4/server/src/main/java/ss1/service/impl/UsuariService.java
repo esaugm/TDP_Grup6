@@ -4,6 +4,7 @@ import ss1.dao.IUsuariDAO;
 import ss1.dao.exception.ExceptionContrasenyaIncorrecta;
 import ss1.dao.exception.ExceptionErrorDataBase;
 import ss1.dao.exception.ExceptionTipoObjetoFiltroNoPermitido;
+import ss1.dao.exception.ExceptionUsuariNoExisteix;
 import ss1.dao.impl.UsuariDAO;
 import ss1.entity.Usuari;
 import ss1.service.ChangePasswordItem;
@@ -30,7 +31,7 @@ public class UsuariService implements IUsuariService {
     return usuariDAO.findByPK(pId);
 }
 
-    public Usuari findUsuariByUsuariLogin(String pUsuariLogin) throws ExceptionErrorDataBase {
+    public Usuari findUsuariByUsuariLogin(String pUsuariLogin) throws ExceptionErrorDataBase, ExceptionUsuariNoExisteix {
         return usuariDAO.findByUsuariLogin(pUsuariLogin);
     }
 

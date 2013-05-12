@@ -3,6 +3,7 @@ package ss1.service;
 import ss1.dao.exception.ExceptionContrasenyaIncorrecta;
 import ss1.dao.exception.ExceptionErrorDataBase;
 import ss1.dao.exception.ExceptionTipoObjetoFiltroNoPermitido;
+import ss1.dao.exception.ExceptionUsuariNoExisteix;
 import ss1.entity.Usuari;
 import ss1.service.filter.FilterItems;
 
@@ -18,7 +19,7 @@ public interface IUsuariService {
 
     public Usuari findUsuariByID(Integer pId) throws ExceptionErrorDataBase;
 
-    public Usuari findUsuariByUsuariLogin(String pUsuariLogin) throws ExceptionErrorDataBase;
+    public Usuari findUsuariByUsuariLogin(String pUsuariLogin) throws ExceptionErrorDataBase, ExceptionUsuariNoExisteix;
 
     public void altaUsuari(Usuari pUsuari) throws ExceptionErrorDataBase;
 

@@ -2,6 +2,7 @@ package ss1.entity;
 
 import common.entity.PerfilUsuari;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
@@ -11,7 +12,7 @@ import java.util.Date;
  * Time: 15:49
  * Clase que implementa la entidad Usuari
  */
-public class Usuari {
+public class Usuari implements Serializable {
     
     private Integer id;
     private Integer taller;
@@ -102,5 +103,21 @@ public class Usuari {
 
     public void setReparacionsAssignades(Integer reparacionsAssignades) {
         this.reparacionsAssignades = reparacionsAssignades;
+    }
+    
+    public boolean isAdministrador(){
+        return perfil.equals(PerfilUsuari.ADMINISTRADOR); 
+    }
+    
+    public boolean isAdministratiu(){
+        return perfil.equals(PerfilUsuari.ADMINISTRATIU);
+    }
+    
+    public boolean isCapTaller(){
+        return perfil.equals(PerfilUsuari.CAPTALLER);
+    }
+    
+    public boolean isMecanic(){
+        return perfil.equals(PerfilUsuari.MECANIC);
     }
 }
