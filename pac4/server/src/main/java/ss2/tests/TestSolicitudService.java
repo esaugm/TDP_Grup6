@@ -55,6 +55,7 @@ public final class TestSolicitudService { //implements ISolicitud{
             ex.printStackTrace();
         }
 
+		System.out.println("++ getSolicitud()");
         try {
             ArrayList<Solicitud> lsolicitud = gSolicitud.getSolicitud();
             System.out.println(">>" + lsolicitud + "<<");
@@ -62,6 +63,7 @@ public final class TestSolicitudService { //implements ISolicitud{
             ex.printStackTrace();
         }
 
+		System.out.println("++ getSolicitudbyNumSolicitud(1)");
         try {
             Solicitud cliente = gSolicitud.getSolicitudbyNumSolicitud(1);
             System.out.println(">>" + cliente + "<<");
@@ -69,6 +71,7 @@ public final class TestSolicitudService { //implements ISolicitud{
             ex.printStackTrace();
         }
 
+		System.out.println("++ gSolicitud.getSolicitudbyANY(\"fuita\")");
         try {
             ArrayList<Solicitud> lsolicitud = gSolicitud.getSolicitudbyANY("fuita");
             System.out.println(">>" + lsolicitud + "<<");
@@ -76,9 +79,9 @@ public final class TestSolicitudService { //implements ISolicitud{
             ex.printStackTrace();
         }
 
-
-        Solicitud newsolicitud = new Solicitud("blah", "45547465", 0, 0, "123", 1);
-
+		// comentaris,client,numreparacio,asseguradora,numpoliza,idtaller
+        Solicitud newsolicitud = new Solicitud("blah", "45547465", -1, -1, "123", 1);
+		System.out.println("++ gSolicitud.createSolicitud(newsolicitud)");
         try {
             System.out.println(gSolicitud.createSolicitud(newsolicitud));
         } catch (AppException ex) {
