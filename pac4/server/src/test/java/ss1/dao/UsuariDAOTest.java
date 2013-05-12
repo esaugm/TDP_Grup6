@@ -3,6 +3,7 @@ package ss1.dao;
 import common.entity.PerfilUsuari;
 import ss1.dao.exception.ExceptionErrorDataBase;
 import ss1.dao.exception.ExceptionTipoObjetoFiltroNoPermitido;
+import ss1.dao.exception.ExceptionUsuariNoExisteix;
 import ss1.dao.impl.UsuariDAO;
 import ss1.entity.Usuari;
 import ss1.service.filter.FilterItems;
@@ -143,6 +144,8 @@ public class UsuariDAOTest {
             
         } catch (ExceptionErrorDataBase exceptionErrorDataBase) {
             exceptionErrorDataBase.printStackTrace();
+        } catch (ExceptionUsuariNoExisteix exceptionUsuariNoExisteix) {
+            exceptionUsuariNoExisteix.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
         }
     }
 
@@ -178,6 +181,8 @@ public class UsuariDAOTest {
             usuariDAO.deleteUsuari(usuariPerBorrar);
         } catch (ExceptionErrorDataBase exceptionErrorDataBase) {
             exceptionErrorDataBase.printStackTrace();
+        } catch (ExceptionUsuariNoExisteix exceptionUsuariNoExisteix) {
+            exceptionUsuariNoExisteix.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
         }
         System.out.println("Usuari esborrat correctament!");
     }
@@ -193,6 +198,8 @@ public class UsuariDAOTest {
             usuariDAO.modifyUsuari(usuariPerModificar);
         } catch (ExceptionErrorDataBase exceptionErrorDataBase) {
             exceptionErrorDataBase.printStackTrace();
+        } catch (ExceptionUsuariNoExisteix exceptionUsuariNoExisteix) {
+            exceptionUsuariNoExisteix.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
         }
 
         System.out.println("USuari modificat correctament!");
@@ -204,6 +211,8 @@ public class UsuariDAOTest {
             System.out.println("Usuari con login pepelui1, password " + usuari.getContrasenya());
         } catch (ExceptionErrorDataBase exceptionErrorDataBase) {
             exceptionErrorDataBase.printStackTrace();
+        } catch (ExceptionUsuariNoExisteix exceptionUsuariNoExisteix) {
+            exceptionUsuariNoExisteix.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
         }
     }
 

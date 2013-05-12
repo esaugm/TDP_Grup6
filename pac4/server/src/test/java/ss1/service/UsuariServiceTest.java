@@ -3,6 +3,7 @@ package ss1.service;
 import common.entity.PerfilUsuari;
 import ss1.dao.exception.ExceptionContrasenyaIncorrecta;
 import ss1.dao.exception.ExceptionErrorDataBase;
+import ss1.dao.exception.ExceptionUsuariNoExisteix;
 import ss1.entity.Usuari;
 import ss1.service.impl.UsuariService;
 
@@ -43,6 +44,8 @@ public class UsuariServiceTest {
             exceptionErrorDataBase.printStackTrace();
         } catch (ExceptionContrasenyaIncorrecta exceptionContrasenyaIncorrecta) {
             exceptionContrasenyaIncorrecta.printStackTrace();
+        } catch (ExceptionUsuariNoExisteix exceptionUsuariNoExisteix) {
+            exceptionUsuariNoExisteix.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
         }
     }
 
