@@ -10,9 +10,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.sql.Date;
 import java.text.SimpleDateFormat;
-import java.util.Locale;
 import ss3.beans.Reparacion;
 import ss3.dao.ReparacionDAO;
 
@@ -214,6 +212,88 @@ public class ReparacionDAOImpl extends GenericDaoImpl implements ReparacionDAO {
             throw new ExceptionErrorDataBase("Error de sql", e);
         } catch (IOException e) {
             //todo FERNANDO: log exception
+            throw new ExceptionErrorDataBase("Error conectando a BD", e);
+        } finally {
+            ConnectionFactory.freeResources(conn, ps, rs);
+        }
+        return listaReparaciones;
+    }
+     
+     public ArrayList<Reparacion> findByAceptada(Boolean aceptada) throws ExceptionErrorDataBase {
+        Connection conn=null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        
+        ArrayList<Reparacion> listaReparaciones = new ArrayList<Reparacion>();
+        try{
+            conn = getConnection();
+            ps = conn.prepareStatement("select * from reparacio where acceptada = ? order by ordrereparacio");
+            ps.setBoolean(1,aceptada);
+
+            rs = ps.executeQuery();
+
+            while (rs.next()){
+                Reparacion toReturn = new Reparacion(
+                    rs.getInt("ordrereparacio"),
+                    rs.getInt("idcaptaller"),
+                    rs.getBoolean("acceptada"),
+                    rs.getInt("idmecanic"),
+                    rs.getBoolean("assignada"),
+                    rs.getInt("comptador"),
+                    rs.getString("observacions"),
+                    rs.getInt("numcom"),
+                    rs.getDate("dataassignacio"),
+                    rs.getDate("datainici"),
+                    rs.getDate("datafi"));
+                listaReparaciones.add(toReturn);
+            }
+
+        } catch (ClassNotFoundException e) {
+            throw new ExceptionErrorDataBase("Error conectando a BD", e);
+        } catch (SQLException e) {
+            throw new ExceptionErrorDataBase("Error de sql", e);
+        } catch (IOException e) {
+            throw new ExceptionErrorDataBase("Error conectando a BD", e);
+        } finally {
+            ConnectionFactory.freeResources(conn, ps, rs);
+        }
+        return listaReparaciones;
+    }
+     
+     public ArrayList<Reparacion> findByAsignada(Boolean asignada) throws ExceptionErrorDataBase {
+        Connection conn=null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        
+        ArrayList<Reparacion> listaReparaciones = new ArrayList<Reparacion>();
+        try{
+            conn = getConnection();
+            ps = conn.prepareStatement("select * from reparacio where assignada = ? order by ordrereparacio");
+            ps.setBoolean(1,asignada);
+
+            rs = ps.executeQuery();
+
+            while (rs.next()){
+                Reparacion toReturn = new Reparacion(
+                    rs.getInt("ordrereparacio"),
+                    rs.getInt("idcaptaller"),
+                    rs.getBoolean("acceptada"),
+                    rs.getInt("idmecanic"),
+                    rs.getBoolean("assignada"),
+                    rs.getInt("comptador"),
+                    rs.getString("observacions"),
+                    rs.getInt("numcom"),
+                    rs.getDate("dataassignacio"),
+                    rs.getDate("datainici"),
+                    rs.getDate("datafi"));
+                listaReparaciones.add(toReturn);
+            }
+
+        } catch (ClassNotFoundException e) {
+            throw new ExceptionErrorDataBase("Error conectando a BD", e);
+        } catch (SQLException e) {
+            throw new ExceptionErrorDataBase("Error de sql", e);
+        } catch (IOException e) {
             throw new ExceptionErrorDataBase("Error conectando a BD", e);
         } finally {
             ConnectionFactory.freeResources(conn, ps, rs);

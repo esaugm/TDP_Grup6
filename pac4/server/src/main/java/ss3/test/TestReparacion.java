@@ -6,11 +6,7 @@ package ss3.test;
 
 import java.util.ArrayList;
 import java.util.Locale;
-import ss2.exception.AppException;
 import common.utils.TDSLanguageUtils;
-import java.sql.Date;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Iterator;
 import ss1.dao.exception.ExceptionErrorDataBase;
 import ss3.beans.Reparacion;
@@ -42,42 +38,84 @@ public final class TestReparacion {
             Locale locale = new Locale(args[0]);
             try {
                 TDSLanguageUtils.setLanguage("conf/messages", locale);
-            } catch (Exception ex) {
-                
+            } catch (Exception ex) {    
             }
         }
 
-        System.out.println("Obteniendo datos de reparaci髇. Consulta por Orden: \n");
+        System.out.println("Obteniendo datos de reparaci贸n. Consulta por Orden: \n");
         ReparacionService gReparacion1 = new ReparacionServiceImpl();
-        Reparacion reparacion = gReparacion1.ConsultaOrden(1);
-        System.out.println(">>" + reparacion + "<<\n");
         
+        try {
+            Reparacion reparacion = gReparacion1.ConsultaOrden(1);
+            System.out.println(">>" + reparacion + "<<\n");
+        } catch (ExceptionErrorDataBase exceptionErrorDataBase) {
+            exceptionErrorDataBase.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+        }
         
-        System.out.println("\nObteniendo datos de reparaci髇. Consulta por Fecha de Asignacion: \n");
+        System.out.println("\nObteniendo datos de reparaci贸n. Consulta por Fecha de Asignacion: \n");
         ReparacionService gReparacion2 = new ReparacionServiceImpl();
-        ArrayList<Reparacion> reparacionesAsig = gReparacion2.ConsultaFechaAsig("2013-03-02");
-        Iterator it = reparacionesAsig.iterator();
-        if (!it.hasNext())
-            System.out.println("No hay datos.");
-        while (it.hasNext())
-            System.out.println(">>" + it.next() + "<<");
+        try{
+            ArrayList<Reparacion> reparacionesAsig = gReparacion2.ConsultaFechaAsig("2013-03-02");
+            Iterator it = reparacionesAsig.iterator();
+            if (!it.hasNext())
+                System.out.println("No hay datos.");
+            while (it.hasNext())
+                System.out.println(">>" + it.next() + "<<");
         
-        System.out.println("\nObteniendo datos de reparaci髇. Consulta por Fecha de Inicio: \n");
+        } catch (ExceptionErrorDataBase exceptionErrorDataBase) {
+            exceptionErrorDataBase.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+        }
+        
+        System.out.println("\nObteniendo datos de reparaci贸n. Consulta por Fecha de Inicio: \n");
         ReparacionService gReparacion3 = new ReparacionServiceImpl();
-        ArrayList<Reparacion> reparacionesIni = gReparacion3.ConsultaFechaIni("2013-04-04");
-        Iterator it2 = reparacionesIni.iterator();
-        if (!it2.hasNext())
-            System.out.println("No hay datos.");
-        while (it2.hasNext())
-            System.out.println(">>" + it2.next() + "<<");
+        try{
+            ArrayList<Reparacion> reparacionesIni = gReparacion3.ConsultaFechaIni("2013-04-04");
+            Iterator it2 = reparacionesIni.iterator();
+            if (!it2.hasNext())
+                System.out.println("No hay datos.");
+            while (it2.hasNext())
+                System.out.println(">>" + it2.next() + "<<");
+        }catch (ExceptionErrorDataBase exceptionErrorDataBase) {
+            exceptionErrorDataBase.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+        }
         
-        System.out.println("\nObteniendo datos de reparaci髇. Consulta por Fecha de Fin: \n");
+        System.out.println("\nObteniendo datos de reparaci贸n. Consulta por Fecha de Fin: \n");
         ReparacionService gReparacion4 = new ReparacionServiceImpl();
-        ArrayList<Reparacion> reparacionesFin = gReparacion4.ConsultaFechaFin("2013-04-04");
-        Iterator it3 = reparacionesFin.iterator();
-        if (!it3.hasNext())
-            System.out.println("No hay datos.");
-        while (it3.hasNext())
-            System.out.println(">>" + it3.next() + "<<");
+        try{
+            ArrayList<Reparacion> reparacionesFin = gReparacion4.ConsultaFechaFin("2013-04-04");
+            Iterator it3 = reparacionesFin.iterator();
+            if (!it3.hasNext())
+                System.out.println("No hay datos.");
+            while (it3.hasNext())
+                System.out.println(">>" + it3.next() + "<<");
+        }catch (ExceptionErrorDataBase exceptionErrorDataBase) {
+            exceptionErrorDataBase.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+        }
+        
+        System.out.println("\nObteniendo datos de reparaci贸n. Consulta por Asignadas: \n");
+        ReparacionService gReparacion5 = new ReparacionServiceImpl();
+        try{
+            ArrayList<Reparacion> reparacionesAsignadas = gReparacion5.ConsultaAsignadas(true);
+            Iterator it4 = reparacionesAsignadas.iterator();
+            if (!it4.hasNext())
+                System.out.println("No hay datos.");
+            while (it4.hasNext())
+                System.out.println(">>" + it4.next() + "<<");
+        }catch (ExceptionErrorDataBase exceptionErrorDataBase) {
+            exceptionErrorDataBase.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+        }
+        
+        System.out.println("\nObteniendo datos de reparaci贸n. Consulta por Aceptadas: \n");
+        ReparacionService gReparacion6 = new ReparacionServiceImpl();
+        try{
+            ArrayList<Reparacion> reparacionesAceptadas = gReparacion6.ConsultaAceptadas(true);
+            Iterator it5 = reparacionesAceptadas.iterator();
+            if (!it5.hasNext())
+                System.out.println("No hay datos.");
+            while (it5.hasNext())
+                System.out.println(">>" + it5.next() + "<<");
+        }catch (ExceptionErrorDataBase exceptionErrorDataBase) {
+            exceptionErrorDataBase.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+        }
     }
 }
