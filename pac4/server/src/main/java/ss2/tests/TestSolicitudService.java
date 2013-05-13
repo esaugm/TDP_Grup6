@@ -21,7 +21,7 @@ public final class TestSolicitudService { //implements ISolicitud{
 
     //final SolicitudDAO gestorSolicitud;
     //final ArrayList <Solicitud> lsolicitud;
-    ArrayList<Solicitud> lsolicitud;
+
 
     //final private SolicitudDAO	gSolicitud;
     public TestSolicitudService() {
@@ -31,6 +31,9 @@ public final class TestSolicitudService { //implements ISolicitud{
      * @param args the command line arguments
      */
     public static void main(String[] args) {
+
+		ArrayList<Solicitud> lsolicitud;
+		Solicitud solicitud, newsolicitud = null;
 
         if (args.length == 0) {
             TDSLanguageUtils.setDefaultLanguage("conf/messages");
@@ -57,30 +60,24 @@ public final class TestSolicitudService { //implements ISolicitud{
 
         System.out.println("++ getSolicitud()");
         try {
-            ArrayList<Solicitud> lsolicitud = gSolicitud.getSolicitud();
+            lsolicitud = gSolicitud.getSolicitud();
             System.out.println(">>" + lsolicitud + "<<");
         } catch (AppException ex) {
             ex.printStackTrace();
         }
 
-        System.out.println("++ getSolicitudbyNumSolicitud(1)");
-        try {
-            Solicitud cliente = gSolicitud.getSolicitudbyNumSolicitud(1);
-            System.out.println(">>" + cliente + "<<");
-        } catch (AppException ex) {
-            ex.printStackTrace();
-        }
+
 
         System.out.println("++ gSolicitud.getSolicitudbyANY(\"fuita\")");
         try {
-            ArrayList<Solicitud> lsolicitud = gSolicitud.getSolicitudbyANY("fuita");
+            lsolicitud = gSolicitud.getSolicitudbyANY("fuita");
             System.out.println(">>" + lsolicitud + "<<");
         } catch (AppException ex) {
             ex.printStackTrace();
         }
 
         // comentaris,client,numreparacio,asseguradora,numpoliza,idtaller
-        Solicitud newsolicitud = new Solicitud("blah", "45547465", -1, -1, "123", 1);
+        newsolicitud = new Solicitud("blah", "45547465", -1, -1, "123", 1);
         Integer returnedsol;
         System.out.println("++ gSolicitud.createSolicitud(newsolicitud)");
         try {
@@ -106,6 +103,27 @@ public final class TestSolicitudService { //implements ISolicitud{
             ex.printStackTrace();
         }
 
+		solicitud = new Solicitud();
+		System.out.println("++ getSolicitudbyNumSolicitud(1)");
+        try {
+			solicitud = gSolicitud.getSolicitudbyNumSolicitud(1);
+            System.out.println(">>" + solicitud + "<<");
+        } catch (AppException ex) {
+            ex.printStackTrace();
+        }
+
+		solicitud.setComentaris(solicitud.getComentaris()+" test");
+		try {
+            System.out.println(gSolicitud.modifySolicitud(solicitud));
+        } catch (AppException ex) {
+            ex.printStackTrace();
+        }
+		solicitud.setComentaris("Reparacio rapida");
+		try {
+            System.out.println(gSolicitud.modifySolicitud(solicitud));
+        } catch (AppException ex) {
+            ex.printStackTrace();
+        }
 
     }
 }
