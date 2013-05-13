@@ -44,4 +44,12 @@ public class ReparacionServiceImpl implements ReparacionService {
     public ArrayList<Reparacion> ConsultaFechaFin(String fechaFin) throws ExceptionErrorDataBase{
         return reparacion.findByDataFi(fechaFin);
     }
+    
+    public ArrayList<Reparacion> ConsultaAceptadas(Boolean aceptada) throws ExceptionErrorDataBase{
+        return reparacion.findByAceptada(aceptada);
+    }
+    
+    public ArrayList<Reparacion> ConsultaAsignadas(Boolean asignada) throws ExceptionErrorDataBase{
+        return reparacion.findByAsignada(asignada);
+    }
 }
