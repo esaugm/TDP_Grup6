@@ -11,28 +11,30 @@ import ss2.exception.AppException;
 
 /**
  ***************************************
- * ss2.dao.impl
- * ISolicitud32.java (windows-1252)
- ***************************************
- * Uoc Primavera 2013, Grup06
- * Fecha: 2013.05.11 20:52:01
+ * ss2.dao.impl ISolicitud32.java (windows-1252)
+ * ************************************** Uoc Primavera 2013, Grup06 Fecha:
+ * 2013.05.11 20:52:01
+ *
  * @author jiquintana (jiquintana@uoc.edu)
  *
  */
 public interface ISolicitud extends Remote {
 
-		void checkAndInitDAO() throws AppException;
+    void checkAndInitDAO() throws AppException;
 
-		Boolean createSolicitud(Solicitud solicitud) throws AppException;
+    Boolean createSolicitudRetBoolean(Solicitud solicitud) throws AppException;
 
-		Boolean deleteSolicitud(Solicitud solicitud) throws AppException;
+    Integer createSolicitudRetNumsol(Solicitud solicitud) throws AppException;
 
-		ArrayList<Solicitud> getSolicitud() throws AppException;
+    Solicitud createSolicitudRetSolicitud(Solicitud solicitud) throws AppException;
 
-		ArrayList<Solicitud> getSolicitudbyANY(String freetext) throws AppException;
+    Boolean deleteSolicitud(Solicitud solicitud) throws AppException;
 
-		Solicitud getSolicitudbyNumSolicitud(Integer numsolicitud) throws AppException;
+    ArrayList<Solicitud> getSolicitud() throws AppException;
 
-		Boolean modifySolicitud(Solicitud solicitud) throws AppException;
+    ArrayList<Solicitud> getSolicitudbyANY(String freetext) throws AppException;
 
+    Solicitud getSolicitudbyNumSolicitud(Integer numsolicitud) throws AppException;
+
+    Boolean modifySolicitud(Solicitud solicitud) throws AppException;
 }
