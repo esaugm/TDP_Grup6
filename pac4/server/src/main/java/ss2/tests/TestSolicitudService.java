@@ -10,14 +10,14 @@ import java.util.Locale;
 import ss2.exception.AppException;
 import common.utils.TDSLanguageUtils;
 import java.util.Date;
-import ss2.dao.ISolicitud;
+import ss2.dao.ISolicitudDAO;
 import ss2.entity.Solicitud;
 
 /**
  *
  * @author josi
  */
-public final class TestSolicitudService { //implements ISolicitud{
+public final class TestSolicitudService { //implements ISolicitudDAO{
 
     //final SolicitudDAO gestorSolicitud;
     //final ArrayList <Solicitud> lsolicitud;
@@ -50,7 +50,7 @@ public final class TestSolicitudService { //implements ISolicitud{
         }
 
 
-        ISolicitud gSolicitud = new SolicitudDAO();
+        ISolicitudDAO gSolicitud = new SolicitudDAO();
 
         try {
             gSolicitud.checkAndInitDAO();

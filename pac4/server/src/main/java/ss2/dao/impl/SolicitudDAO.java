@@ -10,7 +10,7 @@ import common.dao.impl.GenericDaoImpl;
 
 import common.utils.ConnectionFactory;
 
-import ss2.dao.ISolicitud;
+import ss2.dao.ISolicitudDAO;
 
 import ss2.entity.Solicitud;
 
@@ -33,7 +33,7 @@ import java.util.ArrayList;
  * @author jiquintana (jiquintana@uoc.edu)
  *
  */
-public class SolicitudDAO extends GenericDaoImpl implements ISolicitud {
+public class SolicitudDAO extends GenericDaoImpl implements ISolicitudDAO {
 
     public SolicitudDAO() {
     }
@@ -365,6 +365,60 @@ public class SolicitudDAO extends GenericDaoImpl implements ISolicitud {
         }
 
         return succeded;
+    }
+
+    @Override
+    public Solicitud modifySolicitudretSolicitud(Solicitud solicitud) throws AppException {
+        Integer rowsmodified;
+        Boolean succeded = false;
+        Boolean wasconnected = false;
+        Solicitud newsolicitud = new Solicitud();
+
+        String SQL = "UPDATE Solicitud SET comentaris = ?, "
+            + "client = ?, numreparacio = ?, pendent = ?, finalitzada = ?, "
+            + "asseguradora = ?, numpoliza = ?, idtaller = ? where numsol = ? returning *";
+
+        try {
+            connection = getConnection();
+            wasconnected = true;
+            ptmt = connection.prepareStatement(SQL);
+            ptmt.setString(1, solicitud.getComentaris());
+            ptmt.setString(2, solicitud.getClient());
+            ptmt.setInt(3, solicitud.getNumReparacio());
+            ptmt.setBoolean(4, solicitud.getPendent());
+            ptmt.setBoolean(5, solicitud.getFinalitzada());
+            ptmt.setInt(6, solicitud.getAsseguradora());
+            ptmt.setString(7, solicitud.getNumPoliza());
+            ptmt.setInt(8, solicitud.getIdtaller());
+            ptmt.setInt(9, solicitud.getNumSol());
+
+            if (ptmt.executeUpdate() > 0) {
+                solicitud = new Solicitud(
+                    resultSet.getInt("numsol"),
+                    resultSet.getString("comentaris"),
+                    resultSet.getDate("dataalta"),
+                    resultSet.getDate("datafinalitzacio"),
+                    resultSet.getString("client"),
+                    resultSet.getInt("numreparacio"),
+                    resultSet.getBoolean("pendent"),
+                    resultSet.getBoolean("finalitzada"),
+                    resultSet.getInt("asseguradora"),
+                    resultSet.getString("numPoliza"),
+                    resultSet.getInt("idtaller"));
+            }
+        } catch (ClassNotFoundException ex) {
+            throw new AppException(ex);
+        } catch (IOException ex) {
+            throw new AppException(ex);
+        } catch (SQLException ex) {
+            if (!wasconnected) {
+                throw new AppException(ex);
+            }
+        } finally {
+            ConnectionFactory.freeResources(connection, ptmt, resultSet);
+        }
+
+        return solicitud;
     }
 
     @Override

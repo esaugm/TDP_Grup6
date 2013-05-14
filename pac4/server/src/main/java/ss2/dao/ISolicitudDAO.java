@@ -18,7 +18,7 @@ import ss2.exception.AppException;
  * @author jiquintana (jiquintana@uoc.edu)
  *
  */
-public interface ISolicitud extends Remote {
+public interface ISolicitudDAO extends Remote {
 
     void checkAndInitDAO() throws AppException;
 
@@ -37,4 +37,6 @@ public interface ISolicitud extends Remote {
     Solicitud getSolicitudbyNumSolicitud(Integer numsolicitud) throws AppException;
 
     Boolean modifySolicitud(Solicitud solicitud) throws AppException;
+
+    Solicitud modifySolicitudretSolicitud(Solicitud solicitud) throws AppException;
 }

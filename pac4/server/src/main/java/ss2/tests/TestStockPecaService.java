@@ -5,7 +5,7 @@
 package ss2.tests;
 
 import ss2.dao.impl.StockPecaDAO;
-import ss2.dao.IStockPeca;
+import ss2.dao.IStockPecaDAO;
 import ss2.entity.StockPeca;
 import java.util.ArrayList;
 import java.util.Locale;
@@ -17,7 +17,7 @@ import java.util.Date;
  *
  * @author josi
  */
-public final class TestStockPecaService { //implements IStockPeca{
+public final class TestStockPecaService { //implements IStockPecaDAO{
 
     //final StockPecaDAO gestorStockPeca;
     //final ArrayList <StockPeca> lstockpeca;
@@ -49,7 +49,7 @@ public final class TestStockPecaService { //implements IStockPeca{
         }
 
 
-        IStockPeca gStockPeca = new StockPecaDAO();
+        IStockPecaDAO gStockPeca = new StockPecaDAO();
 
 
         try {

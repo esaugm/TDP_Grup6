@@ -95,3 +95,16 @@ LANGUAGE plpgsql;
 CREATE TRIGGER update_datafinalitzacio
 BEFORE update ON solicitud
 FOR EACH ROW EXECUTE PROCEDURE update_datafinalitzacio();
+
+-- ****************
+-- Modificacion tabla stockpeca::
+-- ****************
+
+--	creacion de secuencia a max(numclient)+1
+--
+CREATE SEQUENCE stockpeca_id_seq;
+select setval('stockpeca_id_seq', (select max(idstockpeca) from stockpeca) + 1);
+
+--
+-- cambio valor defecto numclient a siguiente valor secuencia
+alter table stockpeca alter column idstockpeca set default nextval('stockpeca_id_seq');

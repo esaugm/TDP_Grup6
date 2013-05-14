@@ -12,20 +12,18 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import ss2.dao.IClient;
+import ss2.dao.IClientDAO;
 import ss2.exception.AppException;
 
 /**
  ***************************************
- * ClientDAO.java (UTF8)
- * *************************************
- * Uoc Primavera 2013,
- * Grup06
- * Fecha: 2013.05.05 23:38:32
+ * ClientDAO.java (UTF8) ************************************* Uoc Primavera
+ * 2013, Grup06 Fecha: 2013.05.05 23:38:32
+ *
  * @author jiquintana (jiquintana@uoc.edu)
  *
  */
-public class ClientDAO extends GenericDaoImpl implements IClient {
+public class ClientDAO extends GenericDaoImpl implements IClientDAO {
 
     public ClientDAO() {
     }
@@ -81,14 +79,14 @@ public class ClientDAO extends GenericDaoImpl implements IClient {
             resultSet = ptmt.executeQuery();
             while (resultSet.next()) {
                 Client cliente = new Client(
-                        resultSet.getString("nom"),
-                        resultSet.getString("cognoms"),
-                        resultSet.getString("adreca"),
-                        resultSet.getString("nif"),
-                        resultSet.getString("poblacio"),
-                        resultSet.getInt("codipostal"),
-                        resultSet.getInt("numclient"),
-                        resultSet.getDate("dataalta"));
+                    resultSet.getString("nom"),
+                    resultSet.getString("cognoms"),
+                    resultSet.getString("adreca"),
+                    resultSet.getString("nif"),
+                    resultSet.getString("poblacio"),
+                    resultSet.getInt("codipostal"),
+                    resultSet.getInt("numclient"),
+                    resultSet.getDate("dataalta"));
                 listaclient.add(cliente);
             }
         } catch (ClassNotFoundException ex) {
@@ -116,14 +114,14 @@ public class ClientDAO extends GenericDaoImpl implements IClient {
 
             while (resultSet.next()) {
                 Client cliente = new Client(
-                        resultSet.getString("nom"),
-                        resultSet.getString("cognoms"),
-                        resultSet.getString("adreca"),
-                        resultSet.getString("nif"),
-                        resultSet.getString("poblacio"),
-                        resultSet.getInt("codipostal"),
-                        resultSet.getInt("numclient"),
-                        resultSet.getDate("dataalta"));
+                    resultSet.getString("nom"),
+                    resultSet.getString("cognoms"),
+                    resultSet.getString("adreca"),
+                    resultSet.getString("nif"),
+                    resultSet.getString("poblacio"),
+                    resultSet.getInt("codipostal"),
+                    resultSet.getInt("numclient"),
+                    resultSet.getDate("dataalta"));
                 listaclient.add(cliente);
             }
         } catch (ClassNotFoundException ex) {
@@ -151,14 +149,14 @@ public class ClientDAO extends GenericDaoImpl implements IClient {
 
             while (resultSet.next()) {
                 client = new Client(
-                        resultSet.getString("nom"),
-                        resultSet.getString("cognoms"),
-                        resultSet.getString("adreca"),
-                        resultSet.getString("nif"),
-                        resultSet.getString("poblacio"),
-                        resultSet.getInt("codipostal"),
-                        resultSet.getInt("numclient"),
-                        resultSet.getDate("dataalta"));
+                    resultSet.getString("nom"),
+                    resultSet.getString("cognoms"),
+                    resultSet.getString("adreca"),
+                    resultSet.getString("nif"),
+                    resultSet.getString("poblacio"),
+                    resultSet.getInt("codipostal"),
+                    resultSet.getInt("numclient"),
+                    resultSet.getDate("dataalta"));
             }
         } catch (ClassNotFoundException ex) {
             throw new AppException(ex);
@@ -185,14 +183,14 @@ public class ClientDAO extends GenericDaoImpl implements IClient {
 
             while (resultSet.next()) {
                 Client cliente = new Client(
-                        resultSet.getString("nom"),
-                        resultSet.getString("cognoms"),
-                        resultSet.getString("adreca"),
-                        resultSet.getString("nif"),
-                        resultSet.getString("poblacio"),
-                        resultSet.getInt("codipostal"),
-                        resultSet.getInt("numclient"),
-                        resultSet.getDate("dataalta"));
+                    resultSet.getString("nom"),
+                    resultSet.getString("cognoms"),
+                    resultSet.getString("adreca"),
+                    resultSet.getString("nif"),
+                    resultSet.getString("poblacio"),
+                    resultSet.getInt("codipostal"),
+                    resultSet.getInt("numclient"),
+                    resultSet.getDate("dataalta"));
                 listaclient.add(cliente);
             }
         } catch (ClassNotFoundException ex) {
@@ -212,8 +210,8 @@ public class ClientDAO extends GenericDaoImpl implements IClient {
         Boolean succeded = false;
         Boolean wasconnected = false;
         String SQL = "INSERT INTO Client "
-                + "(nom,cognoms,adreca,nif,poblacio,codipostal) "
-                + "VALUES (?,?,?,?,?,?)";
+            + "(nom,cognoms,adreca,nif,poblacio,codipostal) "
+            + "VALUES (?,?,?,?,?,?)";
 
         try {
             connection = getConnection();
@@ -250,8 +248,8 @@ public class ClientDAO extends GenericDaoImpl implements IClient {
         Boolean wasconnected = false;
 
         String SQL = "UPDATE Client SET "
-                + "nom = ?, cognoms = ?, adreca = ?, poblacio = ?, "
-                + "codipostal = ? where nif = ?";
+            + "nom = ?, cognoms = ?, adreca = ?, poblacio = ?, "
+            + "codipostal = ? where nif = ?";
 
         try {
             connection = getConnection();
