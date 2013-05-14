@@ -14,8 +14,9 @@ import ss3.beans.Vehiculo;
  */
 public interface VehiculoService {
     
-    public Vehiculo ConsultaChasis(Integer numChasis) throws ExceptionErrorDataBase;
+    public Vehiculo ConsultaChasis(String numChasis) throws ExceptionErrorDataBase;
     public ArrayList<Vehiculo> ConsultaMarca(String marca) throws ExceptionErrorDataBase;
     public ArrayList<Vehiculo> ConsultaMatricula(String matricula) throws ExceptionErrorDataBase;
     public ArrayList<Vehiculo> ConsultaModelo(String modelo) throws ExceptionErrorDataBase;
+    public ArrayList<Vehiculo> ConsultaReparacion(Integer orden) throws ExceptionErrorDataBase;
 }

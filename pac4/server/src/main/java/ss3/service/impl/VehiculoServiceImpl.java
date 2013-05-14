@@ -29,7 +29,7 @@ public class VehiculoServiceImpl implements VehiculoService {
         this.reparacion = new VehiculoDAOImpl();
     }
     
-    public Vehiculo ConsultaChasis(Integer numChasis) throws ExceptionErrorDataBase{
+    public Vehiculo ConsultaChasis(String numChasis) throws ExceptionErrorDataBase{
         return reparacion.findByChasis(numChasis);
     }
     
@@ -43,5 +43,9 @@ public class VehiculoServiceImpl implements VehiculoService {
     
     public ArrayList<Vehiculo> ConsultaModelo(String modelo) throws ExceptionErrorDataBase{
         return reparacion.findByModelo(modelo);
+    }
+    
+    public ArrayList<Vehiculo> ConsultaReparacion(Integer orden) throws ExceptionErrorDataBase{
+        return reparacion.findByOrden(orden);
     }
 }

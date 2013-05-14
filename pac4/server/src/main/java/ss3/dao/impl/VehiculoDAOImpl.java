@@ -23,7 +23,7 @@ import ss3.dao.VehiculoDAO;
 public class VehiculoDAOImpl extends GenericDaoImpl implements VehiculoDAO {
 
     @Override
-    public Vehiculo findByChasis(Integer pChasis) throws ExceptionErrorDataBase {
+    public Vehiculo findByChasis(String pChasis) throws ExceptionErrorDataBase {
         Connection conn=null;
         PreparedStatement ps = null;
         ResultSet rs = null;
@@ -31,7 +31,7 @@ public class VehiculoDAOImpl extends GenericDaoImpl implements VehiculoDAO {
         try{
             conn = getConnection();
             ps = conn.prepareStatement("select * from vehicle where num_chasis = ?");
-            ps.setLong(1,pChasis);
+            ps.setString(1,pChasis);
 
             rs = ps.executeQuery();
 
@@ -155,6 +155,48 @@ public class VehiculoDAOImpl extends GenericDaoImpl implements VehiculoDAO {
             ps = conn.prepareStatement("select * from vehicle where model = ?");
             
             ps.setString(1,pModelo);
+
+            rs = ps.executeQuery();
+
+            while (rs.next()){
+                Vehiculo toReturn = new Vehiculo(
+                    rs.getString("marca"),
+                    rs.getString("tipus"),
+                    rs.getString("num_chasis"),
+                    rs.getString("model"),
+                    rs.getString("matricula"),
+                    rs.getString("color"),
+                    rs.getDate("anyo"),
+                    rs.getInt("numreparacio"));
+                listaVehiculos.add(toReturn);
+            }
+
+        } catch (ClassNotFoundException e) {
+            //todo FERNANDO: log exception
+            throw new ExceptionErrorDataBase("Error conectando a BD", e);
+        } catch (SQLException e) {
+            //todo FERNANDO: log exception
+            throw new ExceptionErrorDataBase("Error de sql", e);
+        } catch (IOException e) {
+            //todo FERNANDO: log exception
+            throw new ExceptionErrorDataBase("Error conectando a BD", e);
+        } finally {
+            ConnectionFactory.freeResources(conn, ps, rs);
+        }
+        return listaVehiculos;
+    }
+     
+    public ArrayList<Vehiculo> findByOrden(Integer pOrden) throws ExceptionErrorDataBase {
+        Connection conn=null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        
+        ArrayList<Vehiculo> listaVehiculos = new ArrayList<Vehiculo>();
+        try{
+            conn = getConnection();
+            ps = conn.prepareStatement("select * from vehicle where numreparacio = ?");
+            
+            ps.setInt(1,pOrden);
 
             rs = ps.executeQuery();
 
