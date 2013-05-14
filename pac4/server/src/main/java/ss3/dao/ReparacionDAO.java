@@ -13,10 +13,10 @@ import ss3.beans.Reparacion;
  * Time: 21:23
  */
 public interface ReparacionDAO extends GenericDao{
-    Reparacion findByPK(Integer pOrdenReparacion) throws ExceptionErrorDataBase;
-    ArrayList<Reparacion> findByDataAssignacio(String pDataAssignacio) throws ExceptionErrorDataBase;
-    ArrayList<Reparacion> findByDataInici(String pDataInici) throws ExceptionErrorDataBase;
-    ArrayList<Reparacion> findByDataFi(String pDataFi) throws ExceptionErrorDataBase;
-    ArrayList<Reparacion> findByAceptada(Boolean aceptada) throws ExceptionErrorDataBase;
-    ArrayList<Reparacion> findByAsignada(Boolean asignada) throws ExceptionErrorDataBase;
+    public Reparacion findByPK(Integer pOrdenReparacion) throws ExceptionErrorDataBase;
+    public ArrayList<Reparacion> findByDataAssignacio(String pDataAssignacio) throws ExceptionErrorDataBase;
+    public ArrayList<Reparacion> findByDataInici(String pDataInici) throws ExceptionErrorDataBase;
+    public ArrayList<Reparacion> findByDataFi(String pDataFi) throws ExceptionErrorDataBase;
+    public ArrayList<Reparacion> findByAceptada(Boolean aceptada) throws ExceptionErrorDataBase;
+    public ArrayList<Reparacion> findByAsignada(Boolean asignada) throws ExceptionErrorDataBase;
 }
