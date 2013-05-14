@@ -12,7 +12,7 @@ import java.util.Date;
  */
 public class Vehiculo implements java.io.Serializable {
     
-    private Integer numChasis;
+    private String numChasis;
     private String marca;
     private String tipo;
     private String modelo;
@@ -21,7 +21,7 @@ public class Vehiculo implements java.io.Serializable {
     private Date anio;
     private Integer numReparacion;
 
-    public Vehiculo(Integer numChasis, String marca, String tipo, String modelo, String matricula, String color, Date anio, Integer numReparacion) {
+    public Vehiculo(String marca, String tipo, String numChasis,  String modelo, String matricula, String color, Date anio, Integer numReparacion) {
         this.numChasis = numChasis;
         this.marca = marca;
         this.tipo = tipo;
@@ -33,11 +33,11 @@ public class Vehiculo implements java.io.Serializable {
     }
     
 
-    public Integer getNumChasis() {
+    public String getNumChasis() {
         return numChasis;
     }
 
-    public void setNumChasis(Integer numChasis) {
+    public void setNumChasis(String numChasis) {
         this.numChasis = numChasis;
     }
 

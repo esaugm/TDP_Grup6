@@ -8,8 +8,8 @@ import ss3.beans.Reparacion;
 
 /**
  * TDP Grup6
- * User: Esaú González
- * Date: 8/05/13
+ * User: Fernando Gómez
+ * Date: 13/05/13
  * Time: 21:23
  */
 public interface ReparacionDAO extends GenericDao{
