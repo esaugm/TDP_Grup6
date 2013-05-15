@@ -1,7 +1,6 @@
 package ss3.beans;
 
 import java.util.ArrayList;
-import ss3.beans.*;
 import java.util.Date;
 
 /**
@@ -21,10 +20,13 @@ public class Vehiculo implements java.io.Serializable {
     private Date anio;
     private Integer numReparacion;
 
+    public static final Integer REPAR_UNDEF = -1;
+    
     public Vehiculo(){
     }
     
     public Vehiculo(String marca, String tipo, String numChasis,  String modelo, String matricula, String color, Date anio, Integer numReparacion) {
+        super();
         this.numChasis = numChasis;
         this.marca = marca;
         this.tipo = tipo;
@@ -33,6 +35,18 @@ public class Vehiculo implements java.io.Serializable {
         this.color = color;
         this.anio = anio;
         this.numReparacion = numReparacion;
+    }
+    
+    public Vehiculo(String marca, String tipo, String numChasis,  String modelo, String matricula, String color, Date anio) {
+        super();
+        this.numChasis = numChasis;
+        this.marca = marca;
+        this.tipo = tipo;
+        this.modelo = modelo;
+        this.matricula = matricula;
+        this.color = color;
+        this.anio = anio;
+        this.numReparacion = REPAR_UNDEF;
     }
     
 

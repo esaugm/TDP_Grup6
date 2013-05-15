@@ -23,6 +23,9 @@ import ss3.dao.ReparacionDAO;
  */
 public class ReparacionDAOImpl extends GenericDaoImpl implements ReparacionDAO {
 
+    public ReparacionDAOImpl(){
+    }
+    
     @Override
     public void checkAndInitDAO() throws AppException {
         checkSequence("reparacio_id_seq");

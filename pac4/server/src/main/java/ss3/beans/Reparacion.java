@@ -1,7 +1,6 @@
 package ss3.beans;
 
 import java.util.ArrayList;
-import ss3.beans.*;
 import java.util.Date;
 
 /**
@@ -24,10 +23,28 @@ public class Reparacion implements java.io.Serializable {
     private Date fechaIni;
     private Date fechaFin;
 
+    public static final Integer REPAR_UNDEF = -1;
+    
     public Reparacion(){
+    }
+        
+    public Reparacion(Integer idJefeTaller, boolean aceptada, Integer idMecanico, boolean asignada, double contador, String observaciones, Integer numcom, Date fechaAsigna, Date fechaIni, Date fechaFin) {
+        super();
+        this.idOrden = REPAR_UNDEF;
+        this.idJefeTaller = idJefeTaller;
+        this.aceptada = aceptada;
+        this.idMecanico = idMecanico;
+        this.asignada = asignada;
+        this.contador = contador;
+        this.observaciones = observaciones;
+        this.numcom = numcom;
+        this.fechaAsigna = fechaAsigna;
+        this.fechaIni = fechaIni;
+        this.fechaFin = fechaFin;
     }
     
     public Reparacion(Integer idOrden, Integer idJefeTaller, boolean aceptada, Integer idMecanico, boolean asignada, double contador, String observaciones, Integer numcom, Date fechaAsigna, Date fechaIni, Date fechaFin) {
+        super();
         this.idOrden = idOrden;
         this.idJefeTaller = idJefeTaller;
         this.aceptada = aceptada;

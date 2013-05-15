@@ -21,6 +21,9 @@ import ss3.dao.VehiculoDAO;
  */
 public class VehiculoDAOImpl extends GenericDaoImpl implements VehiculoDAO {
 
+    public VehiculoDAOImpl(){
+    }
+    
     @Override
     public Vehiculo findByChasis(String pChasis) throws ExceptionErrorDataBase {
         Connection conn=null;

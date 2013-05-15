@@ -11,7 +11,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.text.SimpleDateFormat;
-import ss2.entity.StockPeca;
 import ss2.exception.AppException;
 import ss3.beans.Pieza;
 import ss3.beans.Reparacion;
@@ -24,6 +23,9 @@ import ss3.dao.PiezaDAO;
  * Time: 15:40
  */
 public class PiezaDAOImpl extends GenericDaoImpl implements PiezaDAO {
+
+    public PiezaDAOImpl(){
+    }
 
     @Override
     public void checkAndInitDAO() throws AppException {
