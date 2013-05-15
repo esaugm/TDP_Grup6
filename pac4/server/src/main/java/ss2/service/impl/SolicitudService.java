@@ -4,6 +4,7 @@
  */
 package ss2.service.impl;
 
+import ss2.service.ISolicitudService;
 import java.util.ArrayList;
 import ss2.dao.ISolicitudDAO;
 import ss2.dao.impl.SolicitudDAO;
@@ -20,7 +21,7 @@ import ss2.exception.AppException;
  * @author jiquintana (José Ignacio Quintana)
  *
  */
-public class SolicitudService {
+public class SolicitudService implements ISolicitudService {
 
     ISolicitudDAO solicitudDAO;
 
@@ -29,38 +30,47 @@ public class SolicitudService {
         this.solicitudDAO.checkAndInitDAO();
     }
 
+    @Override
     public Boolean altaSolicitud(Solicitud solicitud) throws AppException {
         return solicitudDAO.createSolicitudRetBoolean(solicitud);
     }
 
+    @Override
     public Integer altaSolicitudRetNumsol(Solicitud solicitud) throws AppException {
         return solicitudDAO.createSolicitudRetNumsol(solicitud);
     }
 
+    @Override
     public Solicitud altaSolicitudRetSolicitud(Solicitud solicitud) throws AppException {
         return solicitudDAO.createSolicitudRetSolicitud(solicitud);
     }
 
+    @Override
     public Boolean modificaSolicitud(Solicitud solicitud) throws AppException {
         return solicitudDAO.modifySolicitud(solicitud);
     }
 
+    @Override
     public Solicitud modificaSolicitudwithRet(Solicitud solicitud) throws AppException {
         return solicitudDAO.modifySolicitudretSolicitud(solicitud);
     }
 
+    @Override
     public ArrayList<Solicitud> consultaSolicitudes() throws AppException {
         return solicitudDAO.getSolicitud();
     }
 
+    @Override
     public ArrayList<Solicitud> buscaSolicitudbyANY(String freetext) throws AppException {
         return solicitudDAO.getSolicitudbyANY(freetext);
     }
 
+    @Override
     public Solicitud buscaSolicitudbynumsol(Integer numsolicitud) throws AppException {
         return solicitudDAO.getSolicitudbyNumSolicitud(numsolicitud);
     }
 
+    @Override
     public Solicitud finalizaSolicitud(Integer numsolicitud) throws AppException {
         Solicitud solicitud;
 

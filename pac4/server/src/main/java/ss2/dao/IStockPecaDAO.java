@@ -43,4 +43,12 @@ public interface IStockPecaDAO extends Remote {
     Boolean modifyStockPeca(StockPeca stockpeca) throws AppException;
 
     StockPeca modifyStockPecaRet(StockPeca stockpeca) throws AppException;
+
+    Integer modifyStockPecaStock(Integer codigoPieza, Integer idTaller, Integer valor) throws AppException;
+
+    Integer modifyStockPecaStockMinim(Integer codigoPieza, Integer idTaller, Integer valor) throws AppException;
+
+    Integer getStockbyPieza(Integer idpieza, Integer idtaller) throws AppException;
+
+    Integer getStockMinimbyPieza(Integer idpieza, Integer idtaller) throws AppException;
 }

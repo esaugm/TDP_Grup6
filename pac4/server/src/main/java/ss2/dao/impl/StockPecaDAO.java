@@ -235,6 +235,62 @@ public class StockPecaDAO extends GenericDaoImpl implements IStockPecaDAO {
     }
 
     @Override
+    public Integer getStockbyPieza(Integer idpieza, Integer idtaller) throws AppException {
+        String SQL = "SELECT stock from stockpeca where codipeca = ? and idtaller = ?";
+        Integer stock = StockPeca.STOCK_PECA_UNDEF;
+
+        try {
+            connection = getConnection();
+            ptmt = connection.prepareStatement(SQL);
+            ptmt.setInt(1, idpieza);
+            ptmt.setInt(2, idtaller);
+            resultSet = ptmt.executeQuery();
+
+            while (resultSet.next()) {
+                stock = resultSet.getInt("stock");
+            }
+        } catch (ClassNotFoundException ex) {
+            throw new AppException(ex);
+        } catch (IOException ex) {
+            throw new AppException(ex);
+        } catch (SQLException ex) {
+            throw new AppException(ex);
+        } finally {
+            ConnectionFactory.freeResources(connection, ptmt, resultSet);
+        }
+
+        return stock;
+    }
+
+    @Override
+    public Integer getStockMinimbyPieza(Integer idpieza, Integer idtaller) throws AppException {
+        String SQL = "SELECT stockminim from stockpeca where codipeca = ? and idtaller = ?";
+        Integer stockminim = StockPeca.STOCK_PECA_UNDEF;
+
+        try {
+            connection = getConnection();
+            ptmt = connection.prepareStatement(SQL);
+            ptmt.setInt(1, idpieza);
+            ptmt.setInt(2, idtaller);
+            resultSet = ptmt.executeQuery();
+
+            while (resultSet.next()) {
+                stockminim = resultSet.getInt("stockminim");
+            }
+        } catch (ClassNotFoundException ex) {
+            throw new AppException(ex);
+        } catch (IOException ex) {
+            throw new AppException(ex);
+        } catch (SQLException ex) {
+            throw new AppException(ex);
+        } finally {
+            ConnectionFactory.freeResources(connection, ptmt, resultSet);
+        }
+
+        return stockminim;
+    }
+
+    @Override
     public Boolean createStockPecaRetBoolean(StockPeca stockpeca) throws AppException {
         Boolean succeded = false;
         Boolean wasconnected = false;
@@ -419,16 +475,17 @@ public class StockPecaDAO extends GenericDaoImpl implements IStockPecaDAO {
             ptmt.setInt(3, stockpeca.getCodipeca());
             ptmt.setInt(4, stockpeca.getIdtaller());
 
-            if (ptmt.executeUpdate() > 0) {
-                while (resultSet.next()) {
-                    stockpeca = new StockPeca(
-                        resultSet.getInt("idstockpeca"),
-                        resultSet.getInt("codipeca"),
-                        resultSet.getInt("stock"),
-                        resultSet.getInt("idtaller"),
-                        resultSet.getInt("stockminim"));
-                }
+
+            resultSet = ptmt.executeQuery();
+            while (resultSet.next()) {
+                stockpeca = new StockPeca(
+                    resultSet.getInt("idstockpeca"),
+                    resultSet.getInt("codipeca"),
+                    resultSet.getInt("stock"),
+                    resultSet.getInt("idtaller"),
+                    resultSet.getInt("stockminim"));
             }
+
         } catch (ClassNotFoundException ex) {
             throw new AppException(ex);
         } catch (IOException ex) {
@@ -442,6 +499,81 @@ public class StockPecaDAO extends GenericDaoImpl implements IStockPecaDAO {
         }
 
         return stockpeca;
+    }
+
+    @Override
+    public Integer modifyStockPecaStock(Integer codigoPieza, Integer idTaller, Integer valor) throws AppException {
+        Integer rowsmodified;
+        Integer result = 0;
+        Boolean succeded = false;
+        Boolean wasconnected = false;
+
+        String SQL = "UPDATE stockpeca SET stock = ? where codipeca = ? and idtaller = ? returning stock";
+
+        try {
+            connection = getConnection();
+            wasconnected = true;
+            ptmt = connection.prepareStatement(SQL);
+            ptmt.setInt(1, valor);
+            ptmt.setInt(2, codigoPieza);
+            ptmt.setInt(3, idTaller);
+
+
+            resultSet = ptmt.executeQuery();
+            while (resultSet.next()) {
+                result = resultSet.getInt("stock");
+            }
+
+        } catch (ClassNotFoundException ex) {
+            throw new AppException(ex);
+        } catch (IOException ex) {
+            throw new AppException(ex);
+        } catch (SQLException ex) {
+            if (!wasconnected) {
+                throw new AppException(ex);
+            }
+        } finally {
+            ConnectionFactory.freeResources(connection, ptmt, resultSet);
+        }
+
+        return result;
+    }
+
+    @Override
+    public Integer modifyStockPecaStockMinim(Integer codigoPieza, Integer idTaller, Integer valor) throws AppException {
+        Integer rowsmodified;
+        Integer result = 0;
+        Boolean succeded = false;
+        Boolean wasconnected = false;
+
+        String SQL = "UPDATE stockpeca SET stockminim = ? where codipeca = ? and idtaller = ? returning stockminim";
+
+        try {
+            connection = getConnection();
+            wasconnected = true;
+            ptmt = connection.prepareStatement(SQL);
+            ptmt.setInt(1, valor);
+            ptmt.setInt(2, codigoPieza);
+            ptmt.setInt(3, idTaller);
+
+            resultSet = ptmt.executeQuery();
+            while (resultSet.next()) {
+                result = resultSet.getInt("stockminim");
+            }
+
+        } catch (ClassNotFoundException ex) {
+            throw new AppException(ex);
+        } catch (IOException ex) {
+            throw new AppException(ex);
+        } catch (SQLException ex) {
+            if (!wasconnected) {
+                throw new AppException(ex);
+            }
+        } finally {
+            ConnectionFactory.freeResources(connection, ptmt, resultSet);
+        }
+
+        return result;
     }
 
     @Override
