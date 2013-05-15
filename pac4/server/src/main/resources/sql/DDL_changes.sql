@@ -108,3 +108,33 @@ select setval('stockpeca_id_seq', (select max(idstockpeca) from stockpeca) + 1);
 --
 -- cambio valor defecto numclient a siguiente valor secuencia
 alter table stockpeca alter column idstockpeca set default nextval('stockpeca_id_seq');
+
+
+-- ****************
+-- Modificacion tabla peca::
+-- ****************
+
+--	creacion de secuencia a max(codipeca)+1
+--
+CREATE SEQUENCE peca_id_seq;
+select setval('peca_id_seq', (select max(codipeca) from peca) + 1);
+
+--
+-- cambio valor defecto codipeca a siguiente valor secuencia
+alter table peca alter column codipeca set default nextval('peca_id_seq');
+
+
+-- ****************
+-- Modificacion tabla reparacio::
+-- ****************
+
+--	creacion de secuencia a max(ordrereparacio)+1
+--
+CREATE SEQUENCE reparacio_id_seq;
+select setval('reparacio_id_seq', (select max(ordrereparacio) from reparacio) + 1);
+
+--
+-- cambio valor defecto ordrereparacio a siguiente valor secuencia
+alter table reparacio alter column ordrereparacio set default nextval('reparacio_id_seq');
+
+
