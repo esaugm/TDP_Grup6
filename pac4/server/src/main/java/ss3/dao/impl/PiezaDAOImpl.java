@@ -11,10 +11,11 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.text.SimpleDateFormat;
+import ss2.entity.StockPeca;
+import ss2.exception.AppException;
 import ss3.beans.Pieza;
 import ss3.beans.Reparacion;
 import ss3.dao.PiezaDAO;
-import ss3.dao.ReparacionDAO;
 
 /**
  * TDP Grup6
@@ -25,6 +26,45 @@ import ss3.dao.ReparacionDAO;
 public class PiezaDAOImpl extends GenericDaoImpl implements PiezaDAO {
 
     @Override
+    public void checkAndInitDAO() throws AppException {
+        checkSequence("peca_id_seq");
+    }
+
+    private void checkSequence(String sequenceName) throws AppException {
+        String SQL1 = "SELECT * from " + sequenceName;
+        String SQL2 = "CREATE SEQUENCE " + sequenceName + " start 4";
+        Boolean wasconnected = false;
+        Boolean sequenceexists = false;
+        Integer result;
+        Pieza pieza = new Pieza();
+
+        try {
+            connection = getConnection();
+            wasconnected = true;
+            ptmt = connection.prepareStatement(SQL1);
+            resultSet = ptmt.executeQuery();
+        } catch (ClassNotFoundException ex) {
+        } catch (IOException ex) {
+        } catch (SQLException ex) {
+            if (wasconnected && !sequenceexists) {
+
+                // No existe la secuencia => la creamos
+                try {
+                    ptmt = connection.prepareStatement(SQL2);
+                    ptmt.executeUpdate();
+                } catch (SQLException ex2) {
+
+                    // no hemos podido crear la secuencia => throw
+                    throw new AppException(ex2);
+                }
+            } else {
+                // la secuencia ya existe => do nothing
+            }
+        } finally {
+            ConnectionFactory.freeResources(connection, ptmt, resultSet);
+        }
+    }
+
     public Pieza findByCodiPieza(Integer pCodiPieza) throws ExceptionErrorDataBase {
         Connection conn=null;
         PreparedStatement ps = null;

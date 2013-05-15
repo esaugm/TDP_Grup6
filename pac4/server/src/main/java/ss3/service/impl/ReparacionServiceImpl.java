@@ -52,4 +52,8 @@ public class ReparacionServiceImpl implements ReparacionService {
     public ArrayList<Reparacion> ConsultaAsignadas(Boolean asignada) throws ExceptionErrorDataBase{
         return reparacion.findByAsignada(asignada);
     }
+    
+    public ArrayList<Reparacion> ConsultaAsigMecanico(Integer idMecanico) throws ExceptionErrorDataBase{
+        return reparacion.findByIdMecanico(idMecanico);
+    }
 }

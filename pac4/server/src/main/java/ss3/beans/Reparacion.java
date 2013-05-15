@@ -24,6 +24,9 @@ public class Reparacion implements java.io.Serializable {
     private Date fechaIni;
     private Date fechaFin;
 
+    public Reparacion(){
+    }
+    
     public Reparacion(Integer idOrden, Integer idJefeTaller, boolean aceptada, Integer idMecanico, boolean asignada, double contador, String observaciones, Integer numcom, Date fechaAsigna, Date fechaIni, Date fechaFin) {
         this.idOrden = idOrden;
         this.idJefeTaller = idJefeTaller;

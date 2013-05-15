@@ -20,6 +20,9 @@ public class Pieza implements java.io.Serializable {
     private String modelo;
     private Integer idProveedor;
 
+    public Pieza(){
+    }
+    
     public Pieza(Integer codiPieza, String descripcion, float pvp, float pvd, String marca, String modelo, Integer idProveedor) {
         this.codiPieza = codiPieza;
         this.descripcion = descripcion;

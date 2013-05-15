@@ -21,6 +21,9 @@ public class Vehiculo implements java.io.Serializable {
     private Date anio;
     private Integer numReparacion;
 
+    public Vehiculo(){
+    }
+    
     public Vehiculo(String marca, String tipo, String numChasis,  String modelo, String matricula, String color, Date anio, Integer numReparacion) {
         this.numChasis = numChasis;
         this.marca = marca;
