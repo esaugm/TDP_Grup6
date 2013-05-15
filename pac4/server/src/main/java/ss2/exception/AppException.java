@@ -7,19 +7,18 @@ package ss2.exception;
 import common.utils.TDSLanguageUtils;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.rmi.RemoteException;
 import java.sql.SQLException;
 import java.util.MissingResourceException;
 
 /**
  ***************************************
- * AppException.java (UTF8)
- ***************************************
- * Uoc Primavera 2013,
- * Grup06
- * Fecha: 2013.05.05 ??.??.??
+ * AppException.java (UTF8) ************************************** Uoc Primavera
+ * 2013, Grup06 Fecha: 2013.05.05 ??.??.??
+ *
  * @author jiquintana (jiquintana@uoc.edu)
  */
-public class AppException extends Exception {
+public class AppException extends RemoteException {
 
     private String msgEx = null;
 
