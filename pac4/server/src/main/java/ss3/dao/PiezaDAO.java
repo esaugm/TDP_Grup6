@@ -16,5 +16,6 @@ import ss3.beans.Pieza;
 public interface PiezaDAO extends GenericDao{
     void checkAndInitDAO() throws AppException;
     public Pieza findByCodiPieza(Integer pCodiPieza) throws ExceptionErrorDataBase;
+    public ArrayList<Pieza> findPiezas() throws ExceptionErrorDataBase;
     public ArrayList<Pieza> findByDescripcion(String pDescripcion) throws ExceptionErrorDataBase;
 }

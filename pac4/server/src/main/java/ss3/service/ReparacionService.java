@@ -21,4 +21,8 @@ public interface ReparacionService {
     public ArrayList<Reparacion> ConsultaAceptadas(Boolean aceptada) throws ExceptionErrorDataBase;
     public ArrayList<Reparacion> ConsultaAsignadas(Boolean asignada) throws ExceptionErrorDataBase;
     public ArrayList<Reparacion> ConsultaAsigMecanico(Integer idMecanico) throws ExceptionErrorDataBase;
+    public Boolean asignaAJT(Integer orden, Integer idJefeTaller) throws ExceptionErrorDataBase;
+    public Boolean aceptaRep(Integer orden) throws ExceptionErrorDataBase;
+    public Boolean anotaObs(Integer orden, String observaciones) throws ExceptionErrorDataBase;
+    public Boolean asignaAMec(Integer orden, Integer idMecanico) throws ExceptionErrorDataBase;
 }

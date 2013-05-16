@@ -3,7 +3,6 @@ package ss3.dao;
 import common.dao.GenericDao;
 import java.util.ArrayList;
 import ss1.dao.exception.ExceptionErrorDataBase;
-import ss2.exception.AppException;
 import ss3.beans.Vehiculo;
 
 

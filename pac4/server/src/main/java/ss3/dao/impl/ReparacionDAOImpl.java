@@ -385,7 +385,7 @@ public class ReparacionDAOImpl extends GenericDaoImpl implements ReparacionDAO {
         return listaReparaciones;
      }
      
-     public Boolean asignaJefeTaller(Integer orden, Integer idJefeTaller) throws ExceptionErrorDataBase{
+     public Boolean asignaAJefeTaller(Integer orden, Integer idJefeTaller) throws ExceptionErrorDataBase{
         Boolean succeded = false;
         Boolean wasconnected = false;
 
@@ -471,7 +471,7 @@ public class ReparacionDAOImpl extends GenericDaoImpl implements ReparacionDAO {
         return succeded;
       }
       
-      public Boolean asignaMecanico(Integer orden, Integer idMecanico) throws ExceptionErrorDataBase{
+      public Boolean asignaAMecanico(Integer orden, Integer idMecanico) throws ExceptionErrorDataBase{
            
         Boolean succeded = false;
         Boolean wasconnected = false;

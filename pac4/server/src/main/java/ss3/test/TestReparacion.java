@@ -9,10 +9,17 @@ import java.util.Locale;
 import common.utils.TDSLanguageUtils;
 import java.util.Iterator;
 import ss1.dao.exception.ExceptionErrorDataBase;
+import ss2.entity.StockPeca;
+import ss2.exception.AppException;
+import ss2.service.IStockPiezasService;
+import ss2.service.impl.StockPiezasService;
+import ss3.beans.Pieza;
 import ss3.beans.Reparacion;
 import ss3.beans.Vehiculo;
+import ss3.service.PiezaService;
 import ss3.service.ReparacionService;
 import ss3.service.VehiculoService;
+import ss3.service.impl.PiezaServiceImpl;
 import ss3.service.impl.ReparacionServiceImpl;
 import ss3.service.impl.VehiculoServiceImpl;
 
@@ -31,7 +38,7 @@ public final class TestReparacion {
     /**
      * @param args the command line arguments
      */
-    public static void main(String[] args) throws ExceptionErrorDataBase {
+    public static void main(String[] args) throws ExceptionErrorDataBase, AppException {
         // TODO code application logic here
 
         if (args.length == 0) {
@@ -202,6 +209,37 @@ public final class TestReparacion {
                     exceptionErrorDataBase.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
                 }
                 
+            }
+        }catch (ExceptionErrorDataBase exceptionErrorDataBase) {
+            exceptionErrorDataBase.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+        }
+        
+        System.out.println("\nObteniendo datos de Piezas y Stock: \n");
+        PiezaService gPieza1 = new PiezaServiceImpl();
+        try{
+            ArrayList<Pieza> todasPiezas = gPieza1.ConsultaPiezas();
+            Iterator it4 = todasPiezas.iterator();
+            if (!it4.hasNext())
+                System.out.println("No hay datos.");
+            while (it4.hasNext()){
+                Pieza p = (Pieza) it4.next();
+                IStockPiezasService gStock = new StockPiezasService();
+                try
+                {
+                    StockPeca sp = gStock.consultaStockPiezabyCodigoPieza(p.getCodiPieza(),1);  
+                    if (sp.equals(null))
+                        System.out.println(">>" + "CODIGO: " + p.getCodiPieza() + "\n"
+                                                + "DESCRIPCION: " + p.getDescripcion() + "\n"
+                                                + "STOCK: 0\n"
+                                                + "PRECIO €: " + p.getPvd() + "\n");
+                    else
+                        System.out.println(">>" + "CODIGO: " + p.getCodiPieza() + "\n"
+                                                + "DESCRIPCION: " + p.getDescripcion() + "\n"
+                                                + "STOCK: " + sp.getStock() + "\n"
+                                                + "PRECIO €: " + p.getPvd() + "\n");
+                }catch (AppException ex) {
+                    ex.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                }
             }
         }catch (ExceptionErrorDataBase exceptionErrorDataBase) {
             exceptionErrorDataBase.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.

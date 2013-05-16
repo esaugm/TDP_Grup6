@@ -56,4 +56,20 @@ public class ReparacionServiceImpl implements ReparacionService {
     public ArrayList<Reparacion> ConsultaAsigMecanico(Integer idMecanico) throws ExceptionErrorDataBase{
         return reparacion.findByIdMecanico(idMecanico);
     }
+    
+    public Boolean asignaAJT(Integer orden, Integer idJefeTaller) throws ExceptionErrorDataBase{
+        return reparacion.asignaAJefeTaller(orden, idJefeTaller);
+    }
+    
+    public Boolean aceptaRep(Integer orden) throws ExceptionErrorDataBase{
+        return reparacion.aceptaReparacion(orden);
+    }
+    
+    public Boolean anotaObs(Integer orden, String observaciones) throws ExceptionErrorDataBase{
+        return reparacion.anotaObservacion(orden, observaciones);
+    }
+    
+    public Boolean asignaAMec(Integer orden, Integer idMecanico) throws ExceptionErrorDataBase{
+        return reparacion.asignaAMecanico(orden, idMecanico);
+    }
 }
