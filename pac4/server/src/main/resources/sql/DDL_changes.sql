@@ -138,3 +138,17 @@ select setval('reparacio_id_seq', (select max(ordrereparacio) from reparacio) + 
 alter table reparacio alter column ordrereparacio set default nextval('reparacio_id_seq');
 
 
+--
+-- Actualizacion de dataassignacio automatica on inserts
+-- Tabla Reparacio
+CREATE OR REPLACE FUNCTION update_dataassignacio() RETURNS TRIGGER AS $$
+BEGIN
+	NEW.dataassignacio := now();
+        RETURN NEW;
+END; $$
+LANGUAGE plpgsql;
+
+-- creacion trigger actualizacion dataassignacio on insert
+CREATE TRIGGER update_dataassignacio
+BEFORE INSERT ON reparacio
+FOR EACH ROW EXECUTE PROCEDURE update_dataassignacio();

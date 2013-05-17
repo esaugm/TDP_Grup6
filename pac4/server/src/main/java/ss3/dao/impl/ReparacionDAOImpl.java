@@ -385,7 +385,7 @@ public class ReparacionDAOImpl extends GenericDaoImpl implements ReparacionDAO {
         return listaReparaciones;
      }
      
-     public Boolean asignaAJefeTaller(Integer orden, Integer idJefeTaller) throws ExceptionErrorDataBase{
+     /*public Boolean asignaAJefeTaller(Integer orden, Integer idJefeTaller) throws ExceptionErrorDataBase{
         Boolean succeded = false;
         Boolean wasconnected = false;
 
@@ -440,7 +440,7 @@ public class ReparacionDAOImpl extends GenericDaoImpl implements ReparacionDAO {
         }
 
         return succeded;
-     }
+     }*/
      
       public Boolean anotaObservacion(Integer orden, String observaciones) throws ExceptionErrorDataBase{
         Boolean succeded = false;
@@ -498,6 +498,41 @@ public class ReparacionDAOImpl extends GenericDaoImpl implements ReparacionDAO {
             ConnectionFactory.freeResources(connection, ptmt, resultSet);
         }
 
+        return succeded;
+      }
+      
+      public Boolean createReparacion(Reparacion rep) throws ExceptionErrorDataBase, AppException{
+          Boolean succeded = false;
+        Boolean wasconnected = false;
+        String SQL = "INSERT INTO reparacio "
+            + "(idcaptaller,acceptada,idmecanic,assignada,comptador,observacions,numcom) "
+            + "VALUES (?,?,?,?,?,?,?)";
+
+        try {
+            connection = getConnection();
+            wasconnected = true;
+            ptmt = connection.prepareStatement(SQL);
+            ptmt.setInt(1, rep.getIdJefeTaller());
+            ptmt.setBoolean(2, rep.isAceptada());
+            ptmt.setInt(3, rep.getIdMecanico());
+            ptmt.setBoolean(4, rep.isAsignada());
+            ptmt.setDouble(5, rep.getContador());
+            ptmt.setString(6, rep.getObservaciones());
+            ptmt.setInt(7,rep.getNumcom());
+            if (ptmt.executeUpdate() > 0) {
+                succeded = true;
+            }
+        } catch (ClassNotFoundException ex) {
+            throw new AppException(ex);
+        } catch (IOException ex) {
+            throw new AppException(ex);
+        } catch (SQLException ex) {
+            if (!wasconnected) {
+                throw new AppException(ex);
+            }
+        } finally {
+            ConnectionFactory.freeResources(connection, ptmt, resultSet);
+        }
         return succeded;
       }
 }
