@@ -15,10 +15,11 @@ import java.rmi.registry.Registry;
 public class Server {
     private final int PORT = 1099;
     private final String JNDI_SS1_NAME = "ConexioManteniment";
-    //añadir cada uno de los nombres de cada subsistema:
-   /* private final String JNDI_SS2_NAME = "SS2";
+    /*ToDo: añadir cada uno de los nombres de cada subsistema, por ejemplo:
+    private final String JNDI_SS2_NAME = "SS2";
     private final String JNDI_SS3_NAME = "SS3";
-    private final String JNDI_SS4_NAME = "SS4";*/
+    private final String JNDI_SS4_NAME = "SS4";
+    */
 
 
     public static void main(String args[]) throws IOException {

@@ -1,12 +1,14 @@
 package common.entity;
 
+import java.io.Serializable;
+
 /**
  * TDP Grup6
  * User: Esaú González
  * Date: 5/05/13
  * Time: 15:59
  */
-public enum PerfilUsuari {
+public enum PerfilUsuari implements Serializable {
     ADMINISTRADOR, ADMINISTRATIU, CAPTALLER, MECANIC;
 
     public static PerfilUsuari getPerfilUsuari(String pPerfilUsuari){

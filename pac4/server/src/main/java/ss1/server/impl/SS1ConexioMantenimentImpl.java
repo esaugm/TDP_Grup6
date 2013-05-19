@@ -28,7 +28,7 @@ public class SS1ConexioMantenimentImpl extends UnicastRemoteObject implements IS
     private UsuariService usuariService;
     private TallerService tallerService;
 
-    protected SS1ConexioMantenimentImpl() throws RemoteException {
+    public SS1ConexioMantenimentImpl() throws RemoteException {
         super();
         usuariService = new UsuariService();
         tallerService = new TallerService();
