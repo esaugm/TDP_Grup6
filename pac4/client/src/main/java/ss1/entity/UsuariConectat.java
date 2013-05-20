@@ -18,8 +18,28 @@ public class UsuariConectat {
         this.horaConexio = horaConexio;
     }
 
+    @Deprecated
     public PerfilUsuari getPerfil(){
         return usuari.getPerfil();
     }
+
+
+    public boolean isAdministrador(){
+        return usuari.isAdministrador();
+    }
+
+    public boolean isAdministratiu(){
+        return usuari.isAdministratiu();
+    }
+
+    public boolean isCapTaller(){
+        return usuari.isCapTaller();
+    }
+
+    public boolean isMecanic(){
+        return usuari.isMecanic();
+    }
+
+    //todo thread que vaya mirando la hora de conexión y haga un timeout?? --> ventana de error + login
 
 }
