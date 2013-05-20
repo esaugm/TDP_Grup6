@@ -42,6 +42,8 @@ public class SmartRepairApplication extends JFrame {
     private String menuGestioTallers = TDSLanguageUtils.getMessage("client.menuGestioTallerText");
     private String menuGestioUsuaris = TDSLanguageUtils.getMessage("client.menuGestioUsuariText");
     private String menuManteniment = TDSLanguageUtils.getMessage("client.menuManteniment");
+    private String gestioUsuarisTitle = TDSLanguageUtils.getMessage("client.menuGestioUsuariTitle");
+    private String gestioTallersTitle = TDSLanguageUtils.getMessage("client.menuGestioTallerTitle");
 
 
     public SmartRepairApplication() throws Exception {
@@ -141,6 +143,8 @@ public class SmartRepairApplication extends JFrame {
     private void openMenuUsuaris(ActionEvent evt) {
         removePanelFromMain();
         GestioUsuariPanel usuariPanel = new GestioUsuariPanel();
+        setTitle(title + " - " + gestioUsuarisTitle);
+        usuariPanel.setLayout(new BorderLayout());
 
 
         _mainPanel.add(usuariPanel, BorderLayout.CENTER);
@@ -150,6 +154,8 @@ public class SmartRepairApplication extends JFrame {
     private void openMenuTallers(ActionEvent evt) {
         removePanelFromMain();
         GestioTallerPanel tallerPanel = new GestioTallerPanel();
+        setTitle(title + " - " + gestioTallersTitle);
+        tallerPanel.setLayout(new BorderLayout());
 
 
         _mainPanel.add(tallerPanel, BorderLayout.CENTER);
