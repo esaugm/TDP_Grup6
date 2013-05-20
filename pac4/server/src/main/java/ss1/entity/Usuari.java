@@ -17,6 +17,13 @@ import java.util.Date;
 public class Usuari implements Serializable {
     
     private Integer id;
+    //todo añadir campos a la tabla
+    private String nom;
+    private String cognoms;
+    private String adreca;
+    private String nif;
+    private String poblacio;
+    private String codiPostal;
     private Integer taller;
     private String usuari;
     private PerfilUsuari perfil;
@@ -34,6 +41,54 @@ public class Usuari implements Serializable {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public String getNom() {
+        return nom;
+    }
+
+    public void setNom(String nom) {
+        this.nom = nom;
+    }
+
+    public String getCognoms() {
+        return cognoms;
+    }
+
+    public void setCognoms(String cognoms) {
+        this.cognoms = cognoms;
+    }
+
+    public String getAdreca() {
+        return adreca;
+    }
+
+    public void setAdreca(String adreca) {
+        this.adreca = adreca;
+    }
+
+    public String getNif() {
+        return nif;
+    }
+
+    public void setNif(String nif) {
+        this.nif = nif;
+    }
+
+    public String getPoblacio() {
+        return poblacio;
+    }
+
+    public void setPoblacio(String poblacio) {
+        this.poblacio = poblacio;
+    }
+
+    public String getCodiPostal() {
+        return codiPostal;
+    }
+
+    public void setCodiPostal(String codiPostal) {
+        this.codiPostal = codiPostal;
     }
 
     public Integer getTaller() {
@@ -149,5 +204,9 @@ public class Usuari implements Serializable {
     
     public boolean isMecanic(){
         return perfil.equals(PerfilUsuari.MECANIC);
+    }
+
+    public void setReparacionsAssignades(int pReparacionsassignades) {
+        reparacionsAssignades=pReparacionsassignades;
     }
 }
