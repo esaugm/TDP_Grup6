@@ -1,6 +1,8 @@
 package ss1.entity;
 
 import common.entity.PerfilUsuari;
+import ss1.entity.exception.ExceptionMaximoReparacionesAsignadas;
+import ss1.entity.exception.ExceptionNoReparacionesAsignadas;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -24,6 +26,7 @@ public class Usuari implements Serializable {
     private Date dataModificacio;
     private Date dataBaixa;
     private Integer reparacionsAssignades;
+    private int maxReparacions = 2;
 
     public Integer getId() {
         return id;
@@ -101,8 +104,35 @@ public class Usuari implements Serializable {
         return reparacionsAssignades;
     }
 
-    public void setReparacionsAssignades(Integer reparacionsAssignades) {
-        this.reparacionsAssignades = reparacionsAssignades;
+    /**
+     * Incrementa en 1 el número de reparaciones asignadas al Usuari. Se utiliza para el momento en que se asigna una reparacion
+     * a un Usuari del tipo PerfilUsuari.MECANIC
+     * @throws ExceptionMaximoReparacionesAsignadas si el Usuari tiene ya asignadas las 2 reparaciones permitidas
+     */
+    public void incrementarReparacionsAssignades() throws ExceptionMaximoReparacionesAsignadas {
+        if (this.reparacionsAssignades<maxReparacions){
+            reparacionsAssignades++;
+        } else throw new ExceptionMaximoReparacionesAsignadas();
+    }
+
+    /**
+     * Decrementa en 1 el número de reparaciones asignadas al Usuari. Se utiliza para el momento de desasignar una reparación
+     * de un Usuari del tipo  PerfilUsuari.MECANIC
+     * @throws ExceptionNoReparacionesAsignadas si al Usuari no le quedan reparaciones asignadas
+     */
+    public void decrementaReparacionsAssignades() throws ExceptionNoReparacionesAsignadas {
+        if (this.reparacionsAssignades>0){
+            reparacionsAssignades--;
+        } else throw new ExceptionNoReparacionesAsignadas();
+    }
+
+    /**
+     * Metodo para ver si un Usuari del tipo PerfilUsuari.MECANIC se le puede asignar una reparación
+     * @return true si se le puede asignar una reparación, false si no.
+     */
+    public boolean isDisponible(){
+        return reparacionsAssignades<maxReparacions;
+
     }
     
     public boolean isAdministrador(){
