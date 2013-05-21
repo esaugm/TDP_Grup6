@@ -3,6 +3,7 @@ package common.rmi;
 import ss1.dao.exception.ExceptionContrasenyaIncorrecta;
 import ss1.dao.exception.ExceptionErrorDataBase;
 import ss1.dao.exception.ExceptionUsuariNoExisteix;
+import ss1.entity.Taller;
 import ss1.entity.Usuari;
 import ss1.server.ISS1ConexioManteniment;
 import ss3.server.SS3Reparaciones;
@@ -10,6 +11,7 @@ import ss3.server.SS3Reparaciones;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
+import java.util.List;
 
 /**
  * TDP Grup6
@@ -51,4 +53,11 @@ public class Client {
             return remoteSS1.usuariLogin(pUsuari,pPasswd);
         }
 
+    public void altaUsuari(Usuari newUsuari) throws ExceptionErrorDataBase, RemoteException {
+        remoteSS1.altaUsuari(newUsuari);
+    }
+
+    public List<Taller> listaTallers() throws ExceptionErrorDataBase, RemoteException {
+        return remoteSS1.getAllTallers();
+    }
 }

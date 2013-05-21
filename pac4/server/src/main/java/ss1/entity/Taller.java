@@ -10,6 +10,7 @@ import java.util.Date;
  * Time: 17:46
  */
 public class Taller implements Serializable {
+    private static final long serialVersionUID = 1L;
     
     private Integer id;
     //todo añadir campos en la tabla
@@ -119,5 +120,9 @@ public class Taller implements Serializable {
 
     public void setDataBaixa(Date dataBaixa) {
         this.dataBaixa = dataBaixa;
+    }
+    
+    public String toString(){
+        return nom;
     }
 }

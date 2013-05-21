@@ -24,9 +24,6 @@ public class TallerService implements ITallerService {
         this.tallerDAO = new TallerDAO();
     }
 
-    public Taller findTallerById(Integer pTallerId) throws ExceptionErrorDataBase {
-        return tallerDAO.findByPK(pTallerId);
-    }
 
     @Override
     public Taller findTallerByID(Integer pId) throws ExceptionErrorDataBase {

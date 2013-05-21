@@ -113,7 +113,7 @@ public class SmartRepairApplication extends JFrame {
 
 
         //todo ESAU: segun UsuariConectat mostrar menús
-        System.out.println("Usuari: " + usuariConectat.getPerfil());
+        System.out.println("Usuari: " + usuariConectat.getPerfilString());
 
         _mantenimentMenu = new JMenu();
         _mantenimentMenu.setText(menuManteniment);
@@ -142,7 +142,7 @@ public class SmartRepairApplication extends JFrame {
 
     private void openMenuUsuaris(ActionEvent evt) {
         removePanelFromMain();
-        GestioUsuariPanel usuariPanel = new GestioUsuariPanel();
+        GestioUsuariPanel usuariPanel = new GestioUsuariPanel(client);
         setTitle(title + " - " + gestioUsuarisTitle);
         usuariPanel.setLayout(new BorderLayout());
 

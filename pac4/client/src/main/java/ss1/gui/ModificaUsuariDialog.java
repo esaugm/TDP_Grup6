@@ -1,7 +1,11 @@
 package ss1.gui;
 
+import common.rmi.Client;
 import common.utils.TDSLanguageUtils;
+import ss1.dao.exception.ExceptionErrorDataBase;
 import ss1.entity.Usuari;
+
+import java.rmi.RemoteException;
 
 /**
  * TDP Grup6
@@ -14,8 +18,8 @@ public class ModificaUsuariDialog extends AltaUsuariDialog {
     private String okBtnLabel = TDSLanguageUtils.getMessage("gestioUsuari.modificaUsuariDialog.okBtnLabel");
     private Usuari usuari;
 
-    public ModificaUsuariDialog(Usuari usuari) {
-        super();
+    public ModificaUsuariDialog(Client pClient, Usuari usuari) throws ExceptionErrorDataBase, RemoteException {
+        super(pClient);
         this.usuari = usuari;
         setModificaDialogProperties();
     }

@@ -1,12 +1,15 @@
 package ss1.gui;
 
 import common.entity.PerfilUsuari;
+import common.rmi.Client;
 import common.utils.TDSLanguageUtils;
+import ss1.dao.exception.ExceptionErrorDataBase;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.rmi.RemoteException;
 
 /**
  * TDP Grup6
@@ -15,6 +18,7 @@ import java.awt.event.ActionListener;
  * Time: 16:33
  */
 public class GestioUsuariPanel extends JPanel{
+    private Client client;
     private String altesBtnLabel = TDSLanguageUtils.getMessage("gestioUsuari.altesBtnLabel");
     private String modificacionsBtnLabel = TDSLanguageUtils.getMessage("gestioUsuari.modificacionsBtnLabel");
     private String baixesBtnLabel = TDSLanguageUtils.getMessage("gestioUsuari.baixesBtnLabel");
@@ -30,7 +34,8 @@ public class GestioUsuariPanel extends JPanel{
     private String comboNoValueText = TDSLanguageUtils.getMessage("gestioUsuari.comboNoValueText");
 
 
-    public GestioUsuariPanel() {
+    public GestioUsuariPanel(Client pClient) {
+        client=pClient;
 
         JButton btnAltas = new JButton(altesBtnLabel);
         btnAltas.addActionListener(new GestioAltaUsuariActionListener());
@@ -173,7 +178,15 @@ public class GestioUsuariPanel extends JPanel{
     private class GestioAltaUsuariActionListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            AltaUsuariDialog altaUsuariDialog = new AltaUsuariDialog();
+            AltaUsuariDialog altaUsuariDialog = null;
+            try {
+                altaUsuariDialog = new AltaUsuariDialog(client);
+            } catch (ExceptionErrorDataBase exceptionErrorDataBase) {
+                //todo pensar que se hace aqui
+                exceptionErrorDataBase.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            } catch (RemoteException e1) {
+                e1.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            }
             altaUsuariDialog.setVisible(true);
             altaUsuariDialog.setModal(true);
         }
@@ -183,7 +196,15 @@ public class GestioUsuariPanel extends JPanel{
         @Override
         public void actionPerformed(ActionEvent e) {
             //todo pasar por parametro el Usuari seleccionado al constructor
-            ModificaUsuariDialog modificaUsuariDialog = new ModificaUsuariDialog(null);
+            ModificaUsuariDialog modificaUsuariDialog = null;
+            try {
+                modificaUsuariDialog = new ModificaUsuariDialog(client, null);
+            } catch (ExceptionErrorDataBase exceptionErrorDataBase) {
+                //todo pensar que hacer aqui
+                exceptionErrorDataBase.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            } catch (RemoteException e1) {
+                e1.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            }
             modificaUsuariDialog.setVisible(true);
             modificaUsuariDialog.setModal(true);
         }
@@ -193,7 +214,15 @@ public class GestioUsuariPanel extends JPanel{
         @Override
         public void actionPerformed(ActionEvent e) {
             //todo pasar por parametro el Usuari seleccionado al constructor
-            BaixaUsuariDialog baixaUsuariDialog = new BaixaUsuariDialog(null);
+            BaixaUsuariDialog baixaUsuariDialog = null;
+            try {
+                baixaUsuariDialog = new BaixaUsuariDialog(client, null);
+            } catch (ExceptionErrorDataBase exceptionErrorDataBase) {
+                //todo pensar que hacer aqui
+                exceptionErrorDataBase.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            } catch (RemoteException e1) {
+                e1.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            }
             baixaUsuariDialog.setVisible(true);
             baixaUsuariDialog.setModal(true);
         }
@@ -203,6 +232,9 @@ public class GestioUsuariPanel extends JPanel{
         @Override
         public void actionPerformed(ActionEvent e) {
             //To change body of implemented methods use File | Settings | File Templates.
+            //crear FiltreItems con los valores de filtro
+            //pedir al interface los valores filtrados
+
         }
     }
 
