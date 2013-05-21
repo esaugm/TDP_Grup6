@@ -4,13 +4,15 @@
  */
 package ss3.server;
 
-import java.util.ArrayList;
-import java.rmi.Remote;
 import ss1.dao.exception.ExceptionErrorDataBase;
 import ss2.exception.AppException;
 import ss3.beans.Pieza;
 import ss3.beans.Reparacion;
 import ss3.beans.Vehiculo;
+
+import java.rmi.Remote;
+import java.rmi.RemoteException;
+import java.util.ArrayList;
 
 /**
  ***************************************
@@ -24,22 +26,22 @@ import ss3.beans.Vehiculo;
  */
 public interface SS3Reparaciones extends Remote {
 
-    public Reparacion ConsultaOrden(Integer OrdenID) throws ExceptionErrorDataBase;
-    public ArrayList<Reparacion> ConsultaFechaAsig(String fechaAsig) throws ExceptionErrorDataBase;
-    public ArrayList<Reparacion> ConsultaFechaIni(String fechaIni) throws ExceptionErrorDataBase;
-    public ArrayList<Reparacion> ConsultaFechaFin(String fechaFin) throws ExceptionErrorDataBase;
-    public ArrayList<Reparacion> ConsultaAceptadas(Boolean aceptada) throws ExceptionErrorDataBase;
-    public ArrayList<Reparacion> ConsultaAsignadas(Boolean asignada) throws ExceptionErrorDataBase;
-    public ArrayList<Reparacion> ConsultaAsigMecanico(Integer idMecanico) throws ExceptionErrorDataBase;
-    public Boolean anotaObs(Integer orden, String observaciones) throws ExceptionErrorDataBase;
-    public Boolean asignaAMec(Integer orden, Integer idMecanico) throws ExceptionErrorDataBase;
-    public Pieza ConsultaCodigo(Integer codigo) throws ExceptionErrorDataBase;
-    public ArrayList<Pieza> ConsultaPiezas() throws ExceptionErrorDataBase;
-    public ArrayList<Pieza> ConsultaDescripcion(String descripcion) throws ExceptionErrorDataBase;
-    public Vehiculo ConsultaChasis(String numChasis) throws ExceptionErrorDataBase;
-    public ArrayList<Vehiculo> ConsultaMarca(String marca) throws ExceptionErrorDataBase;
-    public ArrayList<Vehiculo> ConsultaMatricula(String matricula) throws ExceptionErrorDataBase;
-    public ArrayList<Vehiculo> ConsultaModelo(String modelo) throws ExceptionErrorDataBase;
-    public ArrayList<Vehiculo> ConsultaReparacion(Integer orden) throws ExceptionErrorDataBase;
-    public Boolean creaReparacion(Reparacion rep) throws ExceptionErrorDataBase, AppException;
+    public Reparacion ConsultaOrden(Integer OrdenID) throws ExceptionErrorDataBase, RemoteException;
+    public ArrayList<Reparacion> ConsultaFechaAsig(String fechaAsig) throws ExceptionErrorDataBase, RemoteException;
+    public ArrayList<Reparacion> ConsultaFechaIni(String fechaIni) throws ExceptionErrorDataBase, RemoteException;
+    public ArrayList<Reparacion> ConsultaFechaFin(String fechaFin) throws ExceptionErrorDataBase, RemoteException;
+    public ArrayList<Reparacion> ConsultaAceptadas(Boolean aceptada) throws ExceptionErrorDataBase, RemoteException;
+    public ArrayList<Reparacion> ConsultaAsignadas(Boolean asignada) throws ExceptionErrorDataBase, RemoteException;
+    public ArrayList<Reparacion> ConsultaAsigMecanico(Integer idMecanico) throws ExceptionErrorDataBase, RemoteException;
+    public Boolean anotaObs(Integer orden, String observaciones) throws ExceptionErrorDataBase, RemoteException;
+    public Boolean asignaAMec(Integer orden, Integer idMecanico) throws ExceptionErrorDataBase, RemoteException;
+    public Pieza ConsultaCodigo(Integer codigo) throws ExceptionErrorDataBase, RemoteException;
+    public ArrayList<Pieza> ConsultaPiezas() throws ExceptionErrorDataBase, RemoteException;
+    public ArrayList<Pieza> ConsultaDescripcion(String descripcion) throws ExceptionErrorDataBase, RemoteException;
+    public Vehiculo ConsultaChasis(String numChasis) throws ExceptionErrorDataBase, RemoteException;
+    public ArrayList<Vehiculo> ConsultaMarca(String marca) throws ExceptionErrorDataBase, RemoteException;
+    public ArrayList<Vehiculo> ConsultaMatricula(String matricula) throws ExceptionErrorDataBase, RemoteException;
+    public ArrayList<Vehiculo> ConsultaModelo(String modelo) throws ExceptionErrorDataBase, RemoteException;
+    public ArrayList<Vehiculo> ConsultaReparacion(Integer orden) throws ExceptionErrorDataBase, RemoteException;
+    public Boolean creaReparacion(Reparacion rep) throws ExceptionErrorDataBase, AppException, RemoteException;
 }

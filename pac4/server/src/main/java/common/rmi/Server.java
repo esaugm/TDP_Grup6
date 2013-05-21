@@ -1,6 +1,7 @@
 package common.rmi;
 
 import ss1.server.impl.SS1ConexioMantenimentImpl;
+import ss3.server.impl.SS3ReparacionesImpl;
 
 import java.io.IOException;
 import java.rmi.registry.LocateRegistry;
@@ -15,6 +16,7 @@ import java.rmi.registry.Registry;
 public class Server {
     private final int PORT = 1099;
     private final String JNDI_SS1_NAME = "ConexioManteniment";
+    private final String JNDI_SS3_NAME = "Reparaciones";
     /*ToDo: añadir cada uno de los nombres de cada subsistema, por ejemplo:
     private final String JNDI_SS2_NAME = "SS2";
     private final String JNDI_SS3_NAME = "SS3";
@@ -32,6 +34,8 @@ public class Server {
         Registry registry = LocateRegistry.createRegistry(PORT);
         SS1ConexioMantenimentImpl objetoRemotoSS1 = new SS1ConexioMantenimentImpl();
         registry.rebind(JNDI_SS1_NAME, objetoRemotoSS1);
+        SS3ReparacionesImpl objetoRemotoSS3 = new SS3ReparacionesImpl();
+        registry.rebind(JNDI_SS3_NAME, objetoRemotoSS3);
 
         /* Añadir cada implementacion del servidor por subsistema
         SS2Impl objetoRemotoSS2 = new SS2Impl();

@@ -5,6 +5,7 @@ import ss1.dao.exception.ExceptionErrorDataBase;
 import ss1.dao.exception.ExceptionUsuariNoExisteix;
 import ss1.entity.Usuari;
 import ss1.server.ISS1ConexioManteniment;
+import ss3.server.SS3Reparaciones;
 
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
@@ -23,6 +24,8 @@ public class Client {
     
     private ISS1ConexioManteniment remoteSS1;
     private final String JNDI_SS1_NAME = "ConexioManteniment";
+    private SS3Reparaciones remoteSS3;
+    private final String JNDI_SS3_NAME = "Reparaciones";
     //todo añadir Interface y JNDI para cada subsistema
 
 
@@ -34,6 +37,7 @@ public class Client {
             System.out.println("Connecting with the server...");
             Registry registry = LocateRegistry.getRegistry(URL, PORT);
             remoteSS1 = (ISS1ConexioManteniment) registry.lookup(JNDI_SS1_NAME);
+            remoteSS3 = (SS3Reparaciones) registry.lookup(JNDI_SS3_NAME);
             //todo añadir los interfaces de cada subsistema
             System.out.println("Connected!");
         }

@@ -1,8 +1,5 @@
 package ss3.server.impl;
 
-import java.rmi.RemoteException;
-import java.rmi.server.UnicastRemoteObject;
-import java.util.ArrayList;
 import ss1.dao.exception.ExceptionErrorDataBase;
 import ss2.exception.AppException;
 import ss3.beans.Pieza;
@@ -16,6 +13,10 @@ import ss3.service.impl.PiezaServiceImpl;
 import ss3.service.impl.ReparacionServiceImpl;
 import ss3.service.impl.VehiculoServiceImpl;
 
+import java.rmi.RemoteException;
+import java.rmi.server.UnicastRemoteObject;
+import java.util.ArrayList;
+
 /**
  * TDP Grup6 User: Esaú González Date: 12/05/13 Time: 13:20
  */
@@ -26,7 +27,7 @@ public class SS3ReparacionesImpl extends UnicastRemoteObject implements SS3Repar
     private PiezaService piezaService;
     private VehiculoService vehiculoService;
 
-    protected SS3ReparacionesImpl() throws RemoteException {
+    public SS3ReparacionesImpl() throws RemoteException {
         super();
         reparacionService = new ReparacionServiceImpl();
         piezaService = new PiezaServiceImpl();
