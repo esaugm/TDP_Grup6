@@ -21,7 +21,7 @@ public class TallerServiceTest {
     private static void testFindTallerById(TallerService tallerService) {
         try {
             for (int i=1;i<7;i++) {
-                Taller taller = tallerService.findTallerById(i);
+                Taller taller = tallerService.findTallerByID(i);
                 if (taller!=null) {
                     System.out.println("Taller"+i+": " + taller.getAdreca());
                 } else {
