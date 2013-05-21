@@ -18,7 +18,7 @@ import java.util.ArrayList;
 
 /**
  * **************************************
- * IClient.java (UTF-8)
+ * IClientDAO.java (UTF-8)
  * **************************************
  * Uoc Primavera 2013,
  * Grup06
@@ -26,7 +26,7 @@ import java.util.ArrayList;
  * @author jiquintana (jiquintana@uoc.edu)
  *
  */
-public interface IClient extends Remote {
+public interface IClientDAO extends Remote {
 
     public void checkAndInitDAO() throws AppException;
 

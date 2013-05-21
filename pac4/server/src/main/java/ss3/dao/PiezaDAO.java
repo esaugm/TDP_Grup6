@@ -3,8 +3,8 @@ package ss3.dao;
 import common.dao.GenericDao;
 import java.util.ArrayList;
 import ss1.dao.exception.ExceptionErrorDataBase;
+import ss2.exception.AppException;
 import ss3.beans.Pieza;
-import ss3.beans.Reparacion;
 
 
 /**
@@ -14,6 +14,8 @@ import ss3.beans.Reparacion;
  * Time: 21:23
  */
 public interface PiezaDAO extends GenericDao{
+    void checkAndInitDAO() throws AppException;
     public Pieza findByCodiPieza(Integer pCodiPieza) throws ExceptionErrorDataBase;
+    public ArrayList<Pieza> findPiezas() throws ExceptionErrorDataBase;
     public ArrayList<Pieza> findByDescripcion(String pDescripcion) throws ExceptionErrorDataBase;
 }

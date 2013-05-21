@@ -20,7 +20,23 @@ public class Pieza implements java.io.Serializable {
     private String modelo;
     private Integer idProveedor;
 
+    public static final Integer PIEZA_UNDEF = -1;
+    public Pieza(){
+    }
+    
+    public Pieza(String descripcion, float pvp, float pvd, String marca, String modelo, Integer idProveedor) {
+        super();
+        this.codiPieza = PIEZA_UNDEF;
+        this.descripcion = descripcion;
+        this.pvp = pvp;
+        this.pvd = pvd;
+        this.marca = marca;
+        this.modelo = modelo;
+        this.idProveedor = idProveedor;
+    }
+    
     public Pieza(Integer codiPieza, String descripcion, float pvp, float pvd, String marca, String modelo, Integer idProveedor) {
+        super();
         this.codiPieza = codiPieza;
         this.descripcion = descripcion;
         this.pvp = pvp;

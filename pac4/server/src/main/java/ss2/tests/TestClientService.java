@@ -5,7 +5,7 @@
 package ss2.tests;
 
 import ss2.dao.impl.ClientDAO;
-import ss2.dao.IClient;
+import ss2.dao.IClientDAO;
 import ss2.entity.Client;
 import java.util.ArrayList;
 import java.util.Locale;
@@ -17,7 +17,7 @@ import java.util.Date;
  *
  * @author josi
  */
-public final class TestClientService { //implements IClient{
+public final class TestClientService { //implements IClientDAO{
 
     //final ClientDAO gestorClient;
     //final ArrayList <Client> lcliente;
@@ -47,7 +47,7 @@ public final class TestClientService { //implements IClient{
         }
 
 
-        IClient gClient = new ClientDAO();
+        IClientDAO gClient = new ClientDAO();
 
 
         try {

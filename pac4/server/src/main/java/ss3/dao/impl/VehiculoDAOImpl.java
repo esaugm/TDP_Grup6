@@ -10,7 +10,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.text.SimpleDateFormat;
 import ss3.beans.Vehiculo;
 import ss3.dao.VehiculoDAO;
 
@@ -22,6 +21,9 @@ import ss3.dao.VehiculoDAO;
  */
 public class VehiculoDAOImpl extends GenericDaoImpl implements VehiculoDAO {
 
+    public VehiculoDAOImpl(){
+    }
+    
     @Override
     public Vehiculo findByChasis(String pChasis) throws ExceptionErrorDataBase {
         Connection conn=null;

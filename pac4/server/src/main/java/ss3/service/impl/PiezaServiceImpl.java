@@ -17,7 +17,7 @@ import ss3.service.PiezaService;
  */
 public class PiezaServiceImpl implements PiezaService {
     
-    private PiezaDAO reparacion;
+    private PiezaDAO pieza;
     
     /**
      *
@@ -26,15 +26,19 @@ public class PiezaServiceImpl implements PiezaService {
      * @throws ExceptionErrorDataBase
      */
     public PiezaServiceImpl(){
-        this.reparacion = new PiezaDAOImpl();
+        this.pieza = new PiezaDAOImpl();
     }
     
     public Pieza ConsultaCodigo(Integer codigo) throws ExceptionErrorDataBase{
-        return reparacion.findByCodiPieza(codigo);
+        return pieza.findByCodiPieza(codigo);
+    }
+    
+    public ArrayList<Pieza> ConsultaPiezas() throws ExceptionErrorDataBase{
+        return pieza.findPiezas();
     }
     
     public ArrayList<Pieza> ConsultaDescripcion(String descripcion) throws ExceptionErrorDataBase{
-        return reparacion.findByDescripcion(descripcion);
+        return pieza.findByDescripcion(descripcion);
     }
     
 }

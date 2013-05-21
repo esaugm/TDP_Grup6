@@ -12,6 +12,8 @@ import java.util.Date;
 public class Taller implements Serializable {
     
     private Integer id;
+    //todo añadir campos en la tabla
+    private String nom;
     private String cif;
     private String adreca;
     private Integer capacitat;
@@ -29,6 +31,14 @@ public class Taller implements Serializable {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public String getNom() {
+        return nom;
+    }
+
+    public void setNom(String nom) {
+        this.nom = nom;
     }
 
     public String getCif() {

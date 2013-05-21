@@ -11,6 +11,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.text.SimpleDateFormat;
+import ss2.exception.AppException;
 import ss3.beans.Reparacion;
 import ss3.dao.ReparacionDAO;
 
@@ -22,7 +23,49 @@ import ss3.dao.ReparacionDAO;
  */
 public class ReparacionDAOImpl extends GenericDaoImpl implements ReparacionDAO {
 
+    public ReparacionDAOImpl(){
+    }
+    
     @Override
+    public void checkAndInitDAO() throws AppException {
+        checkSequence("reparacio_id_seq");
+    }
+
+    private void checkSequence(String sequenceName) throws AppException {
+        String SQL1 = "SELECT * from " + sequenceName;
+        String SQL2 = "CREATE SEQUENCE " + sequenceName + " start 4";
+        Boolean wasconnected = false;
+        Boolean sequenceexists = false;
+        Integer result;
+        Reparacion reparacion = new Reparacion();
+
+        try {
+            connection = getConnection();
+            wasconnected = true;
+            ptmt = connection.prepareStatement(SQL1);
+            resultSet = ptmt.executeQuery();
+        } catch (ClassNotFoundException ex) {
+        } catch (IOException ex) {
+        } catch (SQLException ex) {
+            if (wasconnected && !sequenceexists) {
+
+                // No existe la secuencia => la creamos
+                try {
+                    ptmt = connection.prepareStatement(SQL2);
+                    ptmt.executeUpdate();
+                } catch (SQLException ex2) {
+
+                    // no hemos podido crear la secuencia => throw
+                    throw new AppException(ex2);
+                }
+            } else {
+                // la secuencia ya existe => do nothing
+            }
+        } finally {
+            ConnectionFactory.freeResources(connection, ptmt, resultSet);
+        }
+    }
+
     public Reparacion findByPK(Integer pOrdenReparacion) throws ExceptionErrorDataBase {
         Connection conn=null;
         PreparedStatement ps = null;
@@ -300,4 +343,196 @@ public class ReparacionDAOImpl extends GenericDaoImpl implements ReparacionDAO {
         }
         return listaReparaciones;
     }
+    
+     public ArrayList<Reparacion> findByIdMecanico(Integer idMecanico) throws ExceptionErrorDataBase{
+        Connection conn=null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        
+        ArrayList<Reparacion> listaReparaciones = new ArrayList<Reparacion>();
+        try{
+            conn = getConnection();
+            ps = conn.prepareStatement("select * from reparacio where idmecanic = ? order by ordrereparacio");
+            ps.setInt(1,idMecanico);
+
+            rs = ps.executeQuery();
+
+            while (rs.next()){
+                Reparacion toReturn = new Reparacion(
+                    rs.getInt("ordrereparacio"),
+                    rs.getInt("idcaptaller"),
+                    rs.getBoolean("acceptada"),
+                    rs.getInt("idmecanic"),
+                    rs.getBoolean("assignada"),
+                    rs.getInt("comptador"),
+                    rs.getString("observacions"),
+                    rs.getInt("numcom"),
+                    rs.getDate("dataassignacio"),
+                    rs.getDate("datainici"),
+                    rs.getDate("datafi"));
+                listaReparaciones.add(toReturn);
+            }
+
+        } catch (ClassNotFoundException e) {
+            throw new ExceptionErrorDataBase("Error conectando a BD", e);
+        } catch (SQLException e) {
+            throw new ExceptionErrorDataBase("Error de sql", e);
+        } catch (IOException e) {
+            throw new ExceptionErrorDataBase("Error conectando a BD", e);
+        } finally {
+            ConnectionFactory.freeResources(conn, ps, rs);
+        }
+        return listaReparaciones;
+     }
+     
+     /*public Boolean asignaAJefeTaller(Integer orden, Integer idJefeTaller) throws ExceptionErrorDataBase{
+        Boolean succeded = false;
+        Boolean wasconnected = false;
+
+        String SQL = "UPDATE reparacio SET idcaptaller = ? WHERE ordrereparacio = ? ";
+
+        try {
+            connection = getConnection();
+            wasconnected = true;
+            ptmt = connection.prepareStatement(SQL);
+            ptmt.setInt(1, idJefeTaller);
+            ptmt.setInt(2, orden);
+
+            if (ptmt.executeUpdate() > 0) {
+                succeded = true;
+            }
+         } catch (ClassNotFoundException e) {
+            throw new ExceptionErrorDataBase("Error conectando a BD", e);
+        } catch (SQLException e) {
+            throw new ExceptionErrorDataBase("Error de sql", e);
+        } catch (IOException e) {
+            throw new ExceptionErrorDataBase("Error conectando a BD", e);
+        } finally {
+            ConnectionFactory.freeResources(connection, ptmt, resultSet);
+        }
+
+        return succeded;
+     }
+     
+     public Boolean aceptaReparacion(Integer orden) throws ExceptionErrorDataBase{
+        Boolean succeded = false;
+        Boolean wasconnected = false;
+
+        String SQL = "UPDATE reparacio SET acceptada = true WHERE ordrereparacio = ?";
+
+        try {
+            connection = getConnection();
+            wasconnected = true;
+            ptmt = connection.prepareStatement(SQL);
+            ptmt.setInt(1, orden);
+
+            if (ptmt.executeUpdate() > 0) {
+                succeded = true;
+            }
+         } catch (ClassNotFoundException e) {
+            throw new ExceptionErrorDataBase("Error conectando a BD", e);
+        } catch (SQLException e) {
+            throw new ExceptionErrorDataBase("Error de sql", e);
+        } catch (IOException e) {
+            throw new ExceptionErrorDataBase("Error conectando a BD", e);
+        } finally {
+            ConnectionFactory.freeResources(connection, ptmt, resultSet);
+        }
+
+        return succeded;
+     }*/
+     
+      public Boolean anotaObservacion(Integer orden, String observaciones) throws ExceptionErrorDataBase{
+        Boolean succeded = false;
+        Boolean wasconnected = false;
+
+        String SQL = "UPDATE reparacio SET observacions = ? WHERE ordrereparacio = ?";
+
+        try {
+            connection = getConnection();
+            wasconnected = true;
+            ptmt = connection.prepareStatement(SQL);
+            ptmt.setString(1, observaciones);
+            ptmt.setInt(2, orden);
+
+            if (ptmt.executeUpdate() > 0) {
+                succeded = true;
+            }
+         } catch (ClassNotFoundException e) {
+            throw new ExceptionErrorDataBase("Error conectando a BD", e);
+        } catch (SQLException e) {
+            throw new ExceptionErrorDataBase("Error de sql", e);
+        } catch (IOException e) {
+            throw new ExceptionErrorDataBase("Error conectando a BD", e);
+        } finally {
+            ConnectionFactory.freeResources(connection, ptmt, resultSet);
+        }
+
+        return succeded;
+      }
+      
+      public Boolean asignaAMecanico(Integer orden, Integer idMecanico) throws ExceptionErrorDataBase{
+           
+        Boolean succeded = false;
+        Boolean wasconnected = false;
+
+        String SQL = "UPDATE reparacio SET idmecanic = ? WHERE ordrereparacio = ? ";
+
+        try {
+            connection = getConnection();
+            wasconnected = true;
+            ptmt = connection.prepareStatement(SQL);
+            ptmt.setInt(1, idMecanico);
+            ptmt.setInt(2, orden);
+
+            if (ptmt.executeUpdate() > 0) {
+                succeded = true;
+            }
+         } catch (ClassNotFoundException e) {
+            throw new ExceptionErrorDataBase("Error conectando a BD", e);
+        } catch (SQLException e) {
+            throw new ExceptionErrorDataBase("Error de sql", e);
+        } catch (IOException e) {
+            throw new ExceptionErrorDataBase("Error conectando a BD", e);
+        } finally {
+            ConnectionFactory.freeResources(connection, ptmt, resultSet);
+        }
+
+        return succeded;
+      }
+      
+      public Boolean createReparacion(Reparacion rep) throws ExceptionErrorDataBase, AppException{
+          Boolean succeded = false;
+        Boolean wasconnected = false;
+        String SQL = "INSERT INTO reparacio "
+            + "(idcaptaller,acceptada,idmecanic,assignada,comptador,observacions,numcom) "
+            + "VALUES (?,?,?,?,?,?,?)";
+
+        try {
+            connection = getConnection();
+            wasconnected = true;
+            ptmt = connection.prepareStatement(SQL);
+            ptmt.setInt(1, rep.getIdJefeTaller());
+            ptmt.setBoolean(2, rep.isAceptada());
+            ptmt.setInt(3, rep.getIdMecanico());
+            ptmt.setBoolean(4, rep.isAsignada());
+            ptmt.setDouble(5, rep.getContador());
+            ptmt.setString(6, rep.getObservaciones());
+            ptmt.setInt(7,rep.getNumcom());
+            if (ptmt.executeUpdate() > 0) {
+                succeded = true;
+            }
+        } catch (ClassNotFoundException ex) {
+            throw new AppException(ex);
+        } catch (IOException ex) {
+            throw new AppException(ex);
+        } catch (SQLException ex) {
+            if (!wasconnected) {
+                throw new AppException(ex);
+            }
+        } finally {
+            ConnectionFactory.freeResources(connection, ptmt, resultSet);
+        }
+        return succeded;
+      }
 }

@@ -5,7 +5,7 @@
 package ss2.tests;
 
 import ss2.dao.impl.StockPecaDAO;
-import ss2.dao.IStockPeca;
+import ss2.dao.IStockPecaDAO;
 import ss2.entity.StockPeca;
 import java.util.ArrayList;
 import java.util.Locale;
@@ -17,13 +17,12 @@ import java.util.Date;
  *
  * @author josi
  */
-public final class TestStockPecaService { //implements IStockPeca{
+public final class TestStockPecaService { //implements IStockPecaDAO{
 
     //final StockPecaDAO gestorStockPeca;
     //final ArrayList <StockPeca> lstockpeca;
     ArrayList<StockPeca> lstockpeca;
-
-	public static Integer IDTALLER =1;
+    public static Integer IDTALLER = 1;
 
     //final private StockPecaDAO	gStockPeca;
     public TestStockPecaService() {
@@ -49,7 +48,7 @@ public final class TestStockPecaService { //implements IStockPeca{
         }
 
 
-        IStockPeca gStockPeca = new StockPecaDAO();
+        IStockPecaDAO gStockPeca = new StockPecaDAO();
 
 
         try {
@@ -66,16 +65,61 @@ public final class TestStockPecaService { //implements IStockPeca{
         }
 
         try {
-            StockPeca stockpeca = gStockPeca.getStockPecabyNumStockPeca(1,IDTALLER);
+            StockPeca stockpeca = gStockPeca.getStockPecabyNumStockPeca(1, IDTALLER);
             System.out.println(">>" + stockpeca + "<<");
         } catch (AppException ex) {
             ex.printStackTrace();
         }
 
+        Integer cantidad = 0;
+
+        System.out.println("##########");
+
+        try {
+            cantidad = gStockPeca.getStockbyPieza(1, IDTALLER);
+            System.out.println(">>" + cantidad + "<<");
+        } catch (AppException ex) {
+            ex.printStackTrace();
+        }
+        System.out.println("##########");
+        try {
+            cantidad = gStockPeca.modifyStockPecaStock(1, IDTALLER, cantidad + 1);
+            System.out.println(">>" + cantidad + "<<");
+        } catch (AppException ex) {
+            ex.printStackTrace();
+        }
+        try {
+            cantidad = gStockPeca.modifyStockPecaStock(1, IDTALLER, cantidad - 1);
+            System.out.println(">>" + cantidad + "<<");
+        } catch (AppException ex) {
+            ex.printStackTrace();
+        }
+
+        try {
+            cantidad = gStockPeca.getStockMinimbyNumStockPeca(1, IDTALLER);
+            System.out.println(">>" + cantidad + "<<");
+        } catch (AppException ex) {
+            ex.printStackTrace();
+        }
+        System.out.println("##########");
+        try {
+            cantidad = gStockPeca.modifyStockPecaStockMinim(1, IDTALLER, cantidad + 1);
+            System.out.println(">>" + cantidad + "<<");
+        } catch (AppException ex) {
+            ex.printStackTrace();
+        }
+        try {
+            cantidad = gStockPeca.modifyStockPecaStockMinim(1, IDTALLER, cantidad - 1);
+            System.out.println(">>" + cantidad + "<<");
+        } catch (AppException ex) {
+            ex.printStackTrace();
+        }
+        System.out.println("##########");
+
         StockPeca newstockpeca = new StockPeca(2, 40, IDTALLER, 8);
 
         try {
-			newstockpeca = gStockPeca.createStockPecaRetStockPeca(newstockpeca);
+            newstockpeca = gStockPeca.createStockPecaRetStockPeca(newstockpeca);
             System.out.println(newstockpeca);
 
         } catch (AppException ex) {
