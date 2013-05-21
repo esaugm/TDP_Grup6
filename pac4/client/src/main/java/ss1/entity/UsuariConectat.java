@@ -22,6 +22,10 @@ public class UsuariConectat {
     public PerfilUsuari getPerfil(){
         return usuari.getPerfil();
     }
+    
+    public String getPerfilString(){
+        return usuari.getPerfil().toString();
+    }
 
 
     public boolean isAdministrador(){

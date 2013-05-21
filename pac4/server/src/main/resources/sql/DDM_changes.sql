@@ -35,3 +35,21 @@ VALUES (-1, '000000000', 'vacio', 'vacio', 0);
 alter table usuari enable trigger all;
 
 COMMIT;
+
+-----------------------
+-------- SS1 ----------
+-----------------------
+
+--Insertamos el usuario administrador por defecto: admin/admin
+INSERT INTO Usuari (Taller, usuari, perfil, contrasenya, actiu, dataAlta, dataModificacio, dataBaixa, reparacionsassignades) VALUES ( NULL, 'admin', 'ADMINISTRADOR', 'admin', true, NULL, NULL, 0);
+--Cambiamos el tipus usuari de los datos precargados
+update Usuari set perfil= 'ADMINISTRATIU' where perfil='Administratiu';
+--Añadimos nombre a los talleres precargados
+update Taller set nom='Taller1' where id=1;
+update Taller set nom='Taller2' where id=2;
+update Taller set nom='Taller3' where id=3;
+update Taller set nom='Taller4' where id=4;
+update Taller set nom='Taller5' where id=5;
+-----------------------
+--- Fin cambios SS1 ---
+-----------------------

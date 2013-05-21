@@ -34,7 +34,7 @@ public class TallerDAO extends GenericDaoImpl implements ITallerDAO {
         List<Taller> toReturn = new ArrayList<Taller>();
         try{
             conn = getConnection();
-            ps = conn.prepareStatement("select id, cif, adreca, capacitat, capTaller, telefon, web, actiu , dataApertura, dataModificacio, " +
+            ps = conn.prepareStatement("select id, nom, cif, adreca, capacitat, capTaller, telefon, web, actiu , dataApertura, dataModificacio, " +
                     "dataBaixa from taller");
 
             rs = ps.executeQuery();
@@ -69,6 +69,7 @@ public class TallerDAO extends GenericDaoImpl implements ITallerDAO {
         Taller taller = new Taller();
         taller.setId(rs.getInt("id"));
         taller.setCif(rs.getString("cif"));
+        taller.setNom(rs.getString("nom"));
         taller.setAdreca(rs.getString("adreca"));
         taller.setCapacitat(rs.getInt("capacitat"));
         taller.setCapTaller(rs.getInt("capTaller"));
@@ -87,14 +88,16 @@ public class TallerDAO extends GenericDaoImpl implements ITallerDAO {
         PreparedStatement ps = null;
         try{
             conn = getConnection();
-            ps = conn.prepareStatement("insert into taller (cif, adreca, capacitat, capTaller, telefon, web, actiu, dataAlta) " +
-                    " values (?,?,?,?,?,?,true, now())");
+            ps = conn.prepareStatement("insert into taller (cif, adreca, capacitat, capTaller, telefon, web, actiu, nom) " +
+                    " values (?,?,?,?,?,?,?,?)");
             ps.setString(1, pTaller.getCif());
             ps.setString(2, pTaller.getAdreca());
             ps.setInt(3, pTaller.getCapacitat());
             ps.setInt(4, pTaller.getCapTaller());
             ps.setString(5, pTaller.getTelefon());
             ps.setString(6, pTaller.getWeb());
+            ps.setBoolean(7, pTaller.isActiu());
+            ps.setString(8, pTaller.getNom());
 
             ps.executeUpdate();
 
@@ -178,7 +181,7 @@ public class TallerDAO extends GenericDaoImpl implements ITallerDAO {
         try{
             conn = getConnection();
             ps = conn.prepareStatement("update taller set cif=?, adreca=?, capacitat=?, capTaller=?, telefon=? " +
-                    "web=?, actiu=?, dataModificacio=now() where id=?");
+                    "web=?, actiu=?, nom=?,  dataModificacio=now() where id=?");
 
             ps.setString(1, pTaller.getCif());
             ps.setString(2, pTaller.getAdreca());
@@ -187,7 +190,8 @@ public class TallerDAO extends GenericDaoImpl implements ITallerDAO {
             ps.setString(5, pTaller.getTelefon());
             ps.setString(6, pTaller.getWeb());
             ps.setBoolean(7, pTaller.isActiu());
-            ps.setInt(8, pTaller.getId());
+            ps.setString(8, pTaller.getNom());
+            ps.setInt(9, pTaller.getId());
 
             ps.executeUpdate();
 
@@ -213,7 +217,7 @@ public class TallerDAO extends GenericDaoImpl implements ITallerDAO {
         PreparedStatement ps = null;
         ResultSet rs = null;
         List<Taller> toReturn = new ArrayList<Taller>();
-        String query = "select id, cif, adreca, capacitat, capTaller, telefon, web, actiu , dataApertura, dataModificacio, " +
+        String query = "select id, nom, cif, adreca, capacitat, capTaller, telefon, web, actiu , dataApertura, dataModificacio, " +
                        "dataBaixa from taller ";
         try{
             conn = getConnection();
@@ -274,7 +278,7 @@ public class TallerDAO extends GenericDaoImpl implements ITallerDAO {
         Taller toReturn = null;
         try{
             conn = getConnection();
-            ps = conn.prepareStatement("select id, cif, adreca, capacitat, capTaller, telefon, web, actiu, dataApertura, " +
+            ps = conn.prepareStatement("select id, nom, cif, adreca, capacitat, capTaller, telefon, web, actiu, dataApertura, " +
                                        "dataModificacio, dataBaixa from taller where id = ?");
             ps.setLong(1,pTallerId);
 

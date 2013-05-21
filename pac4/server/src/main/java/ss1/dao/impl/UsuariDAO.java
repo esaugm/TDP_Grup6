@@ -148,12 +148,20 @@ public class UsuariDAO extends GenericDaoImpl implements IUsuariDAO {
         PreparedStatement ps = null;
         try{
             conn = getConnection();
-            ps = conn.prepareStatement("insert into usuari (taller, usuari, perfil, contrasenya, actiu, dataAlta) " +
-                                       " values (?,?,?,?,true, now())");
+            ps = conn.prepareStatement("insert into usuari (taller, usuari, perfil, contrasenya, actiu, " +
+                                       "nom, cognom, adreca, nif, poblacio, codi_postal) " +
+                                       " values (?,?,?,?,?,?,?,?,?,?,?)");
             ps.setInt(1, pUsuari.getTaller());
             ps.setString(2, pUsuari.getUsuari());
             ps.setString(3, pUsuari.getPerfil().toString());
             ps.setString(4, pUsuari.getContrasenya());
+            ps.setBoolean(5, pUsuari.isActiu());
+            ps.setString(6, pUsuari.getNom());
+            ps.setString(7, pUsuari.getCognoms());
+            ps.setString(8, pUsuari.getAdreca());
+            ps.setString(9, pUsuari.getNif());
+            ps.setString(10, pUsuari.getPoblacio());
+            ps.setString(11, pUsuari.getCodiPostal());
 
             ps.executeUpdate();
 

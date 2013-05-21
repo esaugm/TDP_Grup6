@@ -152,3 +152,25 @@ LANGUAGE plpgsql;
 CREATE TRIGGER update_dataassignacio
 BEFORE INSERT ON reparacio
 FOR EACH ROW EXECUTE PROCEDURE update_dataassignacio();
+
+-----------------------
+-------- SS1 ----------
+-----------------------
+
+-- Modificacion tabla Usuari
+-- Se añaden los campos nom, cognom, adreca, nif, poblacio, codi_postal todos de tipo character varying
+alter table Usuari add column nom character varying;
+alter table Usuari add column cognom character varying;
+alter table Usuari add column adreca character varying;
+alter table Usuari add column nif character varying;
+alter table Usuari add column poblacio character varying;
+alter table Usuari add column codi_postal character varying;
+
+-- Modificacion tabla Taller
+-- Se añade el campo nom character varying
+alter table Taller add column nom character varying;
+
+
+-----------------------
+--- Fin cambios SS1 ---
+-----------------------

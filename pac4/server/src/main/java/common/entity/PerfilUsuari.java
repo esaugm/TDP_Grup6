@@ -9,7 +9,7 @@ import java.io.Serializable;
  * Time: 15:59
  */
 public enum PerfilUsuari implements Serializable {
-    ADMINISTRADOR, ADMINISTRATIU, CAPTALLER, MECANIC;
+    ADMINISTRADOR, ADMINISTRATIU, CAPTALLER, MECANIC, UNKNOWN;
 
     public static PerfilUsuari getPerfilUsuari(String pPerfilUsuari){
         String tipus= pPerfilUsuari.toUpperCase();
@@ -17,6 +17,6 @@ public enum PerfilUsuari implements Serializable {
         if (tipus.equals("ADMINISTRATIU")) return ADMINISTRATIU;
         if (tipus.equals("CAPTALLER")) return CAPTALLER;
         if (tipus.equals("MECANIC")) return MECANIC;
-        else return null;
+        else return UNKNOWN;
     }
 }
