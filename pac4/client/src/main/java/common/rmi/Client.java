@@ -2,10 +2,13 @@ package common.rmi;
 
 import ss1.dao.exception.ExceptionContrasenyaIncorrecta;
 import ss1.dao.exception.ExceptionErrorDataBase;
+import ss1.dao.exception.ExceptionTipoObjetoFiltroNoPermitido;
 import ss1.dao.exception.ExceptionUsuariNoExisteix;
 import ss1.entity.Taller;
 import ss1.entity.Usuari;
 import ss1.server.ISS1ConexioManteniment;
+import ss1.service.filter.FilterItems;
+import ss3.beans.Reparacion;
 import ss3.server.SS3Reparaciones;
 
 import java.rmi.RemoteException;
@@ -13,7 +16,6 @@ import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.util.ArrayList;
 import java.util.List;
-import ss3.beans.Reparacion;
 
 /**
  * TDP Grup6
@@ -61,6 +63,11 @@ public class Client {
 
     public List<Taller> listaTallers() throws ExceptionErrorDataBase, RemoteException {
         return remoteSS1.getAllTallers();
+    }
+    
+    public List<Usuari> filtrarUsuaris(FilterItems pFilterItems) throws ExceptionErrorDataBase, ExceptionTipoObjetoFiltroNoPermitido, RemoteException {
+        return remoteSS1.getAllUsuarisByFilter(pFilterItems);
+        
     }
     
     public Reparacion ConsultaOrden(Integer OrdenID) throws ExceptionErrorDataBase, RemoteException {

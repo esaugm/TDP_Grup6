@@ -308,8 +308,10 @@ public class UsuariDAO extends GenericDaoImpl implements IUsuariDAO {
                 } else if ((filterTupla.getFieldToFilter() instanceof PerfilUsuari)){
                     ps.setString(filterTupla.getQueryPosition(), (filterTupla.getFieldToFilter()).toString());
                 } else if (filterTupla.getFieldToFilter() instanceof Integer){
-                        ps.setInt(filterTupla.getQueryPosition(), (Integer)filterTupla.getFieldToFilter());
-                }  else {
+                    ps.setInt(filterTupla.getQueryPosition(), (Integer)filterTupla.getFieldToFilter());
+                } else if (filterTupla.getFieldToFilter() instanceof Boolean) {
+                    ps.setBoolean(filterTupla.getQueryPosition(), (Boolean) filterTupla.getFieldToFilter());
+                } else {
                     throw new ExceptionTipoObjetoFiltroNoPermitido("Error tipo de objeto " + filterTupla.getFieldToFilter() + " no permitido para este filtro.");
                 }
 

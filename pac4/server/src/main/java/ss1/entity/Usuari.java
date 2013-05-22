@@ -92,6 +92,7 @@ public class Usuari implements Serializable {
     }
 
     public Integer getTaller() {
+        //todo cambiar atributo a tipo Taller
         return taller;
     }
 

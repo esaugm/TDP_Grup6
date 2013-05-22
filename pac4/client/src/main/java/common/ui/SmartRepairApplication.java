@@ -2,16 +2,18 @@ package common.ui;
 
 import common.rmi.Client;
 import common.utils.TDSLanguageUtils;
+import ss1.dao.exception.ExceptionErrorDataBase;
 import ss1.entity.UsuariConectat;
 import ss1.gui.GestioTallerPanel;
 import ss1.gui.GestioUsuariPanel;
 import ss1.gui.LoginDialog;
+import ss3.gui.Reparaciones;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.rmi.ConnectException;
-import ss3.gui.Reparaciones;
+import java.rmi.RemoteException;
 
 /**
  * Created with IntelliJ IDEA.
@@ -161,7 +163,16 @@ public class SmartRepairApplication extends JFrame {
 
     private void openMenuUsuaris(ActionEvent evt) {
         removePanelFromMain();
-        GestioUsuariPanel usuariPanel = new GestioUsuariPanel(client);
+        GestioUsuariPanel usuariPanel = null;
+        try {
+            usuariPanel = new GestioUsuariPanel(client);
+        } catch (ExceptionErrorDataBase exceptionErrorDataBase) {
+            JOptionPane.showMessageDialog(_mainPanel,"Error de BD", "BD Error",JOptionPane.ERROR_MESSAGE);
+            exceptionErrorDataBase.printStackTrace();
+        } catch (RemoteException e) {
+            JOptionPane.showMessageDialog(_mainPanel,"Error conexion con Servidor", "Remote Error",JOptionPane.ERROR_MESSAGE);
+            e.printStackTrace();
+        }
         setTitle(title + " - " + gestioUsuarisTitle);
         usuariPanel.setLayout(new BorderLayout());
 

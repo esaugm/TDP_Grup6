@@ -1,5 +1,6 @@
 package ss1.service.filter;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Set;
 
@@ -11,8 +12,9 @@ import java.util.Set;
  * Clase que contiene un HashMap<String, Object> donde el String es el nombre del campo de BD por el que tenemos que filtrar
  * y Object es el objeto (String, Integer, Date, Boolean, ...) que contiene el valor a filtrar
  */
-public class FilterItems {
-    
+public class FilterItems implements Serializable {
+    private static final long serialVersionUID = 1L;
+
     private HashMap<String, Object> filterMap;
 
     public FilterItems() {
