@@ -11,7 +11,9 @@ import ss3.server.SS3Reparaciones;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
+import java.util.ArrayList;
 import java.util.List;
+import ss3.beans.Reparacion;
 
 /**
  * TDP Grup6
@@ -59,5 +61,33 @@ public class Client {
 
     public List<Taller> listaTallers() throws ExceptionErrorDataBase, RemoteException {
         return remoteSS1.getAllTallers();
+    }
+    
+    public Reparacion ConsultaOrden(Integer OrdenID) throws ExceptionErrorDataBase, RemoteException {
+        return remoteSS3.ConsultaOrden(OrdenID);
+    }
+    
+    public ArrayList<Reparacion> ConsultaFechaAsig(String fechaAsig) throws ExceptionErrorDataBase, RemoteException {
+        return remoteSS3.ConsultaFechaAsig(fechaAsig);
+    }
+    
+    public ArrayList<Reparacion> ConsultaFechaIni(String fechaIni) throws ExceptionErrorDataBase, RemoteException {
+        return remoteSS3.ConsultaFechaIni(fechaIni);
+    }
+    
+    public ArrayList<Reparacion> ConsultaFechaFin(String fechaFin) throws ExceptionErrorDataBase, RemoteException {
+        return remoteSS3.ConsultaFechaFin(fechaFin);
+    }
+    
+    public ArrayList<Reparacion> ConsultaAceptadas(Boolean aceptada) throws ExceptionErrorDataBase, RemoteException {
+        return remoteSS3.ConsultaAceptadas(aceptada);
+    }
+    
+    public ArrayList<Reparacion> ConsultaAsignadas(Boolean asignada) throws ExceptionErrorDataBase, RemoteException {
+        return remoteSS3.ConsultaAsignadas(asignada);
+    }
+    
+    public Boolean anotaObs(Integer orden, String observaciones) throws ExceptionErrorDataBase, RemoteException{
+        return remoteSS3.anotaObs(orden, observaciones);
     }
 }
