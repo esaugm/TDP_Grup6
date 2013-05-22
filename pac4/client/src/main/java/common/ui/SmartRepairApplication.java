@@ -11,6 +11,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.rmi.ConnectException;
+import ss3.gui.Reparaciones;
 
 /**
  * Created with IntelliJ IDEA.
@@ -31,6 +32,7 @@ public class SmartRepairApplication extends JFrame {
     private JMenu _mantenimentMenu;
     private JMenuItem _gestioUsuarisMenu;
     private JMenuItem _gestioTallersMenu;
+    private JMenuItem _gestioReparacioMenu;
     private JMenu _administracioMenu;
     private JMenu _reparacionsMenu;
     private JMenu _estadisticasMenu;
@@ -41,9 +43,11 @@ public class SmartRepairApplication extends JFrame {
     private String title = TDSLanguageUtils.getMessage("client.title");
     private String menuGestioTallers = TDSLanguageUtils.getMessage("client.menuGestioTallerText");
     private String menuGestioUsuaris = TDSLanguageUtils.getMessage("client.menuGestioUsuariText");
+    private String menuGestioReparacio = TDSLanguageUtils.getMessage("client.menuGestioReparacioText");
     private String menuManteniment = TDSLanguageUtils.getMessage("client.menuManteniment");
     private String gestioUsuarisTitle = TDSLanguageUtils.getMessage("client.menuGestioUsuariTitle");
     private String gestioTallersTitle = TDSLanguageUtils.getMessage("client.menuGestioTallerTitle");
+    private String gestioReparacioTitle = TDSLanguageUtils.getMessage("client.menuGestioReparacioTitle");
 
 
     public SmartRepairApplication() throws Exception {
@@ -134,6 +138,15 @@ public class SmartRepairApplication extends JFrame {
             }
         });
         _mantenimentMenu.add(_gestioUsuarisMenu);
+        
+        _gestioReparacioMenu = new JMenuItem();
+        _gestioReparacioMenu.setText(menuGestioReparacio);
+        _gestioReparacioMenu.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                openMenuReparaciones(evt);
+            }
+        });
+        _mantenimentMenu.add(_gestioReparacioMenu);
         _mainMenu.add(_mantenimentMenu);
 
 
@@ -159,6 +172,17 @@ public class SmartRepairApplication extends JFrame {
 
 
         _mainPanel.add(tallerPanel, BorderLayout.CENTER);
+        _mainPanel.validate();
+    }
+    
+    private void openMenuReparaciones(ActionEvent evt) {
+        removePanelFromMain();
+        Reparaciones reparacionPanel = new Reparaciones();
+        setTitle(title + " - " + gestioReparacioTitle);
+        reparacionPanel.setLayout(new BorderLayout());
+
+
+        _mainPanel.add(reparacionPanel, BorderLayout.CENTER);
         _mainPanel.validate();
     }
 

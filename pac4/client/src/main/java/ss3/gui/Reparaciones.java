@@ -4,11 +4,12 @@
  */
 package ss3.gui;
 
+import javax.swing.*;
 /**
  *
  * @author Fernando
  */
-public class Reparaciones extends javax.swing.JPanel {
+public class Reparaciones extends JPanel {
 
     /**
      * Creates new form Reparaciones

@@ -4,11 +4,12 @@
  */
 package ss3.gui;
 
+import javax.swing.*;
 /**
  *
  * @author Fernando
  */
-public class StockPiezas extends javax.swing.JPanel {
+public class StockPiezas extends JPanel {
 
     /**
      * Creates new form StockPiezas
