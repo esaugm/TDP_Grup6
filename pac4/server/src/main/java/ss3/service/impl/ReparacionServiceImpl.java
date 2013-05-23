@@ -33,6 +33,9 @@ public class ReparacionServiceImpl implements ReparacionService {
     public Reparacion ConsultaOrden(Integer OrdenID) throws ExceptionErrorDataBase{
         return reparacion.findByPK(OrdenID);
     }
+    public ArrayList<Reparacion> ConsultaTodas() throws ExceptionErrorDataBase{
+        return reparacion.findAll();
+    }
     
     public ArrayList<Reparacion> ConsultaFechaAsig(String fechaAsig) throws ExceptionErrorDataBase{
         return reparacion.findByDataAssignacio(fechaAsig);

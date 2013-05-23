@@ -18,6 +18,7 @@ import ss3.beans.Reparacion;
 public interface ReparacionDAO extends GenericDao{
     public void checkAndInitDAO() throws AppException;
     public Reparacion findByPK(Integer pOrdenReparacion) throws ExceptionErrorDataBase;
+    public ArrayList<Reparacion> findAll() throws ExceptionErrorDataBase;
     public ArrayList<Reparacion> findByDataAssignacio(String pDataAssignacio) throws ExceptionErrorDataBase;
     public ArrayList<Reparacion> findByDataInici(String pDataInici) throws ExceptionErrorDataBase;
     public ArrayList<Reparacion> findByDataFi(String pDataFi) throws ExceptionErrorDataBase;

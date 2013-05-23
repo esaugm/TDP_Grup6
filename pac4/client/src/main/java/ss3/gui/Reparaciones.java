@@ -4,9 +4,14 @@
  */
 package ss3.gui;
 
+import common.rmi.Client;
 import java.rmi.RemoteException;
+import java.util.ArrayList;
+import java.util.Iterator;
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 import ss1.dao.exception.ExceptionErrorDataBase;
+import ss3.beans.Reparacion;
 /**
  *
  * @author Fernando
@@ -16,8 +21,39 @@ public class Reparaciones extends JPanel {
     /**
      * Creates new form Reparaciones
      */
-    public Reparaciones() {
+    
+    private DefaultTableModel dtm;
+    int con = 0; 
+    
+    public Reparaciones() throws ExceptionErrorDataBase, RemoteException {
         initComponents();
+        Client cliente = new Client();
+        ArrayList<Reparacion> rep = null;
+        rep = cliente.ConsultaTodas();
+        
+        //
+        String data[][] = {};
+        String col[] = {"Orden Reparacion","Fecha Entrada","Cont. Minutos", "Matrícula","Marca","Modelo","Observaciones","Aceptada","Asignada"};
+        dtm = new DefaultTableModel(data,col);
+        jTable1.setModel(dtm);
+        //
+        Iterator itRep = rep.iterator();
+        Reparacion r1 = new Reparacion();
+        
+        while (itRep.hasNext()){
+            r1 = (Reparacion) itRep.next();
+            dtm.insertRow(con, new Object[]{});
+            dtm.setValueAt(r1.getIdOrden(), con, 0);
+            dtm.setValueAt("-",con,1);
+            dtm.setValueAt(r1.getContador(),con,2);
+            dtm.setValueAt("-",con,3);
+            dtm.setValueAt("-",con,4);
+            dtm.setValueAt("-",con,5);
+            dtm.setValueAt(r1.getObservaciones(),con,6);
+            dtm.setValueAt(r1.isAceptada(),con,7);
+            dtm.setValueAt(r1.isAsignada(),con,8);
+            con++;
+        }
     }
 
     /**

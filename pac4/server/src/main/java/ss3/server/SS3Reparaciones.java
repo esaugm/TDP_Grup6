@@ -27,6 +27,7 @@ import java.util.ArrayList;
 public interface SS3Reparaciones extends Remote {
 
     public Reparacion ConsultaOrden(Integer OrdenID) throws ExceptionErrorDataBase, RemoteException;
+    public ArrayList<Reparacion> ConsultaTodas() throws ExceptionErrorDataBase, RemoteException;
     public ArrayList<Reparacion> ConsultaFechaAsig(String fechaAsig) throws ExceptionErrorDataBase, RemoteException;
     public ArrayList<Reparacion> ConsultaFechaIni(String fechaIni) throws ExceptionErrorDataBase, RemoteException;
     public ArrayList<Reparacion> ConsultaFechaFin(String fechaFin) throws ExceptionErrorDataBase, RemoteException;

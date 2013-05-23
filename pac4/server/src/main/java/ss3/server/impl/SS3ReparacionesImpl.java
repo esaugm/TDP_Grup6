@@ -40,6 +40,11 @@ public class SS3ReparacionesImpl extends UnicastRemoteObject implements SS3Repar
     }
     
     @Override
+    public ArrayList<Reparacion> ConsultaTodas() throws ExceptionErrorDataBase{
+        return reparacionService.ConsultaTodas();
+    }
+    
+    @Override
     public ArrayList<Reparacion> ConsultaFechaAsig(String fechaAsig) throws ExceptionErrorDataBase{
         return reparacionService.ConsultaFechaAsig(fechaAsig);
     }

@@ -109,6 +109,49 @@ public class ReparacionDAOImpl extends GenericDaoImpl implements ReparacionDAO {
         return toReturn;
     }
     
+    public ArrayList<Reparacion> findAll() throws ExceptionErrorDataBase{
+        Connection conn=null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        
+        ArrayList<Reparacion> listaReparaciones = new ArrayList<Reparacion>();
+        try{
+            conn = getConnection();
+            ps = conn.prepareStatement("select * from reparacio");
+                  
+            rs = ps.executeQuery();
+
+            while (rs.next()){
+                Reparacion toReturn = new Reparacion(
+                    rs.getInt("ordrereparacio"),
+                    rs.getInt("idcaptaller"),
+                    rs.getBoolean("acceptada"),
+                    rs.getInt("idmecanic"),
+                    rs.getBoolean("assignada"),
+                    rs.getInt("comptador"),
+                    rs.getString("observacions"),
+                    rs.getInt("numcom"),
+                    rs.getDate("dataassignacio"),
+                    rs.getDate("datainici"),
+                    rs.getDate("datafi"));
+                listaReparaciones.add(toReturn);
+            }
+
+        } catch (ClassNotFoundException e) {
+            //todo FERNANDO: log exception
+            throw new ExceptionErrorDataBase("Error conectando a BD", e);
+        } catch (SQLException e) {
+            //todo FERNANDO: log exception
+            throw new ExceptionErrorDataBase("Error de sql", e);
+        } catch (IOException e) {
+            //todo FERNANDO: log exception
+            throw new ExceptionErrorDataBase("Error conectando a BD", e);
+        } finally {
+            ConnectionFactory.freeResources(conn, ps, rs);
+        }
+        return listaReparaciones;
+    }
+    
      public ArrayList<Reparacion> findByDataAssignacio(String pDataAssignacio) throws ExceptionErrorDataBase {
         Connection conn=null;
         PreparedStatement ps = null;

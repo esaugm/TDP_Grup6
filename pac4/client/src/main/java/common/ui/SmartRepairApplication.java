@@ -176,7 +176,13 @@ _reparacioMenu = new JMenu();
         _gestioRepMenu.setText(menuGestioReparacio);
         _gestioRepMenu.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                openMenuGesRep(evt);
+                try {
+                    openMenuGesRep(evt);
+                } catch (ExceptionErrorDataBase ex) {
+                    Logger.getLogger(SmartRepairApplication.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (RemoteException ex) {
+                    Logger.getLogger(SmartRepairApplication.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         });
         _reparacioMenu.add(_gestioRepMenu);
@@ -237,7 +243,7 @@ _reparacioMenu = new JMenu();
         _mainPanel.validate();
     }
     
-    private void openMenuGesRep(ActionEvent evt) {
+    private void openMenuGesRep(ActionEvent evt) throws ExceptionErrorDataBase, RemoteException {
         removePanelFromMain();
         Reparaciones ra = new Reparaciones();
         setTitle(title + " - " + gestioReparacioTitle);
@@ -273,10 +279,10 @@ _reparacioMenu = new JMenu();
 
     private void openEstadisticasReparaciones(java.awt.event.ActionEvent evt) throws ParseException {
         removePanelFromMain();
-        ReparacionesEstaPanel panel = new ReparacionesEstaPanel(client.get_remoteSS4());
+        //ReparacionesEstaPanel panel = new ReparacionesEstaPanel(client.get_remoteSS4());
 
 
-        _mainPanel.add(panel, BorderLayout.CENTER);
+        //_mainPanel.add(panel, BorderLayout.CENTER);
         _mainPanel.validate();
 
 

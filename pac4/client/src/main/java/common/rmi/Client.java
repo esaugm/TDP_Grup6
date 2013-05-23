@@ -79,6 +79,10 @@ public class Client {
         return remoteSS3.ConsultaOrden(OrdenID);
     }
     
+    public ArrayList<Reparacion> ConsultaTodas() throws ExceptionErrorDataBase, RemoteException {
+        return remoteSS3.ConsultaTodas();
+    }
+    
     public ArrayList<Reparacion> ConsultaFechaAsig(String fechaAsig) throws ExceptionErrorDataBase, RemoteException {
         return remoteSS3.ConsultaFechaAsig(fechaAsig);
     }
