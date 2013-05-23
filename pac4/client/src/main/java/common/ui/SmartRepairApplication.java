@@ -7,7 +7,6 @@ import ss1.entity.UsuariConectat;
 import ss1.gui.GestioTallerPanel;
 import ss1.gui.GestioUsuariPanel;
 import ss1.gui.LoginDialog;
-import ss3.gui.Reparaciones;
 
 import javax.swing.*;
 import java.awt.*;

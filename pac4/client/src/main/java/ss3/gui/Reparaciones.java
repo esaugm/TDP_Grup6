@@ -1,9 +1,6 @@
 import javax.swing.JPanel;
 import javax.swing.JLabel;
 import java.awt.Font;
-import javax.swing.GroupLayout;
-import javax.swing.GroupLayout.Alignment;
-import javax.swing.border.BevelBorder;
 import javax.swing.JComboBox;
 import javax.swing.JTextField;
 import javax.swing.JTable;
