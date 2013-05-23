@@ -8,12 +8,15 @@ import ss1.gui.GestioTallerPanel;
 import ss1.gui.GestioUsuariPanel;
 import ss1.gui.LoginDialog;
 import ss3.gui.*;
+import ss4.gui.ReparacionesClienteEstaPanel;
+import ss4.gui.ReparacionesEstaPanel;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.rmi.ConnectException;
 import java.rmi.RemoteException;
+import java.text.ParseException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -29,20 +32,25 @@ public class SmartRepairApplication extends JFrame {
     private LoginDialog loginDialog;
     private UsuariConectat usuariConectat;
     private Client client;
-    private int loginTries=0;
+    private int loginTries = 0;
 
     private JMenuBar _mainMenu;
     private JMenu _inicioMenu;
     private JMenu _mantenimentMenu;
     private JMenu _applicationMenu;
+    private JMenu _estadisticasMenu;
     private JMenuItem _gestioUsuarisMenu;
     private JMenuItem _gestioTallersMenu;
     private JMenuItem _ReparacioMenu;
     private JMenu _administracioMenu;
     private JMenu _reparacionsMenu;
-    private JMenu _estadisticasMenu;
+
     private JMenuItem _inicioBtnMenu;
     private JMenuItem _quitBtnMenu;
+    private JMenuItem _estaReparaciones;
+    private JMenuItem _estaReparacionesClientes;
+    private JMenuItem _estaReparacionesEmpleados;
+
 
     //i18n messages
     private String title = TDSLanguageUtils.getMessage("client.title");
@@ -68,8 +76,6 @@ public class SmartRepairApplication extends JFrame {
         _inicioBtnMenu = new JMenuItem();
         _inicioMenu = new JMenu();
         _quitBtnMenu = new JMenuItem();
-
-
 
 
         client = new Client();
@@ -105,19 +111,11 @@ public class SmartRepairApplication extends JFrame {
         setContentPane(_mainPanel);
 
         _inicioBtnMenu.setText("start");
-        _inicioBtnMenu.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                mnexampleActionView(evt);
-            }
-        });
+
         _inicioMenu.add(_inicioBtnMenu);
         _quitBtnMenu.setText("Pantalla 2 Son pantallas de pruebas !!!");
         _inicioMenu.add(_quitBtnMenu);
-        _quitBtnMenu.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                mnexampleActionView2(evt);
-            }
-        });
+
         _inicioMenu.setText("Inicio");
         _mainMenu.add(_inicioMenu);
 
@@ -145,25 +143,25 @@ public class SmartRepairApplication extends JFrame {
         });
         _mantenimentMenu.add(_gestioUsuarisMenu);
         _mainMenu.add(_mantenimentMenu);
-        
-        _applicationMenu= new JMenu();
+
+        _applicationMenu = new JMenu();
         _applicationMenu.setText(menuApplication);
-        
-        
+
+
         _ReparacioMenu = new JMenuItem();
         _ReparacioMenu.setText(menuReparacio);
         _ReparacioMenu.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                try { 
+                try {
                     openMenuReparaciones(evt);
                 } catch (Exception ex) {
                     Logger.getLogger(SmartRepairApplication.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
-         });
+        });
         _applicationMenu.add(_ReparacioMenu);
         _mainMenu.add(_applicationMenu);
-
+        paintEstadisticasMenu();
 
 
     }
@@ -174,10 +172,10 @@ public class SmartRepairApplication extends JFrame {
         try {
             usuariPanel = new GestioUsuariPanel(client);
         } catch (ExceptionErrorDataBase exceptionErrorDataBase) {
-            JOptionPane.showMessageDialog(_mainPanel,"Error de BD", "BD Error",JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(_mainPanel, "Error de BD", "BD Error", JOptionPane.ERROR_MESSAGE);
             exceptionErrorDataBase.printStackTrace();
         } catch (RemoteException e) {
-            JOptionPane.showMessageDialog(_mainPanel,"Error conexion con Servidor", "Remote Error",JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(_mainPanel, "Error conexion con Servidor", "Remote Error", JOptionPane.ERROR_MESSAGE);
             e.printStackTrace();
         }
         setTitle(title + " - " + gestioUsuarisTitle);
@@ -198,7 +196,7 @@ public class SmartRepairApplication extends JFrame {
         _mainPanel.add(tallerPanel, BorderLayout.CENTER);
         _mainPanel.validate();
     }
-    
+
     private void openMenuReparaciones(ActionEvent evt) throws Exception {
         removePanelFromMain();
         MenuSS3 mr = new MenuSS3();
@@ -210,27 +208,7 @@ public class SmartRepairApplication extends JFrame {
         _mainPanel.validate();
     }
 
-    private void mnexampleActionView(java.awt.event.ActionEvent evt) {
-        removePanelFromMain();
-        TestPanel test = new TestPanel();
 
-
-        _mainPanel.add(test, BorderLayout.CENTER);
-        _mainPanel.validate();
-
-
-    }
-
-    private void mnexampleActionView2(java.awt.event.ActionEvent evt) {
-        removePanelFromMain();
-        TestPanel2 test = new TestPanel2();
-
-
-        _mainPanel.add(test, BorderLayout.CENTER);
-        _mainPanel.validate();
-
-
-    }
 
     private void removePanelFromMain() {
         if (_mainPanel.getComponentCount() > 0) {
@@ -240,6 +218,77 @@ public class SmartRepairApplication extends JFrame {
                 _mainPanel.validate();
             }
         }
+    }
+
+    private void openEstadisticasReparaciones(java.awt.event.ActionEvent evt) throws ParseException {
+        removePanelFromMain();
+        ReparacionesEstaPanel panel = new ReparacionesEstaPanel(client.get_remoteSS4());
+
+
+        _mainPanel.add(panel, BorderLayout.CENTER);
+        _mainPanel.validate();
+
+
+    }
+    private void openEstadisticasReparacionesClientes(java.awt.event.ActionEvent evt) throws ParseException {
+        removePanelFromMain();
+        ReparacionesClienteEstaPanel panel = new ReparacionesClienteEstaPanel(client.get_remoteSS4());
+        _mainPanel.add(panel, BorderLayout.CENTER);
+        _mainPanel.validate();
+
+
+    }
+    private void openEstadisticasReparacionesEmpleados(java.awt.event.ActionEvent evt) throws ParseException {
+        removePanelFromMain();
+//        ReparacionesClienteEstaPanel panel = new ReparacionesClienteEstaPanel(client.get_remoteSS4());
+//        _mainPanel.add(panel, BorderLayout.CENTER);
+        _mainPanel.validate();
+
+
+    }
+
+    private void paintEstadisticasMenu() {
+        _estadisticasMenu = new JMenu("Estadisticas");
+        _estaReparaciones = new JMenuItem("Estadisticas Reparaciones");
+        _estaReparaciones.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                try {
+                    openEstadisticasReparaciones(evt);
+                } catch (Exception ex) {
+                    Logger.getLogger(SmartRepairApplication.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        });
+        _estaReparacionesClientes = new JMenuItem("Estadisticas Clientes");
+        _estaReparacionesClientes.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                try {
+                    openEstadisticasReparacionesClientes(evt);
+                } catch (Exception ex) {
+                    Logger.getLogger(SmartRepairApplication.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        });
+        _estaReparacionesEmpleados = new JMenuItem("Estadisticas Empleados");
+        _estaReparacionesEmpleados.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                try {
+                    openEstadisticasReparacionesEmpleados(evt);
+                } catch (Exception ex) {
+                    Logger.getLogger(SmartRepairApplication.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        });
+        _estadisticasMenu.add(_estaReparaciones);
+        _estadisticasMenu.add(_estaReparacionesClientes);
+        _estadisticasMenu.add(_estaReparacionesEmpleados);
+        _mainMenu.add(_estadisticasMenu);
+    }
+
+    private void repaintMainMenuByUserRole(UsuariConectat usuariConectat) {
+       //TODO EN ESTE METODO COMPLETEMOS CADA UNO SU PARTE , DESPUES DE HACER EL LOGIN , EN FUNCION DEL ROLE DE SUARIO QUE PINTE UNOS MENUS U OTROS.
+        // SI VEIS EL METODO  paintEstadisticasMenu() , SI LE LLAMAIS PINTARA TODO EL MENU DE MENU ESTADISTICO , CREO QUE ES RAPIDO I LIMPIO , SI CADA UNO
+        //HACE UN METODO PARECIDO PERO CON SUS MENUS , SERAN FACILMENTE MANEJABLES .
     }
 
     public static void main(String[] args) {

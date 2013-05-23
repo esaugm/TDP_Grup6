@@ -10,6 +10,7 @@ import ss1.server.ISS1ConexioManteniment;
 import ss1.service.filter.FilterItems;
 import ss3.beans.Reparacion;
 import ss3.server.SS3Reparaciones;
+import ss4.server.ISS4Estadisticas;
 
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
@@ -32,6 +33,9 @@ public class Client {
     private final String JNDI_SS1_NAME = "ConexioManteniment";
     private SS3Reparaciones remoteSS3;
     private final String JNDI_SS3_NAME = "Reparaciones";
+
+    private final String JNDI_SS4_NAME = "Estadisticas";
+    private ISS4Estadisticas _remoteSS4 ;
     //todo añadir Interface y JNDI para cada subsistema
 
 
@@ -44,6 +48,7 @@ public class Client {
             Registry registry = LocateRegistry.getRegistry(URL, PORT);
             remoteSS1 = (ISS1ConexioManteniment) registry.lookup(JNDI_SS1_NAME);
             remoteSS3 = (SS3Reparaciones) registry.lookup(JNDI_SS3_NAME);
+            _remoteSS4 = (ISS4Estadisticas) registry.lookup(JNDI_SS4_NAME);
             //todo añadir los interfaces de cada subsistema
             System.out.println("Connected!");
         }
@@ -96,5 +101,13 @@ public class Client {
     
     public Boolean anotaObs(Integer orden, String observaciones) throws ExceptionErrorDataBase, RemoteException{
         return remoteSS3.anotaObs(orden, observaciones);
+    }
+
+    public ISS4Estadisticas get_remoteSS4() {
+        return _remoteSS4;
+    }
+
+    public void set_remoteSS4(ISS4Estadisticas _remoteSS4) {
+        this._remoteSS4 = _remoteSS4;
     }
 }
