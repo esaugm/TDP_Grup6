@@ -2,18 +2,13 @@ package common.ui;
 
 import common.rmi.Client;
 import common.utils.TDSLanguageUtils;
-import ss1.dao.exception.ExceptionErrorDataBase;
 import ss1.entity.UsuariConectat;
-import ss1.gui.GestioTallerPanel;
-import ss1.gui.GestioUsuariPanel;
 import ss1.gui.LoginDialog;
 import ss3.gui.*;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
-import java.rmi.ConnectException;
-import java.rmi.RemoteException;
 
 /**
  * Created with IntelliJ IDEA.
@@ -25,9 +20,6 @@ import java.rmi.RemoteException;
 public class MenuSS3 extends JFrame {
     private JPanel _mainPanel;
     private LoginDialog loginDialog;
-    private UsuariConectat usuariConectat;
-    private Client client;
-    private int loginTries=0;
 
     private JMenuBar _mainMenu;
     private JMenu _inicioMenu;
