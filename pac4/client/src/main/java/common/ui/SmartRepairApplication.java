@@ -7,7 +7,6 @@ import ss1.entity.UsuariConectat;
 import ss1.gui.GestioTallerPanel;
 import ss1.gui.GestioUsuariPanel;
 import ss1.gui.LoginDialog;
-import ss3.pantallas.Reparaciones;
 
 import javax.swing.*;
 import java.awt.*;
@@ -195,7 +194,7 @@ public class SmartRepairApplication extends JFrame {
     
     private void openMenuReparaciones(ActionEvent evt) {
         removePanelFromMain();
-        Reparaciones r = new Reparaciones();
+        Prueba r = new Prueba();
         setTitle(title + " - " + ReparacioTitle);
         r.setLayout(new BorderLayout());
 

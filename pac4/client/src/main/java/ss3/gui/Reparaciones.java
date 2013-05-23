@@ -1,3 +1,5 @@
+package ss3.gui;
+
 import javax.swing.JPanel;
 import javax.swing.JLabel;
 import java.awt.Font;
