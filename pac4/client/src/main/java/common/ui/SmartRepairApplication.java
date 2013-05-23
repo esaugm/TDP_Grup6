@@ -7,7 +7,6 @@ import ss1.entity.UsuariConectat;
 import ss1.gui.GestioTallerPanel;
 import ss1.gui.GestioUsuariPanel;
 import ss1.gui.LoginDialog;
-import ss3.gui.Reparaciones;
 
 import javax.swing.*;
 import java.awt.*;
@@ -147,13 +146,14 @@ public class SmartRepairApplication extends JFrame {
         _applicationMenu= new JMenu();
         _applicationMenu.setText(menuApplication);
         
+        
         _ReparacioMenu = new JMenuItem();
         _ReparacioMenu.setText(menuReparacio);
         _ReparacioMenu.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                openMenuReparaciones(evt);
+                    openMenuReparaciones(evt); 
             }
-        });
+         });
         _applicationMenu.add(_ReparacioMenu);
         _mainMenu.add(_applicationMenu);
 
@@ -194,12 +194,12 @@ public class SmartRepairApplication extends JFrame {
     
     private void openMenuReparaciones(ActionEvent evt) {
         removePanelFromMain();
-        Reparaciones reparacionPanel = new Reparaciones();
+        Reparaciones r = new Reparaciones();
         setTitle(title + " - " + ReparacioTitle);
-        reparacionPanel.setLayout(new BorderLayout());
+        r.setLayout(new BorderLayout());
 
 
-        _mainPanel.add(reparacionPanel, BorderLayout.CENTER);
+        _mainPanel.add(r, BorderLayout.CENTER);
         _mainPanel.validate();
     }
 
