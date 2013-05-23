@@ -1,5 +1,3 @@
-package ss3.pantallas;
-
 import javax.swing.JPanel;
 import javax.swing.JLabel;
 import java.awt.Font;
@@ -46,22 +44,22 @@ public class Reparaciones extends JPanel {
 		));
 		
 		JButton btnDetalle = new JButton("Detalle");
-		btnDetalle.setBounds(95, 200, 65, 44);
+		btnDetalle.setBounds(106, 200, 86, 44);
 		
 		JButton btnAceptar = new JButton("Aceptar");
-		btnAceptar.setBounds(166, 200, 71, 44);
+		btnAceptar.setBounds(202, 200, 94, 44);
 		
 		JButton btnAsignar = new JButton("Asignar");
-		btnAsignar.setBounds(243, 200, 69, 44);
+		btnAsignar.setBounds(306, 200, 86, 44);
 		
 		JButton btnActualizar = new JButton("Actualizar");
-		btnActualizar.setBounds(10, 200, 79, 44);
+		btnActualizar.setBounds(10, 200, 86, 44);
 		
 		JButton btnFinalizar = new JButton("Finalizar");
-		btnFinalizar.setBounds(322, 200, 71, 44);
+		btnFinalizar.setBounds(402, 200, 84, 44);
 		
 		JButton btnSalir = new JButton("Salir");
-		btnSalir.setBounds(570, 200, 53, 44);
+		btnSalir.setBounds(558, 200, 65, 44);
 		
 		JLabel lblFiltrar = new JLabel("Filtrar");
 		lblFiltrar.setBounds(10, 67, 40, 14);
@@ -70,32 +68,32 @@ public class Reparaciones extends JPanel {
 		comboBox.setBounds(48, 67, 97, 20);
 		
 		JLabel lblDe = new JLabel("De");
-		lblDe.setBounds(163, 59, 13, 14);
+		lblDe.setBounds(163, 56, 45, 14);
 		
 		JLabel lblHasta = new JLabel("Hasta");
-		lblHasta.setBounds(163, 90, 28, 14);
+		lblHasta.setBounds(163, 90, 45, 14);
 		
 		textField = new JTextField();
-		textField.setBounds(194, 56, 86, 20);
+		textField.setBounds(218, 53, 86, 20);
 		textField.setColumns(10);
 		
 		textField_1 = new JTextField();
-		textField_1.setBounds(195, 87, 86, 20);
+		textField_1.setBounds(218, 87, 86, 20);
 		textField_1.setColumns(10);
 		
 		JLabel lblNombreCliente = new JLabel("Nombre Cliente");
-		lblNombreCliente.setBounds(314, 63, 73, 14);
+		lblNombreCliente.setBounds(359, 53, 91, 14);
 		
 		textField_2 = new JTextField();
-		textField_2.setBounds(405, 60, 86, 20);
+		textField_2.setBounds(460, 53, 86, 20);
 		textField_2.setColumns(10);
 		
 		textField_3 = new JTextField();
-		textField_3.setBounds(405, 86, 86, 20);
+		textField_3.setBounds(460, 87, 86, 20);
 		textField_3.setColumns(10);
 		
 		JLabel lblApellidoCliente = new JLabel("Apellido Cliente");
-		lblApellidoCliente.setBounds(314, 90, 73, 14);
+		lblApellidoCliente.setBounds(359, 90, 91, 14);
 		setLayout(null);
 		add(lblReparaciones);
 		add(lblFiltrar);
