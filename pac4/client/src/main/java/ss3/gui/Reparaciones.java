@@ -65,7 +65,7 @@ public class Reparaciones extends JPanel {
 		btnSalir.setBounds(570, 200, 53, 44);
 		
 		JLabel lblFiltrar = new JLabel("Filtrar");
-		lblFiltrar.setBounds(10, 67, 28, 14);
+		lblFiltrar.setBounds(10, 67, 40, 14);
 		
 		JComboBox comboBox = new JComboBox();
 		comboBox.setBounds(48, 67, 97, 20);
