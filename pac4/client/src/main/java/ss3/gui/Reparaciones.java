@@ -4,7 +4,9 @@
  */
 package ss3.gui;
 
+import java.rmi.RemoteException;
 import javax.swing.*;
+import ss1.dao.exception.ExceptionErrorDataBase;
 /**
  *
  * @author Fernando
@@ -213,14 +215,28 @@ public class Reparaciones extends JPanel {
 
     private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
         // TODO add your handling code here:
+        DetalleReparacionAsig dra = null;
+        dra = new DetalleReparacionAsig();
+        dra.setVisible(true);
+        dra.setModal(true);
     }//GEN-LAST:event_jButton9ActionPerformed
 
     private void jButton10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton10ActionPerformed
         // TODO add your handling code here:
+        PiezasReparacion pr = null;
+        pr = new PiezasReparacion();
+        pr.setVisible(true);
+        pr.setModal(true);
     }//GEN-LAST:event_jButton10ActionPerformed
 
     private void jButton11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton11ActionPerformed
-        // TODO add your handling code here:
+        //Si está aceptada pero no asignada a Mecanico, abrirá la pantalla AsignarAMecanico
+        //Si está aceptada y asignada, mostrará un mensaje indicando que ya está asignada y dará la posibilidad de asignar otro
+        //Si no está aceptada y pulsamos en ASignada, saldrá un mensaje indicando que aún no se ha aceptado la orden
+        AsignacionAMecanico aam = null;
+        aam = new AsignacionAMecanico();
+        aam.setVisible(true);
+        aam.setModal(true);
     }//GEN-LAST:event_jButton11ActionPerformed
 
     private void jButton12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton12ActionPerformed
@@ -229,8 +245,9 @@ public class Reparaciones extends JPanel {
 
     private void jButton13ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton13ActionPerformed
         // TODO add your handling code here:
+        setVisible(false);
     }//GEN-LAST:event_jButton13ActionPerformed
-
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton10;
     private javax.swing.JButton jButton11;

@@ -9,12 +9,15 @@ import javax.swing.*;
  *
  * @author Fernando
  */
-public class DetalleReparacionAsig extends JPanel {
+public class DetalleReparacionAsig extends JDialog {
 
     /**
      * Creates new form DetalleReparacionAsig
      */
     public DetalleReparacionAsig() {
+        setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+        setAlwaysOnTop(true);
+        setBounds(75, 75, 754, 490);
         initComponents();
     }
 
@@ -68,29 +71,29 @@ public class DetalleReparacionAsig extends JPanel {
         jButton5 = new javax.swing.JButton();
         jButton6 = new javax.swing.JButton();
 
-        setLayout(null);
+        getContentPane().setLayout(null);
 
         jLabel1.setFont(new java.awt.Font("Lucida Grande", 1, 36)); // NOI18N
         jLabel1.setText("Detalle Reparación Asignada");
-        add(jLabel1);
+        getContentPane().add(jLabel1);
         jLabel1.setBounds(154, 11, 493, 51);
 
         jLabel7.setText("Nombre Mecánico");
-        add(jLabel7);
+        getContentPane().add(jLabel7);
         jLabel7.setBounds(210, 80, 120, 14);
-        add(jTextField6);
+        getContentPane().add(jTextField6);
         jTextField6.setBounds(340, 80, 112, 20);
-        add(jTextField7);
+        getContentPane().add(jTextField7);
         jTextField7.setBounds(522, 80, 112, 20);
 
         jLabel8.setText("Apellido");
-        add(jLabel8);
+        getContentPane().add(jLabel8);
         jLabel8.setBounds(470, 80, 50, 14);
-        add(jTextField8);
+        getContentPane().add(jTextField8);
         jTextField8.setBounds(667, 80, 105, 20);
 
         jLabel9.setText("ID");
-        add(jLabel9);
+        getContentPane().add(jLabel9);
         jLabel9.setBounds(652, 83, 11, 14);
 
         jPanel1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
@@ -148,7 +151,7 @@ public class DetalleReparacionAsig extends JPanel {
                 .addGap(27, 27, 27))
         );
 
-        add(jPanel1);
+        getContentPane().add(jPanel1);
         jPanel1.setBounds(10, 111, 772, 71);
 
         jPanel5.setBorder(javax.swing.BorderFactory.createEtchedBorder());
@@ -182,7 +185,7 @@ public class DetalleReparacionAsig extends JPanel {
                 .addContainerGap())
         );
 
-        add(jPanel5);
+        getContentPane().add(jPanel5);
         jPanel5.setBounds(10, 200, 800, 152);
 
         jPanel8.setBorder(javax.swing.BorderFactory.createEtchedBorder());
@@ -243,7 +246,7 @@ public class DetalleReparacionAsig extends JPanel {
                 .addGap(40, 40, 40))
         );
 
-        add(jPanel8);
+        getContentPane().add(jPanel8);
         jPanel8.setBounds(10, 360, 355, 190);
 
         jPanel2.setBorder(javax.swing.BorderFactory.createEtchedBorder());
@@ -301,7 +304,7 @@ public class DetalleReparacionAsig extends JPanel {
                 .addGap(27, 27, 27))
         );
 
-        add(jPanel2);
+        getContentPane().add(jPanel2);
         jPanel2.setBounds(380, 360, 240, 190);
 
         jPanel6.setBorder(javax.swing.BorderFactory.createEtchedBorder());
@@ -363,11 +366,16 @@ public class DetalleReparacionAsig extends JPanel {
                 .addContainerGap(23, Short.MAX_VALUE))
         );
 
-        add(jPanel6);
+        getContentPane().add(jPanel6);
         jPanel6.setBounds(630, 360, 180, 190);
 
         jButton6.setText("Salir");
-        add(jButton6);
+        jButton6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton6ActionPerformed(evt);
+            }
+        });
+        getContentPane().add(jButton6);
         jButton6.setBounds(750, 560, 60, 23);
     }// </editor-fold>//GEN-END:initComponents
 
@@ -382,6 +390,11 @@ public class DetalleReparacionAsig extends JPanel {
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton4ActionPerformed
+
+    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
+        // TODO add your handling code here:
+        setVisible(false);
+    }//GEN-LAST:event_jButton6ActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton3;

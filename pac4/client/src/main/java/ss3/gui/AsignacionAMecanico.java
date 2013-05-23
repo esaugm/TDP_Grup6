@@ -9,12 +9,15 @@ import javax.swing.*;
  *
  * @author Fernando
  */
-public class AsignacionAMecanico extends JPanel {
+public class AsignacionAMecanico extends JDialog {
 
     /**
      * Creates new form AMecanico
      */
     public AsignacionAMecanico() {
+        setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+        setAlwaysOnTop(true);
+        setBounds(75, 75, 870, 420);
         initComponents();
     }
 
@@ -53,11 +56,11 @@ public class AsignacionAMecanico extends JPanel {
         jButton3 = new javax.swing.JButton();
         jButton6 = new javax.swing.JButton();
 
-        setLayout(null);
+        getContentPane().setLayout(null);
 
         jLabel1.setFont(new java.awt.Font("Lucida Grande", 1, 36)); // NOI18N
         jLabel1.setText("Asignación Mecánico");
-        add(jLabel1);
+        getContentPane().add(jLabel1);
         jLabel1.setBounds(210, 11, 361, 51);
 
         jPanel1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
@@ -115,7 +118,7 @@ public class AsignacionAMecanico extends JPanel {
                 .addGap(27, 27, 27))
         );
 
-        add(jPanel1);
+        getContentPane().add(jPanel1);
         jPanel1.setBounds(10, 68, 830, 71);
 
         jPanel4.setBorder(javax.swing.BorderFactory.createEtchedBorder());
@@ -186,7 +189,7 @@ public class AsignacionAMecanico extends JPanel {
                 .addGap(62, 62, 62))
         );
 
-        add(jPanel4);
+        getContentPane().add(jPanel4);
         jPanel4.setBounds(10, 150, 413, 190);
 
         jPanel2.setBorder(javax.swing.BorderFactory.createEtchedBorder());
@@ -262,7 +265,7 @@ public class AsignacionAMecanico extends JPanel {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        add(jPanel2);
+        getContentPane().add(jPanel2);
         jPanel2.setBounds(430, 150, 411, 190);
 
         jButton6.setText("Salir");
@@ -271,7 +274,7 @@ public class AsignacionAMecanico extends JPanel {
                 jButton6ActionPerformed(evt);
             }
         });
-        add(jButton6);
+        getContentPane().add(jButton6);
         jButton6.setBounds(770, 350, 70, 23);
     }// </editor-fold>//GEN-END:initComponents
 
@@ -293,6 +296,7 @@ public class AsignacionAMecanico extends JPanel {
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
         // TODO add your handling code here:
+        setVisible(false);
     }//GEN-LAST:event_jButton6ActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
