@@ -41,9 +41,14 @@ public class SmartRepairApplication extends JFrame {
     private JMenu _estadisticasMenu;
     private JMenuItem _gestioUsuarisMenu;
     private JMenuItem _gestioTallersMenu;
-    private JMenuItem _ReparacioMenu;
     private JMenu _administracioMenu;
-    private JMenu _reparacionsMenu;
+ 
+    private JMenu _reparacioMenu;
+    private JMenuItem _stockMenu;
+    private JMenuItem _avisosMenu;
+    private JMenuItem _gestioRepMenu;
+    private JMenuItem _repAsigMenu;
+
 
     private JMenuItem _inicioBtnMenu;
     private JMenuItem _quitBtnMenu;
@@ -62,6 +67,15 @@ public class SmartRepairApplication extends JFrame {
     private String gestioUsuarisTitle = TDSLanguageUtils.getMessage("client.menuGestioUsuariTitle");
     private String gestioTallersTitle = TDSLanguageUtils.getMessage("client.menuGestioTallerTitle");
     private String ReparacioTitle = TDSLanguageUtils.getMessage("client.menuGestioReparacioTitle");
+    private String menuReparacions = TDSLanguageUtils.getMessage("client.menuReparacions");
+    private String menuRepAsig = TDSLanguageUtils.getMessage("client.menuRepAsigText");
+    private String menuAviso = TDSLanguageUtils.getMessage("client.menuAvisoText");
+    private String menuGestioReparacio = TDSLanguageUtils.getMessage("client.menuGestioReparacioText");
+    private String menuStock = TDSLanguageUtils.getMessage("client.menuStockText");
+    private String repAsigTitle = TDSLanguageUtils.getMessage("client.menuRepAsigTitle");
+    private String gestioReparacioTitle = TDSLanguageUtils.getMessage("client.menuGestioReparacioTitle");
+    private String stockTitle = TDSLanguageUtils.getMessage("client.menuStockTitle");
+    private String avisoTitle = TDSLanguageUtils.getMessage("client.menuAvisoTitle");
 
 
     public SmartRepairApplication() throws Exception {
@@ -147,20 +161,35 @@ public class SmartRepairApplication extends JFrame {
         _applicationMenu = new JMenu();
         _applicationMenu.setText(menuApplication);
 
-
-        _ReparacioMenu = new JMenuItem();
-        _ReparacioMenu.setText(menuReparacio);
-        _ReparacioMenu.addActionListener(new java.awt.event.ActionListener() {
+_reparacioMenu = new JMenu();
+        _reparacioMenu.setText(menuReparacions);
+        _repAsigMenu = new JMenuItem();
+        _repAsigMenu.setText(menuRepAsig);
+        _repAsigMenu.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                try {
-                    openMenuReparaciones(evt);
-                } catch (Exception ex) {
-                    Logger.getLogger(SmartRepairApplication.class.getName()).log(Level.SEVERE, null, ex);
-                }
+                openMenuRepAsig(evt);
             }
         });
-        _applicationMenu.add(_ReparacioMenu);
-        _mainMenu.add(_applicationMenu);
+        _reparacioMenu.add(_repAsigMenu);
+
+        _gestioRepMenu = new JMenuItem();
+        _gestioRepMenu.setText(menuGestioReparacio);
+        _gestioRepMenu.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                openMenuGesRep(evt);
+            }
+        });
+        _reparacioMenu.add(_gestioRepMenu);
+        
+        _stockMenu = new JMenuItem();
+        _stockMenu.setText(menuStock);
+        _stockMenu.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                openStock(evt);
+            }
+        });
+        _reparacioMenu.add(_stockMenu);
+        _mainMenu.add(_reparacioMenu);
         paintEstadisticasMenu();
 
 
@@ -197,14 +226,36 @@ public class SmartRepairApplication extends JFrame {
         _mainPanel.validate();
     }
 
-    private void openMenuReparaciones(ActionEvent evt) throws Exception {
+    private void openMenuRepAsig(ActionEvent evt) {
         removePanelFromMain();
-        MenuSS3 mr = new MenuSS3();
-        setTitle(title + " - " + ReparacioTitle);
-        mr.setLayout(new BorderLayout());
+        ReparacionesAsignadas ra = new ReparacionesAsignadas();
+        setTitle(title + " - " + repAsigTitle);
+        ra.setLayout(new BorderLayout());
 
 
-        _mainPanel.add(mr, BorderLayout.CENTER);
+        _mainPanel.add(ra, BorderLayout.CENTER);
+        _mainPanel.validate();
+    }
+    
+    private void openMenuGesRep(ActionEvent evt) {
+        removePanelFromMain();
+        Reparaciones ra = new Reparaciones();
+        setTitle(title + " - " + gestioReparacioTitle);
+        ra.setLayout(new BorderLayout());
+
+
+        _mainPanel.add(ra, BorderLayout.CENTER);
+        _mainPanel.validate();
+    }
+    
+    private void openStock(ActionEvent evt) {
+        removePanelFromMain();
+        StockPiezas sp = new StockPiezas();
+        setTitle(title + " - " + stockTitle);
+        sp.setLayout(new BorderLayout());
+
+
+        _mainPanel.add(sp, BorderLayout.CENTER);
         _mainPanel.validate();
     }
 
