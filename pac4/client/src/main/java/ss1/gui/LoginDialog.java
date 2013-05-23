@@ -18,7 +18,7 @@ import java.rmi.RemoteException;
 
 /**
  * TDP Grup6
- * User: EsaÃº GonzÃ¡lez
+ * User: Esaú González, Juan Asperó
  * Date: 18/05/13
  * Time: 12:49
  */
@@ -26,6 +26,7 @@ public class LoginDialog extends JDialog {
     //TODO esau: usar i18n
     //i18n messages
     private static String title = TDSLanguageUtils.getMessage("loginDialog.title");
+    private static String label = TDSLanguageUtils.getMessage("loginDialog.label");
     private static String usuarilbl= TDSLanguageUtils.getMessage("loginDialog.usuariLbl");
     private static String passwdlbl= TDSLanguageUtils.getMessage("loginDialog.passwdLbl");
     private static String aceptarBtn= TDSLanguageUtils.getMessage("loginDialog.aceptarBtn");
@@ -47,37 +48,43 @@ public class LoginDialog extends JDialog {
 
         setTitle(title);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        setBounds(300, 100, 450, 450);
+        setBounds(100, 100, 305, 375);
         setName("LoginDialog");
         contentPane = new JPanel();
         contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
         setContentPane(contentPane);
         contentPane.setLayout(null);
 
+        JLabel smart = new JLabel(label );
+        smart.setFont(new Font("Dialog", Font.BOLD, 20));
+        smart.setBounds(66, 27, 163, 33);
+        contentPane.add(smart);
+        
+        
         //label usuari
         JLabel lblProvedor = new JLabel(usuarilbl );
-        //lblProvedor.setFont(new Font("Tahoma", Font.PLAIN, 11));
-        lblProvedor.setBounds(80, 40, 76, 14);
+        lblProvedor.setFont(new Font("Dialog", Font.BOLD, 12));
+        lblProvedor.setBounds(66, 85, 150, 25);
         contentPane.add(lblProvedor);
         //textbox usuari
         usuariTxt = new JTextField();
-        usuariTxt.setBounds(200, 40, 183, 20);
+        usuariTxt.setBounds(66, 116, 150, 25);
         contentPane.add(usuariTxt);
         usuariTxt.setColumns(10);
 
         //label contrasenya
         JLabel lblPasswd = new JLabel(passwdlbl );
-        //lblProvedor.setFont(new Font("Tahoma", Font.PLAIN, 11));
-        lblPasswd.setBounds(80, 80, 76, 14);
+        lblProvedor.setFont(new Font("Dialog", Font.BOLD, 12));
+        lblPasswd.setBounds(66, 156, 150, 25);
         contentPane.add(lblPasswd);
         //textbox contrasenya
         passwdTxt = new JTextField();
-        passwdTxt.setBounds(200, 80, 183, 20);
+        passwdTxt.setBounds(66, 187, 150, 25);
         contentPane.add(passwdTxt);
         passwdTxt.setColumns(10);
 
         JButton btnAceptar = new JButton(aceptarBtn);
-        btnAceptar.setBounds(80, 120, 100, 30);
+        btnAceptar.setBounds(66, 261, 150, 25);
         contentPane.add(btnAceptar);
         btnAceptar.setName("Aceptar");
         btnAceptar.addActionListener(new LoginActionListener());
