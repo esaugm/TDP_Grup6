@@ -14,6 +14,8 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.rmi.ConnectException;
 import java.rmi.RemoteException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Created with IntelliJ IDEA.
@@ -152,7 +154,11 @@ public class SmartRepairApplication extends JFrame {
         _ReparacioMenu.setText(menuReparacio);
         _ReparacioMenu.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                    openMenuReparaciones(evt); 
+                try { 
+                    openMenuReparaciones(evt);
+                } catch (Exception ex) {
+                    Logger.getLogger(SmartRepairApplication.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
          });
         _applicationMenu.add(_ReparacioMenu);
@@ -193,14 +199,14 @@ public class SmartRepairApplication extends JFrame {
         _mainPanel.validate();
     }
     
-    private void openMenuReparaciones(ActionEvent evt) {
+    private void openMenuReparaciones(ActionEvent evt) throws Exception {
         removePanelFromMain();
-        StockPiezas r = new StockPiezas();
+        MenuSS3 mr = new MenuSS3();
         setTitle(title + " - " + ReparacioTitle);
-        r.setLayout(new BorderLayout());
+        mr.setLayout(new BorderLayout());
 
 
-        _mainPanel.add(r, BorderLayout.CENTER);
+        _mainPanel.add(mr, BorderLayout.CENTER);
         _mainPanel.validate();
     }
 
