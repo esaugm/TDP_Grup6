@@ -11,6 +11,7 @@ import ss3.gui.Reparaciones;
 import ss3.gui.ReparacionesAsignadas;
 import ss3.gui.StockPiezas;
 import ss4.gui.ReparacionesClienteEstaPanel;
+import ss4.gui.ReparacionesEstaPanel;
 
 import javax.swing.*;
 import java.awt.*;
@@ -280,10 +281,10 @@ _reparacioMenu = new JMenu();
 
     private void openEstadisticasReparaciones(java.awt.event.ActionEvent evt) throws ParseException {
         removePanelFromMain();
-        //ReparacionesEstaPanel panel = new ReparacionesEstaPanel(client.get_remoteSS4());
+        ReparacionesEstaPanel panel = new ReparacionesEstaPanel(client.get_remoteSS4());
 
 
-        //_mainPanel.add(panel, BorderLayout.CENTER);
+        _mainPanel.add(panel, BorderLayout.CENTER);
         _mainPanel.validate();
 
 
@@ -298,8 +299,8 @@ _reparacioMenu = new JMenu();
     }
     private void openEstadisticasReparacionesEmpleados(java.awt.event.ActionEvent evt) throws ParseException {
         removePanelFromMain();
-//        ReparacionesClienteEstaPanel panel = new ReparacionesClienteEstaPanel(client.get_remoteSS4());
-//        _mainPanel.add(panel, BorderLayout.CENTER);
+       ReparacionesClienteEstaPanel panel = new ReparacionesClienteEstaPanel(client.get_remoteSS4());
+        _mainPanel.add(panel, BorderLayout.CENTER);
         _mainPanel.validate();
 
 
