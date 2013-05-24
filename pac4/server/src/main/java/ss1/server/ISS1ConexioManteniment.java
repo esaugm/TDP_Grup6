@@ -42,6 +42,8 @@ public interface ISS1ConexioManteniment extends Remote {
     public void baixaTaller(Taller pTaller) throws ExceptionErrorDataBase, RemoteException;
 
     public void modificaTaller(Taller pTaller) throws ExceptionErrorDataBase, RemoteException;
+    
+    public Taller getTallerById(Integer pId) throws ExceptionErrorDataBase, RemoteException;
 
 
 }

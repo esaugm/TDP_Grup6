@@ -17,7 +17,6 @@ import java.util.Date;
 public class Usuari implements Serializable {
     
     private Integer id;
-    //todo añadir campos a la tabla
     private String nom;
     private String cognoms;
     private String adreca;
@@ -92,7 +91,7 @@ public class Usuari implements Serializable {
     }
 
     public Integer getTaller() {
-        //todo cambiar atributo a tipo Taller
+        //todo cambiar atributo a tipo Taller ?
         return taller;
     }
 

@@ -37,7 +37,7 @@ public class UsuariDAO extends GenericDaoImpl implements IUsuariDAO {
         try{
             conn = getConnection();
             ps = conn.prepareStatement("select id, taller, usuari, perfil, contrasenya, actiu, dataAlta, dataModificacio, " +
-                    "dataBaixa, reparacionsassignades from usuari");
+                    "dataBaixa, reparacionsassignades, nom, cognom, adreca, nif, poblacio, codi_postal from usuari");
 
             rs = ps.executeQuery();
 
@@ -73,6 +73,12 @@ public class UsuariDAO extends GenericDaoImpl implements IUsuariDAO {
         usuari.setDataModificacio(rs.getDate("dataModificacio"));
         usuari.setDataBaixa(rs.getDate("dataBaixa"));
         usuari.setReparacionsAssignades(rs.getInt("reparacionsassignades"));
+        usuari.setNom(rs.getString("nom"));
+        usuari.setCognoms(rs.getString("cognom"));
+        usuari.setAdreca(rs.getString("adreca"));
+        usuari.setNif(rs.getString("nif"));
+        usuari.setPoblacio(rs.getString("poblacio"));
+        usuari.setCodiPostal(rs.getString("codi_postal"));
         return usuari;
     }
 
@@ -85,7 +91,8 @@ public class UsuariDAO extends GenericDaoImpl implements IUsuariDAO {
         try{
             conn = getConnection();
             ps = conn.prepareStatement("select id, taller, usuari, perfil, contrasenya, actiu, dataAlta, dataModificacio, " +
-                                       "dataBaixa, reparacionsassignades from usuari where id = ?");
+                                       "dataBaixa, reparacionsassignades, nom, cognom, adreca, nif, poblacio, codi_postal " +
+                                       " from usuari where id = ?");
             ps.setLong(1,pUsuariId);
 
             rs = ps.executeQuery();
@@ -118,7 +125,7 @@ public class UsuariDAO extends GenericDaoImpl implements IUsuariDAO {
         try{
             conn = getConnection();
             ps = conn.prepareStatement("select id, taller, usuari, perfil, contrasenya, actiu, dataAlta, dataModificacio, " +
-                    "dataBaixa, reparacionsassignades from usuari where usuari = ?");
+                    "dataBaixa, reparacionsassignades, nom, cognom, adreca, nif, poblacio, codi_postal from usuari where usuari = ?");
             ps.setString(1, pUsuariLogin);
 
             rs = ps.executeQuery();
@@ -249,7 +256,8 @@ public class UsuariDAO extends GenericDaoImpl implements IUsuariDAO {
         try{
             conn = getConnection();
             ps = conn.prepareStatement("update usuari set taller=?, usuari=?, perfil=?, contrasenya=?, actiu=?, " +
-                                       "dataModificacio=now(), reparacionsassignades=? where id=?");
+                                       "dataModificacio=now(), reparacionsassignades=?, nom=?, cognom=?, adreca=?, " +
+                                       "nif=?, poblacio=?, codi_postal=? where id=?");
 
             ps.setInt(1, pUsuari.getTaller());
             ps.setString(2, pUsuari.getUsuari());
@@ -257,7 +265,13 @@ public class UsuariDAO extends GenericDaoImpl implements IUsuariDAO {
             ps.setString(4, pUsuari.getContrasenya());
             ps.setBoolean(5, pUsuari.isActiu());
             ps.setInt(6, pUsuari.getReparacionsAssignades());
-            ps.setInt(7, pUsuari.getId());
+            ps.setString(7, pUsuari.getNom());
+            ps.setString(8, pUsuari.getCognoms());
+            ps.setString(9, pUsuari.getAdreca());
+            ps.setString(10, pUsuari.getNif());
+            ps.setString(11, pUsuari.getPoblacio());
+            ps.setString(12, pUsuari.getCodiPostal());
+            ps.setInt(13, pUsuari.getId());
 
             ps.executeUpdate();
 
@@ -285,7 +299,7 @@ public class UsuariDAO extends GenericDaoImpl implements IUsuariDAO {
         ResultSet rs = null;
         List<Usuari> toReturn = new ArrayList<Usuari>();
         String query = "select id, taller, usuari, perfil, contrasenya, actiu, dataAlta, dataModificacio, " +
-                "dataBaixa, reparacionsassignades from usuari ";
+                "dataBaixa, reparacionsassignades, nom, cognom, adreca, nif, poblacio, codi_postal from usuari ";
         try{
             conn = getConnection();
             Set<String> atributos =  pUsuariFilter.getAllAtributeNames();

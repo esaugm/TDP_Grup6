@@ -39,31 +39,39 @@ public class Client {
     //todo añadir Interface y JNDI para cada subsistema
 
 
-        /**
-         * Starts the connection with the server
-         * @throws java.rmi.RemoteException if there's some problem connecting with the server
-         */
-        public void connect() throws Exception{
-            System.out.println("Connecting with the server...");
-            Registry registry = LocateRegistry.getRegistry(URL, PORT);
-            remoteSS1 = (ISS1ConexioManteniment) registry.lookup(JNDI_SS1_NAME);
-            remoteSS3 = (SS3Reparaciones) registry.lookup(JNDI_SS3_NAME);
-            _remoteSS4 = (ISS4Estadisticas) registry.lookup(JNDI_SS4_NAME);
-            //todo añadir los interfaces de cada subsistema
-            System.out.println("Connected!");
-        }
+    /**
+     * Starts the connection with the server
+     * @throws java.rmi.RemoteException if there's some problem connecting with the server
+     */
+    public void connect() throws Exception{
+        System.out.println("Connecting with the server...");
+        Registry registry = LocateRegistry.getRegistry(URL, PORT);
+        remoteSS1 = (ISS1ConexioManteniment) registry.lookup(JNDI_SS1_NAME);
+        remoteSS3 = (SS3Reparaciones) registry.lookup(JNDI_SS3_NAME);
+        _remoteSS4 = (ISS4Estadisticas) registry.lookup(JNDI_SS4_NAME);
+        //todo añadir los interfaces de cada subsistema
+        System.out.println("Connected!");
+    }
 
-        public void disconnect(){
-            System.out.println("Disconnecting from server...");
-            System.exit(0);
-        }
+    public void disconnect(){
+        System.out.println("Disconnecting from server...");
+        System.exit(0);
+    }
 
-        public Usuari makeLogin(String pUsuari, String pPasswd) throws RemoteException, ExceptionUsuariNoExisteix, ExceptionContrasenyaIncorrecta, ExceptionErrorDataBase {
-            return remoteSS1.usuariLogin(pUsuari,pPasswd);
-        }
+    public Usuari makeLogin(String pUsuari, String pPasswd) throws RemoteException, ExceptionUsuariNoExisteix, ExceptionContrasenyaIncorrecta, ExceptionErrorDataBase {
+        return remoteSS1.usuariLogin(pUsuari, pPasswd);
+    }
 
     public void altaUsuari(Usuari newUsuari) throws ExceptionErrorDataBase, RemoteException {
         remoteSS1.altaUsuari(newUsuari);
+    }
+    
+    public void modificaUsuari(Usuari pUsuari) throws ExceptionErrorDataBase, RemoteException {
+        remoteSS1.modificaUsuari(pUsuari);
+    }
+
+    public void baixaUsuari(Usuari pUsuari) throws ExceptionErrorDataBase, RemoteException {
+        remoteSS1.baixaUsuari(pUsuari);
     }
 
     public List<Taller> listaTallers() throws ExceptionErrorDataBase, RemoteException {
@@ -73,6 +81,10 @@ public class Client {
     public List<Usuari> filtrarUsuaris(FilterItems pFilterItems) throws ExceptionErrorDataBase, ExceptionTipoObjetoFiltroNoPermitido, RemoteException {
         return remoteSS1.getAllUsuarisByFilter(pFilterItems);
         
+    }
+    
+    public Taller findTallerById(Integer pTallerId) throws ExceptionErrorDataBase, RemoteException {
+        return remoteSS1.getTallerById(pTallerId);
     }
     
     public Reparacion ConsultaOrden(Integer OrdenID) throws ExceptionErrorDataBase, RemoteException {

@@ -18,12 +18,11 @@ import java.rmi.RemoteException;
 
 /**
  * TDP Grup6
- * User: Esaú González, Juan Asperó
+ * User: EsaÃº GonzÃ¡lez, Juan AsperÃ³
  * Date: 18/05/13
  * Time: 12:49
  */
 public class LoginDialog extends JDialog {
-    //TODO esau: usar i18n
     //i18n messages
     private static String title = TDSLanguageUtils.getMessage("loginDialog.title");
     private static String label = TDSLanguageUtils.getMessage("loginDialog.label");

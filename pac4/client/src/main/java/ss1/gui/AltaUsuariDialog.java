@@ -23,6 +23,7 @@ import java.util.Vector;
  */
 public class AltaUsuariDialog extends JDialog {
     private Client client;
+    private Usuari usuari = null;
     private String altaUsuariLabel = TDSLanguageUtils.getMessage("gestioUsuari.altaUsuariDialog.altaUsuariLabel");
     private String idLabel = TDSLanguageUtils.getMessage("gestioUsuari.altaUsuariDialog.idLabel");
     private String tallerLabel = TDSLanguageUtils.getMessage("gestioUsuari.altaUsuariDialog.tallerLabel");
@@ -37,6 +38,10 @@ public class AltaUsuariDialog extends JDialog {
     private String repitePwdLabel = TDSLanguageUtils.getMessage("gestioUsuari.altaUsuariDialog.repitePwdLabel");
     private String perfilLabelTxt = TDSLanguageUtils.getMessage("gestioUsuari.altaUsuariDialog.perfilLabel");
     private String actiuLabel = TDSLanguageUtils.getMessage("gestioUsuari.altaUsuariDialog.actiuLabel");
+    private String reparacionsLabelText = TDSLanguageUtils.getMessage("gestioUsuari.altaUsuariDialog.reparacionsLabel");
+    private String dataAltaLabelText = TDSLanguageUtils.getMessage("gestioUsuari.altaUsuariDialog.dataAltaLabel");
+    private String dataBaixaLabelText = TDSLanguageUtils.getMessage("gestioUsuari.altaUsuariDialog.dataBaixaLabel");
+    private String dataModifLabelText = TDSLanguageUtils.getMessage("gestioUsuari.altaUsuariDialog.dataModifLabel");
     private String okBtnLabel = TDSLanguageUtils.getMessage("gestioUsuari.altaUsuariDialog.okBtnLabel");
     private String calcelBtnLabel = TDSLanguageUtils.getMessage("gestioUsuari.altaUsuariDialog.cancelBtnLabel");
 
@@ -54,9 +59,15 @@ public class AltaUsuariDialog extends JDialog {
     private JCheckBox actiuCheckBox;
     private JComboBox perfilComboBox;
     private JComboBox tallerComboBox;
+    private JTextField reparacionsTextField;
+    private JTextField dataAltaTextField;
+    private JTextField dataModifTextField;
+    private JTextField dataBaixaTextField;
     private JLabel lblAltas;
     private JButton okButton;
 
+    private String[] camposMissing;
+    private boolean validPasswd = false;
 
     public AltaUsuariDialog(Client pClient) throws ExceptionErrorDataBase, RemoteException {
         client = pClient;
@@ -197,7 +208,7 @@ public class AltaUsuariDialog extends JDialog {
             perfilComboBox = new JComboBox();
             perfilComboBox.setModel(new DefaultComboBoxModel(PerfilUsuari.values()));
             perfilComboBox.setBounds(98, 326, 113, 20);
-            perfilComboBox.addActionListener(new PerfilActionListener());
+            enableActionListenerPerfil();
             contentPanel.add(perfilComboBox);
         }
         {
@@ -216,6 +227,56 @@ public class AltaUsuariDialog extends JDialog {
         actiuCheckBox.setBounds(98, 363, 97, 23);
         actiuCheckBox.setSelected(true);
         contentPanel.add(actiuCheckBox);
+        {
+            reparacionsTextField = new JTextField();
+            reparacionsTextField.setColumns(10);
+            reparacionsTextField.setBounds(187, 254, 24, 20);
+            contentPanel.add(reparacionsTextField);
+        }
+        {
+            JLabel reparacionsLabel = new JLabel(reparacionsLabelText);
+            reparacionsLabel.setBounds(42, 257, 135, 14);
+            contentPanel.add(reparacionsLabel);
+        }
+        {
+            JLabel dataAltaLabel = new JLabel(dataAltaLabelText);
+            dataAltaLabel.setBounds(42, 116, 67, 14);
+            contentPanel.add(dataAltaLabel);
+        }
+        {
+            dataAltaTextField = new JTextField();
+            dataAltaTextField.setEnabled(false);
+            dataAltaTextField.setEditable(false);
+            dataAltaTextField.setColumns(10);
+            dataAltaTextField.setBounds(138, 113, 73, 20);
+            contentPanel.add(dataAltaTextField);
+        }
+        {
+            JLabel dataModifLabel = new JLabel(dataModifLabelText);
+            dataModifLabel.setBounds(42, 154, 97, 14);
+            contentPanel.add(dataModifLabel);
+        }
+        {
+            dataModifTextField = new JTextField();
+            dataModifTextField.setEnabled(false);
+            dataModifTextField.setEditable(false);
+            dataModifTextField.setColumns(10);
+            dataModifTextField.setBounds(138, 151, 73, 20);
+            contentPanel.add(dataModifTextField);
+        }
+        {
+            JLabel dataBaixaLabel = new JLabel(dataBaixaLabelText);
+            dataBaixaLabel.setBounds(42, 188, 67, 14);
+            contentPanel.add(dataBaixaLabel);
+        }
+        {
+            dataBaixaTextField = new JTextField();
+            dataBaixaTextField.setEnabled(false);
+            dataBaixaTextField.setEditable(false);
+            dataBaixaTextField.setColumns(10);
+            dataBaixaTextField.setBounds(138, 185, 73, 20);
+            contentPanel.add(dataBaixaTextField);
+        }
         {
             JPanel buttonPane = new JPanel();
             buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
@@ -243,46 +304,125 @@ public class AltaUsuariDialog extends JDialog {
     protected void updateOKButtonText(String pNewText){
         okButton.setText(pNewText);
     }
+    protected void setActionListenerOKButton(ActionListener pActionListener){
+        ActionListener[] actionListeners = okButton.getActionListeners();
+        for (ActionListener actionListener : actionListeners) {
+            okButton.removeActionListener(actionListener);
+        }
+        okButton.addActionListener(pActionListener);
+    }
+
+    protected void disableActionListenerPerfil(){
+        ActionListener[] actionListeners = perfilComboBox.getActionListeners();
+        for (ActionListener actionListener : actionListeners) {
+            perfilComboBox.removeActionListener(actionListener);
+        }
+    }
+    protected void enableActionListenerPerfil(){
+        perfilComboBox.addActionListener(new PerfilActionListener());
+    }
 
     protected void disableTextBoxes(){
-        idTextField.setEnabled(false);
+       // idTextField.setEnabled(false);
         idTextField.setEditable(false);
-        nifTextField.setEnabled(false);
+       // nifTextField.setEnabled(false);
         nifTextField.setEditable(false);
-        nomTextField.setEnabled(false);
+        //nomTextField.setEnabled(false);
         nomTextField.setEditable(false);
-        cognomTextField.setEnabled(false);
+        //cognomTextField.setEnabled(false);
         cognomTextField.setEditable(false);
-        usuariTextField.setEnabled(false);
+        //usuariTextField.setEnabled(false);
         usuariTextField.setEditable(false);
-        contrasenyaTextField.setEnabled(false);
+        //contrasenyaTextField.setEnabled(false);
         contrasenyaTextField.setEditable(false);
-        repetirpwdTextField.setEnabled(false);
+        //repetirpwdTextField.setEnabled(false);
         repetirpwdTextField.setEditable(false);
+        perfilComboBox.setEnabled(false);
+        perfilComboBox.setEditable(false);
+        actiuCheckBox.setEnabled(false);
+        //reparacionsTextField.setEnabled(false);
+        reparacionsTextField.setEditable(false);
+        //adrecaTextField.setEnabled(false);
+        adrecaTextField.setEditable(false);
+        //poblacioTextField.setEnabled(false);
+        poblacioTextField.setEditable(false);
+       // zipTextField.setEnabled(false);
+        zipTextField.setEditable(false);
+        tallerComboBox.setEnabled(false);
+        tallerComboBox.setEditable(false);
+
+
+    }
+
+    protected void fillUsuariWithNewData(Usuari newUsuari) {
+        newUsuari.setId(Integer.parseInt(idTextField.getText()));
+        newUsuari.setNom(nomTextField.getText());
+        newUsuari.setCognoms(cognomTextField.getText());
+        newUsuari.setContrasenya(contrasenyaTextField.getText());
+        newUsuari.setActiu(actiuCheckBox.isSelected());
+        newUsuari.setAdreca(adrecaTextField.getText());
+        newUsuari.setCodiPostal(zipTextField.getText());
+        newUsuari.setNif(nifTextField.getText());
+        newUsuari.setPerfil((PerfilUsuari)perfilComboBox.getSelectedItem());
+        newUsuari.setPoblacio(poblacioTextField.getText());
+        newUsuari.setReparacionsAssignades(Integer.parseInt(reparacionsTextField.getText()));
+        newUsuari.setTaller(((Taller)tallerComboBox.getSelectedItem()).getId());
+        newUsuari.setUsuari(usuariTextField.getText());
+    }
+
+    protected boolean checkInputDataOK() {
+        camposMissing = new String[9];
+        int i=1;
+        if (nomTextField.getText().isEmpty()){
+            camposMissing[i]=nomLabelTxt;
+            i++;
+        }
+        if (cognomTextField.getText().isEmpty()){
+            camposMissing[i]=cognomLabelTxt;
+            i++;
+        }
+        if (contrasenyaTextField.getText().isEmpty()){
+            camposMissing[i]=pwdLabel;
+            i++;
+        }
+        if (adrecaTextField.getText().isEmpty()){
+            camposMissing[i]=adrecaLabellTxt;
+            i++;
+        }
+        if (zipTextField.getText().isEmpty()){
+            camposMissing[i]=zipLabelTxt;
+            i++;
+        }
+        if (nifTextField.getText().isEmpty()){
+            camposMissing[i]=nifLabelTxt;
+            i++;
+        }
+        if (poblacioTextField.getText().isEmpty()){
+            camposMissing[i]=poblacioLabelTxt;
+            i++;
+        }
+        if (usuariTextField.getText().isEmpty()){
+            camposMissing[i]=usuariLabelTxt;
+            i++;
+        }
+        if (contrasenyaTextField.getText().equals(repetirpwdTextField.getText())) validPasswd=true;
+        //Si no hay missing field y el passwd y su repetición son iguales, true
+        return i==1 && validPasswd;
+    }
+    protected void setUsuari(Usuari pUsuari){
+        usuari = pUsuari;
     }
 
     private class AltaUsuariActionListener implements ActionListener {
-        private String[] camposMissing;
-        private boolean validPasswd = false;
+
+
         @Override
         public void actionPerformed(ActionEvent e) {
             if (checkInputDataOK()) {
-                Usuari newUsuari = new Usuari();
-                newUsuari.setNom(nomTextField.getText());
-                newUsuari.setCognoms(cognomTextField.getText());
-                newUsuari.setContrasenya(contrasenyaTextField.getText());
-                newUsuari.setActiu(actiuCheckBox.isSelected());
-                newUsuari.setAdreca(adrecaTextField.getText());
-                newUsuari.setCodiPostal(zipTextField.getText());
-                newUsuari.setNif(nifTextField.getText());
-                newUsuari.setPerfil((PerfilUsuari)perfilComboBox.getSelectedItem());
-                newUsuari.setPoblacio(poblacioTextField.getText());
-                newUsuari.setReparacionsAssignades(0);
-                newUsuari.setTaller(((Taller)tallerComboBox.getSelectedItem()).getId());
-                newUsuari.setUsuari(usuariTextField.getText());
-
+                fillUsuariWithNewData(usuari);
+                
                 try {
-                    client.altaUsuari(newUsuari);
+                    client.altaUsuari(usuari);
                 } catch (ExceptionErrorDataBase exceptionErrorDataBase) {
                     //todo i18n mensajes de error
                     JOptionPane.showMessageDialog(contentPanel, "Error de BD", "BD Error", JOptionPane.ERROR_MESSAGE);
@@ -311,45 +451,6 @@ public class AltaUsuariDialog extends JDialog {
         }
 
 
-        private boolean checkInputDataOK() {
-            camposMissing = new String[9];
-            int i=1;
-            if (nomTextField.getText().isEmpty()){
-                camposMissing[i]=nomLabelTxt;
-                i++;
-            }
-            if (cognomTextField.getText().isEmpty()){
-                camposMissing[i]=cognomLabelTxt;
-                i++;
-            }
-            if (contrasenyaTextField.getText().isEmpty()){
-                camposMissing[i]=pwdLabel;
-                i++;
-            }
-            if (adrecaTextField.getText().isEmpty()){
-                camposMissing[i]=adrecaLabellTxt;
-                i++;
-            }
-            if (zipTextField.getText().isEmpty()){
-                camposMissing[i]=zipLabelTxt;
-                i++;
-            }
-            if (nifTextField.getText().isEmpty()){
-                camposMissing[i]=nifLabelTxt;
-                i++;
-            }
-            if (poblacioTextField.getText().isEmpty()){
-                camposMissing[i]=poblacioLabelTxt;
-                i++;
-            }
-            if (usuariTextField.getText().isEmpty()){
-                camposMissing[i]=usuariLabelTxt;
-                i++;
-            }
-            if (contrasenyaTextField.getText().equals(repetirpwdTextField.getText())) validPasswd=true;
-            //Si no hay missing field y el passwd y su repetición son iguales, true
-            return i==1 && validPasswd;
-        }
     }
 
     private class PerfilActionListener implements ActionListener {
@@ -364,6 +465,81 @@ public class AltaUsuariDialog extends JDialog {
     private class CalcelAltaUsuariActionListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
+            dispose();
+        }
+    }
+    protected void fillUsuariData(Usuari pUsuari) throws ExceptionErrorDataBase, RemoteException {
+        idTextField.setText(pUsuari.getId().toString());
+        nomTextField.setText(pUsuari.getNom());
+        cognomTextField.setText(pUsuari.getCognoms());
+        adrecaTextField.setText(pUsuari.getAdreca());
+        nifTextField.setText(pUsuari.getNif());
+        poblacioTextField.setText(pUsuari.getPoblacio());
+        zipTextField.setText(pUsuari.getCodiPostal());
+        Integer taller = pUsuari.getTaller();
+        tallerComboBox.setSelectedItem(client.findTallerById(taller));
+        usuariTextField.setText(pUsuari.getUsuari());
+        perfilComboBox.setSelectedItem(pUsuari.getPerfil());
+        contrasenyaTextField.setText(pUsuari.getContrasenya());
+        repetirpwdTextField.setText(pUsuari.getContrasenya());
+        actiuCheckBox.setSelected(pUsuari.isActiu());
+        reparacionsTextField.setText(pUsuari.getReparacionsAssignades().toString());
+        dataAltaTextField.setText(pUsuari.getDataAlta()!=null?pUsuari.getDataAlta().toString():"");
+        dataBaixaTextField.setText(pUsuari.getDataBaixa() != null ? pUsuari.getDataBaixa().toString() : "");
+        dataModifTextField.setText(pUsuari.getDataModificacio() != null ? pUsuari.getDataModificacio().toString() : "");
+
+    }
+    protected class ModificaUsuariActionListener implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            if (checkInputDataOK()) {
+                Usuari newUsuari = new Usuari();
+                fillUsuariWithNewData(newUsuari);
+
+                try {
+                    client.modificaUsuari(newUsuari);
+                } catch (ExceptionErrorDataBase exceptionErrorDataBase) {
+                    //todo i18n mensajes de error
+                    JOptionPane.showMessageDialog(contentPanel, "Error de BD", "BD Error", JOptionPane.ERROR_MESSAGE);
+                    exceptionErrorDataBase.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                } catch (RemoteException e1) {
+                    //todo i18n mensajes de error
+                    JOptionPane.showMessageDialog(contentPanel, "Error conectando con server", "Server Error", JOptionPane.ERROR_MESSAGE);
+                    e1.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                } catch (Exception e2){
+                    //todo i18n mensajes de error
+                    JOptionPane.showMessageDialog(contentPanel, "Error", "Generic Error", JOptionPane.ERROR_MESSAGE);
+                    e2.printStackTrace();
+                }
+                dispose();
+            } else {
+                StringBuilder camposMiss = new StringBuilder();
+                //todo i18n mensajes de error
+                camposMiss.append("Error en campos obligatorios:").append("\n");
+                for (String campoMiss : camposMissing) {
+                    if (campoMiss != null) camposMiss.append(campoMiss).append(" está vacío.").append("\n");
+                }
+                if (!validPasswd) camposMiss.append("Contraseña y Repetir contraseña no son iguales").append("\n");
+                validPasswd=false; //para que vuelva a comprobar el password al reintentar
+                JOptionPane.showMessageDialog(contentPanel, camposMiss, "Missing Fields", JOptionPane.ERROR_MESSAGE);
+            }
+        }
+    }
+    protected class BaixaUsuariActionListener implements ActionListener{
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            try {
+                client.baixaUsuari(usuari);
+            } catch (ExceptionErrorDataBase exceptionErrorDataBase) {
+                //todo i18n mensajes de error
+                JOptionPane.showMessageDialog(contentPanel, "Error de BD", "BD Error", JOptionPane.ERROR_MESSAGE);
+                exceptionErrorDataBase.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            } catch (RemoteException e1) {
+                //todo i18n mensajes de error
+                JOptionPane.showMessageDialog(contentPanel, "Error conectando con server", "Server Error", JOptionPane.ERROR_MESSAGE);
+                e1.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            }
             dispose();
         }
     }
