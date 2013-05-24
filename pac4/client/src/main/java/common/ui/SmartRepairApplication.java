@@ -245,7 +245,7 @@ _reparacioMenu = new JMenu();
     
     private void openMenuGesRep(ActionEvent evt) throws ExceptionErrorDataBase, RemoteException {
         removePanelFromMain();
-        Reparaciones ra = new Reparaciones();
+        Reparaciones ra = new Reparaciones(client);
         setTitle(title + " - " + gestioReparacioTitle);
         ra.setLayout(new BorderLayout());
 

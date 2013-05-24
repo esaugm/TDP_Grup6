@@ -25,11 +25,10 @@ public class Reparaciones extends JPanel {
     private DefaultTableModel dtm;
     int con = 0; 
     
-    public Reparaciones() throws ExceptionErrorDataBase, RemoteException {
+    public Reparaciones(Client cli) throws ExceptionErrorDataBase, RemoteException {
         initComponents();
-        Client cliente = new Client();
         ArrayList<Reparacion> rep = null;
-        rep = cliente.ConsultaTodas();
+        rep = cli.ConsultaTodas();
         
         //
         String data[][] = {};
