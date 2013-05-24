@@ -7,9 +7,10 @@ import ss1.entity.UsuariConectat;
 import ss1.gui.GestioTallerPanel;
 import ss1.gui.GestioUsuariPanel;
 import ss1.gui.LoginDialog;
-import ss3.gui.*;
+import ss3.gui.Reparaciones;
+import ss3.gui.ReparacionesAsignadas;
+import ss3.gui.StockPiezas;
 import ss4.gui.ReparacionesClienteEstaPanel;
-import ss4.gui.ReparacionesEstaPanel;
 
 import javax.swing.*;
 import java.awt.*;
