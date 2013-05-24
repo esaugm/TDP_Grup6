@@ -40,7 +40,7 @@ public class UsuariService implements IUsuariService {
     }
 
     public void baixaUsuari(Usuari pUsuari) throws ExceptionErrorDataBase {
-        usuariDAO.deleteUsuari(pUsuari);
+        usuariDAO.baixaUsuari(pUsuari);
     }
 
     public void modificaUsuari(Usuari pUsuari) throws ExceptionErrorDataBase {
@@ -71,10 +71,4 @@ public class UsuariService implements IUsuariService {
         return usuariDAO.findUsuariByFilter(pUsuariFilter);
     }
 
-    public Integer getIdForNewUsuari(){
-        //todo implement it!
-        //todo ESAU: creo que no es seguro pedir el nuevo id a la sequencia de BD antes de persistir el nuevo Usuari
-        //todo ESAU: (pueden abortar el alta a medias y quedaran id's vacios que no se podrán recuperar)
-        return null;
-    }
 }

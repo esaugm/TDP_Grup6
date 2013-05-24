@@ -99,4 +99,9 @@ public class SS1ConexioMantenimentImpl extends UnicastRemoteObject implements IS
     public void modificaTaller(Taller pTaller) throws ExceptionErrorDataBase {
         tallerService.modificaTaller(pTaller);
     }
+
+    @Override
+    public Taller getTallerById(Integer pId) throws ExceptionErrorDataBase {
+        return tallerService.findTallerByID(pId);
+    }
 }

@@ -33,7 +33,4 @@ public interface IUsuariService {
 
     public List<Usuari> findAllUsuariByUsuariFilter(FilterItems pUsuariFilter) throws ExceptionErrorDataBase, ExceptionTipoObjetoFiltroNoPermitido;
 
-    //todo ESAU: creo que no es seguro pedir el nuevo id a la sequencia de BD antes de persistir el nuevo Usuari
-    //todo ESAU: (pueden abortar el alta a medias y quedaran id's vacios que no se podrán recuperar)
-    public Integer getIdForNewUsuari();
 }

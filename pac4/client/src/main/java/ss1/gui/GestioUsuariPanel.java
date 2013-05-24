@@ -25,6 +25,7 @@ import java.util.Vector;
  */
 public class GestioUsuariPanel extends JPanel{
     private Client client;
+    private List<Usuari> filteredUsuariList;
     private String altesBtnLabel = TDSLanguageUtils.getMessage("gestioUsuari.altesBtnLabel");
     private String modificacionsBtnLabel = TDSLanguageUtils.getMessage("gestioUsuari.modificacionsBtnLabel");
     private String baixesBtnLabel = TDSLanguageUtils.getMessage("gestioUsuari.baixesBtnLabel");
@@ -51,6 +52,7 @@ public class GestioUsuariPanel extends JPanel{
     JComboBox perfilUsuariCmb;
     JComboBox activoCbx;
     JTable filteringTbl;
+    JScrollPane scrollPane;
 
     public GestioUsuariPanel(Client pClient) throws ExceptionErrorDataBase, RemoteException {
         client=pClient;
@@ -177,10 +179,10 @@ public class GestioUsuariPanel extends JPanel{
         activoCbx.setBounds(891, 160, 51, 20);
         add(activoCbx);
 
-        JScrollPane scrollPane_1 = new JScrollPane();
-        scrollPane_1.setBounds(25, 191, 933, 240);
-        add(scrollPane_1);
-        scrollPane_1.setViewportView(filteringTbl);
+        scrollPane = new JScrollPane();
+        scrollPane.setBounds(25, 191, 933, 240);
+        add(scrollPane);
+        scrollPane.setViewportView(filteringTbl);
 
     }
 
@@ -220,8 +222,8 @@ public class GestioUsuariPanel extends JPanel{
     private JTable createTabla(DefaultTableModel tableModel) {
         JTable table = new JTable();
         table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        table.setCellSelectionEnabled(true);
-        table.setColumnSelectionAllowed(true);
+        table.setCellSelectionEnabled(false);
+        table.setColumnSelectionAllowed(false);
         table.setModel(tableModel);
         table.setRowSelectionAllowed(true);
 
@@ -280,7 +282,21 @@ public class GestioUsuariPanel extends JPanel{
             //todo pasar por parametro el Usuari seleccionado al constructor
             ModificaUsuariDialog modificaUsuariDialog = null;
             try {
-                modificaUsuariDialog = new ModificaUsuariDialog(client, null);
+                int selectedRow = filteringTbl.getSelectedRow();
+                if(selectedRow==-1){
+                    JOptionPane.showMessageDialog(filteringTbl, "No hay seleccionado ningún usuario", "Usuario no seleccionado Error", JOptionPane.ERROR_MESSAGE);
+
+                }
+                Integer selectedUsuariId = Integer.parseInt((String) filteringTbl.getValueAt(selectedRow, 0));
+                Usuari selectedUsuari=null;
+                for (Usuari usuari : filteredUsuariList) {
+                    if (usuari.getId().equals(selectedUsuariId)) {
+                        selectedUsuari = usuari;
+                        break;
+                    }
+                }
+                System.out.println("usuari selected: " + selectedUsuari.getUsuari());
+                modificaUsuariDialog = new ModificaUsuariDialog(client, selectedUsuari);
             } catch (ExceptionErrorDataBase exceptionErrorDataBase) {
                 //todo pensar que hacer aqui
                 exceptionErrorDataBase.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
@@ -298,7 +314,21 @@ public class GestioUsuariPanel extends JPanel{
             //todo pasar por parametro el Usuari seleccionado al constructor
             BaixaUsuariDialog baixaUsuariDialog = null;
             try {
-                baixaUsuariDialog = new BaixaUsuariDialog(client, null);
+                int selectedRow = filteringTbl.getSelectedRow();
+                if(selectedRow==-1){
+                    JOptionPane.showMessageDialog(filteringTbl, "No hay seleccionado ningún usuario", "Usuario no seleccionado Error", JOptionPane.ERROR_MESSAGE);
+
+                }
+                Integer selectedUsuariId = Integer.parseInt((String) filteringTbl.getValueAt(selectedRow, 0));
+                Usuari selectedUsuari=null;
+                for (Usuari usuari : filteredUsuariList) {
+                    if (usuari.getId().equals(selectedUsuariId)) {
+                        selectedUsuari = usuari;
+                        break;
+                    }
+                }
+                System.out.println("usuari selected: " + selectedUsuari.getUsuari());
+                baixaUsuariDialog = new BaixaUsuariDialog(client, selectedUsuari);
             } catch (ExceptionErrorDataBase exceptionErrorDataBase) {
                 //todo pensar que hacer aqui
                 exceptionErrorDataBase.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
@@ -329,9 +359,9 @@ public class GestioUsuariPanel extends JPanel{
             try {
                 DefaultTableModel tableModel = (DefaultTableModel) filteringTbl.getModel();
                 int rowCount = tableModel.getRowCount();
-                List<Usuari> usuariList = client.filtrarUsuaris(filterItems);
+                filteredUsuariList = client.filtrarUsuaris(filterItems);
                 int i=0;
-                for (Usuari usuari : usuariList) {
+                for (Usuari usuari : filteredUsuariList) {
                     if(i==rowCount-1) tableModel.addRow(new Object[]{});
                     tableModel.setValueAt(usuari.getId().toString(),i, 0);
                     tableModel.setValueAt(usuari.getNif(),i, 1);
@@ -353,8 +383,9 @@ public class GestioUsuariPanel extends JPanel{
                     tableModel.setValueAt("",rowIdx,6);
                     tableModel.setValueAt("",rowIdx,7);
                 }
-                
+
                 filteringTbl= createTabla(tableModel);
+                scrollPane.setViewportView(filteringTbl);
             } catch (ExceptionErrorDataBase exceptionErrorDataBase) {
                 //todo pensar que se hace aqui
                 exceptionErrorDataBase.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.

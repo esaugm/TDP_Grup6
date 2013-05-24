@@ -16,16 +16,21 @@ import java.rmi.RemoteException;
 public class ModificaUsuariDialog extends AltaUsuariDialog {
     private String modificaUsuariLabel = TDSLanguageUtils.getMessage("gestioUsuari.modificaUsuariDialog.modificaUsuariLabel");
     private String okBtnLabel = TDSLanguageUtils.getMessage("gestioUsuari.modificaUsuariDialog.okBtnLabel");
-    private Usuari usuari;
 
-    public ModificaUsuariDialog(Client pClient, Usuari usuari) throws ExceptionErrorDataBase, RemoteException {
+    public ModificaUsuariDialog(Client pClient, Usuari pUsuari) throws ExceptionErrorDataBase, RemoteException {
         super(pClient);
-        this.usuari = usuari;
+        setUsuari(pUsuari);
         setModificaDialogProperties();
+        fillUsuariData(pUsuari);
+        enableActionListenerPerfil();
     }
+
 
     private void setModificaDialogProperties() {
         updateTitle(modificaUsuariLabel);
         updateOKButtonText(okBtnLabel);
+        setActionListenerOKButton(new ModificaUsuariActionListener());
     }
+
+
 }
