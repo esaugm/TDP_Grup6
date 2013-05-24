@@ -66,11 +66,11 @@ public class EstadisticaDaoImpl extends GenericDaoImpl implements EstadisticaDao
 
                 } else if (e.getKey().equals("mecanico")) {
                     if (isFirst) {
-                        queryString += "  LOIWER(usuari.nom)  like  '%" + String.valueOf(e.getValue()).toLowerCase() + "%'";
+                        queryString += "  LOWER(usuari.nom)  like  '%" + String.valueOf(e.getValue()).toLowerCase() + "%'";
                         isFirst = false;
 
                     } else {
-                        queryString += " AND LOIWER(usuari.nom)  like  '%" + String.valueOf(e.getValue()).toLowerCase() + "%'";
+                        queryString += " AND LOWER(usuari.nom)  like  '%" + String.valueOf(e.getValue()).toLowerCase() + "%'";
                     }
 
                 } else if (e.getKey().equals("inicio")) {
@@ -182,20 +182,20 @@ public class EstadisticaDaoImpl extends GenericDaoImpl implements EstadisticaDao
 
                 } else if (e.getKey().equals("marca")) {
                     if (isFirst) {
-                        queryString += "  LOIWER(vehicle.marca)  like  '%" + String.valueOf(e.getValue()).toLowerCase() + "%'";
+                        queryString += "  LOWER(vehicle.marca)  like  '%" + String.valueOf(e.getValue()).toLowerCase() + "%'";
                         isFirst = false;
 
                     } else {
-                        queryString += " AND LOIWER(vehicle.marca)  like  '%" + String.valueOf(e.getValue()).toLowerCase() + "%'";
+                        queryString += " AND LOWER(vehicle.marca)  like  '%" + String.valueOf(e.getValue()).toLowerCase() + "%'";
                     }
 
                 } else if (e.getKey().equals("compania")) {
                     if (isFirst) {
-                        queryString += "  LOIWER(asseguradora.nom)  like  '%" + String.valueOf(e.getValue()).toLowerCase() + "%'";
+                        queryString += "  LOWER(asseguradora.nom)  like  '%" + String.valueOf(e.getValue()).toLowerCase() + "%'";
                         isFirst = false;
 
                     } else {
-                        queryString += " AND LOIWER(asseguradora.nom)  like  '%" + String.valueOf(e.getValue()).toLowerCase() + "%'";
+                        queryString += " AND LOWER(asseguradora.nom)  like  '%" + String.valueOf(e.getValue()).toLowerCase() + "%'";
                     }
 
                 } else if (e.getKey().equals("inicio")) {
