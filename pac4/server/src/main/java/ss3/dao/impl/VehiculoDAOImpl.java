@@ -105,12 +105,11 @@ public class VehiculoDAOImpl extends GenericDaoImpl implements VehiculoDAO {
         return listaVehiculos;
     }
      
-     public ArrayList<Vehiculo> findByMatricula(String pMatricula) throws ExceptionErrorDataBase {
-        Connection conn=null;
+     public Vehiculo findByMatricula(String pMatricula) throws ExceptionErrorDataBase {
+         Connection conn=null;
         PreparedStatement ps = null;
         ResultSet rs = null;
-        
-        ArrayList<Vehiculo> listaVehiculos = new ArrayList<Vehiculo>();
+        Vehiculo toReturn = null;
         try{
             conn = getConnection();
             ps = conn.prepareStatement("select * from vehicle where matricula = ?");
@@ -118,8 +117,8 @@ public class VehiculoDAOImpl extends GenericDaoImpl implements VehiculoDAO {
 
             rs = ps.executeQuery();
 
-            while (rs.next()){
-                Vehiculo toReturn = new Vehiculo(
+            if (rs.next()){
+                toReturn = new Vehiculo(
                     rs.getString("marca"),
                     rs.getString("tipus"),
                     rs.getString("num_chasis"),
@@ -128,7 +127,6 @@ public class VehiculoDAOImpl extends GenericDaoImpl implements VehiculoDAO {
                     rs.getString("color"),
                     rs.getDate("anyo"),
                     rs.getInt("numreparacio"));
-                listaVehiculos.add(toReturn);
             }
 
         } catch (ClassNotFoundException e) {
@@ -143,7 +141,7 @@ public class VehiculoDAOImpl extends GenericDaoImpl implements VehiculoDAO {
         } finally {
             ConnectionFactory.freeResources(conn, ps, rs);
         }
-        return listaVehiculos;
+        return toReturn;
     }
      
      public ArrayList<Vehiculo> findByModelo(String pModelo) throws ExceptionErrorDataBase {
@@ -188,22 +186,20 @@ public class VehiculoDAOImpl extends GenericDaoImpl implements VehiculoDAO {
         return listaVehiculos;
     }
      
-    public ArrayList<Vehiculo> findByOrden(Integer pOrden) throws ExceptionErrorDataBase {
-        Connection conn=null;
+    public Vehiculo findByOrden(Integer pOrden) throws ExceptionErrorDataBase {
+         Connection conn=null;
         PreparedStatement ps = null;
         ResultSet rs = null;
-        
-        ArrayList<Vehiculo> listaVehiculos = new ArrayList<Vehiculo>();
+        Vehiculo toReturn = null;
         try{
             conn = getConnection();
             ps = conn.prepareStatement("select * from vehicle where numreparacio = ?");
-            
-            ps.setInt(1,pOrden);
+            ps.setInt(1, pOrden);
 
             rs = ps.executeQuery();
 
-            while (rs.next()){
-                Vehiculo toReturn = new Vehiculo(
+            if (rs.next()){
+                toReturn = new Vehiculo(
                     rs.getString("marca"),
                     rs.getString("tipus"),
                     rs.getString("num_chasis"),
@@ -212,7 +208,6 @@ public class VehiculoDAOImpl extends GenericDaoImpl implements VehiculoDAO {
                     rs.getString("color"),
                     rs.getDate("anyo"),
                     rs.getInt("numreparacio"));
-                listaVehiculos.add(toReturn);
             }
 
         } catch (ClassNotFoundException e) {
@@ -227,7 +222,7 @@ public class VehiculoDAOImpl extends GenericDaoImpl implements VehiculoDAO {
         } finally {
             ConnectionFactory.freeResources(conn, ps, rs);
         }
-        return listaVehiculos;
+        return toReturn;
     }
      
 }

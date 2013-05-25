@@ -71,6 +71,11 @@ public class SolicitudService implements ISolicitudService {
     }
 
     @Override
+    public Solicitud buscaSolicitudbynumrep(Integer orden) throws AppException {
+        return solicitudDAO.getSolicitudbyNumReparacion(orden);
+    }
+    
+    @Override
     public Solicitud finalizaSolicitud(Integer numsolicitud) throws AppException {
         Solicitud solicitud;
 

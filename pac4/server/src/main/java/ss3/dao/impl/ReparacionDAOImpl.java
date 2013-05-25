@@ -11,6 +11,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.text.SimpleDateFormat;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 import ss2.exception.AppException;
 import ss3.beans.Reparacion;
 import ss3.dao.ReparacionDAO;
@@ -75,7 +78,7 @@ public class ReparacionDAOImpl extends GenericDaoImpl implements ReparacionDAO {
             conn = getConnection();
             ps = conn.prepareStatement("select * from reparacio where ordrereparacio = ?");
             ps.setLong(1,pOrdenReparacion);
-
+            System.out.println(ps);
             rs = ps.executeQuery();
 
             if (rs.next()){
@@ -428,7 +431,7 @@ public class ReparacionDAOImpl extends GenericDaoImpl implements ReparacionDAO {
         return listaReparaciones;
      }
      
-     /*public Boolean asignaAJefeTaller(Integer orden, Integer idJefeTaller) throws ExceptionErrorDataBase{
+     public Boolean asignaAJefeTaller(Integer orden, Integer idJefeTaller) throws ExceptionErrorDataBase{
         Boolean succeded = false;
         Boolean wasconnected = false;
 
@@ -483,7 +486,7 @@ public class ReparacionDAOImpl extends GenericDaoImpl implements ReparacionDAO {
         }
 
         return succeded;
-     }*/
+     }
      
       public Boolean anotaObservacion(Integer orden, String observaciones) throws ExceptionErrorDataBase{
         Boolean succeded = false;
@@ -577,5 +580,119 @@ public class ReparacionDAOImpl extends GenericDaoImpl implements ReparacionDAO {
             ConnectionFactory.freeResources(connection, ptmt, resultSet);
         }
         return succeded;
+      }
+      
+      public ArrayList<Reparacion> findReparacionesByTerms(Map values) throws ExceptionErrorDataBase{
+        ArrayList<Reparacion> list = new ArrayList<Reparacion>();
+        Boolean isFirst = new Boolean(true);
+
+        try {
+
+            String queryString = "SELECT " +
+                    " reparacio.ordrereparacio" +
+                    " FROM reparacio  " +
+                    " JOIN solicitud ON reparacio.ordrereparacio = solicitud.numreparacio" +
+                    " JOIN client   ON solicitud.client = client.nif " +
+                    " JOIN usuari ON reparacio.idmecanic = usuari.id" +
+                    " JOIN vehicle ON reparacio.ordrereparacio = vehicle.numreparacio";
+
+            if (values.size() > 0) {
+                queryString += " WHERE ";
+            }
+
+            Iterator itr = values.entrySet().iterator();
+
+
+            while (itr.hasNext()) {
+                Map.Entry e = (Map.Entry) itr.next();
+
+               if (e.getKey().equals("nomCliente")) {
+                    if (isFirst) {
+                        queryString += "  LOWER(client.nom) like '%" + String.valueOf(e.getValue()).toLowerCase() + "%'";
+                        isFirst = false;
+
+                    } else {
+                        queryString += " AND LOWER(client.nom) like '%" + String.valueOf(e.getValue()).toLowerCase() + "%'";
+                    }
+               }else if (e.getKey().equals("apeCliente")) {
+                    if (isFirst) {
+                        queryString += "  LOWER(client.cognoms) like '%" + String.valueOf(e.getValue()).toLowerCase() + "%'";
+                        isFirst = false;
+
+                    } else {
+                        queryString += " AND LOWER(client.cognoms) like '%" + String.valueOf(e.getValue()).toLowerCase() + "%'";
+                    }
+               }else if (e.getKey().equals("desde")) {
+                    if (isFirst) {
+                        queryString += "  solicitud.dataalta >= '" + String.valueOf(e.getValue()).toLowerCase() + "'";
+                        isFirst = false;
+
+                    } else {
+                        queryString += " AND solicitud.dataalta >= '" + String.valueOf(e.getValue()).toLowerCase() + "'";
+                    }
+               }else if (e.getKey().equals("hasta")) {
+                    if (isFirst) {
+                        queryString += "  solicitud.dataalta <= '" + String.valueOf(e.getValue()).toLowerCase() + "'";
+                        isFirst = false;
+
+                    } else {
+                        queryString += " AND solicitud.dataalta <= '" + String.valueOf(e.getValue()).toLowerCase() + "'";
+                    }
+               }else if (e.getKey().equals("orden")) {
+                    if (isFirst) {
+                        queryString += "  reparacio.ordrereparacio = '" + String.valueOf(e.getValue()).toLowerCase() + "'";
+                        isFirst = false;
+
+                    } else {
+                        queryString += " AND reparacio.ordrereparacio = '" + String.valueOf(e.getValue()).toLowerCase() + "'";
+                    }
+               }else if (e.getKey().equals("matricula")) {
+                    if (isFirst) {
+                        queryString += "  LOWER(vehicle.matricula) like '" + String.valueOf(e.getValue()).toLowerCase() + "%'";
+                        isFirst = false;
+
+                    } else {
+                        queryString += " AND LOWER(vehicle.matricula) like '" + String.valueOf(e.getValue()).toLowerCase() + "%'";
+                    }
+               }else if (e.getKey().equals("marca")) {
+                    if (isFirst) {
+                        queryString += "  LOWER(vehicle.marca) like '" + String.valueOf(e.getValue()).toLowerCase() + "%'";
+                        isFirst = false;
+
+                    } else {
+                        queryString += " AND LOWER(vehicle.marca) like '" + String.valueOf(e.getValue()).toLowerCase() + "%'";
+                    }
+               }else if (e.getKey().equals("modelo")) {
+                    if (isFirst) {
+                        queryString += "  LOWER(vehicle.model) like '" + String.valueOf(e.getValue()).toLowerCase() + "%'";
+                        isFirst = false;
+
+                    } else {
+                        queryString += " AND LOWER(vehicle.model) like '" + String.valueOf(e.getValue()).toLowerCase() + "%'";
+                    }
+               }
+               
+                    
+            }
+            System.out.println(queryString);
+            connection = getConnection();
+            ptmt = connection.prepareStatement(queryString);
+            resultSet = ptmt.executeQuery();
+            while (resultSet.next())
+                list.add(findByPK(resultSet.getInt(1)));
+                     
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            ConnectionFactory.freeResources(connection, ptmt, resultSet);
+
+
+        }
+
+        return list;
       }
 }

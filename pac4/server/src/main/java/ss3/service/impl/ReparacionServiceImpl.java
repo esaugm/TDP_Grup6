@@ -5,6 +5,7 @@
 package ss3.service.impl;
 
 import java.util.ArrayList;
+import java.util.Map;
 import ss1.dao.exception.ExceptionErrorDataBase;
 import ss2.exception.AppException;
 import ss3.beans.Reparacion;
@@ -61,13 +62,13 @@ public class ReparacionServiceImpl implements ReparacionService {
         return reparacion.findByIdMecanico(idMecanico);
     }
     
-    /*public Boolean asignaAJT(Integer orden, Integer idJefeTaller) throws ExceptionErrorDataBase{
+    public Boolean asignaAJT(Integer orden, Integer idJefeTaller) throws ExceptionErrorDataBase{
         return reparacion.asignaAJefeTaller(orden, idJefeTaller);
     }
     
-    public Boolean aceptaRep(Integer orden) throws ExceptionErrorDataBase{
+    public Boolean aceptaReparacion(Integer orden) throws ExceptionErrorDataBase{
         return reparacion.aceptaReparacion(orden);
-    }*/
+    }
     
     public Boolean anotaObs(Integer orden, String observaciones) throws ExceptionErrorDataBase{
         return reparacion.anotaObservacion(orden, observaciones);
@@ -79,5 +80,9 @@ public class ReparacionServiceImpl implements ReparacionService {
     
     public Boolean creaReparacion(Reparacion rep) throws ExceptionErrorDataBase, AppException{
         return reparacion.createReparacion(rep);
+    }
+    
+    public ArrayList<Reparacion> findReparacionesByTerms(Map values) throws ExceptionErrorDataBase{
+        return reparacion.findReparacionesByTerms(values);
     }
 }

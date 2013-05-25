@@ -28,7 +28,7 @@ public class SS2GestionAdministrativaImpl extends UnicastRemoteObject implements
     private SolicitudService solicitudService;
     private StockPiezasService stockpiezasService;
 
-    protected SS2GestionAdministrativaImpl() throws RemoteException {
+    public SS2GestionAdministrativaImpl() throws RemoteException {
         super();
         clientService = new ClientService();
         solicitudService = new SolicitudService();
@@ -104,7 +104,7 @@ public class SS2GestionAdministrativaImpl extends UnicastRemoteObject implements
     public Integer altaSolicitudRetNumsol(Solicitud solicitud) throws AppException {
         return solicitudService.altaSolicitudRetNumsol(solicitud);
     }
-
+    
     @Override
     public Solicitud altaSolicitudRetSolicitud(Solicitud solicitud) throws AppException {
         return solicitudService.altaSolicitudRetSolicitud(solicitud);
@@ -118,6 +118,11 @@ public class SS2GestionAdministrativaImpl extends UnicastRemoteObject implements
     @Override
     public Solicitud buscaSolicitudbynumsol(Integer numsolicitud) throws AppException {
         return solicitudService.buscaSolicitudbynumsol(numsolicitud);
+    }
+    
+    @Override
+    public Solicitud buscaSolicitudbynumrep(Integer orden) throws AppException {
+        return solicitudService.buscaSolicitudbynumrep(orden);
     }
 
     @Override

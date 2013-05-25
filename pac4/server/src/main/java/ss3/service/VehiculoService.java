@@ -16,7 +16,7 @@ public interface VehiculoService {
     
     public Vehiculo ConsultaChasis(String numChasis) throws ExceptionErrorDataBase;
     public ArrayList<Vehiculo> ConsultaMarca(String marca) throws ExceptionErrorDataBase;
-    public ArrayList<Vehiculo> ConsultaMatricula(String matricula) throws ExceptionErrorDataBase;
+    public Vehiculo ConsultaMatricula(String matricula) throws ExceptionErrorDataBase;
     public ArrayList<Vehiculo> ConsultaModelo(String modelo) throws ExceptionErrorDataBase;
-    public ArrayList<Vehiculo> ConsultaReparacion(Integer orden) throws ExceptionErrorDataBase;
+    public Vehiculo ConsultaReparacion(Integer orden) throws ExceptionErrorDataBase;
 }

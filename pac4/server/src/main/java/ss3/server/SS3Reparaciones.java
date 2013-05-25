@@ -13,6 +13,7 @@ import ss3.beans.Vehiculo;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
+import java.util.Map;
 
 /**
  ***************************************
@@ -41,8 +42,10 @@ public interface SS3Reparaciones extends Remote {
     public ArrayList<Pieza> ConsultaDescripcion(String descripcion) throws ExceptionErrorDataBase, RemoteException;
     public Vehiculo ConsultaChasis(String numChasis) throws ExceptionErrorDataBase, RemoteException;
     public ArrayList<Vehiculo> ConsultaMarca(String marca) throws ExceptionErrorDataBase, RemoteException;
-    public ArrayList<Vehiculo> ConsultaMatricula(String matricula) throws ExceptionErrorDataBase, RemoteException;
+    public Vehiculo ConsultaMatricula(String matricula) throws ExceptionErrorDataBase, RemoteException;
     public ArrayList<Vehiculo> ConsultaModelo(String modelo) throws ExceptionErrorDataBase, RemoteException;
-    public ArrayList<Vehiculo> ConsultaReparacion(Integer orden) throws ExceptionErrorDataBase, RemoteException;
+    public Vehiculo ConsultaReparacion(Integer orden) throws ExceptionErrorDataBase, RemoteException;
     public Boolean creaReparacion(Reparacion rep) throws ExceptionErrorDataBase, AppException, RemoteException;
+    public ArrayList<Reparacion> findReparacionesByTerms(Map values) throws ExceptionErrorDataBase, RemoteException;
+    public Boolean aceptaReparacion(Integer orden) throws ExceptionErrorDataBase, RemoteException;
 }

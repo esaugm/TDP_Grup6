@@ -37,7 +37,7 @@ public class VehiculoServiceImpl implements VehiculoService {
         return reparacion.findByMarca(marca);
     }
     
-    public ArrayList<Vehiculo> ConsultaMatricula(String matricula) throws ExceptionErrorDataBase{
+    public Vehiculo ConsultaMatricula(String matricula) throws ExceptionErrorDataBase{
         return reparacion.findByMatricula(matricula);
     }
     
@@ -45,7 +45,7 @@ public class VehiculoServiceImpl implements VehiculoService {
         return reparacion.findByModelo(modelo);
     }
     
-    public ArrayList<Vehiculo> ConsultaReparacion(Integer orden) throws ExceptionErrorDataBase{
+    public Vehiculo ConsultaReparacion(Integer orden) throws ExceptionErrorDataBase{
         return reparacion.findByOrden(orden);
     }
 }

@@ -35,6 +35,8 @@ public interface ISolicitudDAO extends Remote {
     ArrayList<Solicitud> getSolicitudbyANY(String freetext) throws AppException;
 
     Solicitud getSolicitudbyNumSolicitud(Integer numsolicitud) throws AppException;
+    
+    Solicitud getSolicitudbyNumReparacion(Integer orden) throws AppException;
 
     Boolean modifySolicitud(Solicitud solicitud) throws AppException;
 

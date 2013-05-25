@@ -5,6 +5,7 @@
 package ss3.service;
 
 import java.util.ArrayList;
+import java.util.Map;
 import ss1.dao.exception.ExceptionErrorDataBase;
 import ss2.exception.AppException;
 import ss3.beans.Reparacion;
@@ -26,4 +27,6 @@ public interface ReparacionService {
     public Boolean anotaObs(Integer orden, String observaciones) throws ExceptionErrorDataBase;
     public Boolean asignaAMec(Integer orden, Integer idMecanico) throws ExceptionErrorDataBase;
     public Boolean creaReparacion(Reparacion rep) throws ExceptionErrorDataBase, AppException;
+    public ArrayList<Reparacion> findReparacionesByTerms(Map values) throws ExceptionErrorDataBase;
+    public Boolean aceptaReparacion(Integer orden) throws ExceptionErrorDataBase;
 }

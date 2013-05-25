@@ -29,6 +29,8 @@ public interface ISolicitudService {
     ArrayList<Solicitud> buscaSolicitudbyANY(String freetext) throws AppException;
 
     Solicitud buscaSolicitudbynumsol(Integer numsolicitud) throws AppException;
+    
+    Solicitud buscaSolicitudbynumrep(Integer orden) throws AppException;
 
     ArrayList<Solicitud> consultaSolicitudes() throws AppException;
 

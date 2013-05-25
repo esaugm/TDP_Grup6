@@ -8,6 +8,7 @@ import ss4.server.impl.ISS4EstadisticasImpl;
 import java.io.IOException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
+import ss2.server.impl.SS2GestionAdministrativaImpl;
 
 /**
  * TDP Grup6
@@ -18,6 +19,7 @@ import java.rmi.registry.Registry;
 public class Server {
     private final int PORT = 1099;
     private final String JNDI_SS1_NAME = "ConexioManteniment";
+    private final String JNDI_SS2_NAME = "GestionAdministrativa";
     private final String JNDI_SS3_NAME = "Reparaciones";
     private final String JNDI_SS4_NAME = "Estadisticas";
     /*ToDo: añadir cada uno de los nombres de cada subsistema, por ejemplo:
@@ -38,6 +40,8 @@ public class Server {
         Registry registry = LocateRegistry.createRegistry(PORT);
         SS1ConexioMantenimentImpl objetoRemotoSS1 = new SS1ConexioMantenimentImpl();
         registry.rebind(JNDI_SS1_NAME, objetoRemotoSS1);
+        SS2GestionAdministrativaImpl objetoRemotoSS2 = new SS2GestionAdministrativaImpl();
+        registry.rebind(JNDI_SS2_NAME, objetoRemotoSS2);
         SS3ReparacionesImpl objetoRemotoSS3 = new SS3ReparacionesImpl();
         registry.rebind(JNDI_SS3_NAME, objetoRemotoSS3);
         ISS4Estadisticas objetoRemotoSS4 = new ISS4EstadisticasImpl();

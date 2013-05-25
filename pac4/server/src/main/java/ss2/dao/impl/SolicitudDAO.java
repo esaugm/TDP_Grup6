@@ -152,6 +152,44 @@ public class SolicitudDAO extends GenericDaoImpl implements ISolicitudDAO {
 
         return solicitud;
     }
+    
+    @Override
+    public Solicitud getSolicitudbyNumReparacion(Integer orden) throws AppException {
+        String SQL = "SELECT * from solicitud where numreparacio = ?";
+        Solicitud solicitud = new Solicitud();
+
+        try {
+            connection = getConnection();
+            ptmt = connection.prepareStatement(SQL);
+            ptmt.setLong(1, orden);
+            resultSet = ptmt.executeQuery();
+
+            while (resultSet.next()) {
+                solicitud = new Solicitud(
+                    resultSet.getInt("numsol"),
+                    resultSet.getString("comentaris"),
+                    resultSet.getDate("dataalta"),
+                    resultSet.getDate("datafinalitzacio"),
+                    resultSet.getString("client"),
+                    resultSet.getInt("numreparacio"),
+                    resultSet.getBoolean("pendent"),
+                    resultSet.getBoolean("finalitzada"),
+                    resultSet.getInt("asseguradora"),
+                    resultSet.getString("numPoliza"),
+                    resultSet.getInt("idtaller"));
+            }
+        } catch (ClassNotFoundException ex) {
+            throw new AppException(ex);
+        } catch (IOException ex) {
+            throw new AppException(ex);
+        } catch (SQLException ex) {
+            throw new AppException(ex);
+        } finally {
+            ConnectionFactory.freeResources(connection, ptmt, resultSet);
+        }
+
+        return solicitud;
+    }
 
     @Override
     public ArrayList<Solicitud> getSolicitudbyANY(String freetext) throws AppException {

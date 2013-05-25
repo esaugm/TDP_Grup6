@@ -2,9 +2,12 @@ package ss3.dao;
 
 import common.dao.GenericDao;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 import ss1.dao.exception.ExceptionErrorDataBase;
 import ss2.exception.AppException;
 import ss3.beans.Reparacion;
+import ss4.model.EstadisticaReparaciones;
 
 
 /**
@@ -25,9 +28,10 @@ public interface ReparacionDAO extends GenericDao{
     public ArrayList<Reparacion> findByAceptada(Boolean aceptada) throws ExceptionErrorDataBase;
     public ArrayList<Reparacion> findByAsignada(Boolean asignada) throws ExceptionErrorDataBase;
     public ArrayList<Reparacion> findByIdMecanico(Integer idMecanico) throws ExceptionErrorDataBase;
-    /*public Boolean asignaAJefeTaller(Integer orden, Integer idJefeTaller) throws ExceptionErrorDataBase;
-    public Boolean aceptaReparacion(Integer orden) throws ExceptionErrorDataBase;*/
+    public Boolean asignaAJefeTaller(Integer orden, Integer idJefeTaller) throws ExceptionErrorDataBase;
+    public Boolean aceptaReparacion(Integer orden) throws ExceptionErrorDataBase;
     public Boolean anotaObservacion(Integer orden, String observaciones) throws ExceptionErrorDataBase;
     public Boolean asignaAMecanico(Integer orden, Integer idMecanico) throws ExceptionErrorDataBase;
     public Boolean createReparacion(Reparacion rep) throws ExceptionErrorDataBase, AppException;
+    public ArrayList<Reparacion> findReparacionesByTerms(Map values) throws ExceptionErrorDataBase;
 }

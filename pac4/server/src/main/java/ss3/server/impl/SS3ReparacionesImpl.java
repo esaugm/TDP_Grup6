@@ -16,6 +16,7 @@ import ss3.service.impl.VehiculoServiceImpl;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
+import java.util.Map;
 
 /**
  * TDP Grup6 User: Esaú González Date: 12/05/13 Time: 13:20
@@ -109,7 +110,7 @@ public class SS3ReparacionesImpl extends UnicastRemoteObject implements SS3Repar
     }
     
     @Override
-    public ArrayList<Vehiculo> ConsultaMatricula(String matricula) throws ExceptionErrorDataBase{
+    public Vehiculo ConsultaMatricula(String matricula) throws ExceptionErrorDataBase{
         return vehiculoService.ConsultaMatricula(matricula);
     }
     
@@ -119,11 +120,19 @@ public class SS3ReparacionesImpl extends UnicastRemoteObject implements SS3Repar
     }
     
     @Override
-    public ArrayList<Vehiculo> ConsultaReparacion(Integer orden) throws ExceptionErrorDataBase{
+    public Vehiculo ConsultaReparacion(Integer orden) throws ExceptionErrorDataBase{
         return vehiculoService.ConsultaReparacion(orden);
     }
      
     public Boolean creaReparacion(Reparacion rep) throws ExceptionErrorDataBase, AppException{
         return reparacionService.creaReparacion(rep);
+    }
+    
+    public ArrayList<Reparacion> findReparacionesByTerms(Map values) throws ExceptionErrorDataBase{
+        return reparacionService.findReparacionesByTerms(values);
+    }
+    
+    public Boolean aceptaReparacion(Integer orden) throws ExceptionErrorDataBase{
+        return reparacionService.aceptaReparacion(orden);
     }
 }

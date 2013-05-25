@@ -11,6 +11,7 @@ import ss2.entity.Solicitud;
 import ss2.entity.StockPeca;
 import ss2.exception.AppException;
 import java.rmi.Remote;
+import java.rmi.RemoteException;
 
 /**
  ***************************************
@@ -24,48 +25,50 @@ import java.rmi.Remote;
  */
 public interface ISS2GestionAdministrativa extends Remote {
 
-    Boolean altaCliente(Client client) throws AppException;
+    Boolean altaCliente(Client client) throws AppException, RemoteException;
 
-    Boolean altaSolicitud(Solicitud solicitud) throws AppException;
+    Boolean altaSolicitud(Solicitud solicitud) throws AppException, RemoteException;
 
-    Integer altaSolicitudRetNumsol(Solicitud solicitud) throws AppException;
+    Integer altaSolicitudRetNumsol(Solicitud solicitud) throws AppException, RemoteException;
 
-    Solicitud altaSolicitudRetSolicitud(Solicitud solicitud) throws AppException;
+    Solicitud altaSolicitudRetSolicitud(Solicitud solicitud) throws AppException, RemoteException;
 
-    Boolean bajaCliente(Client client) throws AppException;
+    Boolean bajaCliente(Client client) throws AppException, RemoteException;
 
-    ArrayList<Client> buscaCliente(String freetext) throws AppException;
+    ArrayList<Client> buscaCliente(String freetext) throws AppException, RemoteException;
 
-    ArrayList<Client> buscaClientebyNIF(String nif) throws AppException;
+    ArrayList<Client> buscaClientebyNIF(String nif) throws AppException, RemoteException;
 
-    Client buscaClientebynumclient(Integer numclient) throws AppException;
+    Client buscaClientebynumclient(Integer numclient) throws AppException, RemoteException;
 
-    ArrayList<Solicitud> buscaSolicitudbyANY(String freetext) throws AppException;
+    ArrayList<Solicitud> buscaSolicitudbyANY(String freetext) throws AppException, RemoteException;
 
-    Solicitud buscaSolicitudbynumsol(Integer numsolicitud) throws AppException;
+    Solicitud buscaSolicitudbynumsol(Integer numsolicitud) throws AppException, RemoteException;
+    
+    Solicitud buscaSolicitudbynumrep(Integer orden) throws AppException, RemoteException;
 
-    ArrayList<Solicitud> consultaSolicitudes() throws AppException;
+    ArrayList<Solicitud> consultaSolicitudes() throws AppException, RemoteException;
 
-    StockPeca consultaStockPiezabyCodigoPieza(Integer codigoPieza, Integer idTaller) throws AppException;
+    StockPeca consultaStockPiezabyCodigoPieza(Integer codigoPieza, Integer idTaller) throws AppException, RemoteException;
 
-    StockPeca consultaStockPiezabyCodigoStockPieza(Integer codigoPieza, Integer idTaller) throws AppException;
+    StockPeca consultaStockPiezabyCodigoStockPieza(Integer codigoPieza, Integer idTaller) throws AppException, RemoteException;
 
-    ArrayList<StockPeca> consultaStockPiezas(Integer idTaller) throws AppException;
+    ArrayList<StockPeca> consultaStockPiezas(Integer idTaller) throws AppException, RemoteException;
 
-    Solicitud finalizaSolicitud(Integer numsolicitud) throws AppException;
+    Solicitud finalizaSolicitud(Integer numsolicitud) throws AppException, RemoteException;
     /*
      Boolean deleteSolicitud(Solicitud solicitud) throws AppException;
      */
 
-    ArrayList<Client> listaClientes() throws AppException;
+    ArrayList<Client> listaClientes() throws AppException, RemoteException;
 
-    Boolean modificaCliente(Client client) throws AppException;
+    Boolean modificaCliente(Client client) throws AppException, RemoteException;
 
-    Boolean modificaSolicitud(Solicitud solicitud) throws AppException;
+    Boolean modificaSolicitud(Solicitud solicitud) throws AppException, RemoteException;
 
-    Solicitud modificaSolicitudwithRet(Solicitud solicitud) throws AppException;
+    Solicitud modificaSolicitudwithRet(Solicitud solicitud) throws AppException, RemoteException;
 
-    Integer modificaStockPieza_Stock(Integer codigoPieza, Integer idTaller, Integer incremento) throws AppException;
+    Integer modificaStockPieza_Stock(Integer codigoPieza, Integer idTaller, Integer incremento) throws AppException, RemoteException;
 
-    Integer modificaStockPieza_StockMinimo(Integer codigoPieza, Integer idTaller, Integer incremento) throws AppException;
+    Integer modificaStockPieza_StockMinimo(Integer codigoPieza, Integer idTaller, Integer incremento) throws AppException, RemoteException;
 }
