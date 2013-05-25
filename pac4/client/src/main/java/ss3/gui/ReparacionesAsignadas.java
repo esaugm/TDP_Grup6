@@ -10,6 +10,8 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import ss1.dao.exception.ExceptionErrorDataBase;
@@ -24,7 +26,6 @@ import ss3.beans.Vehiculo;
 public class ReparacionesAsignadas extends JPanel {
 
     public Client cliente;
-    private DefaultTableModel dtm;
     JTable jTable1;
     JScrollPane scrollPane;
     /**
@@ -36,7 +37,7 @@ public class ReparacionesAsignadas extends JPanel {
         
         jTable1 = crearTabla();
         scrollPane = new JScrollPane();
-        scrollPane.setBounds(30, 190, 830, 125);
+        scrollPane.setBounds(20, 190, 830, 125);
         add(scrollPane);
         scrollPane.setViewportView(jTable1);
         rellenaTabla(cliente.ConsultaTodas());
@@ -100,7 +101,9 @@ public class ReparacionesAsignadas extends JPanel {
     private void initComponents() {
 
         jLabel1 = new javax.swing.JLabel();
-        jPanel4 = new javax.swing.JPanel();
+        jButton2 = new javax.swing.JButton();
+        jButton6 = new javax.swing.JButton();
+        jButton3 = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jLabel6 = new javax.swing.JLabel();
         jTextField5 = new javax.swing.JTextField();
@@ -118,9 +121,6 @@ public class ReparacionesAsignadas extends JPanel {
         jTextField17 = new javax.swing.JTextField();
         jTextField18 = new javax.swing.JTextField();
         jTextField19 = new javax.swing.JTextField();
-        jButton2 = new javax.swing.JButton();
-        jButton6 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
 
         setLayout(null);
 
@@ -129,7 +129,32 @@ public class ReparacionesAsignadas extends JPanel {
         add(jLabel1);
         jLabel1.setBounds(220, 10, 424, 51);
 
-        jPanel4.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        jButton2.setText("Consultar/Filtrar");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+        add(jButton2);
+        jButton2.setBounds(20, 340, 150, 23);
+
+        jButton6.setText("Salir");
+        jButton6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton6ActionPerformed(evt);
+            }
+        });
+        add(jButton6);
+        jButton6.setBounds(780, 340, 70, 23);
+
+        jButton3.setText("Detalle");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
+        add(jButton3);
+        jButton3.setBounds(410, 340, 90, 23);
 
         jPanel2.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
@@ -224,75 +249,31 @@ public class ReparacionesAsignadas extends JPanel {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel13)
                     .addComponent(jTextField19, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(19, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
-        jPanel4.setLayout(jPanel4Layout);
-        jPanel4Layout.setHorizontalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel4Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(16, Short.MAX_VALUE))
-        );
-        jPanel4Layout.setVerticalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel4Layout.createSequentialGroup()
-                .addGap(5, 5, 5)
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(131, Short.MAX_VALUE))
-        );
-
-        add(jPanel4);
-        jPanel4.setBounds(10, 78, 860, 250);
-
-        jButton2.setText("Consultar/Filtrar");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
-            }
-        });
-        add(jButton2);
-        jButton2.setBounds(20, 340, 150, 23);
-
-        jButton6.setText("Salir");
-        jButton6.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton6ActionPerformed(evt);
-            }
-        });
-        add(jButton6);
-        jButton6.setBounds(790, 340, 70, 23);
-
-        jButton3.setText("Detalle");
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
-            }
-        });
-        add(jButton3);
-        jButton3.setBounds(410, 340, 90, 23);
+        add(jPanel2);
+        jPanel2.setBounds(20, 70, 830, 100);
     }// </editor-fold>//GEN-END:initComponents
 
     private JTable crearTabla() {
         DefaultTableModel tableModel = (new DefaultTableModel(
                 new Object[][] {
-                        {null, null, null, null, null, null, null, null, null},
-                        {null, null, null, null, null, null, null, null, null},
-                        {null, null, null, null, null, null, null, null, null},
-                        {null, null, null, null, null, null, null, null, null},
-                        {null, null, null, null, null, null, null, null, null},
-                        {null, null, null, null, null, null, null, null, null},
-                        {null, null, null, null, null, null, null, null, null},
-                        {null, null, null, null, null, null, null, null, null},
-                        {null, null, null, null, null, null, null, null, null},
-                        {null, null, null, null, null, null, null, null, null},
-                        {null, null, null, null, null, null, null, null, null},
-                        {null, null, null, null, null, null, null, null, null},
-                        {null, null, null, null, null, null, null, null, null},
-                        {null, null, null, null, null, null, null, null, null},
-                        {null, null, null, null, null, null, null, null, null},
+                        {null, null, null, null, null, null, null},
+                        {null, null, null, null, null, null, null},
+                        {null, null, null, null, null, null, null},
+                        {null, null, null, null, null, null, null},
+                        {null, null, null, null, null, null, null},
+                        {null, null, null, null, null, null, null},
+                        {null, null, null, null, null, null, null},
+                        {null, null, null, null, null, null, null},
+                        {null, null, null, null, null, null, null},
+                        {null, null, null, null, null, null, null},
+                        {null, null, null, null, null, null, null},
+                        {null, null, null, null, null, null, null},
+                        {null, null, null, null, null, null, null},
+                        {null, null, null, null, null, null, null},
+                        {null, null, null, null, null, null, null},
                 },
                 new String[] {"Fecha Asignación","Fecha Inicio","Nº Orden", "Matrícula","Marca","Modelo","Contador"}
         ){
@@ -315,19 +296,19 @@ public class ReparacionesAsignadas extends JPanel {
         table.setRowSelectionAllowed(true);
 
         table.getColumnModel().getColumn(0).setResizable(false);
-        table.getColumnModel().getColumn(0).setPreferredWidth(100);
-        table.getColumnModel().getColumn(0).setMinWidth(100);
-        table.getColumnModel().getColumn(0).setMaxWidth(100);
+        table.getColumnModel().getColumn(0).setPreferredWidth(150);
+        table.getColumnModel().getColumn(0).setMinWidth(150);
+        table.getColumnModel().getColumn(0).setMaxWidth(150);
         table.getColumnModel().getColumn(1).setResizable(false);
-        table.getColumnModel().getColumn(1).setPreferredWidth(100);
-        table.getColumnModel().getColumn(1).setMinWidth(100);
-        table.getColumnModel().getColumn(1).setMaxWidth(100);
-        table.getColumnModel().getColumn(2).setPreferredWidth(75);
-        table.getColumnModel().getColumn(2).setMinWidth(75);
-        table.getColumnModel().getColumn(2).setMaxWidth(75);
-        table.getColumnModel().getColumn(3).setPreferredWidth(80);
-        table.getColumnModel().getColumn(3).setMinWidth(80);
-        table.getColumnModel().getColumn(3).setMaxWidth(80);
+        table.getColumnModel().getColumn(1).setPreferredWidth(150);
+        table.getColumnModel().getColumn(1).setMinWidth(150);
+        table.getColumnModel().getColumn(1).setMaxWidth(150);
+        table.getColumnModel().getColumn(2).setPreferredWidth(150);
+        table.getColumnModel().getColumn(2).setMinWidth(150);
+        table.getColumnModel().getColumn(2).setMaxWidth(150);
+        table.getColumnModel().getColumn(3).setPreferredWidth(125);
+        table.getColumnModel().getColumn(3).setMinWidth(125);
+        table.getColumnModel().getColumn(3).setMaxWidth(125);
         table.getColumnModel().getColumn(4).setPreferredWidth(80);
         table.getColumnModel().getColumn(4).setMinWidth(80);
         table.getColumnModel().getColumn(4).setMaxWidth(80);
@@ -337,7 +318,7 @@ public class ReparacionesAsignadas extends JPanel {
         table.getColumnModel().getColumn(6).setPreferredWidth(80);
         table.getColumnModel().getColumn(6).setMinWidth(80);
         table.getColumnModel().getColumn(6).setMaxWidth(80);
-        table.setBounds(30, 190, 830, 125);
+        table.setBounds(20, 190, 830, 125);
         return table;
     }
     
@@ -385,6 +366,18 @@ public class ReparacionesAsignadas extends JPanel {
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         // TODO add your handling code here:
+        DetalleReparacionAsig dra;
+        try {
+            dra = new DetalleReparacionAsig(cliente, (Integer) jTable1.getValueAt(jTable1.getSelectedRow(), 2), (String) jTable1.getValueAt(jTable1.getSelectedRow(), 3), (String) jTable1.getValueAt(jTable1.getSelectedRow(), 4), (String) jTable1.getValueAt(jTable1.getSelectedRow(), 5));
+            dra.setVisible(true);
+            dra.setModal(true);
+        } catch (ExceptionErrorDataBase ex) {
+            ex.printStackTrace();
+        } catch (AppException ex) {
+            ex.printStackTrace();
+        } catch (RemoteException ex) {
+            ex.printStackTrace();
+        }
     }//GEN-LAST:event_jButton3ActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -401,7 +394,6 @@ public class ReparacionesAsignadas extends JPanel {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel4;
     private javax.swing.JTextField jTextField13;
     private javax.swing.JTextField jTextField14;
     private javax.swing.JTextField jTextField15;

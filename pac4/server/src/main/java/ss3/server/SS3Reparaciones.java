@@ -38,6 +38,7 @@ public interface SS3Reparaciones extends Remote {
     public Boolean anotaObs(Integer orden, String observaciones) throws ExceptionErrorDataBase, RemoteException;
     public Boolean asignaAMec(Integer orden, Integer idMecanico) throws ExceptionErrorDataBase, RemoteException;
     public Pieza ConsultaCodigo(Integer codigo) throws ExceptionErrorDataBase, RemoteException;
+    public Pieza ConsultaPorOrden(Integer orden) throws ExceptionErrorDataBase, RemoteException;
     public ArrayList<Pieza> ConsultaPiezas() throws ExceptionErrorDataBase, RemoteException;
     public ArrayList<Pieza> ConsultaDescripcion(String descripcion) throws ExceptionErrorDataBase, RemoteException;
     public Vehiculo ConsultaChasis(String numChasis) throws ExceptionErrorDataBase, RemoteException;

@@ -31,7 +31,6 @@ public class Reparaciones extends JPanel {
      */
     
     public Client cliente;
-    private DefaultTableModel dtm;
     JTable jTable1;
     JScrollPane scrollPane;
      
@@ -42,7 +41,7 @@ public class Reparaciones extends JPanel {
                
         jTable1 = crearTabla();
         scrollPane = new JScrollPane();
-        scrollPane.setBounds(5, 190, 830, 125);
+        scrollPane.setBounds(12, 190, 830, 125);
         add(scrollPane);
         scrollPane.setViewportView(jTable1);
         rellenaTabla(cliente.ConsultaTodas());
@@ -180,7 +179,7 @@ public class Reparaciones extends JPanel {
         table.getColumnModel().getColumn(8).setPreferredWidth(56);
         table.getColumnModel().getColumn(8).setMinWidth(56);
         table.getColumnModel().getColumn(8).setMaxWidth(56);
-        table.setBounds(10, 190, 830, 125);
+        table.setBounds(12, 190, 830, 125);
         return table;
     }
     
@@ -499,9 +498,19 @@ public class Reparaciones extends JPanel {
 
     private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
         // TODO add your handling code here:
-        DetalleReparacionAsig dra = new DetalleReparacionAsig(cliente, (Integer) jTable1.getValueAt(jTable1.getSelectedRow(), 0), (String) jTable1.getValueAt(jTable1.getSelectedRow(), 3), (String) jTable1.getValueAt(jTable1.getSelectedRow(), 4), (String) jTable1.getValueAt(jTable1.getSelectedRow(), 5));
-        dra.setVisible(true);
-        dra.setModal(true);
+        DetalleReparacionAsig dra;
+        try {
+            dra = new DetalleReparacionAsig(cliente, (Integer) jTable1.getValueAt(jTable1.getSelectedRow(), 0), (String) jTable1.getValueAt(jTable1.getSelectedRow(), 3), (String) jTable1.getValueAt(jTable1.getSelectedRow(), 4), (String) jTable1.getValueAt(jTable1.getSelectedRow(), 5));
+            dra.setVisible(true);
+            dra.setModal(true);
+        } catch (ExceptionErrorDataBase ex) {
+            ex.printStackTrace();
+        } catch (AppException ex) {
+            ex.printStackTrace();
+        } catch (RemoteException ex) {
+            ex.printStackTrace();
+        }
+        
     }//GEN-LAST:event_jButton9ActionPerformed
 
     private void jButton10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton10ActionPerformed

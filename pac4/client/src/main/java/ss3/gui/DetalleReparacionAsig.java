@@ -5,7 +5,18 @@
 package ss3.gui;
 
 import common.rmi.Client;
+import java.rmi.RemoteException;
+import java.util.ArrayList;
+import java.util.Iterator;
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
+import ss1.dao.exception.ExceptionErrorDataBase;
+import ss2.entity.Solicitud;
+import ss2.entity.StockPeca;
+import ss2.exception.AppException;
+import ss3.beans.Pieza;
+import ss3.beans.Reparacion;
+import ss3.beans.Vehiculo;
 /**
  *
  * @author Fernando
@@ -15,18 +26,67 @@ public class DetalleReparacionAsig extends JDialog {
     /**
      * Creates new form DetalleReparacionAsig
      */
-    Client cliente;
+    public Client cliente;
+    JTable jTable1;
+    JScrollPane scrollPane;
     
-    public DetalleReparacionAsig(Client cliente, Integer orden, String matricula, String marca, String modelo) {
+    public DetalleReparacionAsig(Client cliente, Integer orden, String matricula, String marca, String modelo) throws ExceptionErrorDataBase, AppException, RemoteException {
         setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
         setAlwaysOnTop(true);
         setBounds(75, 75, 850, 630);
-        initComponents();
+        
         this.cliente=cliente;
+        initComponents();
+        jTable1 = crearTabla();
+        scrollPane = new JScrollPane();
+        scrollPane.setBounds(20, 250, 415, 125);
+        add(scrollPane);
+        scrollPane.setViewportView(jTable1);
         rellenaCabecero(orden,matricula,marca,modelo);
+        rellenaTabla(cliente.ConsultaOrden(orden));
         
     }
+    
+    public void rellenaTabla(Reparacion repa) throws AppException, ExceptionErrorDataBase, RemoteException {
+        Pieza pie = null;
+        Solicitud sol = null;
+        StockPeca sp = null;
+        try {
+                DefaultTableModel tableModel = (DefaultTableModel) jTable1.getModel();
+                int rowCount = tableModel.getRowCount();
+                int i=0;
+                pie = cliente.ConsultaPiezaPorOrden(repa.getIdOrden());
+                sol = cliente.buscaSolicitudbynumrep(repa.getIdOrden());
+                sp = cliente.consultaStockPiezabyCodigoPieza(pie.getCodiPieza(), sol.getIdtaller());
+                 if (repa.getIdOrden() > 0){
+                        if(i==rowCount-1) 
+                            tableModel.addRow(new Object[]{});
+                        tableModel.setValueAt(pie.getCodiPieza(), i, 0);
+                        tableModel.setValueAt(pie.getDescripcion(),i,1);
+                        tableModel.setValueAt(1,i,2);
+                        if(sp.getStock()==1||sp.getStock()>1)
+                            tableModel.setValueAt("SI",i,3);
+                        else
+                            tableModel.setValueAt("SI",i,3);
+                 }
+                
+                int rowIdx=i;
+                    tableModel.setValueAt("",rowIdx,0);
+                    tableModel.setValueAt("",rowIdx,1);
+                    tableModel.setValueAt("",rowIdx,2);
+                    tableModel.setValueAt("",rowIdx,3);
+                
 
+                jTable1 = createTabla(tableModel);
+                scrollPane.setViewportView(jTable1);
+                
+            } catch (ExceptionErrorDataBase exceptionErrorDataBase) {
+                //todo pensar que se hace aqui
+                exceptionErrorDataBase.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            } catch (RemoteException e1) {
+                e1.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            }
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -58,9 +118,6 @@ public class DetalleReparacionAsig extends JDialog {
         jLabel11 = new javax.swing.JLabel();
         jPanel8 = new javax.swing.JPanel();
         jLabel13 = new javax.swing.JLabel();
-        jPanel9 = new javax.swing.JPanel();
-        jScrollPane5 = new javax.swing.JScrollPane();
-        jTable2 = new javax.swing.JTable();
         jPanel2 = new javax.swing.JPanel();
         jLabel14 = new javax.swing.JLabel();
         jLabel12 = new javax.swing.JLabel();
@@ -191,37 +248,6 @@ public class DetalleReparacionAsig extends JDialog {
         jLabel13.setFont(new java.awt.Font("Lucida Grande", 1, 18)); // NOI18N
         jLabel13.setText("Piezas asignadas a la reparación");
 
-        jTable2.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
-            }
-        ));
-        jScrollPane5.setViewportView(jTable2);
-
-        javax.swing.GroupLayout jPanel9Layout = new javax.swing.GroupLayout(jPanel9);
-        jPanel9.setLayout(jPanel9Layout);
-        jPanel9Layout.setHorizontalGroup(
-            jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel9Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 331, javax.swing.GroupLayout.PREFERRED_SIZE))
-        );
-        jPanel9Layout.setVerticalGroup(
-            jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel9Layout.createSequentialGroup()
-                .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
-        );
-
         javax.swing.GroupLayout jPanel8Layout = new javax.swing.GroupLayout(jPanel8);
         jPanel8.setLayout(jPanel8Layout);
         jPanel8Layout.setHorizontalGroup(
@@ -229,19 +255,14 @@ public class DetalleReparacionAsig extends JDialog {
             .addGroup(jPanel8Layout.createSequentialGroup()
                 .addGap(16, 16, 16)
                 .addComponent(jLabel13)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(jPanel8Layout.createSequentialGroup()
-                .addComponent(jPanel9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+                .addContainerGap(52, Short.MAX_VALUE))
         );
         jPanel8Layout.setVerticalGroup(
             jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel8Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel13)
-                .addGap(18, 18, 18)
-                .addComponent(jPanel9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(40, 40, 40))
+                .addGap(187, 187, 187))
         );
 
         getContentPane().add(jPanel8);
@@ -385,6 +406,63 @@ public class DetalleReparacionAsig extends JDialog {
         jButton6.setBounds(750, 560, 60, 23);
     }// </editor-fold>//GEN-END:initComponents
 
+    private JTable crearTabla() {
+        DefaultTableModel tableModel = (new DefaultTableModel(
+                new Object[][] {
+                        {null, null, null, null},
+                        {null, null, null, null},
+                        {null, null, null, null},
+                        {null, null, null, null},
+                        {null, null, null, null},
+                        {null, null, null, null},
+                        {null, null, null, null},
+                        {null, null, null, null},
+                        {null, null, null, null},
+                        {null, null, null, null},
+                        {null, null, null, null},
+                        {null, null, null, null},
+                        {null, null, null, null},
+                        {null, null, null, null},
+                        {null, null, null, null},
+                },
+                new String[] {"Código Pieza","Descripción","Unidades", "¿Disponible?"}
+        ){
+            Class[] columnTypes = new Class[] {
+                    Integer.class, String.class, Integer.class, String.class
+            };
+            public Class getColumnClass(int columnIndex) {
+                return columnTypes[columnIndex];
+            }
+        });
+        return createTabla(tableModel);
+    }
+
+    private JTable createTabla(DefaultTableModel tableModel) {
+        JTable table = new JTable();
+        table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        table.setCellSelectionEnabled(false);
+        table.setColumnSelectionAllowed(false);
+        table.setModel(tableModel);
+        table.setRowSelectionAllowed(true);
+
+        table.getColumnModel().getColumn(0).setResizable(false);
+        table.getColumnModel().getColumn(0).setPreferredWidth(150);
+        table.getColumnModel().getColumn(0).setMinWidth(150);
+        table.getColumnModel().getColumn(0).setMaxWidth(150);
+        table.getColumnModel().getColumn(1).setResizable(false);
+        table.getColumnModel().getColumn(1).setPreferredWidth(150);
+        table.getColumnModel().getColumn(1).setMinWidth(150);
+        table.getColumnModel().getColumn(1).setMaxWidth(150);
+        table.getColumnModel().getColumn(2).setPreferredWidth(150);
+        table.getColumnModel().getColumn(2).setMinWidth(150);
+        table.getColumnModel().getColumn(2).setMaxWidth(150);
+        table.getColumnModel().getColumn(3).setPreferredWidth(125);
+        table.getColumnModel().getColumn(3).setMinWidth(125);
+        table.getColumnModel().getColumn(3).setMaxWidth(125);
+        table.setBounds(20, 250, 415, 125);
+        return table;
+    }
+    
     public void rellenaCabecero(Integer orden, String matricula, String marca, String modelo){
         jTextField2.setText(orden.toString());
         jTextField3.setText(matricula);
@@ -434,10 +512,7 @@ public class DetalleReparacionAsig extends JDialog {
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel8;
-    private javax.swing.JPanel jPanel9;
     private javax.swing.JScrollPane jScrollPane4;
-    private javax.swing.JScrollPane jScrollPane5;
-    private javax.swing.JTable jTable2;
     private javax.swing.JTextArea jTextArea3;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField11;
