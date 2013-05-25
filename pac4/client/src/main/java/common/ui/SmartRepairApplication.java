@@ -40,7 +40,6 @@ public class SmartRepairApplication extends JFrame {
     private JMenuBar _mainMenu;
     private JMenu _inicioMenu;
     private JMenu _mantenimentMenu;
-    private JMenu _applicationMenu;
     private JMenu _estadisticasMenu;
     private JMenuItem _gestioUsuarisMenu;
     private JMenuItem _gestioTallersMenu;
@@ -66,7 +65,6 @@ public class SmartRepairApplication extends JFrame {
     private String menuGestioUsuaris = TDSLanguageUtils.getMessage("client.menuGestioUsuariText");
     private String menuReparacio = TDSLanguageUtils.getMessage("client.menuReparacioText");
     private String menuManteniment = TDSLanguageUtils.getMessage("client.menuManteniment");
-    private String menuApplication = TDSLanguageUtils.getMessage("client.menuApplication");
     private String gestioUsuarisTitle = TDSLanguageUtils.getMessage("client.menuGestioUsuariTitle");
     private String gestioTallersTitle = TDSLanguageUtils.getMessage("client.menuGestioTallerTitle");
     private String ReparacioTitle = TDSLanguageUtils.getMessage("client.menuGestioReparacioTitle");
@@ -163,10 +161,8 @@ public class SmartRepairApplication extends JFrame {
             _mainMenu.add(_mantenimentMenu);
         }
 
-        _applicationMenu = new JMenu();
-        _applicationMenu.setText(menuApplication);
 
-_reparacioMenu = new JMenu();
+        _reparacioMenu = new JMenu();
         _reparacioMenu.setText(menuReparacions);
         _repAsigMenu = new JMenuItem();
         _repAsigMenu.setText(menuRepAsig);
