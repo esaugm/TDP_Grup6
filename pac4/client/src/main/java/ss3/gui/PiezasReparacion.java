@@ -121,6 +121,7 @@ public class PiezasReparacion extends JDialog {
 
         jPanel3.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
+        jTextArea1.setEditable(false);
         jTextArea1.setColumns(20);
         jTextArea1.setRows(5);
         jScrollPane2.setViewportView(jTextArea1);
@@ -264,6 +265,7 @@ public class PiezasReparacion extends JDialog {
         jPanel4.add(jLabel7);
         jLabel7.setBounds(20, 20, 120, 14);
 
+        jTextField6.setEditable(false);
         jTextField6.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextField6ActionPerformed(evt);
@@ -275,18 +277,24 @@ public class PiezasReparacion extends JDialog {
         jLabel8.setText("Matrícula:");
         jPanel4.add(jLabel8);
         jLabel8.setBounds(280, 20, 60, 14);
+
+        jTextField7.setEditable(false);
         jPanel4.add(jTextField7);
         jTextField7.setBounds(340, 20, 107, 20);
 
         jLabel9.setText("Marca:");
         jPanel4.add(jLabel9);
         jLabel9.setBounds(470, 20, 50, 14);
+
+        jTextField8.setEditable(false);
         jPanel4.add(jTextField8);
         jTextField8.setBounds(520, 20, 114, 20);
 
         jLabel10.setText("Modelo:");
         jPanel4.add(jLabel10);
         jLabel10.setBounds(650, 20, 50, 14);
+
+        jTextField9.setEditable(false);
         jPanel4.add(jTextField9);
         jTextField9.setBounds(704, 20, 110, 20);
 

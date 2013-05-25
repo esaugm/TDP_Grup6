@@ -25,6 +25,8 @@ public class ReparacionesAsignadas extends JPanel {
 
     public Client cliente;
     private DefaultTableModel dtm;
+    JTable jTable1;
+    JScrollPane scrollPane;
     /**
      * Creates new form ReparacionesAsignadas
      */
@@ -32,43 +34,61 @@ public class ReparacionesAsignadas extends JPanel {
         cliente = cli;
         initComponents();
         
+        jTable1 = crearTabla();
+        scrollPane = new JScrollPane();
+        scrollPane.setBounds(30, 190, 830, 125);
+        add(scrollPane);
+        scrollPane.setViewportView(jTable1);
         rellenaTabla(cliente.ConsultaTodas());
     }
 
     public void rellenaTabla(ArrayList<Reparacion> repa) throws AppException, ExceptionErrorDataBase, RemoteException {
 
-        int con = 0;
-        String data[][] = {};
-        String col[] = {"Fecha Asignación","Fecha Inicio","Nº Orden", "Matrícula","Marca","Modelo","Contador"};
-        dtm = new DefaultTableModel(data,col);
-        jTable1.setModel(dtm);
-        Iterator itRep = repa.iterator();
-        Reparacion r1 = new Reparacion();
-        Vehiculo v1 = new Vehiculo();
-        while (itRep.hasNext()){ 
-            
-            r1 = (Reparacion) itRep.next();
-            v1 = cliente.ConsultaReparacion(r1.getIdOrden());
-            if (r1.getIdOrden() > 0){
-                 /*if (con==dtm.getRowCount()-1)
-                     dtm.addRow(new Object[]{});*/
-                dtm.insertRow(con, new Object[]{});
-                dtm.setValueAt(r1.getFechaAsigna(), con, 0);
-                dtm.setValueAt(r1.getFechaIni(),con,1);
-                dtm.setValueAt(r1.getIdOrden(),con,2);
-                dtm.setValueAt(v1.getMatricula(),con,3);
-                dtm.setValueAt(v1.getMarca(),con,4);
-                dtm.setValueAt(v1.getModelo(),con,5);
-                dtm.setValueAt(r1.getContador(),con,6);
+        try {
+                DefaultTableModel tableModel = (DefaultTableModel) jTable1.getModel();
+                int rowCount = tableModel.getRowCount();
+                Iterator itRep = repa.iterator();
+                int i=0;
+                Reparacion r1 = new Reparacion();
+                Solicitud s1 = new Solicitud();
+                Vehiculo v1 = new Vehiculo();
+                
+                while (itRep.hasNext()){
+                    r1 = (Reparacion) itRep.next();
+                    s1 = cliente.buscaSolicitudbynumrep(r1.getIdOrden());
+                    v1 = cliente.ConsultaReparacion(r1.getIdOrden());
+                    if (r1.getIdOrden() > 0){
+                        if(i==rowCount-1) 
+                            tableModel.addRow(new Object[]{});
+                        tableModel.setValueAt(r1.getFechaAsigna(), i, 0);
+                        tableModel.setValueAt(r1.getFechaIni(),i,1);
+                        tableModel.setValueAt(r1.getIdOrden(),i,2);
+                        tableModel.setValueAt(v1.getMatricula(),i,3);
+                        tableModel.setValueAt(v1.getMarca(),i,4);
+                        tableModel.setValueAt(v1.getModelo(),i,5);
+                        tableModel.setValueAt(r1.getContador(),i,6);
+                        i++;
+                    }
+                }
+                for (int rowIdx=i;rowIdx<rowCount ;rowIdx++){
+                    tableModel.setValueAt("",rowIdx,0);
+                    tableModel.setValueAt("",rowIdx,1);
+                    tableModel.setValueAt("",rowIdx,2);
+                    tableModel.setValueAt("",rowIdx,3);
+                    tableModel.setValueAt("",rowIdx,4);
+                    tableModel.setValueAt("",rowIdx,5);
+                    tableModel.setValueAt("",rowIdx,6);
+                }
+
+                jTable1 = createTabla(tableModel);
+                scrollPane.setViewportView(jTable1);
+                
+            } catch (ExceptionErrorDataBase exceptionErrorDataBase) {
+                //todo pensar que se hace aqui
+                exceptionErrorDataBase.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            } catch (RemoteException e1) {
+                e1.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
             }
-            con++;
-            System.out.println("RowCount: "+dtm.getRowCount());
-            System.out.println("Con-1: "+(con-1));
-            if (con-1==dtm.getRowCount()){
-                     dtm.insertRow(con, new Object[]{});
-                     System.out.println("entra");
-            }
-        }
     }
     /**
      * This method is called from within the constructor to initialize the form.
@@ -81,9 +101,6 @@ public class ReparacionesAsignadas extends JPanel {
 
         jLabel1 = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
-        jPanel7 = new javax.swing.JPanel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
         jPanel2 = new javax.swing.JPanel();
         jLabel6 = new javax.swing.JLabel();
         jTextField5 = new javax.swing.JTextField();
@@ -110,22 +127,9 @@ public class ReparacionesAsignadas extends JPanel {
         jLabel1.setFont(new java.awt.Font("Lucida Grande", 1, 36)); // NOI18N
         jLabel1.setText("Reparaciones Asignadas");
         add(jLabel1);
-        jLabel1.setBounds(153, 11, 424, 51);
+        jLabel1.setBounds(220, 10, 424, 51);
 
         jPanel4.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-
-        javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
-        jPanel7.setLayout(jPanel7Layout);
-        jPanel7Layout.setHorizontalGroup(
-            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 2, Short.MAX_VALUE)
-        );
-        jPanel7Layout.setVerticalGroup(
-            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 133, Short.MAX_VALUE)
-        );
-
-        jScrollPane1.setViewportView(jTable1);
 
         jPanel2.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
@@ -228,28 +232,16 @@ public class ReparacionesAsignadas extends JPanel {
         jPanel4Layout.setHorizontalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
-                .addComponent(jPanel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 830, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(18, Short.MAX_VALUE))
-            .addGroup(jPanel4Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(16, Short.MAX_VALUE))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addGap(146, 146, 146)
-                        .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addGap(5, 5, 5)
-                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(5, 5, 5)
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(131, Short.MAX_VALUE))
         );
 
         add(jPanel4);
@@ -283,6 +275,72 @@ public class ReparacionesAsignadas extends JPanel {
         jButton3.setBounds(410, 340, 90, 23);
     }// </editor-fold>//GEN-END:initComponents
 
+    private JTable crearTabla() {
+        DefaultTableModel tableModel = (new DefaultTableModel(
+                new Object[][] {
+                        {null, null, null, null, null, null, null, null, null},
+                        {null, null, null, null, null, null, null, null, null},
+                        {null, null, null, null, null, null, null, null, null},
+                        {null, null, null, null, null, null, null, null, null},
+                        {null, null, null, null, null, null, null, null, null},
+                        {null, null, null, null, null, null, null, null, null},
+                        {null, null, null, null, null, null, null, null, null},
+                        {null, null, null, null, null, null, null, null, null},
+                        {null, null, null, null, null, null, null, null, null},
+                        {null, null, null, null, null, null, null, null, null},
+                        {null, null, null, null, null, null, null, null, null},
+                        {null, null, null, null, null, null, null, null, null},
+                        {null, null, null, null, null, null, null, null, null},
+                        {null, null, null, null, null, null, null, null, null},
+                        {null, null, null, null, null, null, null, null, null},
+                },
+                new String[] {"Fecha Asignación","Fecha Inicio","Nº Orden", "Matrícula","Marca","Modelo","Contador"}
+        ){
+            Class[] columnTypes = new Class[] {
+                    String.class, String.class, Integer.class, String.class, String.class, String.class, String.class
+            };
+            public Class getColumnClass(int columnIndex) {
+                return columnTypes[columnIndex];
+            }
+        });
+        return createTabla(tableModel);
+    }
+
+    private JTable createTabla(DefaultTableModel tableModel) {
+        JTable table = new JTable();
+        table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        table.setCellSelectionEnabled(false);
+        table.setColumnSelectionAllowed(false);
+        table.setModel(tableModel);
+        table.setRowSelectionAllowed(true);
+
+        table.getColumnModel().getColumn(0).setResizable(false);
+        table.getColumnModel().getColumn(0).setPreferredWidth(100);
+        table.getColumnModel().getColumn(0).setMinWidth(100);
+        table.getColumnModel().getColumn(0).setMaxWidth(100);
+        table.getColumnModel().getColumn(1).setResizable(false);
+        table.getColumnModel().getColumn(1).setPreferredWidth(100);
+        table.getColumnModel().getColumn(1).setMinWidth(100);
+        table.getColumnModel().getColumn(1).setMaxWidth(100);
+        table.getColumnModel().getColumn(2).setPreferredWidth(75);
+        table.getColumnModel().getColumn(2).setMinWidth(75);
+        table.getColumnModel().getColumn(2).setMaxWidth(75);
+        table.getColumnModel().getColumn(3).setPreferredWidth(80);
+        table.getColumnModel().getColumn(3).setMinWidth(80);
+        table.getColumnModel().getColumn(3).setMaxWidth(80);
+        table.getColumnModel().getColumn(4).setPreferredWidth(80);
+        table.getColumnModel().getColumn(4).setMinWidth(80);
+        table.getColumnModel().getColumn(4).setMaxWidth(80);
+        table.getColumnModel().getColumn(5).setPreferredWidth(80);
+        table.getColumnModel().getColumn(5).setMinWidth(80);
+        table.getColumnModel().getColumn(5).setMaxWidth(80);
+        table.getColumnModel().getColumn(6).setPreferredWidth(80);
+        table.getColumnModel().getColumn(6).setMinWidth(80);
+        table.getColumnModel().getColumn(6).setMaxWidth(80);
+        table.setBounds(30, 190, 830, 125);
+        return table;
+    }
+    
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
         Map values = new LinkedHashMap();
@@ -344,9 +402,6 @@ public class ReparacionesAsignadas extends JPanel {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel4;
-    private javax.swing.JPanel jPanel7;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
     private javax.swing.JTextField jTextField13;
     private javax.swing.JTextField jTextField14;
     private javax.swing.JTextField jTextField15;

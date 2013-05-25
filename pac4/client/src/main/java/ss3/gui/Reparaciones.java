@@ -39,18 +39,18 @@ public class Reparaciones extends JPanel {
     public Reparaciones(Client cli) throws ExceptionErrorDataBase, RemoteException {
         cliente = cli;
         initComponents();
-        
+               
+        jTable1 = crearTabla();
+        scrollPane = new JScrollPane();
+        scrollPane.setBounds(5, 190, 830, 125);
+        add(scrollPane);
+        scrollPane.setViewportView(jTable1);
         rellenaTabla(cliente.ConsultaTodas());
+        
     }
     
     public void rellenaTabla(ArrayList<Reparacion> repa) throws AppException, ExceptionErrorDataBase, RemoteException {
         
-        
-        jTable1 = crearTabla();
-        scrollPane = new JScrollPane();
-        scrollPane.setBounds(10, 190, 830, 125);
-        add(scrollPane);
-        scrollPane.setViewportView(jTable1);
         
         try {
                 DefaultTableModel tableModel = (DefaultTableModel) jTable1.getModel();
@@ -95,7 +95,7 @@ public class Reparaciones extends JPanel {
                     tableModel.setValueAt("",rowIdx,5);
                     tableModel.setValueAt("",rowIdx,6);
                     tableModel.setValueAt("",rowIdx,7);
-                    tableModel.setValueAt("",rowIdx,7);
+                    tableModel.setValueAt("",rowIdx,8);
                 }
 
                 jTable1 = createTabla(tableModel);
@@ -322,7 +322,7 @@ public class Reparaciones extends JPanel {
             }
         });
         add(jButton9);
-        jButton9.setBounds(180, 360, 90, 52);
+        jButton9.setBounds(290, 360, 90, 52);
 
         jButton10.setText("Aceptar");
         jButton10.addActionListener(new java.awt.event.ActionListener() {
@@ -331,7 +331,7 @@ public class Reparaciones extends JPanel {
             }
         });
         add(jButton10);
-        jButton10.setBounds(290, 360, 90, 52);
+        jButton10.setBounds(380, 360, 90, 52);
 
         jButton11.setText("Asignar");
         jButton11.addActionListener(new java.awt.event.ActionListener() {
@@ -340,7 +340,7 @@ public class Reparaciones extends JPanel {
             }
         });
         add(jButton11);
-        jButton11.setBounds(380, 360, 100, 52);
+        jButton11.setBounds(470, 360, 100, 52);
 
         jButton12.setText("Finalizar");
         jButton12.addActionListener(new java.awt.event.ActionListener() {
@@ -349,7 +349,7 @@ public class Reparaciones extends JPanel {
             }
         });
         add(jButton12);
-        jButton12.setBounds(480, 360, 90, 52);
+        jButton12.setBounds(570, 360, 90, 52);
 
         jButton13.setText("Salir");
         jButton13.addActionListener(new java.awt.event.ActionListener() {
@@ -490,9 +490,6 @@ public class Reparaciones extends JPanel {
                     }
                     
                     rellenaTabla(cliente.ConsultaReparacionesByTerms(values));
-                    Iterator it = cliente.ConsultaReparacionesByTerms(values).iterator();
-                    while (it.hasNext())
-                    System.out.println(it.next());
                 } catch (RemoteException e1) {
                     e1.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
                 } catch (ExceptionErrorDataBase ex) {
@@ -520,7 +517,6 @@ public class Reparaciones extends JPanel {
         PiezasReparacion pr = new PiezasReparacion(cliente, (Integer) jTable1.getValueAt(jTable1.getSelectedRow(), 0), (String) jTable1.getValueAt(jTable1.getSelectedRow(), 3), (String) jTable1.getValueAt(jTable1.getSelectedRow(), 4), (String) jTable1.getValueAt(jTable1.getSelectedRow(), 5));
         pr.setVisible(true);
         pr.setModal(true);
-        jButton8ActionPerformed(evt);
     }//GEN-LAST:event_jButton10ActionPerformed
 
     private void jButton11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton11ActionPerformed
