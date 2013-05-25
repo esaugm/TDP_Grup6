@@ -180,7 +180,7 @@ public class GestioUsuariPanel extends JPanel{
         add(activoCbx);
 
         scrollPane = new JScrollPane();
-        scrollPane.setBounds(25, 191, 933, 240);
+        scrollPane.setBounds(25, 191, 570, 120);
         add(scrollPane);
         scrollPane.setViewportView(filteringTbl);
 

@@ -15,11 +15,14 @@ public class DetalleReparacionAsig extends JDialog {
     /**
      * Creates new form DetalleReparacionAsig
      */
+    Client cliente;
+    
     public DetalleReparacionAsig(Client cliente, Integer orden, String matricula, String marca, String modelo) {
         setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
         setAlwaysOnTop(true);
         setBounds(75, 75, 850, 630);
         initComponents();
+        this.cliente=cliente;
         rellenaCabecero(orden,matricula,marca,modelo);
         
     }

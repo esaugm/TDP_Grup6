@@ -100,6 +100,10 @@ public class Client {
         
     }
     
+    public Boolean modificaSolicitud (Solicitud solicitud) throws AppException, RemoteException{
+        return remoteSS2.modificaSolicitud(solicitud);
+    }
+    
     public Reparacion ConsultaOrden(Integer OrdenID) throws ExceptionErrorDataBase, RemoteException {
         return remoteSS3.ConsultaOrden(OrdenID);
     }

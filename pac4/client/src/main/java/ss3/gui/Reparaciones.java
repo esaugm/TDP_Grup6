@@ -490,6 +490,9 @@ public class Reparaciones extends JPanel {
                     }
                     
                     rellenaTabla(cliente.ConsultaReparacionesByTerms(values));
+                    Iterator it = cliente.ConsultaReparacionesByTerms(values).iterator();
+                    while (it.hasNext())
+                    System.out.println(it.next());
                 } catch (RemoteException e1) {
                     e1.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
                 } catch (ExceptionErrorDataBase ex) {
@@ -507,7 +510,6 @@ public class Reparaciones extends JPanel {
     private void jButton10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton10ActionPerformed
         // TODO add your handling code here:
         if (jTable1.getValueAt(jTable1.getSelectedRow(), 7).equals("NO"))
-            System.out.println("entra");
             try {
                 cliente.aceptaReparacion((Integer) jTable1.getValueAt(jTable1.getSelectedRow(), 0));
             } catch (ExceptionErrorDataBase ex) {
@@ -525,14 +527,53 @@ public class Reparaciones extends JPanel {
         //Si está aceptada pero no asignada a Mecanico, abrirá la pantalla AsignarAMecanico
         //Si está aceptada y asignada, mostrará un mensaje indicando que ya está asignada y dará la posibilidad de asignar otro
         //Si no está aceptada y pulsamos en ASignada, saldrá un mensaje indicando que aún no se ha aceptado la orden
-        AsignacionAMecanico aam = null;
-        aam = new AsignacionAMecanico();
-        aam.setVisible(true);
-        aam.setModal(true);
+        if (jTable1.getValueAt(jTable1.getSelectedRow(), 7).equals("SI")&&jTable1.getValueAt(jTable1.getSelectedRow(), 8).equals("NO")){
+            AsignacionAMecanico aam = new AsignacionAMecanico(cliente, (Integer) jTable1.getValueAt(jTable1.getSelectedRow(), 0), (String) jTable1.getValueAt(jTable1.getSelectedRow(), 3), (String) jTable1.getValueAt(jTable1.getSelectedRow(), 4), (String) jTable1.getValueAt(jTable1.getSelectedRow(), 5));
+            aam.setVisible(true);
+            aam.setModal(true);
+        }
+        if (jTable1.getValueAt(jTable1.getSelectedRow(), 7).equals("SI")&&jTable1.getValueAt(jTable1.getSelectedRow(), 8).equals("SI")){
+            
+            AsignacionAMecanico aam = new AsignacionAMecanico(cliente, (Integer) jTable1.getValueAt(jTable1.getSelectedRow(), 0), (String) jTable1.getValueAt(jTable1.getSelectedRow(), 3), (String) jTable1.getValueAt(jTable1.getSelectedRow(), 4), (String) jTable1.getValueAt(jTable1.getSelectedRow(), 5));
+            aam.setVisible(true);
+            aam.setModal(true);
+            Avisos av = new Avisos("Esta reparación ya asignada, sin embargo, puede cambiar al mecánico si lo desea.");
+            av.setVisible(true);
+            av.setModal(true);
+        }
+        if (jTable1.getValueAt(jTable1.getSelectedRow(), 7).equals("NO")){
+            Avisos av = new Avisos("Esta reparación aún no ha sido aceptada.");
+            av.setVisible(true);
+            av.setModal(true);
+        }
+        
     }//GEN-LAST:event_jButton11ActionPerformed
 
     private void jButton12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton12ActionPerformed
         // TODO add your handling code here:
+        Avisos av=null;
+        if(jTable1.getValueAt(jTable1.getSelectedRow(),7).equals("NO")){
+            av = new Avisos("Esta reparación aún no ha sido aceptada. No puede finalizarse");
+            av.setVisible(true);
+            av.setModal(true);
+        }else{
+            try {
+                Solicitud sol = cliente.buscaSolicitudbynumrep((Integer) jTable1.getValueAt(jTable1.getSelectedRow(), 0));
+                if (sol.getFinalitzada()){
+                    av = new Avisos("Esta reparación ya está finalizada.");
+                    av.setVisible(true);
+                    av.setModal(true);
+                }else{
+                    sol.setFinalitzada(true);
+                    cliente.modificaSolicitud(sol);
+                }
+            } catch (AppException ex) {
+                ex.printStackTrace();
+            } catch (RemoteException ex) {
+                ex.printStackTrace();
+            }
+            jButton8ActionPerformed(evt);
+        }
     }//GEN-LAST:event_jButton12ActionPerformed
 
     private void jButton13ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton13ActionPerformed

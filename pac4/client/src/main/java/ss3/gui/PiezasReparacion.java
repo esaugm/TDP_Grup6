@@ -11,6 +11,7 @@ import javax.swing.*;
  * @author Fernando
  */
 public class PiezasReparacion extends JDialog {
+    Client cliente;
 
     /**
      * Creates new form PiezasReparacion
@@ -20,6 +21,7 @@ public class PiezasReparacion extends JDialog {
         setAlwaysOnTop(true);
         setBounds(75, 75, 870, 520);
         initComponents();
+        this.cliente = cliente;
         rellenaCabecero(orden,matricula,marca,modelo);
     }
 
@@ -320,7 +322,7 @@ public class PiezasReparacion extends JDialog {
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
         // TODO add your handling code here:
         AsignacionAMecanico aam = null;
-        aam = new AsignacionAMecanico();
+        aam = new AsignacionAMecanico(cliente, (Integer) jTable1.getValueAt(jTable1.getSelectedRow(), 0), (String) jTable1.getValueAt(jTable1.getSelectedRow(), 3), (String) jTable1.getValueAt(jTable1.getSelectedRow(), 4), (String) jTable1.getValueAt(jTable1.getSelectedRow(), 5));
         aam.setVisible(true);
         aam.setModal(true);
     }//GEN-LAST:event_jButton6ActionPerformed
