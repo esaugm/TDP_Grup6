@@ -22,6 +22,7 @@ import java.rmi.registry.Registry;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import ss2.entity.StockPeca;
 import ss3.beans.Pieza;
 
 /**
@@ -98,6 +99,10 @@ public class Client {
     public Solicitud buscaSolicitudbynumrep(Integer orden) throws AppException, RemoteException {
         return remoteSS2.buscaSolicitudbynumrep(orden);
         
+    }
+    
+    public StockPeca consultaStockPiezabyCodigoPieza(Integer codigoPieza, Integer idTaller) throws AppException, RemoteException{
+        return remoteSS2.consultaStockPiezabyCodigoPieza(codigoPieza, idTaller);
     }
     
     public Boolean modificaSolicitud (Solicitud solicitud) throws AppException, RemoteException{
