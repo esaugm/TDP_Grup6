@@ -164,7 +164,7 @@ public class AsignacionAMecanico extends JDialog {
         jPanel4Layout.setHorizontalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
-                .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, 399, Short.MAX_VALUE)
                 .addContainerGap())
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addGap(72, 72, 72)
@@ -268,6 +268,7 @@ public class AsignacionAMecanico extends JDialog {
         jPanel5.add(jLabel8);
         jLabel8.setBounds(10, 30, 110, 14);
 
+        jTextField7.setEditable(false);
         jTextField7.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextField7ActionPerformed(evt);
@@ -279,18 +280,24 @@ public class AsignacionAMecanico extends JDialog {
         jLabel9.setText("Matrícula:");
         jPanel5.add(jLabel9);
         jLabel9.setBounds(270, 30, 60, 14);
+
+        jTextField8.setEditable(false);
         jPanel5.add(jTextField8);
         jTextField8.setBounds(337, 30, 90, 20);
 
         jLabel11.setText("Marca:");
         jPanel5.add(jLabel11);
         jLabel11.setBounds(440, 30, 40, 14);
+
+        jTextField9.setEditable(false);
         jPanel5.add(jTextField9);
         jTextField9.setBounds(494, 30, 100, 20);
 
         jLabel13.setText("Modelo:");
         jPanel5.add(jLabel13);
         jLabel13.setBounds(620, 30, 50, 14);
+
+        jTextField10.setEditable(false);
         jPanel5.add(jTextField10);
         jTextField10.setBounds(675, 30, 100, 20);
 
@@ -378,12 +385,10 @@ public class AsignacionAMecanico extends JDialog {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel7;
@@ -397,7 +402,6 @@ public class AsignacionAMecanico extends JDialog {
     private javax.swing.JTextField jTextField3;
     private javax.swing.JTextField jTextField4;
     private javax.swing.JTextField jTextField5;
-    private javax.swing.JTextField jTextField6;
     private javax.swing.JTextField jTextField7;
     private javax.swing.JTextField jTextField8;
     private javax.swing.JTextField jTextField9;

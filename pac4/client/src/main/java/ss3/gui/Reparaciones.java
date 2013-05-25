@@ -52,7 +52,6 @@ public class Reparaciones extends JPanel {
     public void rellenaTabla(ArrayList<Reparacion> repa) throws AppException, ExceptionErrorDataBase, RemoteException {
         
         
-        
         try {
                 DefaultTableModel tableModel = (DefaultTableModel) jTable1.getModel();
                 int rowCount = tableModel.getRowCount();
@@ -96,7 +95,7 @@ public class Reparaciones extends JPanel {
                     tableModel.setValueAt("",rowIdx,5);
                     tableModel.setValueAt("",rowIdx,6);
                     tableModel.setValueAt("",rowIdx,7);
-                    tableModel.setValueAt("",rowIdx,7);
+                    tableModel.setValueAt("",rowIdx,8);
                 }
 
                 jTable1 = createTabla(tableModel);

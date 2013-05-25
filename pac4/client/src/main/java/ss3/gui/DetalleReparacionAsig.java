@@ -87,14 +87,20 @@ public class DetalleReparacionAsig extends JDialog {
         jLabel7.setText("Nombre Mecánico");
         getContentPane().add(jLabel7);
         jLabel7.setBounds(210, 80, 120, 14);
+
+        jTextField6.setEditable(false);
         getContentPane().add(jTextField6);
         jTextField6.setBounds(340, 80, 112, 20);
+
+        jTextField7.setEditable(false);
         getContentPane().add(jTextField7);
         jTextField7.setBounds(522, 80, 112, 20);
 
         jLabel8.setText("Apellido");
         getContentPane().add(jLabel8);
         jLabel8.setBounds(470, 80, 50, 14);
+
+        jTextField8.setEditable(false);
         getContentPane().add(jTextField8);
         jTextField8.setBounds(667, 80, 105, 20);
 
@@ -109,6 +115,7 @@ public class DetalleReparacionAsig extends JDialog {
         jPanel1.add(jLabel2);
         jLabel2.setBounds(10, 30, 110, 14);
 
+        jTextField2.setEditable(false);
         jTextField2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextField2ActionPerformed(evt);
@@ -120,18 +127,24 @@ public class DetalleReparacionAsig extends JDialog {
         jLabel3.setText("Matrícula:");
         jPanel1.add(jLabel3);
         jLabel3.setBounds(270, 30, 60, 14);
+
+        jTextField3.setEditable(false);
         jPanel1.add(jTextField3);
         jTextField3.setBounds(337, 30, 90, 20);
 
         jLabel4.setText("Marca:");
         jPanel1.add(jLabel4);
         jLabel4.setBounds(440, 30, 40, 14);
+
+        jTextField4.setEditable(false);
         jPanel1.add(jTextField4);
         jTextField4.setBounds(494, 30, 100, 20);
 
         jLabel5.setText("Modelo:");
         jPanel1.add(jLabel5);
         jLabel5.setBounds(620, 30, 50, 14);
+
+        jTextField5.setEditable(false);
         jPanel1.add(jTextField5);
         jTextField5.setBounds(675, 30, 100, 20);
 
@@ -140,6 +153,7 @@ public class DetalleReparacionAsig extends JDialog {
 
         jPanel5.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
+        jTextArea3.setEditable(false);
         jTextArea3.setColumns(20);
         jTextArea3.setRows(5);
         jScrollPane4.setViewportView(jTextArea3);
@@ -240,9 +254,15 @@ public class DetalleReparacionAsig extends JDialog {
 
         jLabel12.setText("Fecha Asignación");
 
+        jTextField1.setEditable(false);
+
         jButton7.setText("Fecha Inicio");
 
         jButton8.setText("Fecha Fin");
+
+        jTextField12.setEditable(false);
+
+        jTextField9.setEditable(false);
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -295,6 +315,8 @@ public class DetalleReparacionAsig extends JDialog {
 
         jLabel15.setFont(new java.awt.Font("Lucida Grande", 1, 18)); // NOI18N
         jLabel15.setText("Contador");
+
+        jTextField11.setEditable(false);
 
         jButton3.setIcon(new javax.swing.ImageIcon("C:\\Users\\Fernando\\Downloads\\play_btn.png")); // NOI18N
         jButton3.addActionListener(new java.awt.event.ActionListener() {
