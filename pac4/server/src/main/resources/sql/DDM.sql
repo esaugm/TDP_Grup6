@@ -124,15 +124,15 @@ INSERT INTO Taller ( Cif, adreca, capacitat, capTaller, telefon, web, actiu, dat
 
 
 
-INSERT INTO Usuari (ID, Taller, usuari, perfil, contrasenya, actiu, dataAlta, dataModificacio, dataBaixa, reparacionsassignades) VALUES (1, NULL, 'pepelui1', 'Administratiu', 'AAA1', true, '2013-04-11', NULL, NULL, 0);
+INSERT INTO Usuari ( Taller, usuari, perfil, contrasenya, actiu, dataAlta, dataModificacio, dataBaixa, reparacionsassignades) VALUES ( NULL, 'pepelui1', 'Administratiu', 'AAA1', true, '2013-04-11', NULL, NULL, 0);
 
-INSERT INTO Usuari (ID, Taller, usuari, perfil, contrasenya, actiu, dataAlta, dataModificacio, dataBaixa, reparacionsassignades) VALUES (2, NULL, 'pepelui2', 'Administratiu', 'AAA2', true, '2013-04-12', NULL, NULL, 0);
+INSERT INTO Usuari (Taller, usuari, perfil, contrasenya, actiu, dataAlta, dataModificacio, dataBaixa, reparacionsassignades) VALUES ( NULL, 'pepelui2', 'Administratiu', 'AAA2', true, '2013-04-12', NULL, NULL, 0);
 
-INSERT INTO Usuari (ID, Taller, usuari, perfil, contrasenya, actiu, dataAlta, dataModificacio, dataBaixa, reparacionsassignades) VALUES (3, NULL, 'pepelui3', 'Administratiu', 'AAA3', true, '2013-04-13', NULL, NULL, 0);
+INSERT INTO Usuari ( Taller, usuari, perfil, contrasenya, actiu, dataAlta, dataModificacio, dataBaixa, reparacionsassignades) VALUES ( NULL, 'pepelui3', 'Administratiu', 'AAA3', true, '2013-04-13', NULL, NULL, 0);
 
-INSERT INTO Usuari (ID, Taller, usuari, perfil, contrasenya, actiu, dataAlta, dataModificacio, dataBaixa, reparacionsassignades) VALUES (4, NULL, 'pepelui4', 'Administratiu', 'AAA4', true, '2013-04-14', NULL, NULL, 0);
+INSERT INTO Usuari ( Taller, usuari, perfil, contrasenya, actiu, dataAlta, dataModificacio, dataBaixa, reparacionsassignades) VALUES ( NULL, 'pepelui4', 'Administratiu', 'AAA4', true, '2013-04-14', NULL, NULL, 0);
 
-INSERT INTO Usuari (ID, Taller, usuari, perfil, contrasenya, actiu, dataAlta, dataModificacio, dataBaixa, reparacionsassignades) VALUES (5, NULL, 'pepelui5', 'Administratiu', 'AAA5', true, '2013-04-15', NULL, NULL, 0);
+INSERT INTO Usuari ( Taller, usuari, perfil, contrasenya, actiu, dataAlta, dataModificacio, dataBaixa, reparacionsassignades) VALUES ( NULL, 'pepelui5', 'Administratiu', 'AAA5', true, '2013-04-15', NULL, NULL, 0);
 
 
 
