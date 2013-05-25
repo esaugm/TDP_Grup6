@@ -8,7 +8,11 @@ import ss1.entity.Taller;
 import ss1.entity.Usuari;
 import ss1.server.ISS1ConexioManteniment;
 import ss1.service.filter.FilterItems;
+import ss2.entity.Solicitud;
+import ss2.exception.AppException;
+import ss2.server.ISS2GestionAdministrativa;
 import ss3.beans.Reparacion;
+import ss3.beans.Vehiculo;
 import ss3.server.SS3Reparaciones;
 import ss4.server.ISS4Estadisticas;
 
@@ -18,10 +22,6 @@ import java.rmi.registry.Registry;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import ss2.entity.Solicitud;
-import ss2.exception.AppException;
-import ss2.server.ISS2GestionAdministrativa;
-import ss3.beans.Vehiculo;
 
 /**
  * TDP Grup6
@@ -53,11 +53,10 @@ public class Client {
     public void connect() throws Exception{
         System.out.println("Connecting with the server...");
         Registry registry = LocateRegistry.getRegistry(URL, PORT);
-         remoteSS1 = (ISS1ConexioManteniment) registry.lookup(JNDI_SS1_NAME);
-            remoteSS2 = (ISS2GestionAdministrativa) registry.lookup(JNDI_SS2_NAME);
-            remoteSS3 = (SS3Reparaciones) registry.lookup(JNDI_SS3_NAME);
-            _remoteSS4 = (ISS4Estadisticas) registry.lookup(JNDI_SS4_NAME);
-        //todo añadir los interfaces de cada subsistema
+        remoteSS1 = (ISS1ConexioManteniment) registry.lookup(JNDI_SS1_NAME);
+        remoteSS2 = (ISS2GestionAdministrativa) registry.lookup(JNDI_SS2_NAME);
+        remoteSS3 = (SS3Reparaciones) registry.lookup(JNDI_SS3_NAME);
+        _remoteSS4 = (ISS4Estadisticas) registry.lookup(JNDI_SS4_NAME);
         System.out.println("Connected!");
     }
 

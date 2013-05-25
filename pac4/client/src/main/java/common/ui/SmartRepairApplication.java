@@ -7,6 +7,7 @@ import ss1.entity.UsuariConectat;
 import ss1.gui.GestioTallerPanel;
 import ss1.gui.GestioUsuariPanel;
 import ss1.gui.LoginDialog;
+import ss2.exception.AppException;
 import ss3.gui.Reparaciones;
 import ss3.gui.ReparacionesAsignadas;
 import ss3.gui.StockPiezas;
@@ -21,7 +22,6 @@ import java.rmi.RemoteException;
 import java.text.ParseException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import ss2.exception.AppException;
 
 /**
  * Created with IntelliJ IDEA.
@@ -140,26 +140,28 @@ public class SmartRepairApplication extends JFrame {
         //todo ESAU: segun UsuariConectat mostrar menús
         System.out.println("Usuari: " + usuariConectat.getPerfilString());
 
-        _mantenimentMenu = new JMenu();
-        _mantenimentMenu.setText(menuManteniment);
-        _gestioTallersMenu = new JMenuItem();
-        _gestioTallersMenu.setText(menuGestioTallers);
-        _gestioTallersMenu.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                openMenuTallers(evt);
-            }
-        });
-        _mantenimentMenu.add(_gestioTallersMenu);
+        if (usuariConectat.isAdministrador()) {
+            _mantenimentMenu = new JMenu();
+            _mantenimentMenu.setText(menuManteniment);
+            _gestioTallersMenu = new JMenuItem();
+            _gestioTallersMenu.setText(menuGestioTallers);
+            _gestioTallersMenu.addActionListener(new java.awt.event.ActionListener() {
+                public void actionPerformed(ActionEvent evt) {
+                    openMenuTallers(evt);
+                }
+            });
+            _mantenimentMenu.add(_gestioTallersMenu);
 
-        _gestioUsuarisMenu = new JMenuItem();
-        _gestioUsuarisMenu.setText(menuGestioUsuaris);
-        _gestioUsuarisMenu.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                openMenuUsuaris(evt);
-            }
-        });
-        _mantenimentMenu.add(_gestioUsuarisMenu);
-        _mainMenu.add(_mantenimentMenu);
+            _gestioUsuarisMenu = new JMenuItem();
+            _gestioUsuarisMenu.setText(menuGestioUsuaris);
+            _gestioUsuarisMenu.addActionListener(new java.awt.event.ActionListener() {
+                public void actionPerformed(ActionEvent evt) {
+                    openMenuUsuaris(evt);
+                }
+            });
+            _mantenimentMenu.add(_gestioUsuarisMenu);
+            _mainMenu.add(_mantenimentMenu);
+        }
 
         _applicationMenu = new JMenu();
         _applicationMenu.setText(menuApplication);
