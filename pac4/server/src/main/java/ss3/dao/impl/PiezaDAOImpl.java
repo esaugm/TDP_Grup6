@@ -199,7 +199,7 @@ public class PiezaDAOImpl extends GenericDaoImpl implements PiezaDAO {
                                         "JOIN comanda ON reparacio.numcom = comanda.numcom\n" +
                                         "JOIN peca ON comanda.codipeca = peca.codipeca\n" +
                                         "WHERE reparacio.ordrereparacio = ?\n");
-            ps.setString(1,"%"+pOrden+"%");
+            ps.setInt(1,pOrden);
             
             rs = ps.executeQuery();
 

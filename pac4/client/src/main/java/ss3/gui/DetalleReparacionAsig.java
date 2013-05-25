@@ -39,7 +39,7 @@ public class DetalleReparacionAsig extends JDialog {
         initComponents();
         jTable1 = crearTabla();
         scrollPane = new JScrollPane();
-        scrollPane.setBounds(20, 250, 415, 125);
+        scrollPane.setBounds(10, 420, 350, 125);
         add(scrollPane);
         scrollPane.setViewportView(jTable1);
         rellenaCabecero(orden,matricula,marca,modelo);
@@ -57,7 +57,9 @@ public class DetalleReparacionAsig extends JDialog {
                 int i=0;
                 pie = cliente.ConsultaPiezaPorOrden(repa.getIdOrden());
                 sol = cliente.buscaSolicitudbynumrep(repa.getIdOrden());
+                System.out.println(pie.getCodiPieza()+ "_"+sol.getIdtaller());
                 sp = cliente.consultaStockPiezabyCodigoPieza(pie.getCodiPieza(), sol.getIdtaller());
+                
                  if (repa.getIdOrden() > 0){
                         if(i==rowCount-1) 
                             tableModel.addRow(new Object[]{});
@@ -116,8 +118,6 @@ public class DetalleReparacionAsig extends JDialog {
         jScrollPane4 = new javax.swing.JScrollPane();
         jTextArea3 = new javax.swing.JTextArea();
         jLabel11 = new javax.swing.JLabel();
-        jPanel8 = new javax.swing.JPanel();
-        jLabel13 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         jLabel14 = new javax.swing.JLabel();
         jLabel12 = new javax.swing.JLabel();
@@ -133,6 +133,7 @@ public class DetalleReparacionAsig extends JDialog {
         jButton4 = new javax.swing.JButton();
         jButton5 = new javax.swing.JButton();
         jButton6 = new javax.swing.JButton();
+        jLabel6 = new javax.swing.JLabel();
 
         getContentPane().setLayout(null);
 
@@ -242,31 +243,6 @@ public class DetalleReparacionAsig extends JDialog {
 
         getContentPane().add(jPanel5);
         jPanel5.setBounds(10, 200, 800, 152);
-
-        jPanel8.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-
-        jLabel13.setFont(new java.awt.Font("Lucida Grande", 1, 18)); // NOI18N
-        jLabel13.setText("Piezas asignadas a la reparación");
-
-        javax.swing.GroupLayout jPanel8Layout = new javax.swing.GroupLayout(jPanel8);
-        jPanel8.setLayout(jPanel8Layout);
-        jPanel8Layout.setHorizontalGroup(
-            jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel8Layout.createSequentialGroup()
-                .addGap(16, 16, 16)
-                .addComponent(jLabel13)
-                .addContainerGap(52, Short.MAX_VALUE))
-        );
-        jPanel8Layout.setVerticalGroup(
-            jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel8Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel13)
-                .addGap(187, 187, 187))
-        );
-
-        getContentPane().add(jPanel8);
-        jPanel8.setBounds(10, 360, 355, 190);
 
         jPanel2.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
@@ -404,6 +380,11 @@ public class DetalleReparacionAsig extends JDialog {
         });
         getContentPane().add(jButton6);
         jButton6.setBounds(750, 560, 60, 23);
+
+        jLabel6.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        jLabel6.setText("Piezas asignadas a la reparación");
+        getContentPane().add(jLabel6);
+        jLabel6.setBounds(40, 370, 300, 30);
     }// </editor-fold>//GEN-END:initComponents
 
     private JTable crearTabla() {
@@ -425,7 +406,7 @@ public class DetalleReparacionAsig extends JDialog {
                         {null, null, null, null},
                         {null, null, null, null},
                 },
-                new String[] {"Código Pieza","Descripción","Unidades", "¿Disponible?"}
+                new String[] {"Código","Descripción","Unid.", "¿Disponible?"}
         ){
             Class[] columnTypes = new Class[] {
                     Integer.class, String.class, Integer.class, String.class
@@ -446,20 +427,20 @@ public class DetalleReparacionAsig extends JDialog {
         table.setRowSelectionAllowed(true);
 
         table.getColumnModel().getColumn(0).setResizable(false);
-        table.getColumnModel().getColumn(0).setPreferredWidth(150);
-        table.getColumnModel().getColumn(0).setMinWidth(150);
-        table.getColumnModel().getColumn(0).setMaxWidth(150);
+        table.getColumnModel().getColumn(0).setPreferredWidth(75);
+        table.getColumnModel().getColumn(0).setMinWidth(75);
+        table.getColumnModel().getColumn(0).setMaxWidth(75);
         table.getColumnModel().getColumn(1).setResizable(false);
-        table.getColumnModel().getColumn(1).setPreferredWidth(150);
-        table.getColumnModel().getColumn(1).setMinWidth(150);
-        table.getColumnModel().getColumn(1).setMaxWidth(150);
-        table.getColumnModel().getColumn(2).setPreferredWidth(150);
-        table.getColumnModel().getColumn(2).setMinWidth(150);
-        table.getColumnModel().getColumn(2).setMaxWidth(150);
-        table.getColumnModel().getColumn(3).setPreferredWidth(125);
-        table.getColumnModel().getColumn(3).setMinWidth(125);
-        table.getColumnModel().getColumn(3).setMaxWidth(125);
-        table.setBounds(20, 250, 415, 125);
+        table.getColumnModel().getColumn(1).setPreferredWidth(125);
+        table.getColumnModel().getColumn(1).setMinWidth(125);
+        table.getColumnModel().getColumn(1).setMaxWidth(125);
+        table.getColumnModel().getColumn(2).setPreferredWidth(50);
+        table.getColumnModel().getColumn(2).setMinWidth(50);
+        table.getColumnModel().getColumn(2).setMaxWidth(50);
+        table.getColumnModel().getColumn(3).setPreferredWidth(85);
+        table.getColumnModel().getColumn(3).setMinWidth(85);
+        table.getColumnModel().getColumn(3).setMaxWidth(85);
+        table.setBounds(10, 420, 350, 125);
         return table;
     }
     
@@ -497,13 +478,13 @@ public class DetalleReparacionAsig extends JDialog {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
-    private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
@@ -511,7 +492,6 @@ public class DetalleReparacionAsig extends JDialog {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
-    private javax.swing.JPanel jPanel8;
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JTextArea jTextArea3;
     private javax.swing.JTextField jTextField1;
