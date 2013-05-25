@@ -562,7 +562,7 @@ public class ReparacionDAOImpl extends GenericDaoImpl implements ReparacionDAO {
             ptmt.setBoolean(2, rep.isAceptada());
             ptmt.setInt(3, rep.getIdMecanico());
             ptmt.setBoolean(4, rep.isAsignada());
-            ptmt.setDouble(5, rep.getContador());
+            ptmt.setInt(5, rep.getContador());
             ptmt.setString(6, rep.getObservaciones());
             ptmt.setInt(7,rep.getNumcom());
             if (ptmt.executeUpdate() > 0) {
