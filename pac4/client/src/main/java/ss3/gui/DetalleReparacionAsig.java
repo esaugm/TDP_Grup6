@@ -6,6 +6,9 @@ package ss3.gui;
 
 import common.rmi.Client;
 import java.rmi.RemoteException;
+import java.util.Date;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Iterator;
 import javax.swing.*;
@@ -60,11 +63,22 @@ public class DetalleReparacionAsig extends JDialog {
         //Aparte de la tabla rellenamos datos como las observaciones, los datos del mecánico, fechas y contador
         jTextArea3.setText(repa.getObservaciones());
         Usuari usu = null;
-        //usu = cliente;
         if(repa.isAceptada()&&repa.isAsignada()){
+            usu = cliente.buscarUsuariPorId(repa.getIdMecanico());
+            jTextField6.setText(usu.getNom());
+            jTextField7.setText(usu.getCognoms());
+            jTextField8.setText(usu.getId().toString());
             jTextField1.setText(repa.getFechaAsigna().toString());
             jTextField10.setText(repa.getFechaIni().toString());
             jTextField9.setText(repa.getFechaFin().toString());
+            if(!jTextField10.getText().isEmpty())
+                jButton7.setEnabled(false);
+            if(!jTextField9.getText().isEmpty())
+                jButton8.setEnabled(false);
+        }else{
+            jButton3.setEnabled(false);
+            jButton4.setEnabled(false);
+            jButton5.setEnabled(false);
         }
         jTextField11.setText(repa.getContador().toString());
         Pieza pie = null;
@@ -281,8 +295,18 @@ public class DetalleReparacionAsig extends JDialog {
         });
 
         jButton7.setText("Fecha Inicio");
+        jButton7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton7ActionPerformed(evt);
+            }
+        });
 
         jButton8.setText("Fecha Fin");
+        jButton8.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton8ActionPerformed(evt);
+            }
+        });
 
         jTextField9.setEditable(false);
         jTextField9.setHorizontalAlignment(javax.swing.JTextField.CENTER);
@@ -499,6 +523,20 @@ public class DetalleReparacionAsig extends JDialog {
     private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextField1ActionPerformed
+
+    private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
+        // TODO add your handling code here:
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");  
+        Date date = new Date(); 
+        jTextField10.setText(dateFormat.format(date).toString());
+    }//GEN-LAST:event_jButton7ActionPerformed
+
+    private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
+        // TODO add your handling code here:
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");  
+        Date date = new Date(); 
+        jTextField9.setText(dateFormat.format(date).toString());
+    }//GEN-LAST:event_jButton8ActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton3;
