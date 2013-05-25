@@ -111,7 +111,7 @@ public class Client {
         return remoteSS1.getAllTallerByFilter(filterItems);
     }
 
-    public Usuari buscarUsuariPorId(Integer pId) throws ExceptionErrorDataBase {
+    public Usuari buscarUsuariPorId(Integer pId) throws ExceptionErrorDataBase, RemoteException{
         return remoteSS1.findUsuariByPK(pId);
     }
 
