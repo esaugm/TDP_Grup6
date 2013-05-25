@@ -22,6 +22,7 @@ import java.rmi.registry.Registry;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import ss3.beans.Pieza;
 
 /**
  * TDP Grup6
@@ -145,6 +146,10 @@ public class Client {
     
     public Boolean aceptaReparacion(Integer orden) throws ExceptionErrorDataBase, RemoteException{
         return remoteSS3.aceptaReparacion(orden);
+    }
+    
+    public Pieza ConsultaPiezaPorOrden(Integer orden) throws ExceptionErrorDataBase, RemoteException{
+        return remoteSS3.ConsultaPorOrden(orden);
     }
 
     public ISS4Estadisticas get_remoteSS4() {

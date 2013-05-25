@@ -31,7 +31,6 @@ public class Reparaciones extends JPanel {
      */
     
     public Client cliente;
-    private DefaultTableModel dtm;
     JTable jTable1;
     JScrollPane scrollPane;
      
