@@ -11,6 +11,7 @@ import java.util.Iterator;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import ss1.dao.exception.ExceptionErrorDataBase;
+import ss1.entity.Usuari;
 import ss2.entity.Solicitud;
 import ss2.entity.StockPeca;
 import ss2.exception.AppException;
@@ -45,11 +46,18 @@ public class DetalleReparacionAsig extends JDialog {
         rellenaCabecero(orden,matricula,marca,modelo);
         
         rellenaTabla(cliente.ConsultaOrden(orden));
-        
+                
     }
     
     public void rellenaTabla(Reparacion repa) throws AppException, ExceptionErrorDataBase, RemoteException {
+        //Aparte de la tabla rellenamos datos como las observaciones, los datos del mecánico, fechas y contador
         jTextArea3.setText(repa.getObservaciones());
+        Usuari usu = null;
+        //usu = cliente;
+        jTextField1.setText(repa.getFechaAsigna().toString());
+        jTextField2.setText(repa.getFechaIni().toString());
+        jTextField9.setText(repa.getFechaFin().toString());
+        jTextField11.setText(repa.getContador().toString());
         Pieza pie = null;
         Solicitud sol = null;
         StockPeca sp = null;
@@ -257,6 +265,11 @@ public class DetalleReparacionAsig extends JDialog {
         jLabel12.setText("Fecha Asignación");
 
         jTextField1.setEditable(false);
+        jTextField1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextField1ActionPerformed(evt);
+            }
+        });
 
         jButton7.setText("Fecha Inicio");
 
@@ -472,6 +485,10 @@ public class DetalleReparacionAsig extends JDialog {
         // TODO add your handling code here:
         setVisible(false);
     }//GEN-LAST:event_jButton6ActionPerformed
+
+    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextField1ActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton3;

@@ -16,7 +16,7 @@ public class Reparacion implements java.io.Serializable {
     private boolean aceptada;
     private Integer idMecanico;
     private boolean asignada;
-    private double contador;
+    private Integer contador;
     private String observaciones;
     private Integer numcom;
     private Date fechaAsigna;
@@ -28,7 +28,7 @@ public class Reparacion implements java.io.Serializable {
     public Reparacion(){
     }
         
-    public Reparacion(Integer idJefeTaller, boolean aceptada, Integer idMecanico, boolean asignada, double contador, String observaciones, Integer numcom, Date fechaAsigna, Date fechaIni, Date fechaFin) {
+    public Reparacion(Integer idJefeTaller, boolean aceptada, Integer idMecanico, boolean asignada, Integer contador, String observaciones, Integer numcom, Date fechaAsigna, Date fechaIni, Date fechaFin) {
         super();
         this.idOrden = REPAR_UNDEF;
         this.idJefeTaller = idJefeTaller;
@@ -43,7 +43,7 @@ public class Reparacion implements java.io.Serializable {
         this.fechaFin = fechaFin;
     }
     
-    public Reparacion(Integer idOrden, Integer idJefeTaller, boolean aceptada, Integer idMecanico, boolean asignada, double contador, String observaciones, Integer numcom, Date fechaAsigna, Date fechaIni, Date fechaFin) {
+    public Reparacion(Integer idOrden, Integer idJefeTaller, boolean aceptada, Integer idMecanico, boolean asignada, Integer contador, String observaciones, Integer numcom, Date fechaAsigna, Date fechaIni, Date fechaFin) {
         super();
         this.idOrden = idOrden;
         this.idJefeTaller = idJefeTaller;
@@ -98,11 +98,11 @@ public class Reparacion implements java.io.Serializable {
         this.asignada = asignada;
     }
 
-    public double getContador() {
+    public Integer getContador() {
         return contador;
     }
 
-    public void setContador(double contador) {
+    public void setContador(Integer contador) {
         this.contador = contador;
     }
 
