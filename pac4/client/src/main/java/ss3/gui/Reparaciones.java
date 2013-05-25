@@ -42,7 +42,7 @@ public class Reparaciones extends JPanel {
                
         jTable1 = crearTabla();
         scrollPane = new JScrollPane();
-        scrollPane.setBounds(5, 190, 830, 125);
+        scrollPane.setBounds(12, 190, 830, 125);
         add(scrollPane);
         scrollPane.setViewportView(jTable1);
         rellenaTabla(cliente.ConsultaTodas());
@@ -180,7 +180,7 @@ public class Reparaciones extends JPanel {
         table.getColumnModel().getColumn(8).setPreferredWidth(56);
         table.getColumnModel().getColumn(8).setMinWidth(56);
         table.getColumnModel().getColumn(8).setMaxWidth(56);
-        table.setBounds(10, 190, 830, 125);
+        table.setBounds(12, 190, 830, 125);
         return table;
     }
     
