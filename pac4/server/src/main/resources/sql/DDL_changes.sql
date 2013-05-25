@@ -182,3 +182,16 @@ alter table mecanic alter column idrep2 drop not null;
 --
 -- Cambiamos campo Contador a tipo Integer en la tabla Reparacion
 ALTER TABLE reparacio ALTER COLUMN comptador TYPE integer
+-- Eliminación de las tablas Mecanic y CapTaller, totalmente innecesarias, ya que trabajamos directamente con Usuario y sus perfiles
+drop table mecanic cascade;
+drop table captaller cascade;
+-- Cambiamos la dependencia de los idMecanic y idCapTaller de la tabla reparacio por las idUsuario de la tabla Usuario
+alter table reparacio
+  add constraint fk_idmecanic
+  foreign key (idmecanic)
+  references usuari (id);
+
+alter table reparacio
+  add constraint fk_idcaptaller
+  foreign key (idcaptaller)
+  references usuari (id);
