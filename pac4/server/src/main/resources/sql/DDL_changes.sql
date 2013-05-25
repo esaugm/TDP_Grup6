@@ -176,10 +176,6 @@ alter table Taller add column nom character varying;
 -----------------------
 
 --
--- Eliminamos constrain not null idrep1 e idrep2 de la tabla mecanic
-alter table mecanic alter column idrep1 drop not null;
-alter table mecanic alter column idrep2 drop not null;
---
 -- Cambiamos campo Contador a tipo Integer en la tabla Reparacion
 ALTER TABLE reparacio ALTER COLUMN comptador TYPE integer
 -- Eliminación de las tablas Mecanic y CapTaller, totalmente innecesarias, ya que trabajamos directamente con Usuario y sus perfiles
