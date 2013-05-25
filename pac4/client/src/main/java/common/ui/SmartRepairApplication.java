@@ -236,7 +236,7 @@ _reparacioMenu = new JMenu();
 
     private void openMenuTallers(ActionEvent evt) {
         removePanelFromMain();
-        GestioTallerPanel tallerPanel = new GestioTallerPanel();
+        GestioTallerPanel tallerPanel = new GestioTallerPanel(client);
         setTitle(title + " - " + gestioTallersTitle);
         tallerPanel.setLayout(new BorderLayout());
 

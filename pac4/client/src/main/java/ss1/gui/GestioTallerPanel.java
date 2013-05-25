@@ -1,11 +1,15 @@
 package ss1.gui;
 
+import common.rmi.Client;
 import common.utils.TDSLanguageUtils;
+import ss1.dao.exception.ExceptionErrorDataBase;
+import ss1.dao.exception.ExceptionTipoObjetoFiltroNoPermitido;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.rmi.RemoteException;
 
 /**
  * TDP Grup6
@@ -14,12 +18,12 @@ import java.awt.event.ActionListener;
  * Time: 16:35
  */
 public class GestioTallerPanel extends JPanel{
+    private Client client;
 
     private String altesBtnLabel = TDSLanguageUtils.getMessage("gestioTaller.altesBtnLabel");
     private String modificacionsBtnLabel = TDSLanguageUtils.getMessage("gestioTaller.modificacionsBtnLabel");
     private String baixesBtnLabel = TDSLanguageUtils.getMessage("gestioTaller.baixesBtnLabel");
     private String filtrarBtnLabel = TDSLanguageUtils.getMessage("gestioTaller.filtrarBtnLabel");
-    private String salirBtnLabel = TDSLanguageUtils.getMessage("gestioTaller.salirBtnLabel");
     private String criterisFiltreLblText = TDSLanguageUtils.getMessage("gestioTaller.criterisFiltreText");
     private String criteriFiltreIDLblText = TDSLanguageUtils.getMessage("gestioTaller.criteriFiltreIDText");
     private String criteriFiltreNomLblText = TDSLanguageUtils.getMessage("gestioTaller.criteriFiltreNomText");
@@ -45,7 +49,8 @@ public class GestioTallerPanel extends JPanel{
     private JTextField webTextField_1;
 
 
-    public GestioTallerPanel() {
+    public GestioTallerPanel(Client pClient) {
+        client =pClient;
         setLayout(null);
 
         JButton btnAltas = new JButton(altesBtnLabel);
@@ -165,10 +170,6 @@ public class GestioTallerPanel extends JPanel{
         filteringTbl.setBounds(25, 191, 958, 240);
         add(filteringTbl);
 
-        JButton btnSalir = new JButton(salirBtnLabel);
-        btnSalir.setBounds(856, 29, 140, 23);
-        add(btnSalir);
-
         JComboBox activoCbx = new JComboBox();
         activoCbx.setModel(new DefaultComboBoxModel(new String[] {"-", comboSiValueText, comboNoValueText}));
         activoCbx.setBounds(931, 160, 51, 20);
@@ -239,9 +240,19 @@ public class GestioTallerPanel extends JPanel{
     private class GestionAltaTallerActionListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            AltaTallerDialog altaTallerDialog = new AltaTallerDialog();
-            altaTallerDialog.setVisible(true);
-            altaTallerDialog.setModal(true);
+            AltaTallerDialog altaTallerDialog = null;
+            try {
+                altaTallerDialog = new AltaTallerDialog(client);
+                altaTallerDialog.setVisible(true);
+                altaTallerDialog.setModal(true);
+            } catch (ExceptionErrorDataBase exceptionErrorDataBase) {
+                //todo pensar que hacer aqui
+                exceptionErrorDataBase.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            } catch (RemoteException e1) {
+                e1.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            } catch (ExceptionTipoObjetoFiltroNoPermitido exceptionTipoObjetoFiltroNoPermitido) {
+                exceptionTipoObjetoFiltroNoPermitido.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            }
         }
     }
 
@@ -249,9 +260,19 @@ public class GestioTallerPanel extends JPanel{
         @Override
         public void actionPerformed(ActionEvent e) {
             //todo pasarle el usuario seleccionado en el filtro
-            ModificaTallerDialog modificaTallerDialog = new ModificaTallerDialog(null);
-            modificaTallerDialog.setVisible(true);
-            modificaTallerDialog.setModal(true);
+            ModificaTallerDialog modificaTallerDialog = null;
+            try {
+                modificaTallerDialog = new ModificaTallerDialog(null, client);
+                modificaTallerDialog.setVisible(true);
+                modificaTallerDialog.setModal(true);
+            } catch (ExceptionErrorDataBase exceptionErrorDataBase) {
+                //todo pensar que hacer aqui
+                exceptionErrorDataBase.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            } catch (ExceptionTipoObjetoFiltroNoPermitido exceptionTipoObjetoFiltroNoPermitido) {
+                exceptionTipoObjetoFiltroNoPermitido.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            } catch (RemoteException e1) {
+                e1.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            }
         }
     }
 
@@ -259,9 +280,19 @@ public class GestioTallerPanel extends JPanel{
         @Override
         public void actionPerformed(ActionEvent e) {
             //todo pasarle el usuario seleccionado en el filtro
-            BaixaTallerDialog baixaTallerDialog = new BaixaTallerDialog(null);
-            baixaTallerDialog.setVisible(true);
-            baixaTallerDialog.setModal(true);
+            BaixaTallerDialog baixaTallerDialog = null;
+            try {
+                baixaTallerDialog = new BaixaTallerDialog(null, client);
+                baixaTallerDialog.setVisible(true);
+                baixaTallerDialog.setModal(true);
+            } catch (ExceptionErrorDataBase exceptionErrorDataBase) {
+                //todo pensar que hacer aqui
+                exceptionErrorDataBase.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            } catch (ExceptionTipoObjetoFiltroNoPermitido exceptionTipoObjetoFiltroNoPermitido) {
+                exceptionTipoObjetoFiltroNoPermitido.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            } catch (RemoteException e1) {
+                e1.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            }
         }
     }
 }

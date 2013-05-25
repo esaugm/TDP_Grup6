@@ -98,15 +98,15 @@ SELECT pg_catalog.setval('Usuari_ID_seq', 1, false);
 
 
 
-INSERT INTO Taller (ID, Cif, adreca, capacitat, capTaller, telefon, web, actiu, dataApertura, dataModificacio, dataBaixa) VALUES (1, 'B11111111', 'C/Nort, 3 - 07760 - Ciutadella', 30, NULL, '971385175', 'www.taller1.com', true, '2013-04-11', NULL, NULL);
+INSERT INTO Taller ( Cif, adreca, capacitat, capTaller, telefon, web, actiu, dataApertura, dataModificacio, dataBaixa) VALUES ( 'B11111111', 'C/Nort, 3 - 07760 - Ciutadella', 30, NULL, '971385175', 'www.taller1.com', true, '2013-04-11', NULL, NULL);
 
-INSERT INTO Taller (ID, Cif, adreca, capacitat, capTaller, telefon, web, actiu, dataApertura, dataModificacio, dataBaixa) VALUES (2, 'B22222221', 'C/Sud, 6 - 07750 - Ferreries', 25, NULL, '971155175', 'www.taller2.com', true, '2013-04-12', NULL, NULL);
+INSERT INTO Taller ( Cif, adreca, capacitat, capTaller, telefon, web, actiu, dataApertura, dataModificacio, dataBaixa) VALUES ( 'B22222221', 'C/Sud, 6 - 07750 - Ferreries', 25, NULL, '971155175', 'www.taller2.com', true, '2013-04-12', NULL, NULL);
 
-INSERT INTO Taller (ID, Cif, adreca, capacitat, capTaller, telefon, web, actiu, dataApertura, dataModificacio, dataBaixa) VALUES (3, 'B33333333', 'C/Est, 9 - 07740 - Es Mercadal', 20, NULL, '971375175', 'www.taller3.com', true, '2013-04-13', NULL, NULL);
+INSERT INTO Taller ( Cif, adreca, capacitat, capTaller, telefon, web, actiu, dataApertura, dataModificacio, dataBaixa) VALUES ( 'B33333333', 'C/Est, 9 - 07740 - Es Mercadal', 20, NULL, '971375175', 'www.taller3.com', true, '2013-04-13', NULL, NULL);
 
-INSERT INTO Taller (ID, Cif, adreca, capacitat, capTaller, telefon, web, actiu, dataApertura, dataModificacio, dataBaixa) VALUES (4, 'B44444444', 'C/Oest, 12 - 07730 - Alaior', 15, NULL, '971335175', 'www.taller4.com', true, '2013-04-14', NULL, NULL);
+INSERT INTO Taller ( Cif, adreca, capacitat, capTaller, telefon, web, actiu, dataApertura, dataModificacio, dataBaixa) VALUES ( 'B44444444', 'C/Oest, 12 - 07730 - Alaior', 15, NULL, '971335175', 'www.taller4.com', true, '2013-04-14', NULL, NULL);
 
-INSERT INTO Taller (ID, Cif, adreca, capacitat, capTaller, telefon, web, actiu, dataApertura, dataModificacio, dataBaixa) VALUES (5, 'B55555555', 'C/Tramontana, 15 - 07701 - MaÛ', 40, NULL, '971355175', 'www.taller5.com', true, '2013-04-15', NULL, NULL);
+INSERT INTO Taller ( Cif, adreca, capacitat, capTaller, telefon, web, actiu, dataApertura, dataModificacio, dataBaixa) VALUES ( 'B55555555', 'C/Tramontana, 15 - 07701 - MaÛ', 40, NULL, '971355175', 'www.taller5.com', true, '2013-04-15', NULL, NULL);
 
 
 

@@ -93,6 +93,15 @@ public class Client {
     public Taller findTallerById(Integer pTallerId) throws ExceptionErrorDataBase, RemoteException {
         return remoteSS1.getTallerById(pTallerId);
     }
+
+
+    public void altaTaller(Taller taller) throws ExceptionErrorDataBase, RemoteException {
+        remoteSS1.altaTaller(taller);
+    }
+
+    public List<Usuari> listaCapsTaller() throws ExceptionErrorDataBase, RemoteException, ExceptionTipoObjetoFiltroNoPermitido {
+        return remoteSS1.getAllCapsTaller();
+    }
     
     public Solicitud buscaSolicitudbynumrep(Integer orden) throws AppException, RemoteException {
         return remoteSS2.buscaSolicitudbynumrep(orden);

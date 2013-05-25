@@ -354,8 +354,8 @@ public class AltaUsuariDialog extends JDialog {
 
     }
 
-    protected void fillUsuariWithNewData(Usuari newUsuari) {
-        newUsuari.setId(Integer.parseInt(idTextField.getText()));
+    protected void fillUsuariWithNewData(Usuari newUsuari, boolean isNewUsuari) {
+        if (!isNewUsuari)newUsuari.setId(Integer.parseInt(idTextField.getText()));
         newUsuari.setNom(nomTextField.getText());
         newUsuari.setCognoms(cognomTextField.getText());
         newUsuari.setContrasenya(contrasenyaTextField.getText());
@@ -419,7 +419,8 @@ public class AltaUsuariDialog extends JDialog {
         @Override
         public void actionPerformed(ActionEvent e) {
             if (checkInputDataOK()) {
-                fillUsuariWithNewData(usuari);
+                usuari = new Usuari();
+                fillUsuariWithNewData(usuari, true);
                 
                 try {
                     client.altaUsuari(usuari);
@@ -494,7 +495,7 @@ public class AltaUsuariDialog extends JDialog {
         public void actionPerformed(ActionEvent e) {
             if (checkInputDataOK()) {
                 Usuari newUsuari = new Usuari();
-                fillUsuariWithNewData(newUsuari);
+                fillUsuariWithNewData(newUsuari, false);
 
                 try {
                     client.modificaUsuari(newUsuari);
