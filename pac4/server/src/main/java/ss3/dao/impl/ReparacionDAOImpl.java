@@ -120,7 +120,7 @@ public class ReparacionDAOImpl extends GenericDaoImpl implements ReparacionDAO {
         ArrayList<Reparacion> listaReparaciones = new ArrayList<Reparacion>();
         try{
             conn = getConnection();
-            ps = conn.prepareStatement("select * from reparacio");
+            ps = conn.prepareStatement("select * from reparacio order by ordrereparacio");
                   
             rs = ps.executeQuery();
 
