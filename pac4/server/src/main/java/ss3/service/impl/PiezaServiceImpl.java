@@ -33,6 +33,10 @@ public class PiezaServiceImpl implements PiezaService {
         return pieza.findByCodiPieza(codigo);
     }
     
+    public Pieza ConsultaPorOrden(Integer pOrden) throws ExceptionErrorDataBase{
+        return pieza.findByOrden(pOrden);
+    }
+    
     public ArrayList<Pieza> ConsultaPiezas() throws ExceptionErrorDataBase{
         return pieza.findPiezas();
     }

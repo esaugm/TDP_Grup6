@@ -91,6 +91,11 @@ public class SS3ReparacionesImpl extends UnicastRemoteObject implements SS3Repar
     }
     
     @Override
+    public Pieza ConsultaPorOrden(Integer orden) throws ExceptionErrorDataBase, RemoteException{
+        return piezaService.ConsultaPorOrden(orden);
+    }
+    
+    @Override
     public ArrayList<Pieza> ConsultaPiezas() throws ExceptionErrorDataBase{
         return piezaService.ConsultaPiezas();
     }

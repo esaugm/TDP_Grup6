@@ -182,5 +182,50 @@ public class PiezaDAOImpl extends GenericDaoImpl implements PiezaDAO {
         }
         return listaPieza;
     }
-     
+    
+    public Pieza findByOrden(Integer pOrden) throws ExceptionErrorDataBase {
+        Connection conn=null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        Pieza toReturn = null;
+        try{
+            conn = getConnection();
+            ps = conn.prepareStatement( "SELECT *\n" +
+                                        "FROM reparacio\n" +
+                                        "JOIN solicitud ON reparacio.ordrereparacio = solicitud.numreparacio\n" +
+                                        "JOIN client   ON solicitud.client = client.nif\n" +
+                                        "JOIN usuari ON reparacio.idmecanic = usuari.id\n" +
+                                        "JOIN vehicle ON reparacio.ordrereparacio = vehicle.numreparacio\n" +
+                                        "JOIN comanda ON reparacio.numcom = comanda.numcom\n" +
+                                        "JOIN peca ON comanda.codipeca = peca.codipeca\n" +
+                                        "WHERE reparacio.ordrereparacio = ?\n");
+            ps.setString(1,"%"+pOrden+"%");
+            
+            rs = ps.executeQuery();
+
+            if (rs.next()){
+                 toReturn = new Pieza(
+                    rs.getInt("codipeca"),
+                    rs.getString("descripcio"),
+                    rs.getFloat("pvp"),
+                    rs.getFloat("pvd"),
+                    rs.getString("marca"),
+                    rs.getString("model"),
+                    rs.getInt("idProveidor"));
+            }
+
+        } catch (ClassNotFoundException e) {
+            //todo FERNANDO: log exception
+            throw new ExceptionErrorDataBase("Error conectando a BD", e);
+        } catch (SQLException e) {
+            //todo FERNANDO: log exception
+            throw new ExceptionErrorDataBase("Error de sql", e);
+        } catch (IOException e) {
+            //todo FERNANDO: log exception
+            throw new ExceptionErrorDataBase("Error conectando a BD", e);
+        } finally {
+            ConnectionFactory.freeResources(conn, ps, rs);
+        }
+        return toReturn;
+    }
 }
