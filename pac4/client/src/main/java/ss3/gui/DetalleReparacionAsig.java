@@ -4,6 +4,7 @@
  */
 package ss3.gui;
 
+import common.rmi.Client;
 import javax.swing.*;
 /**
  *
@@ -14,11 +15,13 @@ public class DetalleReparacionAsig extends JDialog {
     /**
      * Creates new form DetalleReparacionAsig
      */
-    public DetalleReparacionAsig() {
+    public DetalleReparacionAsig(Client cliente, Integer orden, String matricula, String marca, String modelo) {
         setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
         setAlwaysOnTop(true);
-        setBounds(75, 75, 754, 490);
+        setBounds(75, 75, 850, 630);
         initComponents();
+        rellenaCabecero(orden,matricula,marca,modelo);
+        
     }
 
     /**
@@ -97,62 +100,40 @@ public class DetalleReparacionAsig extends JDialog {
         jLabel9.setBounds(652, 83, 11, 14);
 
         jPanel1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        jPanel1.setLayout(null);
 
         jLabel2.setText("Orden Reparación:");
+        jPanel1.add(jLabel2);
+        jLabel2.setBounds(10, 30, 110, 14);
 
         jTextField2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextField2ActionPerformed(evt);
             }
         });
+        jPanel1.add(jTextField2);
+        jTextField2.setBounds(120, 30, 120, 20);
 
         jLabel3.setText("Matrícula:");
+        jPanel1.add(jLabel3);
+        jLabel3.setBounds(270, 30, 60, 14);
+        jPanel1.add(jTextField3);
+        jTextField3.setBounds(337, 30, 90, 20);
 
         jLabel4.setText("Marca:");
+        jPanel1.add(jLabel4);
+        jLabel4.setBounds(440, 30, 40, 14);
+        jPanel1.add(jTextField4);
+        jTextField4.setBounds(494, 30, 100, 20);
 
         jLabel5.setText("Modelo:");
-
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel2)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel3)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jLabel4)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jLabel5)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTextField5, javax.swing.GroupLayout.DEFAULT_SIZE, 135, Short.MAX_VALUE)
-                .addContainerGap())
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(20, Short.MAX_VALUE)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel3)
-                    .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel4)
-                    .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel5)
-                    .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(27, 27, 27))
-        );
+        jPanel1.add(jLabel5);
+        jLabel5.setBounds(620, 30, 50, 14);
+        jPanel1.add(jTextField5);
+        jTextField5.setBounds(675, 30, 100, 20);
 
         getContentPane().add(jPanel1);
-        jPanel1.setBounds(10, 111, 772, 71);
+        jPanel1.setBounds(10, 111, 800, 80);
 
         jPanel5.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
@@ -379,6 +360,13 @@ public class DetalleReparacionAsig extends JDialog {
         jButton6.setBounds(750, 560, 60, 23);
     }// </editor-fold>//GEN-END:initComponents
 
+    public void rellenaCabecero(Integer orden, String matricula, String marca, String modelo){
+        jTextField2.setText(orden.toString());
+        jTextField3.setText(matricula);
+        jTextField4.setText(marca);
+        jTextField5.setText(modelo);
+    }
+    
     private void jTextField2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField2ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextField2ActionPerformed

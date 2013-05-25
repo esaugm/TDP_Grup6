@@ -4,6 +4,7 @@
  */
 package ss3.gui;
 
+import common.rmi.Client;
 import javax.swing.*;
 /**
  *
@@ -14,13 +15,21 @@ public class PiezasReparacion extends JDialog {
     /**
      * Creates new form PiezasReparacion
      */
-    public PiezasReparacion() {
+    public PiezasReparacion(Client cliente, Integer orden, String matricula, String marca, String modelo) {
         setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
         setAlwaysOnTop(true);
         setBounds(75, 75, 870, 520);
         initComponents();
+        rellenaCabecero(orden,matricula,marca,modelo);
     }
 
+    
+    public void rellenaCabecero(Integer orden, String matricula, String marca, String modelo){
+        jTextField6.setText(orden.toString());
+        jTextField7.setText(matricula);
+        jTextField8.setText(marca);
+        jTextField9.setText(modelo);
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -247,59 +256,37 @@ public class PiezasReparacion extends JDialog {
         jButton7.setBounds(760, 440, 80, 23);
 
         jPanel4.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        jPanel4.setLayout(null);
 
         jLabel7.setText("Orden Reparación:");
+        jPanel4.add(jLabel7);
+        jLabel7.setBounds(20, 20, 120, 14);
 
         jTextField6.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextField6ActionPerformed(evt);
             }
         });
+        jPanel4.add(jTextField6);
+        jTextField6.setBounds(143, 20, 120, 20);
 
         jLabel8.setText("Matrícula:");
+        jPanel4.add(jLabel8);
+        jLabel8.setBounds(280, 20, 60, 14);
+        jPanel4.add(jTextField7);
+        jTextField7.setBounds(340, 20, 107, 20);
 
         jLabel9.setText("Marca:");
+        jPanel4.add(jLabel9);
+        jLabel9.setBounds(470, 20, 50, 14);
+        jPanel4.add(jTextField8);
+        jTextField8.setBounds(520, 20, 114, 20);
 
         jLabel10.setText("Modelo:");
-
-        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
-        jPanel4.setLayout(jPanel4Layout);
-        jPanel4Layout.setHorizontalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel4Layout.createSequentialGroup()
-                .addGap(15, 15, 15)
-                .addComponent(jLabel7)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jTextField6, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jLabel8)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jTextField7, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jLabel9)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jTextField8, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jLabel10)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jTextField9, javax.swing.GroupLayout.DEFAULT_SIZE, 134, Short.MAX_VALUE)
-                .addContainerGap())
-        );
-        jPanel4Layout.setVerticalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel7)
-                    .addComponent(jTextField6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel8)
-                    .addComponent(jTextField7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel9)
-                    .addComponent(jTextField8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel10)
-                    .addComponent(jTextField9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(27, 27, 27))
-        );
+        jPanel4.add(jLabel10);
+        jLabel10.setBounds(650, 20, 50, 14);
+        jPanel4.add(jTextField9);
+        jTextField9.setBounds(704, 20, 110, 20);
 
         getContentPane().add(jPanel4);
         jPanel4.setBounds(10, 68, 830, 60);
