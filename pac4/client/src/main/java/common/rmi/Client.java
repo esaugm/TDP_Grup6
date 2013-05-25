@@ -17,6 +17,11 @@ import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import ss2.entity.Solicitud;
+import ss2.exception.AppException;
+import ss2.server.ISS2GestionAdministrativa;
+import ss3.beans.Vehiculo;
 
 /**
  * TDP Grup6
@@ -31,6 +36,8 @@ public class Client {
     
     private ISS1ConexioManteniment remoteSS1;
     private final String JNDI_SS1_NAME = "ConexioManteniment";
+    private ISS2GestionAdministrativa remoteSS2;
+    private final String JNDI_SS2_NAME = "GestionAdministrativa";
     private SS3Reparaciones remoteSS3;
     private final String JNDI_SS3_NAME = "Reparaciones";
 
@@ -46,9 +53,10 @@ public class Client {
     public void connect() throws Exception{
         System.out.println("Connecting with the server...");
         Registry registry = LocateRegistry.getRegistry(URL, PORT);
-        remoteSS1 = (ISS1ConexioManteniment) registry.lookup(JNDI_SS1_NAME);
-        remoteSS3 = (SS3Reparaciones) registry.lookup(JNDI_SS3_NAME);
-        _remoteSS4 = (ISS4Estadisticas) registry.lookup(JNDI_SS4_NAME);
+         remoteSS1 = (ISS1ConexioManteniment) registry.lookup(JNDI_SS1_NAME);
+            remoteSS2 = (ISS2GestionAdministrativa) registry.lookup(JNDI_SS2_NAME);
+            remoteSS3 = (SS3Reparaciones) registry.lookup(JNDI_SS3_NAME);
+            _remoteSS4 = (ISS4Estadisticas) registry.lookup(JNDI_SS4_NAME);
         //todo añadir los interfaces de cada subsistema
         System.out.println("Connected!");
     }
@@ -87,6 +95,11 @@ public class Client {
         return remoteSS1.getTallerById(pTallerId);
     }
     
+    public Solicitud buscaSolicitudbynumrep(Integer orden) throws AppException, RemoteException {
+        return remoteSS2.buscaSolicitudbynumrep(orden);
+        
+    }
+    
     public Reparacion ConsultaOrden(Integer OrdenID) throws ExceptionErrorDataBase, RemoteException {
         return remoteSS3.ConsultaOrden(OrdenID);
     }
@@ -115,8 +128,20 @@ public class Client {
         return remoteSS3.ConsultaAsignadas(asignada);
     }
     
+    public ArrayList<Reparacion> ConsultaReparacionesByTerms(Map values) throws ExceptionErrorDataBase, RemoteException{
+        return remoteSS3.findReparacionesByTerms(values);
+    }
+    
     public Boolean anotaObs(Integer orden, String observaciones) throws ExceptionErrorDataBase, RemoteException{
         return remoteSS3.anotaObs(orden, observaciones);
+    }
+    
+    public Vehiculo ConsultaReparacion(Integer orden) throws ExceptionErrorDataBase, RemoteException{
+        return remoteSS3.ConsultaReparacion(orden);
+    }
+    
+    public Boolean aceptaReparacion(Integer orden) throws ExceptionErrorDataBase, RemoteException{
+        return remoteSS3.aceptaReparacion(orden);
     }
 
     public ISS4Estadisticas get_remoteSS4() {
