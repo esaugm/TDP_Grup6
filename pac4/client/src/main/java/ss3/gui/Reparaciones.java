@@ -498,9 +498,19 @@ public class Reparaciones extends JPanel {
 
     private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
         // TODO add your handling code here:
-        DetalleReparacionAsig dra = new DetalleReparacionAsig(cliente, (Integer) jTable1.getValueAt(jTable1.getSelectedRow(), 0), (String) jTable1.getValueAt(jTable1.getSelectedRow(), 3), (String) jTable1.getValueAt(jTable1.getSelectedRow(), 4), (String) jTable1.getValueAt(jTable1.getSelectedRow(), 5));
-        dra.setVisible(true);
-        dra.setModal(true);
+        DetalleReparacionAsig dra;
+        try {
+            dra = new DetalleReparacionAsig(cliente, (Integer) jTable1.getValueAt(jTable1.getSelectedRow(), 0), (String) jTable1.getValueAt(jTable1.getSelectedRow(), 3), (String) jTable1.getValueAt(jTable1.getSelectedRow(), 4), (String) jTable1.getValueAt(jTable1.getSelectedRow(), 5));
+            dra.setVisible(true);
+            dra.setModal(true);
+        } catch (ExceptionErrorDataBase ex) {
+            ex.printStackTrace();
+        } catch (AppException ex) {
+            ex.printStackTrace();
+        } catch (RemoteException ex) {
+            ex.printStackTrace();
+        }
+        
     }//GEN-LAST:event_jButton9ActionPerformed
 
     private void jButton10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton10ActionPerformed
