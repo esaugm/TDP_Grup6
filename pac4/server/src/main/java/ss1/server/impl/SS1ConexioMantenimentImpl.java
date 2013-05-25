@@ -107,6 +107,11 @@ public class SS1ConexioMantenimentImpl extends UnicastRemoteObject implements IS
     }
 
     @Override
+    public Usuari findUsuariByPK(Integer pId) throws ExceptionErrorDataBase {
+        return usuariService.findUsuariByID(pId);
+    }
+
+    @Override
     public List<Usuari> getAllCapsTaller() throws ExceptionErrorDataBase, ExceptionTipoObjetoFiltroNoPermitido {
         FilterItems filtro = new FilterItems();
         filtro.addFilterValue("perfil", PerfilUsuari.CAPTALLER);

@@ -9,8 +9,10 @@ import ss1.entity.Usuari;
 import ss1.server.ISS1ConexioManteniment;
 import ss1.service.filter.FilterItems;
 import ss2.entity.Solicitud;
+import ss2.entity.StockPeca;
 import ss2.exception.AppException;
 import ss2.server.ISS2GestionAdministrativa;
+import ss3.beans.Pieza;
 import ss3.beans.Reparacion;
 import ss3.beans.Vehiculo;
 import ss3.server.SS3Reparaciones;
@@ -22,8 +24,6 @@ import java.rmi.registry.Registry;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import ss2.entity.StockPeca;
-import ss3.beans.Pieza;
 
 /**
  * TDP Grup6
@@ -67,6 +67,7 @@ public class Client {
         System.exit(0);
     }
 
+    //SS1
     public Usuari makeLogin(String pUsuari, String pPasswd) throws RemoteException, ExceptionUsuariNoExisteix, ExceptionContrasenyaIncorrecta, ExceptionErrorDataBase {
         return remoteSS1.usuariLogin(pUsuari, pPasswd);
     }
@@ -104,7 +105,17 @@ public class Client {
     public List<Usuari> listaCapsTaller() throws ExceptionErrorDataBase, RemoteException, ExceptionTipoObjetoFiltroNoPermitido {
         return remoteSS1.getAllCapsTaller();
     }
-    
+
+
+    public List<Taller> filtrarTaller(FilterItems filterItems) throws ExceptionErrorDataBase, ExceptionTipoObjetoFiltroNoPermitido, RemoteException {
+        return remoteSS1.getAllTallerByFilter(filterItems);
+    }
+
+    public Usuari buscarUsuariPorId(Integer pId) throws ExceptionErrorDataBase {
+        return remoteSS1.findUsuariByPK(pId);
+    }
+
+    // final SS1
     public Solicitud buscaSolicitudbynumrep(Integer orden) throws AppException, RemoteException {
         return remoteSS2.buscaSolicitudbynumrep(orden);
         
