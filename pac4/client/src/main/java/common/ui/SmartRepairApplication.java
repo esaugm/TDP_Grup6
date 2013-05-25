@@ -21,6 +21,7 @@ import java.rmi.RemoteException;
 import java.text.ParseException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import ss2.exception.AppException;
 
 /**
  * Created with IntelliJ IDEA.
@@ -169,7 +170,15 @@ _reparacioMenu = new JMenu();
         _repAsigMenu.setText(menuRepAsig);
         _repAsigMenu.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                openMenuRepAsig(evt);
+                try {
+                    openMenuRepAsig(evt);
+                } catch (AppException ex) {
+                    ex.printStackTrace();
+                } catch (ExceptionErrorDataBase ex) {
+                    ex.printStackTrace();
+                } catch (RemoteException ex) {
+                    ex.printStackTrace();
+                }
             }
         });
         _reparacioMenu.add(_repAsigMenu);
@@ -234,9 +243,9 @@ _reparacioMenu = new JMenu();
         _mainPanel.validate();
     }
 
-    private void openMenuRepAsig(ActionEvent evt) {
+    private void openMenuRepAsig(ActionEvent evt) throws AppException, ExceptionErrorDataBase, RemoteException {
         removePanelFromMain();
-        ReparacionesAsignadas ra = new ReparacionesAsignadas();
+        ReparacionesAsignadas ra = new ReparacionesAsignadas(client);
         setTitle(title + " - " + repAsigTitle);
         ra.setLayout(new BorderLayout());
 
