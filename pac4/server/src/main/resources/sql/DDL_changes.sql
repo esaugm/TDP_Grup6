@@ -174,3 +174,8 @@ alter table Taller add column nom character varying;
 -----------------------
 --- Fin cambios SS1 ---
 -----------------------
+
+--
+-- Eliminamos constrain not null idrep1 e idrep2 de la tabla mecanic
+alter table mecanic alter column idrep1 drop not null;
+alter table mecanic alter column idrep2 drop not null;

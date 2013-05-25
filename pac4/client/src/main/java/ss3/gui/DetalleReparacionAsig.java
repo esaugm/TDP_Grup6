@@ -43,11 +43,13 @@ public class DetalleReparacionAsig extends JDialog {
         add(scrollPane);
         scrollPane.setViewportView(jTable1);
         rellenaCabecero(orden,matricula,marca,modelo);
+        
         rellenaTabla(cliente.ConsultaOrden(orden));
         
     }
     
     public void rellenaTabla(Reparacion repa) throws AppException, ExceptionErrorDataBase, RemoteException {
+        jTextArea3.setText(repa.getObservaciones());
         Pieza pie = null;
         Solicitud sol = null;
         StockPeca sp = null;
@@ -57,29 +59,32 @@ public class DetalleReparacionAsig extends JDialog {
                 int i=0;
                 pie = cliente.ConsultaPiezaPorOrden(repa.getIdOrden());
                 sol = cliente.buscaSolicitudbynumrep(repa.getIdOrden());
-                System.out.println(pie.getCodiPieza()+ "_"+sol.getIdtaller());
                 sp = cliente.consultaStockPiezabyCodigoPieza(pie.getCodiPieza(), sol.getIdtaller());
-                
                  if (repa.getIdOrden() > 0){
-                        if(i==rowCount-1) 
+                        if(i==rowCount-1)
                             tableModel.addRow(new Object[]{});
                         tableModel.setValueAt(pie.getCodiPieza(), i, 0);
                         tableModel.setValueAt(pie.getDescripcion(),i,1);
                         tableModel.setValueAt(1,i,2);
-                        if(sp.getStock()==1||sp.getStock()>1)
+                        if(sp.getStock()==1||sp.getStock()>1){
                             tableModel.setValueAt("SI",i,3);
-                        else
-                            tableModel.setValueAt("SI",i,3);
+                        }                            
+                        else{
+                            tableModel.setValueAt("NO",i,3);
+                        }
+                            
                  }
-                
-                int rowIdx=i;
+                i++;
+                for (int rowIdx=i;rowIdx<rowCount ;rowIdx++){
                     tableModel.setValueAt("",rowIdx,0);
                     tableModel.setValueAt("",rowIdx,1);
                     tableModel.setValueAt("",rowIdx,2);
                     tableModel.setValueAt("",rowIdx,3);
+                }
                 
 
                 jTable1 = createTabla(tableModel);
+                System.out.println("tablemodel");
                 scrollPane.setViewportView(jTable1);
                 
             } catch (ExceptionErrorDataBase exceptionErrorDataBase) {
