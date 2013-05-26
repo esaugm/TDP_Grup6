@@ -6,8 +6,13 @@ package ss3.gui;
 
 import common.rmi.Client;
 import java.rmi.RemoteException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Iterator;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JFrame;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -15,6 +20,7 @@ import javax.swing.ListSelectionModel;
 import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableModel;
 import ss1.dao.exception.ExceptionErrorDataBase;
+import ss1.entity.Taller;
 import ss1.entity.Usuari;
 import ss1.entity.UsuariConectat;
 import ss1.entity.exception.ExceptionNoReparacionesAsignadas;
@@ -22,6 +28,7 @@ import ss1.gui.LoginDialog;
 import ss2.entity.Solicitud;
 import ss2.entity.StockPeca;
 import ss2.exception.AppException;
+import ss3.beans.Pedido;
 import ss3.beans.Pieza;
 import ss3.beans.Reparacion;
 import ss3.beans.Vehiculo;
@@ -65,7 +72,6 @@ public class StockPiezas extends javax.swing.JPanel {
 
     public void rellenaTabla(ArrayList<StockPeca> stoPeca) throws ExceptionErrorDataBase {
         jButton3.setEnabled(false);
-        jTextField1.setText("1");
         try {
                 DefaultTableModel tableModel = (DefaultTableModel) jTable1.getModel();
                 int rowCount = tableModel.getRowCount();
@@ -276,8 +282,6 @@ public class StockPiezas extends javax.swing.JPanel {
         jButton3 = new javax.swing.JButton();
         jButton6 = new javax.swing.JButton();
         jButton5 = new javax.swing.JButton();
-        jButton1 = new javax.swing.JButton();
-        jTextField1 = new javax.swing.JTextField();
         jLabel11 = new javax.swing.JLabel();
 
         setLayout(null);
@@ -323,25 +327,6 @@ public class StockPiezas extends javax.swing.JPanel {
         add(jButton5);
         jButton5.setBounds(660, 240, 83, 23);
 
-        jButton1.setText("+");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
-            }
-        });
-        add(jButton1);
-        jButton1.setBounds(690, 330, 41, 42);
-
-        jTextField1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jTextField1.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        jTextField1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField1ActionPerformed(evt);
-            }
-        });
-        add(jTextField1);
-        jTextField1.setBounds(690, 390, 41, 42);
-
         jLabel11.setFont(new java.awt.Font("Lucida Grande", 1, 24)); // NOI18N
         jLabel11.setText("Piezas añadidas para realizar el pedido");
         add(jLabel11);
@@ -357,36 +342,10 @@ public class StockPiezas extends javax.swing.JPanel {
         jButton3.setEnabled(true);
     }//GEN-LAST:event_jButton5ActionPerformed
 
-    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField1ActionPerformed
-
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
         // TODO add your handling code here:
         setVisible(false);
     }//GEN-LAST:event_jButton6ActionPerformed
-
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
-        Avisos av = null;
-        if(!jTable2.getValueAt(jTable2.getSelectedRow(), 0).toString().isEmpty()){
-            int num = Integer.parseInt(jTextField1.getText());
-            num++;
-            jTextField1.setText(Integer.toString(num));
-            jTable2.setValueAt(Integer.parseInt(jTextField1.getText()), jTable2.getSelectedRow(), 3);
-
-            float mul = Float.parseFloat(jTextField1.getText());
-            float result;
-            result = mul * Float.parseFloat(jTable2.getValueAt(jTable2.getSelectedRow(), 4).toString());
-            System.out.println(result);
-            jTable2.setValueAt(result, jTable2.getSelectedRow(), 5);
-        
-        }else{
-            av = new Avisos("No hay nada que sumar.");
-            av.setVisible(true);
-            av.setModal(true);
-        }
-    }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         // TODO add your handling code here:
@@ -408,22 +367,30 @@ public class StockPiezas extends javax.swing.JPanel {
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
         jTable2.getSelectionModel().setSelectionInterval(0, 0);
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");  
+        Date date = new Date();  
+        try {
+            Taller tall = cliente.findTallerById(uC.getTaller());
+            Pieza p2 = cliente.ConsultaCodigo(Integer.parseInt(jTable2.getValueAt(0, 0).toString()));
+            StockPeca sp2 = cliente.consultaStockPiezabyCodigoPieza(Integer.parseInt(p2.getCodiPieza().toString()), uC.getTaller());
+            //Pedido ped = new Pedido(true,dateFormat.format(date),p2.getCodiPieza(),tall.getCapTaller(),p2.getIdProveedor(),);
+        } catch (ExceptionErrorDataBase ex) {
+            ex.printStackTrace();
+        } catch (RemoteException ex) {
+            ex.printStackTrace();
+        }
+        
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jTable2ActionPerformed(java.awt.event.ActionEvent evt){
-        if(!jTable2.getValueAt(jTable2.getSelectedRow(), 0).toString().isEmpty()){
-            jTextField1.setText(jTable2.getValueAt(jTable2.getSelectedRow(),3).toString());
-        }
     }
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel11;
-    private javax.swing.JTextField jTextField1;
     // End of variables declaration//GEN-END:variables
 }

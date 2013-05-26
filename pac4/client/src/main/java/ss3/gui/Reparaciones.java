@@ -180,7 +180,7 @@ public class Reparaciones extends JPanel {
         table.getColumnModel().getColumn(8).setPreferredWidth(56);
         table.getColumnModel().getColumn(8).setMinWidth(56);
         table.getColumnModel().getColumn(8).setMaxWidth(56);
-        table.setBounds(12, 190, 830, 125);
+        table.setBounds(12, 350, 830, 125);
         return table;
     }
     
@@ -524,10 +524,17 @@ public class Reparaciones extends JPanel {
             } catch (RemoteException ex) {
                 ex.printStackTrace();
         }
-        PiezasReparacion pr = new PiezasReparacion(cliente, (Integer) jTable1.getValueAt(jTable1.getSelectedRow(), 0), (String) jTable1.getValueAt(jTable1.getSelectedRow(), 3), (String) jTable1.getValueAt(jTable1.getSelectedRow(), 4), (String) jTable1.getValueAt(jTable1.getSelectedRow(), 5));
-        pr.setVisible(true);
-        pr.setModal(true);
-        jButton8ActionPerformed(evt);
+        PiezasReparacion pr;
+        try {
+            pr = new PiezasReparacion(cliente, (Integer) jTable1.getValueAt(jTable1.getSelectedRow(), 0), (String) jTable1.getValueAt(jTable1.getSelectedRow(), 3), (String) jTable1.getValueAt(jTable1.getSelectedRow(), 4), (String) jTable1.getValueAt(jTable1.getSelectedRow(), 5));
+            pr.setVisible(true);
+            pr.setModal(true);
+        } catch (RemoteException ex) {
+            ex.printStackTrace();
+        } catch (ExceptionErrorDataBase ex) {
+            ex.printStackTrace();
+        }
+       
     }//GEN-LAST:event_jButton10ActionPerformed
 
     private void jButton11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton11ActionPerformed

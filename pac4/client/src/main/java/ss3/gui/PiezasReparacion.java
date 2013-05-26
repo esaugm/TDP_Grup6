@@ -6,29 +6,49 @@ package ss3.gui;
 
 import common.rmi.Client;
 import java.rmi.RemoteException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.Iterator;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 import ss1.dao.exception.ExceptionErrorDataBase;
 import ss1.dao.exception.ExceptionTipoObjetoFiltroNoPermitido;
+import ss1.entity.Taller;
+import ss2.entity.Solicitud;
+import ss2.entity.StockPeca;
 import ss2.exception.AppException;
+import ss3.beans.Pedido;
+import ss3.beans.Pieza;
+import ss3.beans.Reparacion;
+import ss3.beans.Vehiculo;
 /**
  *
  * @author Fernando
  */
 public class PiezasReparacion extends JDialog {
     Client cliente;
-
+    JTable jTable1;
+    JScrollPane scrollPane;
+    
     /**
      * Creates new form PiezasReparacion
      */
-    public PiezasReparacion(Client cliente, Integer orden, String matricula, String marca, String modelo) {
+    public PiezasReparacion(Client cliente, Integer orden, String matricula, String marca, String modelo) throws RemoteException, ExceptionErrorDataBase {
         setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
         setAlwaysOnTop(true);
         setBounds(75, 75, 870, 520);
         initComponents();
-        this.cliente = cliente;
+        jTable1 = crearTabla();
+        scrollPane = new JScrollPane();
+        scrollPane.setBounds(10, 260, 830, 75);
+        add(scrollPane);
+        scrollPane.setViewportView(jTable1);
         rellenaCabecero(orden,matricula,marca,modelo);
+        //rellenaTabla(cliente.ConsultaPiezaPorOrden(orden));
     }
 
     
@@ -37,6 +57,102 @@ public class PiezasReparacion extends JDialog {
         jTextField7.setText(matricula);
         jTextField8.setText(marca);
         jTextField9.setText(modelo);
+    }
+    
+    public void rellenaTabla(ArrayList<Pieza> pecas) throws ExceptionErrorDataBase {
+        jButton3.setEnabled(false);
+        try {
+                DefaultTableModel tableModel = (DefaultTableModel) jTable1.getModel();
+                int rowCount = tableModel.getRowCount();
+                Iterator itRep = pecas.iterator();
+                int i=0;
+                Pieza p1 = null;
+                StockPeca sp1 = null;
+                while (itRep.hasNext()){
+                    p1 = (Pieza) itRep.next();
+                    p1 = cliente.ConsultaCodigo(sp1.getCodipeca());
+                    if(i==rowCount-1) 
+                        tableModel.addRow(new Object[]{});
+                    tableModel.setValueAt(p1.getCodiPieza(),i, 0);
+                    tableModel.setValueAt(p1.getDescripcion(),i,1);
+                    tableModel.setValueAt("",i,2);
+                    tableModel.setValueAt(sp1.getStock(),i,3);
+                    tableModel.setValueAt(p1.getPvd(),i,4);
+                    i++;
+                }
+                for (int rowIdx=i;rowIdx<rowCount ;rowIdx++){
+                    tableModel.setValueAt("",rowIdx,0);
+                    tableModel.setValueAt("",rowIdx,1);
+                    tableModel.setValueAt("",rowIdx,2);
+                    tableModel.setValueAt("",rowIdx,3);
+                    tableModel.setValueAt("",rowIdx,4);
+                    tableModel.setValueAt("",rowIdx,5);
+                    tableModel.setValueAt("",rowIdx,6);
+                }
+                jTable1 = createTabla(tableModel);
+                scrollPane.setViewportView(jTable1);
+                
+            
+            } catch (RemoteException e1) {
+                e1.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            }
+
+    }
+
+    private JTable crearTabla() {
+        DefaultTableModel tableModel = (new DefaultTableModel(
+                new Object[][] {
+                        {null, null, null, null, null},
+                        {null, null, null, null, null},
+                        {null, null, null, null, null},
+                        {null, null, null, null, null},
+                        {null, null, null, null, null},
+                        {null, null, null, null, null},
+                        {null, null, null, null, null},
+                        {null, null, null, null, null},
+                        {null, null, null, null, null},
+                        {null, null, null, null, null},
+                        {null, null, null, null, null},
+                },
+                new String[] {"Codigo","Descripción","Unidades", "Stock","Precio"}
+        ){
+            Class[] columnTypes = new Class[] {
+                    Integer.class, String.class, Integer.class, Integer.class, Float.class
+            };
+            public Class getColumnClass(int columnIndex) {
+                return columnTypes[columnIndex];
+            }
+        });
+        return createTabla(tableModel);
+    }
+
+    private JTable createTabla(DefaultTableModel tableModel) {
+        JTable table = new JTable();
+        table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        table.setCellSelectionEnabled(false);
+        table.setColumnSelectionAllowed(false);
+        table.setModel(tableModel);
+        table.setRowSelectionAllowed(true);
+
+        table.getColumnModel().getColumn(0).setResizable(false);
+        table.getColumnModel().getColumn(0).setPreferredWidth(75);
+        table.getColumnModel().getColumn(0).setMinWidth(75);
+        table.getColumnModel().getColumn(0).setMaxWidth(75);
+        table.getColumnModel().getColumn(1).setResizable(false);
+        table.getColumnModel().getColumn(1).setPreferredWidth(350);
+        table.getColumnModel().getColumn(1).setMinWidth(350);
+        table.getColumnModel().getColumn(1).setMaxWidth(350);
+        table.getColumnModel().getColumn(2).setPreferredWidth(150);
+        table.getColumnModel().getColumn(2).setMinWidth(150);
+        table.getColumnModel().getColumn(2).setMaxWidth(150);
+        table.getColumnModel().getColumn(3).setPreferredWidth(120);
+        table.getColumnModel().getColumn(3).setMinWidth(120);
+        table.getColumnModel().getColumn(3).setMaxWidth(120);
+        table.getColumnModel().getColumn(4).setPreferredWidth(120);
+        table.getColumnModel().getColumn(4).setMinWidth(120);
+        table.getColumnModel().getColumn(4).setMaxWidth(120);
+        table.setBounds(10, 260, 830, 75);
+        return table;
     }
     /**
      * This method is called from within the constructor to initialize the form.
@@ -67,10 +183,7 @@ public class PiezasReparacion extends JDialog {
         jButton3 = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
         jTextField1 = new javax.swing.JTextField();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
         jButton5 = new javax.swing.JButton();
-        jButton6 = new javax.swing.JButton();
         jButton7 = new javax.swing.JButton();
         jPanel4 = new javax.swing.JPanel();
         jLabel7 = new javax.swing.JLabel();
@@ -153,12 +266,12 @@ public class PiezasReparacion extends JDialog {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel6)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(40, 40, 40))
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(55, 55, 55))
         );
 
         getContentPane().add(jPanel3);
-        jPanel3.setBounds(10, 140, 830, 121);
+        jPanel3.setBounds(10, 130, 830, 110);
 
         jPanel2.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
@@ -185,45 +298,27 @@ public class PiezasReparacion extends JDialog {
             }
         });
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
-            }
-        ));
-        jScrollPane1.setViewportView(jTable1);
-
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 106, Short.MAX_VALUE)
-                        .addComponent(jButton4)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 269, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 106, Short.MAX_VALUE)
+                .addComponent(jButton4)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 269, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                     .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -235,7 +330,7 @@ public class PiezasReparacion extends JDialog {
         );
 
         getContentPane().add(jPanel2);
-        jPanel2.setBounds(10, 270, 830, 161);
+        jPanel2.setBounds(10, 381, 830, 50);
 
         jButton5.setText("Realizar Pedido");
         jButton5.addActionListener(new java.awt.event.ActionListener() {
@@ -245,15 +340,6 @@ public class PiezasReparacion extends JDialog {
         });
         getContentPane().add(jButton5);
         jButton5.setBounds(10, 440, 179, 23);
-
-        jButton6.setText("Asignar a Mecánico");
-        jButton6.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton6ActionPerformed(evt);
-            }
-        });
-        getContentPane().add(jButton6);
-        jButton6.setBounds(320, 440, 160, 23);
 
         jButton7.setText("Salir");
         jButton7.addActionListener(new java.awt.event.ActionListener() {
@@ -321,35 +407,37 @@ public class PiezasReparacion extends JDialog {
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-        // TODO add your handling code here:
+        ArrayList<Pieza> lPie = null;
+        try{
+            lPie = cliente.ConsultaDescripcion(jTextField1.getText().toString());
+            rellenaTabla(lPie);
+        } catch (ExceptionErrorDataBase ex) {
+            ex.printStackTrace();
+        } catch (RemoteException ex) {
+            ex.printStackTrace();
+        }
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
         // TODO add your handling code here:
+        jTable1.getSelectionModel().setSelectionInterval(0, 0);
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");  
+        Date date = new Date();  
+        try {
+            Pieza p2 = cliente.ConsultaCodigo(Integer.parseInt(jTable1.getValueAt(0, 0).toString()));
+//            StockPeca sp2 = cliente.consultaStockPiezabyCodigoPieza(Integer.parseInt(p2.getCodiPieza().toString()), uC.getTaller());
+            //Pedido ped = new Pedido(true,dateFormat.format(date),p2.getCodiPieza(),tall.getCapTaller(),p2.getIdProveedor(),);
+        } catch (ExceptionErrorDataBase ex) {
+            ex.printStackTrace();
+        } catch (RemoteException ex) {
+            ex.printStackTrace();
+        }
     }//GEN-LAST:event_jButton5ActionPerformed
 
     private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
         // TODO add your handling code here:
         setVisible(false);
     }//GEN-LAST:event_jButton7ActionPerformed
-
-    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
-        // TODO add your handling code here:
-        AsignacionAMecanico aam = null;
-        try {
-            aam = new AsignacionAMecanico(cliente, (Integer) jTable1.getValueAt(jTable1.getSelectedRow(), 0), (String) jTable1.getValueAt(jTable1.getSelectedRow(), 3), (String) jTable1.getValueAt(jTable1.getSelectedRow(), 4), (String) jTable1.getValueAt(jTable1.getSelectedRow(), 5));
-            aam.setVisible(true);
-            aam.setModal(true);
-        } catch (ExceptionErrorDataBase ex) {
-            ex.printStackTrace();
-        } catch (AppException ex) {
-            ex.printStackTrace();
-        } catch (RemoteException ex) {
-            ex.printStackTrace();
-        } catch (ExceptionTipoObjetoFiltroNoPermitido ex) {
-            ex.printStackTrace();
-        }
-    }//GEN-LAST:event_jButton6ActionPerformed
 
     private void jTextField6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField6ActionPerformed
         // TODO add your handling code here:
@@ -361,7 +449,6 @@ public class PiezasReparacion extends JDialog {
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
-    private javax.swing.JButton jButton6;
     private javax.swing.JButton jButton7;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
@@ -377,9 +464,7 @@ public class PiezasReparacion extends JDialog {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
-    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTable jTable1;
     private javax.swing.JTextArea jTextArea1;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField2;
