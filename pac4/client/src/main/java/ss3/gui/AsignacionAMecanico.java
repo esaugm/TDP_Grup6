@@ -491,16 +491,12 @@ public class AsignacionAMecanico extends JDialog {
             usu4.incrementarReparacionsAssignades();
             cliente.modificaUsuari(usu4);
             
-            
             DefaultTableModel modelo = (DefaultTableModel) jTable1.getModel();
             Object[] datos = {(Integer)jTable2.getValueAt(jTable2.getSelectedRow(), 0),jTable2.getValueAt(jTable2.getSelectedRow(), 1).toString(),jTable2.getValueAt(jTable2.getSelectedRow(), 2).toString()}; // Cantidad de columnas de la tabla
             modelo.addRow(datos);
-            System.out.print(modelo.getRowCount());
-            if(modelo.getRowCount()==5)
-                modelo.moveRow(4, 4, 0);
-            else if(modelo.getRowCount()==4)
-                modelo.moveRow(3, 3, 0);
-               
+            modelo.moveRow(jTable1.getRowCount()-1, jTable1.getRowCount()-1, 0);
+            
+            jButton4.setEnabled(true);
                       
         } catch (ExceptionErrorDataBase ex) {
             ex.printStackTrace();
@@ -523,15 +519,25 @@ public class AsignacionAMecanico extends JDialog {
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         try {
             // TODO add your handling code here:
-            int idUsu = (Integer)jTable1.getValueAt(0, 0);
-            cliente.desasignaMec(Integer.parseInt(jTextField7.getText()),idUsu);
-            DefaultTableModel model = (DefaultTableModel)jTable1.getModel();
-            model.removeRow(jTable1.getSelectedRow());
+            if(!jTable1.getValueAt(jTable1.getSelectedRow(), 0).toString().isEmpty()){
+                int idUsu = (Integer)jTable1.getValueAt(0, 0);
+                cliente.desasignaMec(Integer.parseInt(jTextField7.getText()),idUsu);
+                DefaultTableModel model = (DefaultTableModel)jTable1.getModel();
+                model.removeRow(jTable1.getSelectedRow());
+                Object[] datos = {"","",""};
+                model.addRow(datos);
+                
+                Usuari usu3 = null;
+                usu3 = cliente.buscarUsuariPorId(idUsu);
+                usu3.decrementaReparacionsAssignades();
+                cliente.modificaUsuari(usu3);
+                jButton4.setEnabled(false);
+            }else{
+                Avisos av = new Avisos("Esta fila está vacía. No hay nada que eliminar.");
+                av.setVisible(true);
+                av.setModal(true);
+            }
             
-            Usuari usu3 = null;
-            usu3 = cliente.buscarUsuariPorId(idUsu);
-            usu3.decrementaReparacionsAssignades();
-            cliente.modificaUsuari(usu3);
             
             
         } catch (ExceptionErrorDataBase ex) {

@@ -527,6 +527,7 @@ public class Reparaciones extends JPanel {
         PiezasReparacion pr = new PiezasReparacion(cliente, (Integer) jTable1.getValueAt(jTable1.getSelectedRow(), 0), (String) jTable1.getValueAt(jTable1.getSelectedRow(), 3), (String) jTable1.getValueAt(jTable1.getSelectedRow(), 4), (String) jTable1.getValueAt(jTable1.getSelectedRow(), 5));
         pr.setVisible(true);
         pr.setModal(true);
+        jButton8ActionPerformed(evt);
     }//GEN-LAST:event_jButton10ActionPerformed
 
     private void jButton11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton11ActionPerformed
@@ -575,7 +576,7 @@ public class Reparaciones extends JPanel {
             av.setVisible(true);
             av.setModal(true);
         }
-        
+        jButton8ActionPerformed(evt);
     }//GEN-LAST:event_jButton11ActionPerformed
 
     private void jButton12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton12ActionPerformed

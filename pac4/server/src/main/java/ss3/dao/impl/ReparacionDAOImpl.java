@@ -622,7 +622,7 @@ public class ReparacionDAOImpl extends GenericDaoImpl implements ReparacionDAO {
                     " FROM reparacio  " +
                     " JOIN solicitud ON reparacio.ordrereparacio = solicitud.numreparacio" +
                     " JOIN client   ON solicitud.client = client.nif " +
-                    " JOIN usuari ON reparacio.idmecanic = usuari.id" +
+                    //" JOIN usuari ON reparacio.idmecanic = usuari.id" +
                     " JOIN vehicle ON reparacio.ordrereparacio = vehicle.numreparacio";
 
             if (values.size() > 0) {
