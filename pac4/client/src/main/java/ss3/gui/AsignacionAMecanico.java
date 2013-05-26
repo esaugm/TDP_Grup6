@@ -9,11 +9,14 @@ import common.rmi.Client;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import ss1.dao.exception.ExceptionErrorDataBase;
 import ss1.dao.exception.ExceptionTipoObjetoFiltroNoPermitido;
 import ss1.entity.Usuari;
+import ss1.entity.exception.ExceptionNoReparacionesAsignadas;
 import ss1.service.filter.FilterItems;
 import ss2.entity.Solicitud;
 import ss2.entity.StockPeca;
@@ -102,7 +105,6 @@ public class AsignacionAMecanico extends JDialog {
                 Usuari usu2 = null;
                 while(it.hasNext()){
                     usu2 = (Usuari) it.next();
-                    System.out.println("usuario: "+usu2+" id: "+usu2.getId()+ " nombre: "+usu2.getNom()+" apellidos: "+usu2.getCognoms()+" rep. asig: "+usu2.getReparacionsAssignades());
                     if (repa.getIdOrden() > 0){
                         if(j==rowCount2-1)
                             tableModel2.addRow(new Object[]{});
@@ -421,8 +423,24 @@ public class AsignacionAMecanico extends JDialog {
     }//GEN-LAST:event_jTextField7ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-        // TODO add your handling code here:
-        jTable1.getValueAt(0, 0);
+        try {
+            // TODO add your handling code here:
+            cliente.desasignaMec(Integer.parseInt(jTextField7.getText()),(Integer)jTable1.getValueAt(0, 0));
+            DefaultTableModel model = (DefaultTableModel)jTable1.getModel();
+            model.removeRow(jTable1.getSelectedRow());
+            
+            Usuari usu3 = null;
+            usu3 = cliente.buscarUsuariPorId((Integer) jTable1.getValueAt(jTable1.getSelectedRow(), 0));
+            usu3.decrementaReparacionsAssignades();
+            cliente.modificaUsuari(usu3);
+        } catch (ExceptionErrorDataBase ex) {
+            ex.printStackTrace();
+        } catch (RemoteException ex) {
+            ex.printStackTrace();
+        } catch (ExceptionNoReparacionesAsignadas ex) {
+            ex.printStackTrace();
+        }
+        
     }//GEN-LAST:event_jButton4ActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
