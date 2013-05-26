@@ -188,6 +188,9 @@ public class Client {
         return remoteSS2;
     }
 
+    public SS3Reparaciones get_remoteSS3() {
+        return remoteSS3;
+    }
 
     public Pieza ConsultaPiezaPorOrden(Integer orden) throws ExceptionErrorDataBase, RemoteException{
         return remoteSS3.ConsultaPorOrden(orden);

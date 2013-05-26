@@ -39,72 +39,72 @@ public class SS3ReparacionesImpl extends UnicastRemoteObject implements SS3Repar
     public Reparacion ConsultaOrden(Integer OrdenID) throws ExceptionErrorDataBase{
         return reparacionService.ConsultaOrden(OrdenID);
     }
-    
+
     @Override
     public ArrayList<Reparacion> ConsultaTodas() throws ExceptionErrorDataBase{
         return reparacionService.ConsultaTodas();
     }
-    
+
     @Override
     public ArrayList<Reparacion> ConsultaFechaAsig(String fechaAsig) throws ExceptionErrorDataBase{
         return reparacionService.ConsultaFechaAsig(fechaAsig);
     }
-    
+
     @Override
     public ArrayList<Reparacion> ConsultaFechaIni(String fechaIni) throws ExceptionErrorDataBase{
         return reparacionService.ConsultaFechaIni(fechaIni);
     }
-    
+
     @Override
     public ArrayList<Reparacion> ConsultaFechaFin(String fechaFin) throws ExceptionErrorDataBase{
         return reparacionService.ConsultaFechaFin(fechaFin);
     }
-    
+
     @Override
     public ArrayList<Reparacion> ConsultaAceptadas(Boolean aceptada) throws ExceptionErrorDataBase{
         return reparacionService.ConsultaAceptadas(aceptada);
     }
-    
+
     @Override
     public ArrayList<Reparacion> ConsultaAsignadas(Boolean asignada) throws ExceptionErrorDataBase{
         return reparacionService.ConsultaAsignadas(asignada);
     }
-    
+
     @Override
     public ArrayList<Reparacion> ConsultaAsigMecanico(Integer idMecanico) throws ExceptionErrorDataBase{
         return reparacionService.ConsultaAsigMecanico(idMecanico);
     }
-    
+
     @Override
     public Boolean anotaObs(Integer orden, String observaciones) throws ExceptionErrorDataBase{
         return reparacionService.anotaObs(orden,observaciones);
     }
-    
+
     @Override
     public Boolean asignaAMec(Integer orden, Integer idMecanico) throws ExceptionErrorDataBase{
         return reparacionService.asignaAMec(orden,idMecanico);
     }
-    
+
     @Override
     public Boolean desasignaMec(Integer orden, Integer idMecanico) throws ExceptionErrorDataBase{
         return reparacionService.desasignaMec(orden,idMecanico);
     }
-    
+
     @Override
     public Pieza ConsultaCodigo(Integer codigo) throws ExceptionErrorDataBase{
         return piezaService.ConsultaCodigo(codigo);
     }
-    
+
     @Override
     public Pieza ConsultaPorOrden(Integer orden) throws ExceptionErrorDataBase, RemoteException{
         return piezaService.ConsultaPorOrden(orden);
     }
-    
+
     @Override
     public ArrayList<Pieza> ConsultaPiezas() throws ExceptionErrorDataBase{
         return piezaService.ConsultaPiezas();
     }
-    
+
     @Override
     public ArrayList<Pieza> ConsultaDescripcion(String descripcion) throws ExceptionErrorDataBase{
         return piezaService.ConsultaDescripcion(descripcion);
@@ -113,35 +113,40 @@ public class SS3ReparacionesImpl extends UnicastRemoteObject implements SS3Repar
     public Vehiculo ConsultaChasis(String numChasis) throws ExceptionErrorDataBase{
         return vehiculoService.ConsultaChasis(numChasis);
     }
-    
+
     @Override
     public ArrayList<Vehiculo> ConsultaMarca(String marca) throws ExceptionErrorDataBase{
         return vehiculoService.ConsultaMarca(marca);
     }
-    
+
+
+    @Override
+    public ArrayList<Vehiculo> ConsultaMatriculas(String matricula) throws ExceptionErrorDataBase{
+        return vehiculoService.ConsultaMatriculas(matricula);
+    }
+
     @Override
     public Vehiculo ConsultaMatricula(String matricula) throws ExceptionErrorDataBase{
         return vehiculoService.ConsultaMatricula(matricula);
     }
-    
     @Override
     public ArrayList<Vehiculo> ConsultaModelo(String modelo) throws ExceptionErrorDataBase{
         return vehiculoService.ConsultaModelo(modelo);
     }
-    
+
     @Override
     public Vehiculo ConsultaReparacion(Integer orden) throws ExceptionErrorDataBase{
         return vehiculoService.ConsultaReparacion(orden);
     }
-     
+
     public Boolean creaReparacion(Reparacion rep) throws ExceptionErrorDataBase, AppException{
         return reparacionService.creaReparacion(rep);
     }
-    
+
     public ArrayList<Reparacion> findReparacionesByTerms(Map values) throws ExceptionErrorDataBase{
         return reparacionService.findReparacionesByTerms(values);
     }
-    
+
     public Boolean aceptaReparacion(Integer orden) throws ExceptionErrorDataBase{
         return reparacionService.aceptaReparacion(orden);
     }

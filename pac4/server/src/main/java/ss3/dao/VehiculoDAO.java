@@ -18,5 +18,7 @@ public interface VehiculoDAO extends GenericDao{
     public Vehiculo findByMatricula(String pMatricula) throws ExceptionErrorDataBase;
     public ArrayList<Vehiculo> findByModelo(String pModelo) throws ExceptionErrorDataBase;
     public Vehiculo findByOrden(Integer pOrden) throws ExceptionErrorDataBase;
+    public ArrayList<Vehiculo> findByANY(String freetext) throws ExceptionErrorDataBase;
+
 
 }

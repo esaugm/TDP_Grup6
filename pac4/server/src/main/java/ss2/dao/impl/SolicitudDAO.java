@@ -80,7 +80,7 @@ public class SolicitudDAO extends GenericDaoImpl implements ISolicitudDAO {
 
     @Override
     public ArrayList<Solicitud> getSolicitud() throws AppException {
-        String SQL = "SELECT * from solicitud";
+        String SQL = "SELECT * from solicitud where finalitzada='f'";
         ArrayList<Solicitud> listasolicitud = new ArrayList<Solicitud>();
 
         try {
@@ -152,7 +152,7 @@ public class SolicitudDAO extends GenericDaoImpl implements ISolicitudDAO {
 
         return solicitud;
     }
-    
+
     @Override
     public Solicitud getSolicitudbyNumReparacion(Integer orden) throws AppException {
         String SQL = "SELECT * from solicitud where numreparacio = ?";
@@ -236,7 +236,7 @@ public class SolicitudDAO extends GenericDaoImpl implements ISolicitudDAO {
         Boolean wasconnected = false;
         String SQL = "INSERT INTO solicitud "
             + "(comentaris,client,numreparacio,"
-            + "asseguradora,numpoliza,idtaller) VALUES (?,?,?,?,?,?)";
+            + "asseguradora,numpoliza,idtaller) VALUES (?,?,-1,?,?,?)";
 
         try {
             connection = getConnection();
@@ -244,10 +244,10 @@ public class SolicitudDAO extends GenericDaoImpl implements ISolicitudDAO {
             ptmt = connection.prepareStatement(SQL);
             ptmt.setString(1, solicitud.getComentaris());
             ptmt.setString(2, solicitud.getClient());
-            ptmt.setInt(3, solicitud.getNumReparacio());
-            ptmt.setInt(4, solicitud.getAsseguradora());
-            ptmt.setString(5, solicitud.getNumPoliza());
-            ptmt.setInt(6, solicitud.getIdtaller());
+            //ptmt.setInt(3, solicitud.getNumReparacio());
+            ptmt.setInt(3, solicitud.getAsseguradora());
+            ptmt.setString(4, solicitud.getNumPoliza());
+            ptmt.setInt(5, solicitud.getIdtaller());
 
             if (ptmt.executeUpdate() > 0) {
                 succeded = true;

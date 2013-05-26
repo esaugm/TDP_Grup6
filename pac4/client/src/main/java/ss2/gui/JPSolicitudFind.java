@@ -11,33 +11,31 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableModel;
-import ss2.entity.Client;
-import ss2.helpers.ClientTableModel;
+import ss2.entity.Solicitud;
+import ss2.helpers.SolicitudTableModel;
 import ss2.server.ISS2GestionAdministrativa;
 
 /**
  *
  * @author josi
  */
-public class JPClienteFind extends javax.swing.JPanel {
+public class JPSolicitudFind extends javax.swing.JPanel {
 	private ISS2GestionAdministrativa clienteRMISS2;
-
 	private common.rmi.Client rmiclient;
-	private ClientTableModel ctm;
-	private ArrayList<Client> alc;
-	private DefaultTableCellRenderer renderer = new DefaultTableCellRenderer();
+	private SolicitudTableModel stm;
+	private ArrayList<Solicitud> als;
 	private JPanel pp;
 	/**
-	 * Creates new form JPClienteFind
+	 * Creates new form JPSolicitudFind
 	 */
-	public JPClienteFind(common.rmi.Client cliente) {
+	public JPSolicitudFind(common.rmi.Client cliente) {
 	   rmiclient = cliente;
 	   initComponents();
 	   l_busqueda.setText(TDSLanguageUtils.getMessage("client.SS2.busqueda"));
 	   c_busqueda.setText("");
 	   b_OK.setText(TDSLanguageUtils.getMessage("client.SS2.btnOK"));
-	   b_Aux.setText(TDSLanguageUtils.getMessage("client.SS2.btnNew"));
-	   l_hint.setText(TDSLanguageUtils.getMessage("client.SS2.Client.ENTER.hint"));
+	   b_Aux.setText(TDSLanguageUtils.getMessage("client.SS2.btnNew_a"));
+	   l_hint.setText(TDSLanguageUtils.getMessage("client.SS2.Solicitud.ENTER.hint"));
 	   try {
 	      clienteRMISS2 = rmiclient.get_remoteSS2();
            } catch (Exception ex) {
@@ -47,38 +45,39 @@ public class JPClienteFind extends javax.swing.JPanel {
 		   JOptionPane.ERROR_MESSAGE);
 	   }
 
-	   ClientRefresh();
+	   SolicitudRefresh();
 
 	}
 
-	public void modifyClient() {
-	   Client selectedCliente, newSelectedCliente;
-	   Integer selectedRow = JTListaClientes.getSelectedRow();
-	   //JOptionPane.showMessageDialog(null,"Row Clicked: "+selectedRow+
-		//	alc.get(selectedRow).toString());
+	public void modifySolicitud() {
+	   Solicitud selectedSolicitud, newSelectedSolicitud;
+	   Integer selectedRow = JTListaSolicitud.getSelectedRow();
 
-	   Integer ID = Integer.parseInt(JTListaClientes.getValueAt(selectedRow, 6).toString());
+	   System.out.println(JTListaSolicitud.getValueAt(selectedRow, 0));
+	   Integer ID = Integer.parseInt(JTListaSolicitud.getValueAt(selectedRow, 0).toString());
 
-	   selectedCliente=ctm.getClientbyID(ID);
-	   DlgClienteModifica modificaClientefrm = new DlgClienteModifica(null,true);
-	   modificaClientefrm.SetDialogData(selectedCliente);
-	   if (modificaClientefrm.showDialog()==1) {
-	      newSelectedCliente = modificaClientefrm.GetDialogData();
-	      newSelectedCliente.setNumClient(selectedCliente.getNumClient());
-	      System.out.println("OK: "+ newSelectedCliente);
+	   selectedSolicitud=stm.getSolicitudbyID(ID);
+	   DlgSolicitudModifica modificaSolicitudfrm = new DlgSolicitudModifica(null,true);
+	   modificaSolicitudfrm.SetDialogData(selectedSolicitud);
+	   modificaSolicitudfrm.setClient(rmiclient);
+
+	   if (modificaSolicitudfrm.showDialog()==1) {
+	      newSelectedSolicitud = modificaSolicitudfrm.GetDialogData();
+	      newSelectedSolicitud.setNumSol(selectedSolicitud.getNumSol());
+	      System.out.println("OK: "+ newSelectedSolicitud);
 
 	      // TODO Aqui Guardamos!!!
 	      try {
-	         if (!clienteRMISS2.modificaCliente(newSelectedCliente)) {
+	         if (!clienteRMISS2.altaSolicitud(newSelectedSolicitud)) {
 		   JOptionPane.showMessageDialog(null,
-		   //"Cliente no guardado",
-		   TDSLanguageUtils.getMessage("client.SS2.Client.ErrorNotSaved"),
+		   //"Solicitud no guardado",
+		   TDSLanguageUtils.getMessage("client.SS2.Solicitud.ErrorNotSaved"),
 		   "Error",
 		   JOptionPane.WARNING_MESSAGE);
 		 } else {
 		   JOptionPane.showMessageDialog(null,
-		   //"Cliente guardado",
-		   TDSLanguageUtils.getMessage("client.SS2.Client.ErrorSaved"),
+		   //"Solicitud guardado",
+		   TDSLanguageUtils.getMessage("client.SS2.Solicitud.ErrorSaved"),
 		   "OK",
 		   JOptionPane.INFORMATION_MESSAGE);
 		 }
@@ -93,43 +92,43 @@ public class JPClienteFind extends javax.swing.JPanel {
 
 
 	   } else {
-	      System.out.println("Cancel: "+modificaClientefrm.GetDialogData());
+	      System.out.println("Cancel: "+modificaSolicitudfrm.GetDialogData());
 
 	   }
-           modificaClientefrm.dispose();
-	   ClientRefresh();
+           modificaSolicitudfrm.dispose();
+	   SolicitudRefresh();
 	}
 
-	public void newClient() {
-	   Client  newCliente;
-	   ArrayList<Client> alnif;
+	public void newSolicitud() {
+	   Solicitud  newSolicitud;
+	   ArrayList<Solicitud> alnif;
 
-	   DlgClienteNuevo newClientefrm = new DlgClienteNuevo(null,true);
+/*	   DlgSolicitudNuevo newSolicitudfrm = new DlgSolicitudNuevo(null,true);
 
-	   if (newClientefrm.showDialog()==1) {
-              ClientRefresh();
-	      newCliente = newClientefrm.GetDialogData();
-	      System.out.println("OK: "+ newCliente);
+	   if (newSolicitudfrm.showDialog()==1) {
+              SolicitudRefresh();
+	      newSolicitud = newSolicitudfrm.GetDialogData();
+	      System.out.println("OK: "+ newSolicitud);
 
 	      // TODO Aqui Guardamos!!!
 	      try {
-		 alnif = clienteRMISS2.buscaClientebyNIF(newCliente.getNif());
+		 alnif = clienteRMISS2.buscaSolicitudbyNIF(newSolicitud.getNif());
 		 if ( !alnif.isEmpty() ) {
 			JOptionPane.showMessageDialog(null,
-			//"Cliente duplicado",
-			TDSLanguageUtils.getMessage("client.SS2.Client.ErrorDup"),
+			//"Solicitud duplicado",
+			TDSLanguageUtils.getMessage("client.SS2.Solicitud.ErrorDup"),
 			"Error",
 			JOptionPane.INFORMATION_MESSAGE);
-		 } else if (clienteRMISS2.altaCliente(newCliente)) {
+		 } else if (clienteRMISS2.altaSolicitud(newSolicitud)) {
 			JOptionPane.showMessageDialog(null,
-			//"Cliente guardado",
-			TDSLanguageUtils.getMessage("client.SS2.Client.ErrorSaved"),
+			//"Solicitud guardado",
+			TDSLanguageUtils.getMessage("client.SS2.Solicitud.ErrorSaved"),
 			"OK",
 			JOptionPane.INFORMATION_MESSAGE);
 		      } else {
 			JOptionPane.showMessageDialog(null,
-			//"Cliente no guardado",
-			TDSLanguageUtils.getMessage("client.SS2.Client.ErrorNotSaved"),
+			//"Solicitud no guardado",
+			TDSLanguageUtils.getMessage("client.SS2.Solicitud.ErrorNotSaved"),
 			"Error",
 			JOptionPane.WARNING_MESSAGE);
 		      }
@@ -144,28 +143,31 @@ public class JPClienteFind extends javax.swing.JPanel {
 
 
 	   } else {
-	      System.out.println("Cancel: "+newClientefrm.GetDialogData());
+	      System.out.println("Cancel: "+newSolicitudfrm.GetDialogData());
 
 	   }
-           newClientefrm.dispose();
-	   ClientRefresh();
+           newSolicitudfrm.dispose();
+	   SolicitudRefresh();
+
+*/
 	}
 
-	private void ClientRefresh() {
+	private void SolicitudRefresh() {
+
 	   try {
-	      //alc = clienteRMISS2.listaClientes();
-	      //alc = clienteRMISS2.buscaCliente("arce");
-	      alc = clienteRMISS2.buscaCliente( c_busqueda.getText() );
+	      //alc = clienteRMISS2.listaSolicituds();
+	      //alc = clienteRMISS2.buscaSolicitud("arce");
+	      als = clienteRMISS2.buscaSolicitudbyANY(c_busqueda.getText());
 	   } catch (Exception ex) {
 		JOptionPane.showMessageDialog(null,
 		   ex.getLocalizedMessage(),
 		   "Excepcion ",
 		   JOptionPane.ERROR_MESSAGE);
 	   }
-	   ctm = new ClientTableModel();
-	   TableModel tmc = ctm.Client2TableModel(alc);
-	   JTListaClientes.setModel(tmc);
-	   JTListaClientes.getTableHeader().setReorderingAllowed(false);
+	   stm = new SolicitudTableModel();
+	   TableModel tms = stm.Solicitud2TableModel(als);
+	   JTListaSolicitud.setModel(tms);
+	   JTListaSolicitud.getTableHeader().setReorderingAllowed(false);
 
 	}
 
@@ -183,7 +185,7 @@ public class JPClienteFind extends javax.swing.JPanel {
                 c_busqueda = new javax.swing.JTextField();
                 l_hint = new javax.swing.JLabel();
                 jScrollPane1 = new javax.swing.JScrollPane();
-                JTListaClientes = new javax.swing.JTable();
+                JTListaSolicitud = new javax.swing.JTable();
                 b_OK = new javax.swing.JButton();
                 b_Aux = new javax.swing.JButton();
                 p_msg = new java.awt.Panel();
@@ -202,7 +204,7 @@ public class JPClienteFind extends javax.swing.JPanel {
                 l_hint.setFont(l_hint.getFont().deriveFont((l_hint.getFont().getStyle() | java.awt.Font.ITALIC) & ~java.awt.Font.BOLD, l_hint.getFont().getSize()-1));
                 l_hint.setText("l_hint");
 
-                JTListaClientes.setModel(new javax.swing.table.DefaultTableModel(
+                JTListaSolicitud.setModel(new javax.swing.table.DefaultTableModel(
                         new Object [][] {
 
                         },
@@ -210,12 +212,12 @@ public class JPClienteFind extends javax.swing.JPanel {
 
                         }
                 ));
-                JTListaClientes.addMouseListener(new java.awt.event.MouseAdapter() {
+                JTListaSolicitud.addMouseListener(new java.awt.event.MouseAdapter() {
                         public void mouseClicked(java.awt.event.MouseEvent evt) {
-                                JTListaClientesMouseClicked(evt);
+                                JTListaSolicitudMouseClicked(evt);
                         }
                 });
-                jScrollPane1.setViewportView(JTListaClientes);
+                jScrollPane1.setViewportView(JTListaSolicitud);
 
                 b_OK.setText("jOK");
                 b_OK.addActionListener(new java.awt.event.ActionListener() {
@@ -296,26 +298,26 @@ public class JPClienteFind extends javax.swing.JPanel {
 		setVisible(false);
         }//GEN-LAST:event_b_OKActionPerformed
 
-        private void JTListaClientesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_JTListaClientesMouseClicked
+        private void JTListaSolicitudMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_JTListaSolicitudMouseClicked
 	  if (evt.getClickCount() == 2) {
-            modifyClient();
+            modifySolicitud();
            }
-        }//GEN-LAST:event_JTListaClientesMouseClicked
+        }//GEN-LAST:event_JTListaSolicitudMouseClicked
 
         private void c_busquedaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_c_busquedaKeyPressed
 	   int key = evt.getKeyCode();
 	   if (key == KeyEvent.VK_ENTER) {
-              ClientRefresh();
+              SolicitudRefresh();
 	   }
 
         }//GEN-LAST:event_c_busquedaKeyPressed
 
         private void b_AuxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_b_AuxActionPerformed
-           newClient();
+           newSolicitud();
         }//GEN-LAST:event_b_AuxActionPerformed
 
         // Variables declaration - do not modify//GEN-BEGIN:variables
-        javax.swing.JTable JTListaClientes;
+        javax.swing.JTable JTListaSolicitud;
         javax.swing.JButton b_Aux;
         javax.swing.JButton b_OK;
         javax.swing.JTextField c_busqueda;

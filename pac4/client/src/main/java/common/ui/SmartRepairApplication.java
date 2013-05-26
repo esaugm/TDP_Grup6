@@ -481,7 +481,7 @@ public class SmartRepairApplication extends JFrame {
 
     private void openSolicitud(java.awt.event.ActionEvent evt) throws ParseException {
         removePanelFromMain();
-        _P_gaSolicitudes  = new JPSolicitud();
+        _P_gaSolicitudes  = new JPSolicitudFind(client);
         _mainPanel.add(_P_gaSolicitudes, BorderLayout.CENTER);
 
         _mainPanel.validate();

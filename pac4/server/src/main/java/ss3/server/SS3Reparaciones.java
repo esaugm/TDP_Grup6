@@ -45,6 +45,7 @@ public interface SS3Reparaciones extends Remote {
     public Vehiculo ConsultaChasis(String numChasis) throws ExceptionErrorDataBase, RemoteException;
     public ArrayList<Vehiculo> ConsultaMarca(String marca) throws ExceptionErrorDataBase, RemoteException;
     public Vehiculo ConsultaMatricula(String matricula) throws ExceptionErrorDataBase, RemoteException;
+    public ArrayList<Vehiculo> ConsultaMatriculas(String matricula) throws ExceptionErrorDataBase, RemoteException;
     public ArrayList<Vehiculo> ConsultaModelo(String modelo) throws ExceptionErrorDataBase, RemoteException;
     public Vehiculo ConsultaReparacion(Integer orden) throws ExceptionErrorDataBase, RemoteException;
     public Boolean creaReparacion(Reparacion rep) throws ExceptionErrorDataBase, AppException, RemoteException;

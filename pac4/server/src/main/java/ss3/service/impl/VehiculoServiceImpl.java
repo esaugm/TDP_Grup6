@@ -16,9 +16,9 @@ import ss3.service.VehiculoService;
  * @author Fernando
  */
 public class VehiculoServiceImpl implements VehiculoService {
-    
+
     private VehiculoDAO reparacion;
-    
+
     /**
      *
      * @param OrdenID
@@ -28,23 +28,28 @@ public class VehiculoServiceImpl implements VehiculoService {
     public VehiculoServiceImpl(){
         this.reparacion = new VehiculoDAOImpl();
     }
-    
+
     public Vehiculo ConsultaChasis(String numChasis) throws ExceptionErrorDataBase{
         return reparacion.findByChasis(numChasis);
     }
-    
+
     public ArrayList<Vehiculo> ConsultaMarca(String marca) throws ExceptionErrorDataBase{
         return reparacion.findByMarca(marca);
     }
-    
+
+
     public Vehiculo ConsultaMatricula(String matricula) throws ExceptionErrorDataBase{
         return reparacion.findByMatricula(matricula);
     }
-    
+
+    public ArrayList<Vehiculo> ConsultaMatriculas(String matricula) throws ExceptionErrorDataBase{
+        return reparacion.findByANY(matricula);
+    }
+
     public ArrayList<Vehiculo> ConsultaModelo(String modelo) throws ExceptionErrorDataBase{
         return reparacion.findByModelo(modelo);
     }
-    
+
     public Vehiculo ConsultaReparacion(Integer orden) throws ExceptionErrorDataBase{
         return reparacion.findByOrden(orden);
     }

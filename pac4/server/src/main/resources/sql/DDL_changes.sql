@@ -1,4 +1,4 @@
---
+﻿--
 -- ***************************************
 -- * SQL mods
 -- ***************************************
@@ -45,6 +45,8 @@ CREATE TRIGGER update_dataalta
 BEFORE INSERT ON client
 FOR EACH ROW EXECUTE PROCEDURE update_dataalta();
 
+
+alter table vehicle drop constraint fk_numreparacio;
 
 -- ****************
 -- Modificacion tabla solicitud::

@@ -23,7 +23,7 @@ public class VehiculoDAOImpl extends GenericDaoImpl implements VehiculoDAO {
 
     public VehiculoDAOImpl(){
     }
-    
+
     @Override
     public Vehiculo findByChasis(String pChasis) throws ExceptionErrorDataBase {
         Connection conn=null;
@@ -63,18 +63,18 @@ public class VehiculoDAOImpl extends GenericDaoImpl implements VehiculoDAO {
         }
         return toReturn;
     }
-    
+
      public ArrayList<Vehiculo> findByMarca(String pMarca) throws ExceptionErrorDataBase {
         Connection conn=null;
         PreparedStatement ps = null;
         ResultSet rs = null;
-        
+
         ArrayList<Vehiculo> listaVehiculos = new ArrayList<Vehiculo>();
         try{
             conn = getConnection();
             ps = conn.prepareStatement("select * from vehicle where marca = ?");
             ps.setString(1,pMarca);
-            
+
             rs = ps.executeQuery();
 
             while (rs.next()){
@@ -104,7 +104,50 @@ public class VehiculoDAOImpl extends GenericDaoImpl implements VehiculoDAO {
         }
         return listaVehiculos;
     }
-     
+
+     public ArrayList<Vehiculo> findByANY(String freetext) throws ExceptionErrorDataBase {
+        Connection conn=null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+
+        ArrayList<Vehiculo> listaVehiculos = new ArrayList<Vehiculo>();
+        try{
+            conn = getConnection();
+	    // String SQL = "SELECT * from client where (client.*)::text ilike ?";
+            ps = conn.prepareStatement("select * from vehicle where (vehicle.*)::text ilike ?");
+            //ps.setString(1,pMarca);
+	    ps.setString(1, '%' + freetext + '%');
+
+            rs = ps.executeQuery();
+
+            while (rs.next()){
+                Vehiculo toReturn = new Vehiculo(
+                    rs.getString("marca"),
+                    rs.getString("tipus"),
+                    rs.getString("num_chasis"),
+                    rs.getString("model"),
+                    rs.getString("matricula"),
+                    rs.getString("color"),
+                    rs.getDate("anyo"),
+                    rs.getInt("numreparacio"));
+                listaVehiculos.add(toReturn);
+            }
+
+        } catch (ClassNotFoundException e) {
+            //todo FERNANDO: log exception
+            throw new ExceptionErrorDataBase("Error conectando a BD", e);
+        } catch (SQLException e) {
+            //todo FERNANDO: log exception
+            throw new ExceptionErrorDataBase("Error de sql", e);
+        } catch (IOException e) {
+            //todo FERNANDO: log exception
+            throw new ExceptionErrorDataBase("Error conectando a BD", e);
+        } finally {
+            ConnectionFactory.freeResources(conn, ps, rs);
+        }
+        return listaVehiculos;
+    }
+
      public Vehiculo findByMatricula(String pMatricula) throws ExceptionErrorDataBase {
          Connection conn=null;
         PreparedStatement ps = null;
@@ -143,17 +186,17 @@ public class VehiculoDAOImpl extends GenericDaoImpl implements VehiculoDAO {
         }
         return toReturn;
     }
-     
+
      public ArrayList<Vehiculo> findByModelo(String pModelo) throws ExceptionErrorDataBase {
         Connection conn=null;
         PreparedStatement ps = null;
         ResultSet rs = null;
-        
+
         ArrayList<Vehiculo> listaVehiculos = new ArrayList<Vehiculo>();
         try{
             conn = getConnection();
             ps = conn.prepareStatement("select * from vehicle where model = ?");
-            
+
             ps.setString(1,pModelo);
 
             rs = ps.executeQuery();
@@ -185,7 +228,7 @@ public class VehiculoDAOImpl extends GenericDaoImpl implements VehiculoDAO {
         }
         return listaVehiculos;
     }
-     
+
     public Vehiculo findByOrden(Integer pOrden) throws ExceptionErrorDataBase {
          Connection conn=null;
         PreparedStatement ps = null;
@@ -224,5 +267,5 @@ public class VehiculoDAOImpl extends GenericDaoImpl implements VehiculoDAO {
         }
         return toReturn;
     }
-     
+
 }
