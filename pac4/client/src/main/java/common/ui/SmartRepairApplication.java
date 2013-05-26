@@ -413,8 +413,8 @@ public class SmartRepairApplication extends JFrame {
     }
 
     private void paintEstadisticasMenu() {
-        _estadisticasMenu = new JMenu("Estadisticas");
-        _estaReparaciones = new JMenuItem("Estadisticas Reparaciones");
+        _estadisticasMenu = new JMenu(TDSLanguageUtils.getMessage("client.ss4.menu.estadisticas"));
+        _estaReparaciones = new JMenuItem(TDSLanguageUtils.getMessage("client.ss4.menu.items.reparaciones"));
         _estaReparaciones.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 try {
@@ -424,7 +424,7 @@ public class SmartRepairApplication extends JFrame {
                 }
             }
         });
-        _estaReparacionesClientes = new JMenuItem("Estadisticas Clientes");
+        _estaReparacionesClientes = new JMenuItem(TDSLanguageUtils.getMessage("client.ss4.menu.items.clientes"));
         _estaReparacionesClientes.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 try {
@@ -434,7 +434,7 @@ public class SmartRepairApplication extends JFrame {
                 }
             }
         });
-        _estaReparacionesEmpleados = new JMenuItem("Estadisticas Empleados");
+        _estaReparacionesEmpleados = new JMenuItem(TDSLanguageUtils.getMessage("client.ss4.menu.items.empleados"));
         _estaReparacionesEmpleados.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 try {
