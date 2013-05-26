@@ -152,6 +152,10 @@ public class SmartRepairApplication extends JFrame {
             paintMantenimentMenu();
         }
 
+	if (usuariConectat.isAdministratiu()) {
+	    SS2GestionAdministrativaMenu();
+	}
+
         painReparacionsMenu();
 
         paintEstadisticasMenu();
@@ -345,7 +349,7 @@ public class SmartRepairApplication extends JFrame {
         _mainPanel.add(ra, BorderLayout.CENTER);
         _mainPanel.validate();
     }
-    
+
     private void openStock(ActionEvent evt) throws ExceptionErrorDataBase, RemoteException {
         removePanelFromMain();
         StockPiezas sp = new StockPiezas(client,usuariConectat);
