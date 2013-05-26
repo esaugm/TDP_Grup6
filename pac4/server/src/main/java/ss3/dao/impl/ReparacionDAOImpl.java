@@ -78,7 +78,6 @@ public class ReparacionDAOImpl extends GenericDaoImpl implements ReparacionDAO {
             conn = getConnection();
             ps = conn.prepareStatement("select * from reparacio where ordrereparacio = ?");
             ps.setLong(1,pOrdenReparacion);
-            System.out.println(ps);
             rs = ps.executeQuery();
 
             if (rs.next()){
@@ -547,6 +546,36 @@ public class ReparacionDAOImpl extends GenericDaoImpl implements ReparacionDAO {
         return succeded;
       }
       
+      public Boolean desasignaMecanico(Integer orden, Integer idMecanico) throws ExceptionErrorDataBase{
+           
+        Boolean succeded = false;
+        Boolean wasconnected = false;
+
+        String SQL = "UPDATE reparacio SET idmecanic = ? WHERE ordrereparacio = ? and idmecanic = ?";
+
+        try {
+            connection = getConnection();
+            wasconnected = true;
+            ptmt = connection.prepareStatement(SQL);
+            ptmt.setInt(1, idMecanico);
+            ptmt.setInt(2, orden);
+
+            if (ptmt.executeUpdate() > 0) {
+                succeded = true;
+            }
+         } catch (ClassNotFoundException e) {
+            throw new ExceptionErrorDataBase("Error conectando a BD", e);
+        } catch (SQLException e) {
+            throw new ExceptionErrorDataBase("Error de sql", e);
+        } catch (IOException e) {
+            throw new ExceptionErrorDataBase("Error conectando a BD", e);
+        } finally {
+            ConnectionFactory.freeResources(connection, ptmt, resultSet);
+        }
+
+        return succeded;
+      }
+      
       public Boolean createReparacion(Reparacion rep) throws ExceptionErrorDataBase, AppException{
           Boolean succeded = false;
         Boolean wasconnected = false;
@@ -674,7 +703,6 @@ public class ReparacionDAOImpl extends GenericDaoImpl implements ReparacionDAO {
                
                     
             }
-            System.out.println(queryString);
             connection = getConnection();
             ptmt = connection.prepareStatement(queryString);
             resultSet = ptmt.executeQuery();

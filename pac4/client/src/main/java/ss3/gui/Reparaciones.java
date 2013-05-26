@@ -16,6 +16,7 @@ import java.util.logging.Logger;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import ss1.dao.exception.ExceptionErrorDataBase;
+import ss1.dao.exception.ExceptionTipoObjetoFiltroNoPermitido;
 import ss2.entity.Solicitud;
 import ss2.exception.AppException;
 import ss3.beans.Reparacion;
@@ -533,15 +534,38 @@ public class Reparaciones extends JPanel {
         //Si está aceptada y asignada, mostrará un mensaje indicando que ya está asignada y dará la posibilidad de asignar otro
         //Si no está aceptada y pulsamos en ASignada, saldrá un mensaje indicando que aún no se ha aceptado la orden
         if (jTable1.getValueAt(jTable1.getSelectedRow(), 7).equals("SI")&&jTable1.getValueAt(jTable1.getSelectedRow(), 8).equals("NO")){
-            AsignacionAMecanico aam = new AsignacionAMecanico(cliente, (Integer) jTable1.getValueAt(jTable1.getSelectedRow(), 0), (String) jTable1.getValueAt(jTable1.getSelectedRow(), 3), (String) jTable1.getValueAt(jTable1.getSelectedRow(), 4), (String) jTable1.getValueAt(jTable1.getSelectedRow(), 5));
-            aam.setVisible(true);
-            aam.setModal(true);
+            AsignacionAMecanico aam;
+            try {
+                aam = new AsignacionAMecanico(cliente, (Integer) jTable1.getValueAt(jTable1.getSelectedRow(), 0), (String) jTable1.getValueAt(jTable1.getSelectedRow(), 3), (String) jTable1.getValueAt(jTable1.getSelectedRow(), 4), (String) jTable1.getValueAt(jTable1.getSelectedRow(), 5));
+                aam.setVisible(true);
+                aam.setModal(true);
+            } catch (ExceptionErrorDataBase ex) {
+                ex.printStackTrace();            
+            } catch (AppException ex) {
+                ex.printStackTrace();     
+            } catch (RemoteException ex) {
+                ex.printStackTrace();     
+            } catch (ExceptionTipoObjetoFiltroNoPermitido ex) {
+                ex.printStackTrace();
+            }
         }
         if (jTable1.getValueAt(jTable1.getSelectedRow(), 7).equals("SI")&&jTable1.getValueAt(jTable1.getSelectedRow(), 8).equals("SI")){
             
-            AsignacionAMecanico aam = new AsignacionAMecanico(cliente, (Integer) jTable1.getValueAt(jTable1.getSelectedRow(), 0), (String) jTable1.getValueAt(jTable1.getSelectedRow(), 3), (String) jTable1.getValueAt(jTable1.getSelectedRow(), 4), (String) jTable1.getValueAt(jTable1.getSelectedRow(), 5));
-            aam.setVisible(true);
-            aam.setModal(true);
+            AsignacionAMecanico aam;
+            try {
+                aam = new AsignacionAMecanico(cliente, (Integer) jTable1.getValueAt(jTable1.getSelectedRow(), 0), (String) jTable1.getValueAt(jTable1.getSelectedRow(), 3), (String) jTable1.getValueAt(jTable1.getSelectedRow(), 4), (String) jTable1.getValueAt(jTable1.getSelectedRow(), 5));
+                aam.setVisible(true);
+                aam.setModal(true);
+            } catch (ExceptionErrorDataBase ex) {
+                ex.printStackTrace();            
+            } catch (AppException ex) {
+                ex.printStackTrace();     
+            } catch (RemoteException ex) {
+                ex.printStackTrace();     
+            } catch (ExceptionTipoObjetoFiltroNoPermitido ex) {
+                ex.printStackTrace();
+            }
+            
             Avisos av = new Avisos("Esta reparación ya asignada, sin embargo, puede cambiar al mecánico si lo desea.");
             av.setVisible(true);
             av.setModal(true);

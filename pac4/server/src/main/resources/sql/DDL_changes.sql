@@ -191,3 +191,7 @@ alter table reparacio
   add constraint fk_idcaptaller
   foreign key (idcaptaller)
   references usuari (id);
+--
+-- Eliminamos constrain not null idmecanic e idcaptaller de la tabla reparacio
+ALTER TABLE reparacio ALTER COLUMN idmecanic DROP NOT NULL;
+ALTER TABLE reparacio ALTER COLUMN idcaptaller DROP NOT NULL;
