@@ -144,7 +144,7 @@ public class SmartRepairApplication extends JFrame {
         }
 
         paintReparacionsMenu();
-
+        paintGestionAdministrativaMenu();
         paintEstadisticasMenu();
         validate();
     }
@@ -450,37 +450,37 @@ public class SmartRepairApplication extends JFrame {
         _mainMenu.add(_estadisticasMenu);
     }
 
-     private void SS2GestionAdministrativaMenu() {
+     private void paintGestionAdministrativaMenu() {
         _M_gestionAdministrativa = new JMenu(TDSLanguageUtils.getMessage("client.menuGestionAdministrativa"));
-	_M_gaClientes	= new JMenuItem(TDSLanguageUtils.getMessage("client.menuGA_Clientes"));
-	_M_gaSolicitudes	= new JMenuItem(TDSLanguageUtils.getMessage("client.menuGA_Solicitud"));
-	_M_gaStock	= new JMenuItem(TDSLanguageUtils.getMessage("client.menuGA_Stock"));
+        _M_gaClientes	= new JMenuItem(TDSLanguageUtils.getMessage("client.menuGA_Clientes"));
+        _M_gaSolicitudes	= new JMenuItem(TDSLanguageUtils.getMessage("client.menuGA_Solicitud"));
+        _M_gaStock	= new JMenuItem(TDSLanguageUtils.getMessage("client.menuGA_Stock"));
 
-        _M_gaClientes.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                try {
-                    openCliente(evt);
-                } catch (Exception ex) {
-                    Logger.getLogger(SmartRepairApplication.class.getName()).log(Level.SEVERE, null, ex);
+            _M_gaClientes.addActionListener(new java.awt.event.ActionListener() {
+                public void actionPerformed(java.awt.event.ActionEvent evt) {
+                    try {
+                        openCliente(evt);
+                    } catch (Exception ex) {
+                        Logger.getLogger(SmartRepairApplication.class.getName()).log(Level.SEVERE, null, ex);
+                    }
                 }
-            }
-        });
+            });
 
-	_M_gaSolicitudes.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                try {
-                    openSolicitud(evt);
-                } catch (Exception ex) {
-                    Logger.getLogger(SmartRepairApplication.class.getName()).log(Level.SEVERE, null, ex);
+        _M_gaSolicitudes.addActionListener(new java.awt.event.ActionListener() {
+                public void actionPerformed(java.awt.event.ActionEvent evt) {
+                    try {
+                        openSolicitud(evt);
+                    } catch (Exception ex) {
+                        Logger.getLogger(SmartRepairApplication.class.getName()).log(Level.SEVERE, null, ex);
+                    }
                 }
-            }
-        });
+            });
 
-	_M_gestionAdministrativa.add(_M_gaClientes);
-	_M_gestionAdministrativa.add(_M_gaSolicitudes);
-	_M_gestionAdministrativa.add(_M_gaStock);
+        _M_gestionAdministrativa.add(_M_gaClientes);
+        _M_gestionAdministrativa.add(_M_gaSolicitudes);
+        _M_gestionAdministrativa.add(_M_gaStock);
 
-	_mainMenu.add(_M_gestionAdministrativa);
+        _mainMenu.add(_M_gestionAdministrativa);
      }
 
 
@@ -497,12 +497,6 @@ public class SmartRepairApplication extends JFrame {
         _mainPanel.add(_P_gaSolicitudes, BorderLayout.CENTER);
 
         _mainPanel.validate();
-    }
-
-    private void repaintMainMenuByUserRole(UsuariConectat usuariConectat) {
-       //TODO EN ESTE METODO COMPLETEMOS CADA UNO SU PARTE , DESPUES DE HACER EL LOGIN , EN FUNCION DEL ROLE DE SUARIO QUE PINTE UNOS MENUS U OTROS.
-        // SI VEIS EL METODO  paintEstadisticasMenu() , SI LE LLAMAIS PINTARA TODO EL MENU DE MENU ESTADISTICO , CREO QUE ES RAPIDO I LIMPIO , SI CADA UNO
-        //HACE UN METODO PARECIDO PERO CON SUS MENUS , SERAN FACILMENTE MANEJABLES .
     }
 
     public static void main(String[] args) {
