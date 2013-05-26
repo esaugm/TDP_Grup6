@@ -6,11 +6,15 @@ import ss1.dao.exception.ExceptionErrorDataBase;
 
 import java.io.IOException;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import ss2.exception.AppException;
+import ss3.beans.Pedido;
 import ss3.beans.Pieza;
 import ss3.dao.PiezaDAO;
 
@@ -227,5 +231,50 @@ public class PiezaDAOImpl extends GenericDaoImpl implements PiezaDAO {
             ConnectionFactory.freeResources(conn, ps, rs);
         }
         return toReturn;
+    }
+    
+    public Boolean insertComanda(Pedido com) throws ExceptionErrorDataBase{
+        Boolean succeded = false;
+        Boolean wasconnected = false;
+        String SQL = "INSERT INTO comanda "
+            + "(estat,codipeca,"
+            + "idcaptaller,idproveidor,ordrereparacio) VALUES (?,?,?,?,?)";
+        try {
+        
+            connection = getConnection();
+            ptmt.setInt(2, com.getCodipeca());
+            ptmt.setInt(3, com.getIdcaptaller());
+            ptmt.setInt(4, com.getIdproveidor());
+            ptmt.setInt(5, com.getOrdrereparacio());
+
+            if (ptmt.executeUpdate() > 0) {
+                succeded = true;
+            } else {
+                System.err.println(ptmt.getWarnings());
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        } catch (ClassNotFoundException ex) {
+            ex.printStackTrace();
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+            wasconnected = true;
+        try {
+            ptmt = connection.prepareStatement(SQL);
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        try {
+            ptmt.setBoolean(1, com.getEstat());
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+           
+        
+            ConnectionFactory.freeResources(connection, ptmt, resultSet);
+
+
+        return succeded;
     }
 }
