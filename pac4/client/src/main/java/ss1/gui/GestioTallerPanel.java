@@ -159,7 +159,14 @@ public class GestioTallerPanel extends JPanel{
         add(capTallerLabel);
 
         jefeTallerComboBox = new JComboBox();
-        Vector<Usuari> capsTaller = new Vector<Usuari>(client.listaCapsTaller());
+        //añadimos la lista de todos los talleres al comboBox
+        Vector<Usuari> usuaris = new Vector<Usuari>(client.listaCapsTaller());
+        //añadimos un taller vacío para que este seleccionado por defecto: significa que no se quiere filtrar por taller
+        Usuari emptyUsuari =  new Usuari();
+        emptyUsuari.setNom(criteriFiltreNONELblText);
+        emptyUsuari.setId(-1);
+        usuaris.add(0, emptyUsuari);
+        Vector<Usuari> capsTaller = new Vector<Usuari>(usuaris);
         jefeTallerComboBox.setModel(new DefaultComboBoxModel(capsTaller));
         jefeTallerComboBox.setBounds(488, 160, 140, 20);
         add(jefeTallerComboBox);
@@ -324,12 +331,23 @@ public class GestioTallerPanel extends JPanel{
     private class GestionBajaTallerActionListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            //todo pasarle el usuario seleccionado en el filtro
             BaixaTallerDialog baixaTallerDialog = null;
             try {
-                baixaTallerDialog = new BaixaTallerDialog(null, client);
-                baixaTallerDialog.setVisible(true);
-                baixaTallerDialog.setModal(true);
+                int selectedRow = filteringTbl.getSelectedRow();
+                if(selectedRow==-1){
+                    JOptionPane.showMessageDialog(filteringTbl, "No hay seleccionado ningún usuario", "Usuario no seleccionado Error", JOptionPane.ERROR_MESSAGE);
+
+                }
+                Integer selectedTallerId = Integer.parseInt((String) filteringTbl.getValueAt(selectedRow, 0));
+                Taller selectedTaller=null;
+                for (Taller taller : filteredTallerList) {
+                    if (taller.getId().equals(selectedTallerId)) {
+                        selectedTaller = taller;
+                        break;
+                    }
+                }
+                System.out.println("usuari selected: " + selectedTaller.getNom());
+                baixaTallerDialog = new BaixaTallerDialog(selectedTaller, client);
             } catch (ExceptionErrorDataBase exceptionErrorDataBase) {
                 //todo pensar que hacer aqui
                 exceptionErrorDataBase.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
@@ -338,6 +356,8 @@ public class GestioTallerPanel extends JPanel{
             } catch (RemoteException e1) {
                 e1.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
             }
+            baixaTallerDialog.setVisible(true);
+            baixaTallerDialog.setModal(true);
         }
     }
 
@@ -390,6 +410,7 @@ public class GestioTallerPanel extends JPanel{
 
                 filteringTbl= createTabla(tableModel);
                 scrollPane.setViewportView(filteringTbl);
+                validate();
             } catch (ExceptionErrorDataBase exceptionErrorDataBase) {
                 //todo pensar que se hace aqui
                 exceptionErrorDataBase.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.

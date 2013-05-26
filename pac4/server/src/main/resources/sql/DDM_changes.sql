@@ -41,9 +41,15 @@ COMMIT;
 -----------------------
 
 --Insertamos el usuario administrador por defecto: admin/admin
-INSERT INTO Usuari (Taller, usuari, perfil, contrasenya, actiu, dataAlta, dataModificacio, dataBaixa, reparacionsassignades) VALUES ( NULL, 'admin', 'ADMINISTRADOR', 'admin', true, NULL, NULL, 0);
+INSERT INTO Usuari (Taller, usuari, perfil, contrasenya, actiu, dataModificacio, dataBaixa, reparacionsassignades, nom, cognom, adreca, nif, poblacio, codi_postal) VALUES ( 1, 'admin', 'ADMINISTRADOR', 'admin', true, NULL, NULL, 0, 'admin','admin','admin adreca','00000001','admin poblacio','00001');
 --Cambiamos el tipus usuari de los datos precargados
 update Usuari set perfil= 'ADMINISTRATIU' where perfil='Administratiu';
+--Asignamos taller asignado y valores para los nuevos campos a los usuarios predefinidos:
+update  Usuari set taller=1, nom='pepelui1', cognom='pepelui1',adreca='pepelui1',nif='1111111',poblacio='poblacio1', codi_postal='1111' where usuari='pepelui1';
+update  Usuari set taller=2, nom='pepelui2', cognom='pepelui2',adreca='pepelui2',nif='2222222',poblacio='poblacio2', codi_postal='2222' where usuari='pepelui2';
+update  Usuari set taller=3, nom='pepelui3', cognom='pepelui3',adreca='pepelui3',nif='3333333',poblacio='poblacio3', codi_postal='3333' where usuari='pepelui3';
+update  Usuari set taller=4, nom='pepelui4', cognom='pepelui4',adreca='pepelui4',nif='4444444',poblacio='poblacio4', codi_postal='4444' where usuari='pepelui4';
+update  Usuari set taller=5, nom='pepelui5', cognom='pepelui5',adreca='pepelui5',nif='5555555',poblacio='poblacio5', codi_postal='5555' where usuari='pepelui5';
 --Añadimos nombre a los talleres precargados
 update Taller set nom='Taller1' where id=1;
 update Taller set nom='Taller2' where id=2;

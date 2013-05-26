@@ -51,4 +51,15 @@ public class UsuariConectat {
         return usuari.getNom();
     }
 
+    public boolean checkIfPasswordOk(String text) {
+        return usuari.getContrasenya().equals(text);
+    }
+
+    public Usuari getUsuari() {
+        return usuari;
+    }
+
+    public void setUsuari(Usuari newUsuari) {
+        usuari = newUsuari;
+    }
 }

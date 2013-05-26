@@ -1,20 +1,22 @@
- package common.ui;
+package common.ui;
 
 import common.rmi.Client;
 import common.utils.TDSLanguageUtils;
 import ss1.dao.exception.ExceptionErrorDataBase;
 import ss1.dao.exception.ExceptionTipoObjetoFiltroNoPermitido;
 import ss1.entity.UsuariConectat;
+import ss1.gui.ChangePasswordDialog;
 import ss1.gui.GestioTallerPanel;
 import ss1.gui.GestioUsuariPanel;
 import ss1.gui.LoginDialog;
 import ss2.exception.AppException;
+import ss2.gui.JPClienteFind;
+import ss2.gui.JPSolicitud;
 import ss3.gui.Reparaciones;
 import ss3.gui.ReparacionesAsignadas;
 import ss3.gui.StockPiezas;
 import ss4.gui.ReparacionesClienteEstaPanel;
 import ss4.gui.ReparacionesEstaPanel;
-import ss2.gui.*;
 
 import javax.swing.*;
 import java.awt.*;
@@ -22,11 +24,8 @@ import java.awt.event.ActionEvent;
 import java.rmi.ConnectException;
 import java.rmi.RemoteException;
 import java.text.ParseException;
-import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import ss2.exception.AppException;
-import ss2.gui.*;
 
 /**
  * Created with IntelliJ IDEA.
@@ -38,6 +37,7 @@ import ss2.gui.*;
 public class SmartRepairApplication extends JFrame {
     private JPanel _mainPanel;
     private LoginDialog loginDialog;
+    private ChangePasswordDialog changePasswordDialog;
     private UsuariConectat usuariConectat;
     private Client client;
     private int loginTries = 0;
@@ -45,13 +45,11 @@ public class SmartRepairApplication extends JFrame {
     private JMenuBar _mainMenu;
     private JMenu _inicioMenu;
     private JMenu _mantenimentMenu;
-    private JMenu _applicationMenu;
-
     private JMenu _estadisticasMenu;
     private JMenuItem _gestioUsuarisMenu;
     private JMenuItem _gestioTallersMenu;
     private JMenu _administracioMenu;
-
+ 
     private JMenu _reparacioMenu;
     private JMenuItem _stockMenu;
     private JMenuItem _avisosMenu;
@@ -61,6 +59,7 @@ public class SmartRepairApplication extends JFrame {
 
     private JMenuItem _inicioBtnMenu;
     private JMenuItem _quitBtnMenu;
+    private JMenuItem _changePasswdMenu;
     private JMenuItem _estaReparaciones;
     private JMenuItem _estaReparacionesClientes;
     private JMenuItem _estaReparacionesEmpleados;
@@ -98,6 +97,7 @@ public class SmartRepairApplication extends JFrame {
     private String gestioReparacioTitle = TDSLanguageUtils.getMessage("gestioReparacions.menuGestioReparacioTitle");
     private String stockTitle = TDSLanguageUtils.getMessage("gestioReparacions.menuStockTitle");
     private String avisoTitle = TDSLanguageUtils.getMessage("client.menuAvisoTitle");
+    private String menuChangePwd = TDSLanguageUtils.getMessage("client.menuCambioPasswd");
 
 
     public SmartRepairApplication() throws Exception {
@@ -106,33 +106,15 @@ public class SmartRepairApplication extends JFrame {
 
     private void initComponents() throws Exception {
 
-        _mainPanel = new JPanel();
-        //_mainMenu = new JMenuBar();
-
-        _inicioBtnMenu = new JMenuItem();
-        _inicioMenu = new JMenu();
-        _quitBtnMenu = new JMenuItem();
-
-
         client = new Client();
         try {
             client.connect();
         } catch (ConnectException e) {
-            JOptionPane.showMessageDialog(_mainPanel, "Error conectando con server", "Server Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Error conectando con server", "Server Error", JOptionPane.ERROR_MESSAGE);
             System.exit(-1);
         }
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle(title);
-        setExtendedState(Frame.MAXIMIZED_BOTH);
-        //setJMenuBar(_mainMenu);
-        //Iniciamos al panel principal que siempre estara vivo i sera el controlador de todo.
-        _mainPanel.setLayout(new BorderLayout());
-        _mainPanel.setVisible(true);
-
-        showLogin();
-
-        setContentPane(_mainPanel);
+        showLoginDialog();
 
         if (usuariConectat!= null) {
             paintMenusUsingUsuariConectat();
@@ -143,6 +125,15 @@ public class SmartRepairApplication extends JFrame {
     }
 
     private void paintMenusUsingUsuariConectat() {
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle(title);
+        setExtendedState(Frame.MAXIMIZED_BOTH);
+
+        //Iniciamos al panel principal que siempre estara vivo i sera el controlador de todo.
+        _mainPanel = new JPanel();
+        _mainPanel.setLayout(new BorderLayout());
+        _mainPanel.setVisible(true);
+        setContentPane(_mainPanel);
         _mainMenu = new JMenuBar();
         setJMenuBar(_mainMenu);
 
@@ -152,12 +143,13 @@ public class SmartRepairApplication extends JFrame {
             paintMantenimentMenu();
         }
 
-        painReparacionsMenu();
+        paintReparacionsMenu();
 
         paintEstadisticasMenu();
+        validate();
     }
 
-    private void showLogin() {
+    private void showLoginDialog() {
         while (usuariConectat==null && loginTries<3) {
             loginTries++;
             loginDialog = new LoginDialog(this,true, client);
@@ -178,15 +170,17 @@ public class SmartRepairApplication extends JFrame {
     }
 
     private void paintInicioMenu() {
+        _inicioMenu = new JMenu();
         _inicioMenu.setText(menuInicio);
         _mainMenu.add(_inicioMenu);
 
+        _inicioBtnMenu = new JMenuItem();
         _inicioBtnMenu.setText(menuCambiarUsuario);
         _inicioBtnMenu.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(ActionEvent evt) {
                 usuariConectat=null;
                 loginTries=0;
-                showLogin();
+                showLoginDialog();
                 if (usuariConectat!= null) {
                     paintMenusUsingUsuariConectat();
                 } else {
@@ -196,6 +190,19 @@ public class SmartRepairApplication extends JFrame {
         });
         _inicioMenu.add(_inicioBtnMenu);
 
+        _changePasswdMenu = new JMenuItem();
+        _changePasswdMenu.setText(menuChangePwd);
+        _changePasswdMenu.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
+                showChangePasswdDialog();
+                paintMenusUsingUsuariConectat();
+            }
+
+
+        });
+        _inicioMenu.add(_changePasswdMenu);
+
+        _quitBtnMenu = new JMenuItem();
         _quitBtnMenu.setText(menuSalir);
         _quitBtnMenu.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(ActionEvent evt) {
@@ -203,6 +210,15 @@ public class SmartRepairApplication extends JFrame {
             }
         });
         _inicioMenu.add(_quitBtnMenu);
+        _inicioMenu.setVisible(true);
+
+    }
+    private void showChangePasswdDialog() {
+        changePasswordDialog = new ChangePasswordDialog(this,true, client, usuariConectat);
+        changePasswordDialog.setLayout(new BorderLayout());
+        changePasswordDialog.setVisible(true);
+        changePasswordDialog.setModal(false);
+        changePasswordDialog.setResizable(false);
     }
 
     private void doDisconnectAndClose() {
@@ -210,7 +226,7 @@ public class SmartRepairApplication extends JFrame {
         dispose();
     }
 
-    private void painReparacionsMenu() {
+    private void paintReparacionsMenu() {
         _reparacioMenu = new JMenu();
         _reparacioMenu.setText(menuReparacio);
         _repAsigMenu = new JMenuItem();
@@ -334,7 +350,7 @@ public class SmartRepairApplication extends JFrame {
         _mainPanel.add(ra, BorderLayout.CENTER);
         _mainPanel.validate();
     }
-
+    
     private void openMenuGesRep(ActionEvent evt) throws ExceptionErrorDataBase, RemoteException {
         removePanelFromMain();
         Reparaciones ra = new Reparaciones(client);
@@ -490,15 +506,6 @@ public class SmartRepairApplication extends JFrame {
     }
 
     public static void main(String[] args) {
-
-	if(args.length==1) {
-            Locale locale = new Locale(args[0]);
-            TDSLanguageUtils.setLanguage("i18n/messages", locale);
-        }
-        if(args.length==0) {
-            TDSLanguageUtils.setDefaultLanguage("conf/messages");
-        }
-
         EventQueue.invokeLater(new Runnable() {
             public void run() {
                 try {

@@ -17,17 +17,19 @@ import java.rmi.RemoteException;
 public class BaixaTallerDialog extends AltaTallerDialog{
     private String baixaTallerLabel = TDSLanguageUtils.getMessage("gestioTaller.baixaTallerDialog.baixaTallerLabel");
     private String okBtnLabel = TDSLanguageUtils.getMessage("gestioTaller.baixaTallerDialog.okBtnLabel");
-    private Taller taller;
+
     public BaixaTallerDialog(Taller pTaller, Client pClient) throws ExceptionErrorDataBase, ExceptionTipoObjetoFiltroNoPermitido, RemoteException {
         super(pClient);
-        taller=pTaller;
+        setTaller(pTaller);
         setBaixaDialogProperties();
         disableTextBoxes();
+        fillTallerData(pTaller);
     }
 
 
     private void setBaixaDialogProperties() {
         updateTitle(baixaTallerLabel);
         updateOKButtonText(okBtnLabel);
+        setActionListenerOKButton(new BaixaTallerActionListener());
     }
 }
