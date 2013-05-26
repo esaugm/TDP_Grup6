@@ -27,9 +27,11 @@ public class Peca implements java.io.Serializable {
 	private String	model;
 	private Integer	idproveidor;
 
-	public static final Integer PECA_UNDEF = -1;
-
 	public Peca() {
+	}
+
+	public static final Integer getPECA_UNDEF() {
+		return -1;
 	}
 
 	public Peca(String descripcio, Float pvp, Float pvd, String marca, String model, Integer idproveidor) {
@@ -40,7 +42,7 @@ public class Peca implements java.io.Serializable {
 		this.marca = marca;
 		this.model = model;
 		this.idproveidor = idproveidor;
-		this.codipeca = PECA_UNDEF;
+		this.codipeca = getPECA_UNDEF();
 	}
 
 	public Peca(Integer codipeca, String descripcio, Float pvp, Float pvd, String marca, String model, Integer idproveidor) {

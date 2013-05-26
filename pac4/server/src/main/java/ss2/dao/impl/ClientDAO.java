@@ -249,7 +249,7 @@ public class ClientDAO extends GenericDaoImpl implements IClientDAO {
 
         String SQL = "UPDATE Client SET "
             + "nom = ?, cognoms = ?, adreca = ?, poblacio = ?, "
-            + "codipostal = ? where nif = ?";
+            + "codipostal = ? where numclient = ?";
 
         try {
             connection = getConnection();
@@ -260,7 +260,7 @@ public class ClientDAO extends GenericDaoImpl implements IClientDAO {
             ptmt.setString(3, cliente.getadreca());
             ptmt.setString(4, cliente.getPoblacio());
             ptmt.setInt(5, cliente.getCodiPostal());
-            ptmt.setString(6, cliente.getNif());
+            ptmt.setInt(6, cliente.getNumClient());
             if (ptmt.executeUpdate() > 0) {
                 succeded = true;
             }

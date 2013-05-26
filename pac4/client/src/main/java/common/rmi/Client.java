@@ -30,14 +30,16 @@ import ss3.beans.Vehiculo;
  * Time: 12:12
  */
 public class Client {
-    
+
     private final String URL = "localhost";
     private final int PORT = 1099;
-    
+
     private ISS1ConexioManteniment remoteSS1;
     private final String JNDI_SS1_NAME = "ConexioManteniment";
+
     private ISS2GestionAdministrativa remoteSS2;
     private final String JNDI_SS2_NAME = "GestionAdministrativa";
+
     private SS3Reparaciones remoteSS3;
     private final String JNDI_SS3_NAME = "Reparaciones";
 
@@ -73,7 +75,7 @@ public class Client {
     public void altaUsuari(Usuari newUsuari) throws ExceptionErrorDataBase, RemoteException {
         remoteSS1.altaUsuari(newUsuari);
     }
-    
+
     public void modificaUsuari(Usuari pUsuari) throws ExceptionErrorDataBase, RemoteException {
         remoteSS1.modificaUsuari(pUsuari);
     }
@@ -85,63 +87,69 @@ public class Client {
     public List<Taller> listaTallers() throws ExceptionErrorDataBase, RemoteException {
         return remoteSS1.getAllTallers();
     }
-    
+
     public List<Usuari> filtrarUsuaris(FilterItems pFilterItems) throws ExceptionErrorDataBase, ExceptionTipoObjetoFiltroNoPermitido, RemoteException {
         return remoteSS1.getAllUsuarisByFilter(pFilterItems);
-        
+
     }
-    
+
     public Taller findTallerById(Integer pTallerId) throws ExceptionErrorDataBase, RemoteException {
         return remoteSS1.getTallerById(pTallerId);
     }
-    
+
     public Solicitud buscaSolicitudbynumrep(Integer orden) throws AppException, RemoteException {
         return remoteSS2.buscaSolicitudbynumrep(orden);
-        
+
     }
-    
+
     public Reparacion ConsultaOrden(Integer OrdenID) throws ExceptionErrorDataBase, RemoteException {
         return remoteSS3.ConsultaOrden(OrdenID);
     }
-    
+
     public ArrayList<Reparacion> ConsultaTodas() throws ExceptionErrorDataBase, RemoteException {
         return remoteSS3.ConsultaTodas();
     }
-    
+
     public ArrayList<Reparacion> ConsultaFechaAsig(String fechaAsig) throws ExceptionErrorDataBase, RemoteException {
         return remoteSS3.ConsultaFechaAsig(fechaAsig);
     }
-    
+
     public ArrayList<Reparacion> ConsultaFechaIni(String fechaIni) throws ExceptionErrorDataBase, RemoteException {
         return remoteSS3.ConsultaFechaIni(fechaIni);
     }
-    
+
     public ArrayList<Reparacion> ConsultaFechaFin(String fechaFin) throws ExceptionErrorDataBase, RemoteException {
         return remoteSS3.ConsultaFechaFin(fechaFin);
     }
-    
+
     public ArrayList<Reparacion> ConsultaAceptadas(Boolean aceptada) throws ExceptionErrorDataBase, RemoteException {
         return remoteSS3.ConsultaAceptadas(aceptada);
     }
-    
+
     public ArrayList<Reparacion> ConsultaAsignadas(Boolean asignada) throws ExceptionErrorDataBase, RemoteException {
         return remoteSS3.ConsultaAsignadas(asignada);
     }
-    
+
     public ArrayList<Reparacion> ConsultaReparacionesByTerms(Map values) throws ExceptionErrorDataBase, RemoteException{
         return remoteSS3.findReparacionesByTerms(values);
     }
-    
+
     public Boolean anotaObs(Integer orden, String observaciones) throws ExceptionErrorDataBase, RemoteException{
         return remoteSS3.anotaObs(orden, observaciones);
     }
-    
+
     public Vehiculo ConsultaReparacion(Integer orden) throws ExceptionErrorDataBase, RemoteException{
         return remoteSS3.ConsultaReparacion(orden);
     }
-    
+
     public Boolean aceptaReparacion(Integer orden) throws ExceptionErrorDataBase, RemoteException{
         return remoteSS3.aceptaReparacion(orden);
+    }
+
+    
+
+    public ISS2GestionAdministrativa get_remoteSS2() {
+        return remoteSS2;
     }
 
     public ISS4Estadisticas get_remoteSS4() {

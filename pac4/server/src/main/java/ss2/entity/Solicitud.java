@@ -32,11 +32,13 @@ public class Solicitud implements java.io.Serializable{
 	private String	numPoliza;
 	private Integer idtaller;
 
-	public static final Integer SOLICITUD_UNDEF = -1;
 
 	public Solicitud() {
 	}
 
+	public static final Integer getSOLICITUD_UNDEF() {
+		return -1;
+	}
 	public Solicitud(String comentaris, Date dataalta, Date datafinalitzacio, String client, Integer numreparacio, Boolean pendent, Boolean finalitzada, Integer asseguradora, String numPoliza, Integer idtaller) {
 		super();
 		this.comentaris = comentaris.trim();
@@ -49,7 +51,7 @@ public class Solicitud implements java.io.Serializable{
 		this.asseguradora = asseguradora;
 		this.numPoliza = numPoliza.trim();
 		this.idtaller = idtaller;
-		this.numsol = SOLICITUD_UNDEF;
+		this.numsol = getSOLICITUD_UNDEF();
 	}
 
 	public Solicitud(Integer numsol, String comentaris, Date dataalta, Date datafinalitzacio, String client, Integer numreparacio, Boolean pendent, Boolean finalitzada, Integer asseguradora, String numPoliza, Integer idtaller) {

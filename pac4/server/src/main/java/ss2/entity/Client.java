@@ -18,20 +18,25 @@ import java.util.Date;
  * @author jiquintana (jiquintana@uoc.edu)
  *
  */
+
 public class Client implements java.io.Serializable {
 
-	private Integer	numclient;
 	private String	nom;
 	private String	cognoms;
 	private String	adreca;
 	private String	nif;
 	private String	poblacio;
 	private Integer	codipostal;
+	private Integer	numclient;
 	private Date	dataalta;
 
-	public static final Integer CLIENT_UNDEF = -1;
+
 
 	public Client() {
+	}
+
+	public static final Integer getCLIENT_UNDEF() {
+		return -1;
 	}
 
 	public Client(String nom, String cognoms, String adreca, String nif, String poblacio, Integer codipostal, Integer numclient, Date dataalta) {
@@ -56,7 +61,7 @@ public class Client implements java.io.Serializable {
 		this.poblacio = poblacio.trim();
 		this.codipostal = codipostal;
 		this.dataalta = dataalta;
-		this.numclient = CLIENT_UNDEF;
+		this.numclient = getCLIENT_UNDEF();
 	}
 
 	public String getnom() {

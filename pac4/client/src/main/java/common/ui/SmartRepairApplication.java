@@ -1,4 +1,4 @@
-package common.ui;
+ package common.ui;
 
 import common.rmi.Client;
 import common.utils.TDSLanguageUtils;
@@ -12,6 +12,7 @@ import ss3.gui.ReparacionesAsignadas;
 import ss3.gui.StockPiezas;
 import ss4.gui.ReparacionesClienteEstaPanel;
 import ss4.gui.ReparacionesEstaPanel;
+import ss2.gui.*;
 
 import javax.swing.*;
 import java.awt.*;
@@ -19,9 +20,11 @@ import java.awt.event.ActionEvent;
 import java.rmi.ConnectException;
 import java.rmi.RemoteException;
 import java.text.ParseException;
+import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import ss2.exception.AppException;
+import ss2.gui.*;
 
 /**
  * Created with IntelliJ IDEA.
@@ -41,11 +44,12 @@ public class SmartRepairApplication extends JFrame {
     private JMenu _inicioMenu;
     private JMenu _mantenimentMenu;
     private JMenu _applicationMenu;
+
     private JMenu _estadisticasMenu;
     private JMenuItem _gestioUsuarisMenu;
     private JMenuItem _gestioTallersMenu;
     private JMenu _administracioMenu;
- 
+
     private JMenu _reparacioMenu;
     private JMenuItem _stockMenu;
     private JMenuItem _avisosMenu;
@@ -58,6 +62,17 @@ public class SmartRepairApplication extends JFrame {
     private JMenuItem _estaReparaciones;
     private JMenuItem _estaReparacionesClientes;
     private JMenuItem _estaReparacionesEmpleados;
+
+
+    private JMenu	_M_gestionAdministrativa;
+    private JMenuItem	_M_gaClientes;
+    private JMenuItem	_M_gaSolicitudes;
+    private JMenuItem	_M_gaStock;
+
+    private JPanel	_P_gaClientes;
+    private JPanel	_P_gaSolicitudes;
+    private JPanel	_P_gaStock;
+
 
 
     //i18n messages
@@ -161,8 +176,13 @@ public class SmartRepairApplication extends JFrame {
         _mantenimentMenu.add(_gestioUsuarisMenu);
         _mainMenu.add(_mantenimentMenu);
 
-        _applicationMenu = new JMenu();
-        _applicationMenu.setText(menuApplication);
+	SS2GestionAdministrativaMenu();
+
+	// jiquintana --- eliminado el bloque porque no existe ???
+        // _applicationMenu = new JMenu();
+        // _applicationMenu.setText(menuApplication);
+
+
 
 _reparacioMenu = new JMenu();
         _reparacioMenu.setText(menuReparacions);
@@ -197,7 +217,7 @@ _reparacioMenu = new JMenu();
             }
         });
         _reparacioMenu.add(_gestioRepMenu);
-        
+
         _stockMenu = new JMenuItem();
         _stockMenu.setText(menuStock);
         _stockMenu.addActionListener(new java.awt.event.ActionListener() {
@@ -253,7 +273,7 @@ _reparacioMenu = new JMenu();
         _mainPanel.add(ra, BorderLayout.CENTER);
         _mainPanel.validate();
     }
-    
+
     private void openMenuGesRep(ActionEvent evt) throws ExceptionErrorDataBase, RemoteException {
         removePanelFromMain();
         Reparaciones ra = new Reparaciones(client);
@@ -264,7 +284,7 @@ _reparacioMenu = new JMenu();
         _mainPanel.add(ra, BorderLayout.CENTER);
         _mainPanel.validate();
     }
-    
+
     private void openStock(ActionEvent evt) {
         removePanelFromMain();
         StockPiezas sp = new StockPiezas();
@@ -353,6 +373,55 @@ _reparacioMenu = new JMenu();
         _mainMenu.add(_estadisticasMenu);
     }
 
+     private void SS2GestionAdministrativaMenu() {
+        _M_gestionAdministrativa = new JMenu(TDSLanguageUtils.getMessage("client.menuGestionAdministrativa"));
+	_M_gaClientes	= new JMenuItem(TDSLanguageUtils.getMessage("client.menuGA_Clientes"));
+	_M_gaSolicitudes	= new JMenuItem(TDSLanguageUtils.getMessage("client.menuGA_Solicitud"));
+	_M_gaStock	= new JMenuItem(TDSLanguageUtils.getMessage("client.menuGA_Stock"));
+
+        _M_gaClientes.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                try {
+                    openCliente(evt);
+                } catch (Exception ex) {
+                    Logger.getLogger(SmartRepairApplication.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        });
+
+	_M_gaSolicitudes.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                try {
+                    openSolicitud(evt);
+                } catch (Exception ex) {
+                    Logger.getLogger(SmartRepairApplication.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        });
+
+	_M_gestionAdministrativa.add(_M_gaClientes);
+	_M_gestionAdministrativa.add(_M_gaSolicitudes);
+	_M_gestionAdministrativa.add(_M_gaStock);
+
+	_mainMenu.add(_M_gestionAdministrativa);
+     }
+
+
+    private void openCliente(java.awt.event.ActionEvent evt) throws ParseException {
+        removePanelFromMain();
+        _P_gaClientes  = new JPClienteFind(client);
+        _mainPanel.add(_P_gaClientes, BorderLayout.CENTER);
+        _mainPanel.validate();
+    }
+
+    private void openSolicitud(java.awt.event.ActionEvent evt) throws ParseException {
+        removePanelFromMain();
+        _P_gaSolicitudes  = new JPSolicitud();
+        _mainPanel.add(_P_gaSolicitudes, BorderLayout.CENTER);
+
+        _mainPanel.validate();
+    }
+
     private void repaintMainMenuByUserRole(UsuariConectat usuariConectat) {
        //TODO EN ESTE METODO COMPLETEMOS CADA UNO SU PARTE , DESPUES DE HACER EL LOGIN , EN FUNCION DEL ROLE DE SUARIO QUE PINTE UNOS MENUS U OTROS.
         // SI VEIS EL METODO  paintEstadisticasMenu() , SI LE LLAMAIS PINTARA TODO EL MENU DE MENU ESTADISTICO , CREO QUE ES RAPIDO I LIMPIO , SI CADA UNO
@@ -360,6 +429,15 @@ _reparacioMenu = new JMenu();
     }
 
     public static void main(String[] args) {
+
+	if(args.length==1) {
+            Locale locale = new Locale(args[0]);
+            TDSLanguageUtils.setLanguage("i18n/messages", locale);
+        }
+        if(args.length==0) {
+            TDSLanguageUtils.setDefaultLanguage("conf/messages");
+        }
+
         EventQueue.invokeLater(new Runnable() {
             public void run() {
                 try {

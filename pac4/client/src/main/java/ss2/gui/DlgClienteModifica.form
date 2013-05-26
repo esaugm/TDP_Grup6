@@ -1,0 +1,293 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<Form version="1.5" maxVersion="1.8" type="org.netbeans.modules.form.forminfo.JDialogFormInfo">
+  <NonVisualComponents>
+    <Component class="javax.swing.ButtonGroup" name="buttonGroup1">
+    </Component>
+  </NonVisualComponents>
+  <Properties>
+    <Property name="defaultCloseOperation" type="int" value="0"/>
+    <Property name="title" type="java.lang.String" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+      <Connection code="TDSLanguageUtils.getMessage(&quot;ss1.ClienteModificaUsuario.titulo&quot;)" type="code"/>
+    </Property>
+    <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+      <Dimension value="null"/>
+    </Property>
+  </Properties>
+  <SyntheticProperties>
+    <SyntheticProperty name="formSizePolicy" type="int" value="1"/>
+    <SyntheticProperty name="generateCenter" type="boolean" value="false"/>
+  </SyntheticProperties>
+  <Events>
+    <EventHandler event="windowClosing" listener="java.awt.event.WindowListener" parameters="java.awt.event.WindowEvent" handler="formWindowClosing"/>
+  </Events>
+  <AuxValues>
+    <AuxValue name="FormSettings_autoResourcing" type="java.lang.Integer" value="0"/>
+    <AuxValue name="FormSettings_autoSetComponentName" type="java.lang.Boolean" value="false"/>
+    <AuxValue name="FormSettings_generateFQN" type="java.lang.Boolean" value="true"/>
+    <AuxValue name="FormSettings_generateMnemonicsCode" type="java.lang.Boolean" value="false"/>
+    <AuxValue name="FormSettings_i18nAutoMode" type="java.lang.Boolean" value="false"/>
+    <AuxValue name="FormSettings_layoutCodeTarget" type="java.lang.Integer" value="1"/>
+    <AuxValue name="FormSettings_listenerGenerationStyle" type="java.lang.Integer" value="0"/>
+    <AuxValue name="FormSettings_variablesLocal" type="java.lang.Boolean" value="false"/>
+    <AuxValue name="FormSettings_variablesModifier" type="java.lang.Integer" value="2"/>
+  </AuxValues>
+
+  <Layout>
+    <DimensionLayout dim="0">
+      <Group type="103" groupAlignment="0" attributes="0">
+          <Group type="102" attributes="0">
+              <EmptySpace max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Group type="102" attributes="0">
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Group type="102" alignment="0" attributes="0">
+                              <EmptySpace min="128" pref="128" max="-2" attributes="0"/>
+                              <Component id="b_Cancel" min="-2" pref="90" max="-2" attributes="0"/>
+                          </Group>
+                          <Component id="b_OK" alignment="0" min="-2" pref="90" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                  </Group>
+                  <Component id="jPanel1" alignment="1" max="32767" attributes="0"/>
+              </Group>
+              <EmptySpace max="-2" attributes="0"/>
+          </Group>
+          <Component id="p_msg" alignment="0" max="32767" attributes="0"/>
+      </Group>
+    </DimensionLayout>
+    <DimensionLayout dim="1">
+      <Group type="103" groupAlignment="0" attributes="0">
+          <Group type="102" alignment="0" attributes="0">
+              <EmptySpace max="-2" attributes="0"/>
+              <Component id="jPanel1" max="32767" attributes="0"/>
+              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="b_OK" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="b_Cancel" alignment="3" min="-2" max="-2" attributes="0"/>
+              </Group>
+              <EmptySpace min="-2" pref="20" max="-2" attributes="0"/>
+              <Component id="p_msg" min="-2" max="-2" attributes="0"/>
+          </Group>
+      </Group>
+    </DimensionLayout>
+  </Layout>
+  <SubComponents>
+    <Container class="javax.swing.JPanel" name="jPanel1">
+
+      <Layout>
+        <DimensionLayout dim="0">
+          <Group type="103" groupAlignment="0" attributes="0">
+              <Group type="102" attributes="0">
+                  <EmptySpace max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="0" attributes="0">
+                      <Component id="l_fechAltaCliente" alignment="0" min="-2" max="-2" attributes="0"/>
+                      <Component id="l_numeroCliente" alignment="0" min="-2" max="-2" attributes="0"/>
+                      <Component id="l_direccionCliente" alignment="0" min="-2" max="-2" attributes="0"/>
+                      <Component id="l_codigoPostalCliente" alignment="0" min="-2" max="-2" attributes="0"/>
+                      <Component id="l_poblacionCliente" alignment="0" min="-2" max="-2" attributes="0"/>
+                      <Component id="l_nifCliente" alignment="0" min="-2" max="-2" attributes="0"/>
+                      <Component id="l_nombreCliente" alignment="0" min="-2" max="-2" attributes="0"/>
+                      <Component id="l_apellidosCliente" alignment="0" min="-2" max="-2" attributes="0"/>
+                  </Group>
+                  <EmptySpace min="-2" pref="27" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="0" attributes="0">
+                      <Component id="c_numeroCliente" alignment="0" max="32767" attributes="0"/>
+                      <Component id="c_fechAltaCliente" alignment="0" max="32767" attributes="0"/>
+                      <Component id="c_nifCliente" alignment="0" min="-2" pref="200" max="-2" attributes="0"/>
+                      <Component id="c_nombreCliente" alignment="0" min="-2" pref="200" max="-2" attributes="0"/>
+                      <Component id="c_apellidosCliente" alignment="0" min="-2" pref="200" max="-2" attributes="0"/>
+                      <Component id="c_direccionCliente" alignment="0" min="-2" pref="200" max="-2" attributes="0"/>
+                      <Component id="c_poblacionCliente" alignment="0" min="-2" pref="200" max="-2" attributes="0"/>
+                      <Component id="c_codigoPostalCliente" alignment="0" min="-2" pref="200" max="-2" attributes="0"/>
+                  </Group>
+                  <EmptySpace max="-2" attributes="0"/>
+              </Group>
+          </Group>
+        </DimensionLayout>
+        <DimensionLayout dim="1">
+          <Group type="103" groupAlignment="0" attributes="0">
+              <Group type="102" attributes="0">
+                  <EmptySpace max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="3" attributes="0">
+                      <Component id="l_numeroCliente" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="c_numeroCliente" alignment="3" min="-2" max="-2" attributes="0"/>
+                  </Group>
+                  <EmptySpace max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="3" attributes="0">
+                      <Component id="l_fechAltaCliente" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="c_fechAltaCliente" alignment="3" min="-2" max="-2" attributes="0"/>
+                  </Group>
+                  <EmptySpace min="-2" pref="14" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="3" attributes="0">
+                      <Component id="l_nifCliente" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="c_nifCliente" alignment="3" min="-2" max="-2" attributes="0"/>
+                  </Group>
+                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="3" attributes="0">
+                      <Component id="l_nombreCliente" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="c_nombreCliente" alignment="3" min="-2" max="-2" attributes="0"/>
+                  </Group>
+                  <EmptySpace max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="3" attributes="0">
+                      <Component id="l_apellidosCliente" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="c_apellidosCliente" alignment="3" min="-2" max="-2" attributes="0"/>
+                  </Group>
+                  <EmptySpace min="-2" pref="17" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="3" attributes="0">
+                      <Component id="l_direccionCliente" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="c_direccionCliente" alignment="3" min="-2" max="-2" attributes="0"/>
+                  </Group>
+                  <EmptySpace max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="3" attributes="0">
+                      <Component id="l_poblacionCliente" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="c_poblacionCliente" alignment="3" min="-2" max="-2" attributes="0"/>
+                  </Group>
+                  <EmptySpace max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="3" attributes="0">
+                      <Component id="l_codigoPostalCliente" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="c_codigoPostalCliente" alignment="3" min="-2" max="-2" attributes="0"/>
+                  </Group>
+                  <EmptySpace max="-2" attributes="0"/>
+              </Group>
+          </Group>
+        </DimensionLayout>
+      </Layout>
+      <SubComponents>
+        <Component class="javax.swing.JLabel" name="l_numeroCliente">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="l_numeroCliente"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JLabel" name="c_numeroCliente">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="c_numeroCliente"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JLabel" name="l_fechAltaCliente">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="l_fechAltaCliente"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JLabel" name="c_fechAltaCliente">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="c_fechAltaCliente"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JLabel" name="l_nifCliente">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="l_nifCliente"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JTextField" name="c_nifCliente">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="c_nifCliente"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JTextField" name="c_nombreCliente">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="c_nombreCliente"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JLabel" name="l_nombreCliente">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="l_nombreCliente"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JTextField" name="c_apellidosCliente">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="c_l_apellidosCliente"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JLabel" name="l_apellidosCliente">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="l_apellidosCliente"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JTextField" name="c_direccionCliente">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="c_l_direccionCliente"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JLabel" name="l_direccionCliente">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="l_direccionCliente"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JTextField" name="c_poblacionCliente">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="c_poblacionCliente"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JLabel" name="l_poblacionCliente">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="l_poblacionCliente"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JTextField" name="c_codigoPostalCliente">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="c_codigoPostalCliente"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JLabel" name="l_codigoPostalCliente">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="l_codigoPostalCliente"/>
+          </Properties>
+        </Component>
+      </SubComponents>
+    </Container>
+    <Component class="javax.swing.JButton" name="b_OK">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="jOK"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="b_OKActionPerformed"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JButton" name="b_Cancel">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="jCancel"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="b_CancelActionPerformed"/>
+      </Events>
+    </Component>
+    <Container class="java.awt.Panel" name="p_msg">
+      <Properties>
+        <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+          <Color blue="ff" green="cc" red="cc" type="rgb"/>
+        </Property>
+        <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+          <Dimension value="[368, 30]"/>
+        </Property>
+      </Properties>
+
+      <Layout>
+        <DimensionLayout dim="0">
+          <Group type="103" groupAlignment="0" attributes="0">
+              <Group type="102" alignment="0" attributes="0">
+                  <Component id="l_error" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+              </Group>
+          </Group>
+        </DimensionLayout>
+        <DimensionLayout dim="1">
+          <Group type="103" groupAlignment="0" attributes="0">
+              <Group type="102" alignment="1" attributes="0">
+                  <EmptySpace pref="15" max="32767" attributes="0"/>
+                  <Component id="l_error" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="1" max="-2" attributes="0"/>
+              </Group>
+          </Group>
+        </DimensionLayout>
+      </Layout>
+      <SubComponents>
+        <Component class="javax.swing.JLabel" name="l_error">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="jLabel1"/>
+          </Properties>
+        </Component>
+      </SubComponents>
+    </Container>
+  </SubComponents>
+</Form>

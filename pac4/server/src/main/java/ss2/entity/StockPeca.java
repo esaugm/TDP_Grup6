@@ -25,18 +25,18 @@ public class StockPeca {
 	private	Integer idtaller;
 	private	Integer stockminim;
 
-	public static final Integer STOCK_PECA_UNDEF = -1;
-
-
 	public StockPeca() {
 	}
 
+	public static final Integer getSTOCK_PECA_UNDEF() {
+		return -1;
+	}
 	public StockPeca(Integer codipeca, Integer stock, Integer idtaller, Integer stockminim) {
 		this.codipeca = codipeca;
 		this.stock = stock;
 		this.idtaller = idtaller;
 		this.stockminim = stockminim;
-		this.idstockpeca = STOCK_PECA_UNDEF;
+		this.idstockpeca = getSTOCK_PECA_UNDEF();
 	}
 
 	public StockPeca(Integer idstockpeca, Integer codipeca, Integer stock, Integer idtaller, Integer stockminim) {

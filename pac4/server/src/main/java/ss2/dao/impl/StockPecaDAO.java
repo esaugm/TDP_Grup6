@@ -181,7 +181,7 @@ public class StockPecaDAO extends GenericDaoImpl implements IStockPecaDAO {
     @Override
     public Integer getStockbyNumStockPeca(Integer numstockpeca, Integer idtaller) throws AppException {
         String SQL = "SELECT stock from stockpeca where idstockpeca = ? and idtaller = ?";
-        Integer stock = StockPeca.STOCK_PECA_UNDEF;
+        Integer stock = StockPeca.getSTOCK_PECA_UNDEF();
 
         try {
             connection = getConnection();
@@ -209,7 +209,7 @@ public class StockPecaDAO extends GenericDaoImpl implements IStockPecaDAO {
     @Override
     public Integer getStockMinimbyNumStockPeca(Integer numstockpeca, Integer idtaller) throws AppException {
         String SQL = "SELECT stockminim from stockpeca where idstockpeca = ? and idtaller = ?";
-        Integer stockminim = StockPeca.STOCK_PECA_UNDEF;
+        Integer stockminim = StockPeca.getSTOCK_PECA_UNDEF();
 
         try {
             connection = getConnection();
@@ -237,7 +237,7 @@ public class StockPecaDAO extends GenericDaoImpl implements IStockPecaDAO {
     @Override
     public Integer getStockbyPieza(Integer idpieza, Integer idtaller) throws AppException {
         String SQL = "SELECT stock from stockpeca where codipeca = ? and idtaller = ?";
-        Integer stock = StockPeca.STOCK_PECA_UNDEF;
+        Integer stock = StockPeca.getSTOCK_PECA_UNDEF();
 
         try {
             connection = getConnection();
@@ -265,7 +265,7 @@ public class StockPecaDAO extends GenericDaoImpl implements IStockPecaDAO {
     @Override
     public Integer getStockMinimbyPieza(Integer idpieza, Integer idtaller) throws AppException {
         String SQL = "SELECT stockminim from stockpeca where codipeca = ? and idtaller = ?";
-        Integer stockminim = StockPeca.STOCK_PECA_UNDEF;
+        Integer stockminim = StockPeca.getSTOCK_PECA_UNDEF();
 
         try {
             connection = getConnection();
