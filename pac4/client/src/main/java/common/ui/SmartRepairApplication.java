@@ -141,10 +141,11 @@ public class SmartRepairApplication extends JFrame {
 
         if (usuariConectat.isAdministrador()) {
             paintMantenimentMenu();
+            paintGestionAdministrativaMenu();
         }
 
 	if (usuariConectat.isAdministratiu()) {
-        paintMantenimentMenu();
+        paintGestionAdministrativaMenu();
 	}
 
         paintReparacionsMenu();
