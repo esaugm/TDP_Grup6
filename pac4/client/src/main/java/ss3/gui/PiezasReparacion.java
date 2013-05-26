@@ -395,8 +395,10 @@ public class PiezasReparacion extends JDialog {
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         ArrayList<Pieza> lPie = null;
         try{
-            System.out.println(jTextField1.getText().toString());
-            lPie = cliente.ConsultaDescripcion(jTextField1.getText().toString());
+            lPie = cliente.ConsultaDescripcion(jTextField1.getText());
+            Iterator i = lPie.iterator();
+            while(i.hasNext())
+                System.out.println("sale_"+i.next());
             rellenaTabla(lPie);
         } catch (ExceptionErrorDataBase ex) {
             ex.printStackTrace();
