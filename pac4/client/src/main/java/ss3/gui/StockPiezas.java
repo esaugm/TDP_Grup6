@@ -4,20 +4,173 @@
  */
 package ss3.gui;
 
-import javax.swing.*;
+import common.rmi.Client;
+import java.rmi.RemoteException;
+import java.util.ArrayList;
+import java.util.Iterator;
+import javax.swing.JFrame;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.ListSelectionModel;
+import javax.swing.SwingUtilities;
+import javax.swing.table.DefaultTableModel;
+import ss1.dao.exception.ExceptionErrorDataBase;
+import ss1.entity.UsuariConectat;
+import ss1.gui.LoginDialog;
+import ss2.entity.Solicitud;
+import ss2.entity.StockPeca;
+import ss2.exception.AppException;
+import ss3.beans.Pieza;
+import ss3.beans.Reparacion;
+import ss3.beans.Vehiculo;
+
 /**
  *
  * @author Fernando
  */
-public class StockPiezas extends JPanel {
+public class StockPiezas extends javax.swing.JPanel {
 
+    LoginDialog loginDialog;
+    public Client cliente;
+    JTable jTable1;
+    JScrollPane scrollPane;
+    JFrame topFrame;
+    UsuariConectat uC;
     /**
      * Creates new form StockPiezas
      */
-    public StockPiezas() {
+    public StockPiezas(Client cli) throws ExceptionErrorDataBase, RemoteException {
+        cliente = cli;
         initComponents();
+               
+        jTable1 = crearTabla();
+        scrollPane = new JScrollPane();
+        scrollPane.setBounds(20, 130, 830, 125);
+        add(scrollPane);
+        scrollPane.setViewportView(jTable1);
+        topFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
+        loginDialog = new LoginDialog(topFrame,true, cliente);
+        uC = loginDialog.getUsuariConectat();
+        System.out.println("TALLER: "+uC.getTaller());
+        rellenaTabla(cliente.consultaStockPiezas(uC.getTaller()));
     }
 
+    public void rellenaTabla(ArrayList<StockPeca> stoPeca) {
+        
+        try {
+                DefaultTableModel tableModel = (DefaultTableModel) jTable1.getModel();
+                int rowCount = tableModel.getRowCount();
+                Iterator itRep = stoPeca.iterator();
+                int i=0;
+                Pieza p1;
+                StockPeca sp1;
+                while (itRep.hasNext()){
+                    p1 = (Pieza) itRep.next();
+                    sp1 = cliente.consultaStockPiezabyCodigoPieza(p1.getCodiPieza(), uC.getTaller());
+                    
+                    if (p1.getCodiPieza() > 0){
+                        if(i==rowCount-1) 
+                            tableModel.addRow(new Object[]{});
+                        tableModel.setValueAt(p1.getCodiPieza(),i, 0);
+                        tableModel.setValueAt(p1.getMarca(),i,1);
+                        tableModel.setValueAt(p1.getModelo(),i,2);
+                        tableModel.setValueAt(sp1.getStockminim(),i,3);
+                        tableModel.setValueAt(sp1.getStock(),i,4);
+                        tableModel.setValueAt(p1.getPvd(),i,5);
+                        tableModel.setValueAt(p1.getDescripcion(),i,6);
+                        i++;
+                    }
+                }
+                for (int rowIdx=i;rowIdx<rowCount ;rowIdx++){
+                    tableModel.setValueAt("",rowIdx,0);
+                    tableModel.setValueAt("",rowIdx,1);
+                    tableModel.setValueAt("",rowIdx,2);
+                    tableModel.setValueAt("",rowIdx,3);
+                    tableModel.setValueAt("",rowIdx,4);
+                    tableModel.setValueAt("",rowIdx,5);
+                    tableModel.setValueAt("",rowIdx,6);
+                }
+
+                jTable1 = createTabla(tableModel);
+                scrollPane.setViewportView(jTable1);
+            
+            } catch (RemoteException e1) {
+                e1.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            }
+
+    }
+
+    private JTable crearTabla() {
+        DefaultTableModel tableModel = (new DefaultTableModel(
+                new Object[][] {
+                        {null, null, null, null, null, null, null},
+                        {null, null, null, null, null, null, null},
+                        {null, null, null, null, null, null, null},
+                        {null, null, null, null, null, null, null},
+                        {null, null, null, null, null, null, null},
+                        {null, null, null, null, null, null, null},
+                        {null, null, null, null, null, null, null},
+                        {null, null, null, null, null, null, null},
+                        {null, null, null, null, null, null, null},
+                        {null, null, null, null, null, null, null},
+                        {null, null, null, null, null, null, null},
+                        {null, null, null, null, null, null, null},
+                        {null, null, null, null, null, null, null},
+                        {null, null, null, null, null, null, null},
+                        {null, null, null, null, null, null, null},
+                        {null, null, null, null, null, null, null},
+                        {null, null, null, null, null, null, null},
+                        {null, null, null, null, null, null, null},
+                        {null, null, null, null, null, null, null},
+                        {null, null, null, null, null, null, null},
+                },
+                new String[] {"Codigo","Marca","Modelo", "Stock Min.","Stock","Precio","Descripción"}
+        ){
+            Class[] columnTypes = new Class[] {
+                    Integer.class, String.class, String.class, Integer.class, Integer.class, float.class, String.class
+            };
+            public Class getColumnClass(int columnIndex) {
+                return columnTypes[columnIndex];
+            }
+        });
+        return createTabla(tableModel);
+    }
+
+    private JTable createTabla(DefaultTableModel tableModel) {
+        JTable table = new JTable();
+        table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        table.setCellSelectionEnabled(false);
+        table.setColumnSelectionAllowed(false);
+        table.setModel(tableModel);
+        table.setRowSelectionAllowed(true);
+
+        table.getColumnModel().getColumn(0).setResizable(false);
+        table.getColumnModel().getColumn(0).setPreferredWidth(75);
+        table.getColumnModel().getColumn(0).setMinWidth(75);
+        table.getColumnModel().getColumn(0).setMaxWidth(75);
+        table.getColumnModel().getColumn(1).setResizable(false);
+        table.getColumnModel().getColumn(1).setPreferredWidth(100);
+        table.getColumnModel().getColumn(1).setMinWidth(100);
+        table.getColumnModel().getColumn(1).setMaxWidth(100);
+        table.getColumnModel().getColumn(2).setPreferredWidth(80);
+        table.getColumnModel().getColumn(2).setMinWidth(80);
+        table.getColumnModel().getColumn(2).setMaxWidth(80);
+        table.getColumnModel().getColumn(3).setPreferredWidth(80);
+        table.getColumnModel().getColumn(3).setMinWidth(80);
+        table.getColumnModel().getColumn(3).setMaxWidth(80);
+        table.getColumnModel().getColumn(4).setPreferredWidth(80);
+        table.getColumnModel().getColumn(4).setMinWidth(80);
+        table.getColumnModel().getColumn(4).setMaxWidth(80);
+        table.getColumnModel().getColumn(5).setPreferredWidth(80);
+        table.getColumnModel().getColumn(5).setMinWidth(80);
+        table.getColumnModel().getColumn(5).setMaxWidth(80);
+        table.getColumnModel().getColumn(6).setPreferredWidth(205);
+        table.getColumnModel().getColumn(6).setMinWidth(205);
+        table.getColumnModel().getColumn(6).setMaxWidth(205);
+        table.setBounds(20, 130, 830, 125);
+        return table;
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -29,13 +182,12 @@ public class StockPiezas extends JPanel {
 
         jLabel1 = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
-        jPanel7 = new javax.swing.JPanel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
-        jButton4 = new javax.swing.JButton();
+        jLabel2 = new javax.swing.JLabel();
+        jTextField2 = new javax.swing.JTextField();
+        jTextField3 = new javax.swing.JTextField();
+        jLabel3 = new javax.swing.JLabel();
         jButton5 = new javax.swing.JButton();
-        jLabel7 = new javax.swing.JLabel();
-        jComboBox1 = new javax.swing.JComboBox();
+        jButton4 = new javax.swing.JButton();
         jPanel5 = new javax.swing.JPanel();
         jLabel11 = new javax.swing.JLabel();
         jPanel8 = new javax.swing.JPanel();
@@ -56,20 +208,9 @@ public class StockPiezas extends JPanel {
 
         jPanel4.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
-            }
-        ));
-        jScrollPane1.setViewportView(jTable1);
+        jLabel2.setText("Marca");
 
-        jButton4.setText("Seleccionar Todo");
+        jLabel3.setText("Modelo");
 
         jButton5.setText("Añadir");
         jButton5.addActionListener(new java.awt.event.ActionListener() {
@@ -78,49 +219,27 @@ public class StockPiezas extends JPanel {
             }
         });
 
-        javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
-        jPanel7.setLayout(jPanel7Layout);
-        jPanel7Layout.setHorizontalGroup(
-            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel7Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addGroup(jPanel7Layout.createSequentialGroup()
-                        .addGap(417, 417, 417)
-                        .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jButton5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 669, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(0, 44, Short.MAX_VALUE))
-        );
-        jPanel7Layout.setVerticalGroup(
-            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel7Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton5)
-                    .addComponent(jButton4))
-                .addGap(19, 19, 19))
-        );
-
-        jLabel7.setText("Filtrar");
-
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jButton4.setText("Seleccionar Todo");
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
-                .addGap(21, 21, 21)
-                .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap()
+                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(jPanel4Layout.createSequentialGroup()
-                .addComponent(jPanel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(455, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(19, 19, 19)
+                .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
         jPanel4Layout.setVerticalGroup(
@@ -128,15 +247,19 @@ public class StockPiezas extends JPanel {
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel7)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel2)
+                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel3)
+                    .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(124, 124, 124)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jButton4)
+                    .addComponent(jButton5))
                 .addContainerGap())
         );
 
         add(jPanel4);
-        jPanel4.setBounds(10, 73, 737, 198);
+        jPanel4.setBounds(10, 80, 737, 190);
 
         jPanel5.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
@@ -205,14 +328,14 @@ public class StockPiezas extends JPanel {
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel5Layout.createSequentialGroup()
-                .addContainerGap(22, Short.MAX_VALUE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel11)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jPanel8, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         add(jPanel5);
-        jPanel5.setBounds(10, 271, 737, 181);
+        jPanel5.setBounds(10, 282, 737, 170);
 
         jButton2.setText("Realizar Pedido");
         add(jButton2);
@@ -252,18 +375,17 @@ public class StockPiezas extends JPanel {
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
-    private javax.swing.JComboBox jComboBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel11;
-    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
-    private javax.swing.JPanel jPanel7;
     private javax.swing.JPanel jPanel8;
-    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTable jTable1;
     private javax.swing.JTable jTable3;
     private javax.swing.JTextField jTextField1;
+    private javax.swing.JTextField jTextField2;
+    private javax.swing.JTextField jTextField3;
     // End of variables declaration//GEN-END:variables
 }

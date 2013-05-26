@@ -42,7 +42,7 @@ public class Reparaciones extends JPanel {
                
         jTable1 = crearTabla();
         scrollPane = new JScrollPane();
-        scrollPane.setBounds(12, 190, 830, 125);
+        scrollPane.setBounds(12, 190, 600, 175);
         add(scrollPane);
         scrollPane.setViewportView(jTable1);
         rellenaTabla(cliente.ConsultaTodas());
