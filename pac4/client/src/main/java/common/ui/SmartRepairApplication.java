@@ -271,7 +271,7 @@ public class SmartRepairApplication extends JFrame {
     
     private void openStock(ActionEvent evt) throws ExceptionErrorDataBase, RemoteException {
         removePanelFromMain();
-        StockPiezas sp = new StockPiezas(client);
+        StockPiezas sp = new StockPiezas(client,usuariConectat);
         setTitle(title + " - " + stockTitle);
         sp.setLayout(new BorderLayout());
 

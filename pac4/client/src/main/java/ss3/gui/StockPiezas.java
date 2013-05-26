@@ -39,7 +39,7 @@ public class StockPiezas extends javax.swing.JPanel {
     /**
      * Creates new form StockPiezas
      */
-    public StockPiezas(Client cli) throws ExceptionErrorDataBase, RemoteException {
+    public StockPiezas(Client cli, UsuariConectat uC) throws ExceptionErrorDataBase, RemoteException {
         cliente = cli;
         initComponents();
                
@@ -49,13 +49,10 @@ public class StockPiezas extends javax.swing.JPanel {
         add(scrollPane);
         scrollPane.setViewportView(jTable1);
         topFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
-        loginDialog = new LoginDialog(topFrame,true, cliente);
-        uC = loginDialog.getUsuariConectat();
-        System.out.println("TALLER: "+uC.getTaller());
         rellenaTabla(cliente.consultaStockPiezas(uC.getTaller()));
     }
 
-    public void rellenaTabla(ArrayList<StockPeca> stoPeca) {
+    public void rellenaTabla(ArrayList<StockPeca> stoPeca) throws ExceptionErrorDataBase {
         
         try {
                 DefaultTableModel tableModel = (DefaultTableModel) jTable1.getModel();
@@ -65,21 +62,18 @@ public class StockPiezas extends javax.swing.JPanel {
                 Pieza p1;
                 StockPeca sp1;
                 while (itRep.hasNext()){
-                    p1 = (Pieza) itRep.next();
-                    sp1 = cliente.consultaStockPiezabyCodigoPieza(p1.getCodiPieza(), uC.getTaller());
-                    
-                    if (p1.getCodiPieza() > 0){
-                        if(i==rowCount-1) 
-                            tableModel.addRow(new Object[]{});
-                        tableModel.setValueAt(p1.getCodiPieza(),i, 0);
-                        tableModel.setValueAt(p1.getMarca(),i,1);
-                        tableModel.setValueAt(p1.getModelo(),i,2);
-                        tableModel.setValueAt(sp1.getStockminim(),i,3);
-                        tableModel.setValueAt(sp1.getStock(),i,4);
-                        tableModel.setValueAt(p1.getPvd(),i,5);
-                        tableModel.setValueAt(p1.getDescripcion(),i,6);
-                        i++;
-                    }
+                    sp1 = (StockPeca) itRep.next();
+                    p1 = cliente.ConsultaCodigo(sp1.getCodipeca());
+                    if(i==rowCount-1) 
+                        tableModel.addRow(new Object[]{});
+                    tableModel.setValueAt(p1.getCodiPieza(),i, 0);
+                    tableModel.setValueAt(p1.getMarca(),i,1);
+                    tableModel.setValueAt(p1.getModelo(),i,2);
+                    tableModel.setValueAt(sp1.getStockminim(),i,3);
+                    tableModel.setValueAt(sp1.getStock(),i,4);
+                    tableModel.setValueAt(p1.getPvd(),i,5);
+                    tableModel.setValueAt(p1.getDescripcion(),i,6);
+                    i++;
                 }
                 for (int rowIdx=i;rowIdx<rowCount ;rowIdx++){
                     tableModel.setValueAt("",rowIdx,0);
