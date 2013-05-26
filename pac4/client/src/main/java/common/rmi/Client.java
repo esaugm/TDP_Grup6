@@ -129,6 +129,10 @@ public class Client {
         return remoteSS2.modificaSolicitud(solicitud);
     }
     
+    public ArrayList<StockPeca> consultaStockPiezas(Integer idTaller) throws AppException, RemoteException{
+        return remoteSS2.consultaStockPiezas(idTaller);
+    }
+    
     public Reparacion ConsultaOrden(Integer OrdenID) throws ExceptionErrorDataBase, RemoteException {
         return remoteSS3.ConsultaOrden(OrdenID);
     }

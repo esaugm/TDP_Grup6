@@ -200,7 +200,13 @@ public class SmartRepairApplication extends JFrame {
         _stockMenu.setText(menuStock);
         _stockMenu.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                openStock(evt);
+                try {
+                    openStock(evt);
+                } catch (ExceptionErrorDataBase ex) {
+                    ex.printStackTrace();
+                } catch (RemoteException ex) {
+                    ex.printStackTrace();
+                }
             }
         });
         _reparacioMenu.add(_stockMenu);
@@ -263,9 +269,9 @@ public class SmartRepairApplication extends JFrame {
         _mainPanel.validate();
     }
     
-    private void openStock(ActionEvent evt) {
+    private void openStock(ActionEvent evt) throws ExceptionErrorDataBase, RemoteException {
         removePanelFromMain();
-        StockPiezas sp = new StockPiezas();
+        StockPiezas sp = new StockPiezas(client);
         setTitle(title + " - " + stockTitle);
         sp.setLayout(new BorderLayout());
 

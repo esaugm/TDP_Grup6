@@ -27,6 +27,9 @@ public class UsuariConectat {
         return usuari.getPerfil().toString();
     }
 
+    public Integer getTaller(){
+        return usuari.getTaller();
+    }
 
     public boolean isAdministrador(){
         return usuari.isAdministrador();
