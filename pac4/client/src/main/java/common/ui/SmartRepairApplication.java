@@ -90,7 +90,7 @@ public class SmartRepairApplication extends JFrame {
     private void initComponents() throws Exception {
 
         _mainPanel = new JPanel();
-        _mainMenu = new JMenuBar();
+        //_mainMenu = new JMenuBar();
 
         _inicioBtnMenu = new JMenuItem();
         _inicioMenu = new JMenu();
@@ -108,7 +108,7 @@ public class SmartRepairApplication extends JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle(title);
         setExtendedState(Frame.MAXIMIZED_BOTH);
-        setJMenuBar(_mainMenu);
+        //setJMenuBar(_mainMenu);
         //Iniciamos al panel principal que siempre estara vivo i sera el controlador de todo.
         _mainPanel.setLayout(new BorderLayout());
         _mainPanel.setVisible(true);
@@ -126,6 +126,9 @@ public class SmartRepairApplication extends JFrame {
     }
 
     private void paintMenusUsingUsuariConectat() {
+        _mainMenu = new JMenuBar();
+        setJMenuBar(_mainMenu);
+
         paintInicioMenu();
 
         if (usuariConectat.isAdministrador()) {
@@ -167,6 +170,11 @@ public class SmartRepairApplication extends JFrame {
                 usuariConectat=null;
                 loginTries=0;
                 showLogin();
+                if (usuariConectat!= null) {
+                    paintMenusUsingUsuariConectat();
+                } else {
+                    doDisconnectAndClose();
+                }
             }
         });
         _inicioMenu.add(_inicioBtnMenu);
