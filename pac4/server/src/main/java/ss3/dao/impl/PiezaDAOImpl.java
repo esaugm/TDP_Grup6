@@ -155,7 +155,7 @@ public class PiezaDAOImpl extends GenericDaoImpl implements PiezaDAO {
         ArrayList<Pieza> listaPieza = new ArrayList<Pieza>();
         try{
             conn = getConnection();
-            ps = conn.prepareStatement("select * from peca where descripcion like ?");
+            ps = conn.prepareStatement("select * from peca where descripcio like ?");
             ps.setString(1,"%"+pDescripcion+"%");
             
             rs = ps.executeQuery();
