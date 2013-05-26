@@ -1,5 +1,6 @@
 package ss4.gui;
 
+import common.utils.TDSLanguageUtils;
 import ss4.model.EstadisticaReparaciones;
 import ss4.model.ReparacionClientesTableModel;
 import ss4.model.ReparacionTableModel;
@@ -38,6 +39,7 @@ public class ReparacionesClienteEstaPanel extends JPanel {
     private JLabel lblFechaInicio;
     private JLabel lblFechaFin;
     private JScrollPane scrollPane;
+    private JButton _btnImprimir;
 
     /**
      * Create the panel.
@@ -67,7 +69,7 @@ public class ReparacionesClienteEstaPanel extends JPanel {
         gbl_panel.rowWeights = new double[]{0.0, 0.0, Double.MIN_VALUE};
         panel.setLayout(gbl_panel);
 
-        _btnBuscar = new JButton("Buscar");
+        _btnBuscar = new JButton(TDSLanguageUtils.getMessage("client.ss4.button.search"));
         _btnBuscar.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 Map values = new LinkedHashMap();
@@ -88,18 +90,20 @@ public class ReparacionesClienteEstaPanel extends JPanel {
                         values.put("fin", _ftextFin.getText());
                     }
                     _reparaciones = _remote.findReparacionesByTermsClientes(values);
-
+                    if(_reparaciones.size()==0){
+                        JOptionPane.showMessageDialog(panel,"No se han encontrado datos con los parametros de busqueda , porfavor Modique su busqueda.");
+                    }
                     _model.reloadData(_reparaciones);
                     scrollPane.repaint();
 
-                    System.out.println(_tableReparaciones.getRowCount());
+
                 } catch (RemoteException e1) {
                     e1.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
                 }
             }
         });
 
-        lblIdReparacion = new JLabel("id Reparacion");
+        lblIdReparacion = new JLabel(TDSLanguageUtils.getMessage("client.ss4.label.idReparacion"));
         lblIdReparacion.setFont(new Font("Tahoma", Font.BOLD, 11));
         GridBagConstraints gbc_lblIdReparacion = new GridBagConstraints();
         gbc_lblIdReparacion.anchor = GridBagConstraints.SOUTH;
@@ -108,7 +112,7 @@ public class ReparacionesClienteEstaPanel extends JPanel {
         gbc_lblIdReparacion.gridy = 0;
         panel.add(lblIdReparacion, gbc_lblIdReparacion);
 
-        lblNombreCliente = new JLabel("Nombre Cliente");
+        lblNombreCliente = new JLabel(TDSLanguageUtils.getMessage("client.ss4.label.cliente"));
         lblNombreCliente.setFont(new Font("Tahoma", Font.BOLD, 11));
         GridBagConstraints gbc_lblNombreCliente = new GridBagConstraints();
         gbc_lblNombreCliente.anchor = GridBagConstraints.SOUTH;
@@ -117,7 +121,7 @@ public class ReparacionesClienteEstaPanel extends JPanel {
         gbc_lblNombreCliente.gridy = 0;
         panel.add(lblNombreCliente, gbc_lblNombreCliente);
 
-        lblNombreMarca = new JLabel("Nombre Marca");
+        lblNombreMarca = new JLabel(TDSLanguageUtils.getMessage("client.ss4.label.marca"));
         lblNombreMarca.setFont(new Font("Tahoma", Font.BOLD, 11));
         GridBagConstraints gbc_lblNombreMecanico = new GridBagConstraints();
         gbc_lblNombreMecanico.anchor = GridBagConstraints.SOUTH;
@@ -126,7 +130,7 @@ public class ReparacionesClienteEstaPanel extends JPanel {
         gbc_lblNombreMecanico.gridy = 0;
         panel.add(lblNombreMarca, gbc_lblNombreMecanico);
 
-        lblFechaInicio = new JLabel("Fecha Inicio");
+        lblFechaInicio = new JLabel(TDSLanguageUtils.getMessage("client.ss4.label.finicio"));
         lblFechaInicio.setFont(new Font("Tahoma", Font.BOLD, 11));
         GridBagConstraints gbc_lblFechaInicio = new GridBagConstraints();
         gbc_lblFechaInicio.anchor = GridBagConstraints.SOUTH;
@@ -135,7 +139,7 @@ public class ReparacionesClienteEstaPanel extends JPanel {
         gbc_lblFechaInicio.gridy = 0;
         panel.add(lblFechaInicio, gbc_lblFechaInicio);
 
-        lblFechaFin = new JLabel("Fecha Fin");
+        lblFechaFin = new JLabel(TDSLanguageUtils.getMessage("client.ss4.label.ffin"));
         lblFechaFin.setFont(new Font("Tahoma", Font.BOLD, 11));
         GridBagConstraints gbc_lblFechaFin = new GridBagConstraints();
         gbc_lblFechaFin.anchor = GridBagConstraints.SOUTH;
@@ -197,6 +201,16 @@ public class ReparacionesClienteEstaPanel extends JPanel {
         gbc__btnBuscar.gridx = 6;
         gbc__btnBuscar.gridy = 1;
         panel.add(_btnBuscar, gbc__btnBuscar);
+
+        _btnImprimir = new JButton(TDSLanguageUtils.getMessage("client.ss4.button.print"));
+        _btnImprimir.addActionListener(new PrintWindow());
+
+
+        GridBagConstraints gbc__btnImprimir = new GridBagConstraints();
+        gbc__btnImprimir.fill = GridBagConstraints.HORIZONTAL;
+        gbc__btnImprimir.gridx = 7;
+        gbc__btnImprimir.gridy = 1;
+        panel.add(_btnImprimir, gbc__btnImprimir);
 
 
     }

@@ -76,7 +76,7 @@ public class LoginDialog extends JDialog {
         lblPasswd.setBounds(66, 156, 150, 25);
         contentPane.add(lblPasswd);
         //textbox contrasenya
-        passwdTxt = new JTextField();
+        passwdTxt = new JPasswordField();
         passwdTxt.addActionListener(new LoginActionListener());
         passwdTxt.setBounds(66, 187, 150, 25);
         contentPane.add(passwdTxt);
@@ -90,7 +90,7 @@ public class LoginDialog extends JDialog {
 
     }
 
-    private UsuariConectat makeLogin(String pUsuari, String pPasswd, ActionEvent evt) throws ExceptionUsuariNoExisteix, ExceptionContrasenyaIncorrecta, ExceptionErrorDataBase, RemoteException, ConnectException {
+    private UsuariConectat makeLogin(String pUsuari, String pPasswd) throws ExceptionUsuariNoExisteix, ExceptionContrasenyaIncorrecta, ExceptionErrorDataBase, RemoteException, ConnectException {
         Usuari usuari = client.makeLogin(pUsuari, pPasswd);
         return new UsuariConectat(usuari,System.currentTimeMillis());
     }
@@ -104,7 +104,7 @@ public class LoginDialog extends JDialog {
         @Override
         public void actionPerformed(ActionEvent evt) {
             try {
-                usuariConectat = makeLogin(usuariTxt.getText(), passwdTxt.getText(), evt);
+                usuariConectat = makeLogin(usuariTxt.getText(), passwdTxt.getText());
             } catch (ExceptionUsuariNoExisteix exceptionUsuariNoExisteix) {
                 JOptionPane.showMessageDialog(contentPane, errorLoginUsuarioNoExisteLbl, errorLoginTitleLbl, JOptionPane.ERROR_MESSAGE);
                 //cleanValues();
@@ -122,8 +122,4 @@ public class LoginDialog extends JDialog {
         }
     }
 
-    private void cleanValues() {
-        usuariTxt.setText("");
-        passwdTxt.setText("");
-    }
 }

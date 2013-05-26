@@ -273,6 +273,8 @@ public class AltaTallerDialog extends JDialog{
         fechaBajaTextField.setEnabled(false);
         fechaBajaTextField.setEditable(false);
         actiuCheckBox.setEnabled(false);
+        jefeTallerComboBox.setEditable(false);
+        jefeTallerComboBox.setEnabled(false);
 
     }
 
@@ -427,6 +429,25 @@ public class AltaTallerDialog extends JDialog{
                 capacitatCorrectNumber=false;
                 JOptionPane.showMessageDialog(contentPanel, camposMiss, "Missing Fields", JOptionPane.ERROR_MESSAGE);
             }
+        }
+    }
+
+    protected class BaixaTallerActionListener implements ActionListener{
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            try {
+                client.baixaTaller(taller);
+            } catch (ExceptionErrorDataBase exceptionErrorDataBase) {
+                //todo i18n mensajes de error
+                JOptionPane.showMessageDialog(contentPanel, "Error de BD", "BD Error", JOptionPane.ERROR_MESSAGE);
+                exceptionErrorDataBase.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            } catch (RemoteException e1) {
+                //todo i18n mensajes de error
+                JOptionPane.showMessageDialog(contentPanel, "Error conectando con server", "Server Error", JOptionPane.ERROR_MESSAGE);
+                e1.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            }
+            dispose();
         }
     }
 }

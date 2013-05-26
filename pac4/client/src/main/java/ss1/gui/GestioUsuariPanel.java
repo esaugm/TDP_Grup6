@@ -385,6 +385,7 @@ public class GestioUsuariPanel extends JPanel{
 
                 filteringTbl= createTabla(tableModel);
                 scrollPane.setViewportView(filteringTbl);
+                validate();
             } catch (ExceptionErrorDataBase exceptionErrorDataBase) {
                 //todo pensar que se hace aqui
                 exceptionErrorDataBase.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.

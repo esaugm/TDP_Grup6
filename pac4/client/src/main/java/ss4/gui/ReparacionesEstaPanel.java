@@ -1,32 +1,25 @@
 package ss4.gui;
 
+import common.utils.TDSLanguageUtils;
 import ss4.model.EstadisticaReparaciones;
 import ss4.model.ReparacionTableModel;
 import ss4.server.ISS4Estadisticas;
 import ss4.util.DateFormat;
 
-import javax.swing.JPanel;
-import javax.swing.JTextField;
-import javax.swing.GroupLayout;
+import javax.swing.*;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.LayoutStyle.ComponentPlacement;
-import javax.swing.JComboBox;
-import javax.swing.JButton;
-import javax.swing.JFormattedTextField;
-import javax.swing.JTable;
 import java.rmi.RemoteException;
 import java.text.ParseException;
 import java.util.*;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.JScrollPane;
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
-import javax.swing.JLabel;
 import java.awt.Font;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.EmptyBorder;
@@ -49,6 +42,7 @@ public class ReparacionesEstaPanel extends JPanel {
     private JLabel lblFechaInicio;
     private JLabel lblFechaFin;
     private JScrollPane scrollPane;
+    private JButton _btnImprimir;
 
     /**
      * Create the panel.
@@ -72,13 +66,13 @@ public class ReparacionesEstaPanel extends JPanel {
         panel = new JPanel();
         add(panel, BorderLayout.NORTH);
         GridBagLayout gbl_panel = new GridBagLayout();
-        gbl_panel.columnWidths = new int[]{155, 150, 150, 150, 139, 31, 89, 0};
+        gbl_panel.columnWidths = new int[]{155, 150, 150, 150, 139, 31, 89, 0, 0};
         gbl_panel.rowHeights = new int[]{46, 0, 0};
-        gbl_panel.columnWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
+        gbl_panel.columnWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
         gbl_panel.rowWeights = new double[]{0.0, 0.0, Double.MIN_VALUE};
         panel.setLayout(gbl_panel);
 
-        _btnBuscar = new JButton("Buscar");
+        _btnBuscar = new JButton(TDSLanguageUtils.getMessage("client.ss4.button.search"));
         _btnBuscar.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 Map values = new LinkedHashMap();
@@ -99,7 +93,9 @@ public class ReparacionesEstaPanel extends JPanel {
                         values.put("fin", _ftextFin.getText());
                     }
                     _reparaciones = _remote.findReparacionesByTerms(values);
-
+                    if(_reparaciones.size()==0){
+                        JOptionPane.showMessageDialog(panel, "No se han encontrado datos con los parametros de busqueda , porfavor Modique su busqueda.");
+                    }
                     _model.reloadData(_reparaciones);
                     scrollPane.repaint();
 
@@ -110,7 +106,7 @@ public class ReparacionesEstaPanel extends JPanel {
             }
         });
 
-        lblIdReparacion = new JLabel("id Reparacion");
+        lblIdReparacion = new JLabel(TDSLanguageUtils.getMessage("client.ss4.label.idReparacion"));
         lblIdReparacion.setFont(new Font("Tahoma", Font.BOLD, 11));
         GridBagConstraints gbc_lblIdReparacion = new GridBagConstraints();
         gbc_lblIdReparacion.anchor = GridBagConstraints.SOUTH;
@@ -119,7 +115,7 @@ public class ReparacionesEstaPanel extends JPanel {
         gbc_lblIdReparacion.gridy = 0;
         panel.add(lblIdReparacion, gbc_lblIdReparacion);
 
-        lblNombreCliente = new JLabel("Nombre Cliente");
+        lblNombreCliente = new JLabel(TDSLanguageUtils.getMessage("client.ss4.label.cliente"));
         lblNombreCliente.setFont(new Font("Tahoma", Font.BOLD, 11));
         GridBagConstraints gbc_lblNombreCliente = new GridBagConstraints();
         gbc_lblNombreCliente.anchor = GridBagConstraints.SOUTH;
@@ -128,7 +124,7 @@ public class ReparacionesEstaPanel extends JPanel {
         gbc_lblNombreCliente.gridy = 0;
         panel.add(lblNombreCliente, gbc_lblNombreCliente);
 
-        lblNombreMecanico = new JLabel("Nombre Mecanico");
+        lblNombreMecanico = new JLabel(TDSLanguageUtils.getMessage("client.ss4.label.mecanico"));
         lblNombreMecanico.setFont(new Font("Tahoma", Font.BOLD, 11));
         GridBagConstraints gbc_lblNombreMecanico = new GridBagConstraints();
         gbc_lblNombreMecanico.anchor = GridBagConstraints.SOUTH;
@@ -137,7 +133,7 @@ public class ReparacionesEstaPanel extends JPanel {
         gbc_lblNombreMecanico.gridy = 0;
         panel.add(lblNombreMecanico, gbc_lblNombreMecanico);
 
-        lblFechaInicio = new JLabel("Fecha Inicio");
+        lblFechaInicio = new JLabel(TDSLanguageUtils.getMessage("client.ss4.label.finicio"));
         lblFechaInicio.setFont(new Font("Tahoma", Font.BOLD, 11));
         GridBagConstraints gbc_lblFechaInicio = new GridBagConstraints();
         gbc_lblFechaInicio.anchor = GridBagConstraints.SOUTH;
@@ -146,7 +142,7 @@ public class ReparacionesEstaPanel extends JPanel {
         gbc_lblFechaInicio.gridy = 0;
         panel.add(lblFechaInicio, gbc_lblFechaInicio);
 
-        lblFechaFin = new JLabel("Fecha Fin");
+        lblFechaFin = new JLabel(TDSLanguageUtils.getMessage("client.ss4.label.ffin"));
         lblFechaFin.setFont(new Font("Tahoma", Font.BOLD, 11));
         GridBagConstraints gbc_lblFechaFin = new GridBagConstraints();
         gbc_lblFechaFin.anchor = GridBagConstraints.SOUTH;
@@ -204,10 +200,21 @@ public class ReparacionesEstaPanel extends JPanel {
         panel.add(_ftextFin, gbc__ftextFin);
         panel.add(_btnBuscar);
         GridBagConstraints gbc__btnBuscar = new GridBagConstraints();
+        gbc__btnBuscar.insets = new Insets(0, 0, 0, 5);
         gbc__btnBuscar.anchor = GridBagConstraints.NORTHWEST;
         gbc__btnBuscar.gridx = 6;
         gbc__btnBuscar.gridy = 1;
         panel.add(_btnBuscar, gbc__btnBuscar);
+        
+        _btnImprimir = new JButton(TDSLanguageUtils.getMessage("client.ss4.button.print"));
+        _btnImprimir.addActionListener(new PrintWindow());
+
+
+        GridBagConstraints gbc__btnImprimir = new GridBagConstraints();
+        gbc__btnImprimir.fill = GridBagConstraints.HORIZONTAL;
+        gbc__btnImprimir.gridx = 7;
+        gbc__btnImprimir.gridy = 1;
+        panel.add(_btnImprimir, gbc__btnImprimir);
 
 
     }

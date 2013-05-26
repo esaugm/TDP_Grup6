@@ -67,7 +67,7 @@ public class Client {
         System.exit(0);
     }
 
-    //SS1
+    //Metodos del SS1
     public Usuari makeLogin(String pUsuari, String pPasswd) throws RemoteException, ExceptionUsuariNoExisteix, ExceptionContrasenyaIncorrecta, ExceptionErrorDataBase {
         return remoteSS1.usuariLogin(pUsuari, pPasswd);
     }
@@ -119,7 +119,11 @@ public class Client {
         remoteSS1.modificaTaller(pTaller);
     }
 
-    // final SS1
+    public void baixaTaller(Taller pTaller) throws ExceptionErrorDataBase, RemoteException {
+        remoteSS1.baixaTaller(pTaller);
+    }
+    //fin metodos del SS1
+
     public Solicitud buscaSolicitudbynumrep(Integer orden) throws AppException, RemoteException {
         return remoteSS2.buscaSolicitudbynumrep(orden);
 
