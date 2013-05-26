@@ -11,7 +11,7 @@ import ss1.gui.GestioUsuariPanel;
 import ss1.gui.LoginDialog;
 import ss2.exception.AppException;
 import ss2.gui.JPClienteFind;
-import ss2.gui.JPSolicitud;
+import ss2.gui.JPSolicitudFind;
 import ss3.gui.Reparaciones;
 import ss3.gui.ReparacionesAsignadas;
 import ss3.gui.StockPiezas;
@@ -144,10 +144,10 @@ public class SmartRepairApplication extends JFrame {
         }
 
 	if (usuariConectat.isAdministratiu()) {
-	    SS2GestionAdministrativaMenu();
+        paintMantenimentMenu();
 	}
 
-        painReparacionsMenu();
+        paintReparacionsMenu();
 
         paintEstadisticasMenu();
         validate();
