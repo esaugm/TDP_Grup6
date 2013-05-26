@@ -21,12 +21,14 @@ public class ModificaTallerDialog extends AltaTallerDialog{
 
     public ModificaTallerDialog(Taller pTaller, Client pClient) throws ExceptionErrorDataBase, ExceptionTipoObjetoFiltroNoPermitido, RemoteException {
         super(pClient);
-        this.taller = pTaller;
+        setTaller(pTaller);
         setModificaDialogProperties();
+        fillTallerData(pTaller);
     }
 
     private void setModificaDialogProperties() {
         updateTitle(modificaUsuariLabel);
         updateOKButtonText(okBtnLabel);
+        setActionListenerOKButton(new ModificaTallerActionListener());
     }
 }

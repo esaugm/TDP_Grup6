@@ -3,6 +3,7 @@ package common.ui;
 import common.rmi.Client;
 import common.utils.TDSLanguageUtils;
 import ss1.dao.exception.ExceptionErrorDataBase;
+import ss1.dao.exception.ExceptionTipoObjetoFiltroNoPermitido;
 import ss1.entity.UsuariConectat;
 import ss1.gui.GestioTallerPanel;
 import ss1.gui.GestioUsuariPanel;
@@ -61,6 +62,9 @@ public class SmartRepairApplication extends JFrame {
 
     //i18n messages
     private String title = TDSLanguageUtils.getMessage("client.title");
+    private String menuInicio = TDSLanguageUtils.getMessage("client.menuInicioText");
+    private String menuCambiarUsuario = TDSLanguageUtils.getMessage("client.menuCambiarUsuarioText");
+    private String menuSalir = TDSLanguageUtils.getMessage("client.menuSalirText");
     private String menuGestioTallers = TDSLanguageUtils.getMessage("client.menuGestioTallerText");
     private String menuGestioUsuaris = TDSLanguageUtils.getMessage("client.menuGestioUsuariText");
     private String menuReparacio = TDSLanguageUtils.getMessage("client.menuReparacioText");
@@ -69,13 +73,13 @@ public class SmartRepairApplication extends JFrame {
     private String gestioTallersTitle = TDSLanguageUtils.getMessage("client.menuGestioTallerTitle");
     private String ReparacioTitle = TDSLanguageUtils.getMessage("client.menuGestioReparacioTitle");
     private String menuReparacions = TDSLanguageUtils.getMessage("client.menuReparacions");
-    private String menuRepAsig = TDSLanguageUtils.getMessage("client.menuRepAsigText");
+    private String menuRepAsig = TDSLanguageUtils.getMessage("gestioReparacions.menuRepAsigText");
     private String menuAviso = TDSLanguageUtils.getMessage("client.menuAvisoText");
-    private String menuGestioReparacio = TDSLanguageUtils.getMessage("client.menuGestioReparacioText");
-    private String menuStock = TDSLanguageUtils.getMessage("client.menuStockText");
-    private String repAsigTitle = TDSLanguageUtils.getMessage("client.menuRepAsigTitle");
-    private String gestioReparacioTitle = TDSLanguageUtils.getMessage("client.menuGestioReparacioTitle");
-    private String stockTitle = TDSLanguageUtils.getMessage("client.menuStockTitle");
+    private String menuGestioReparacio = TDSLanguageUtils.getMessage("gestioReparacions.menuGestioReparacioText");
+    private String menuStock = TDSLanguageUtils.getMessage("gestioReparacions.menuStockText");
+    private String repAsigTitle = TDSLanguageUtils.getMessage("gestioReparacions.menuRepAsigTitle");
+    private String gestioReparacioTitle = TDSLanguageUtils.getMessage("gestioReparacions.menuGestioReparacioTitle");
+    private String stockTitle = TDSLanguageUtils.getMessage("gestioReparacions.menuStockTitle");
     private String avisoTitle = TDSLanguageUtils.getMessage("client.menuAvisoTitle");
 
 
@@ -109,8 +113,32 @@ public class SmartRepairApplication extends JFrame {
         _mainPanel.setLayout(new BorderLayout());
         _mainPanel.setVisible(true);
 
-        //todo ESAU: abrir pantalla de login y no mostrar nada más hasta tener UsuariConectat para saber permisos y mostrar menus correspondientes
-        //do {
+        showLogin();
+
+        setContentPane(_mainPanel);
+
+        if (usuariConectat!= null) {
+            paintMenusUsingUsuariConectat();
+        } else {
+            doDisconnectAndClose();
+        }
+
+    }
+
+    private void paintMenusUsingUsuariConectat() {
+        paintInicioMenu();
+
+        if (usuariConectat.isAdministrador()) {
+            paintMantenimentMenu();
+        }
+
+        painReparacionsMenu();
+
+        paintEstadisticasMenu();
+    }
+
+    private void showLogin() {
+        while (usuariConectat==null && loginTries<3) {
             loginTries++;
             loginDialog = new LoginDialog(this,true, client);
             loginDialog.setLayout(new BorderLayout());
@@ -118,56 +146,52 @@ public class SmartRepairApplication extends JFrame {
             loginDialog.setModal(false);
             loginDialog.setResizable(false);
             usuariConectat = loginDialog.getUsuariConectat();
-            if(usuariConectat==null){
-                JOptionPane.showMessageDialog(_mainPanel,"Error de login, vuelva a intentarlo", "Login Error",JOptionPane.ERROR_MESSAGE);
+            String nom = usuariConectat!=null?usuariConectat.getNom():"";
+            if(usuariConectat==null && loginTries<3){
+                JOptionPane.showMessageDialog(_mainPanel, "Error de login, vuelva a intentarlo", "Login Error", JOptionPane.ERROR_MESSAGE);
+            } else if (usuariConectat==null && loginTries>=3) {
+                JOptionPane.showMessageDialog(_mainPanel, "Máximo de reintentos superados. Cerrando Aplicacion", "Login Error", JOptionPane.ERROR_MESSAGE);
+            } else {
+                JOptionPane.showMessageDialog(_mainPanel, "Bienvenido " + nom, "Login Successful", JOptionPane.INFORMATION_MESSAGE);
             }
-        //} while (loginTries<3);
+        }
+    }
 
-        setContentPane(_mainPanel);
-
-        _inicioBtnMenu.setText("start");
-
-        _inicioMenu.add(_inicioBtnMenu);
-        _quitBtnMenu.setText("Pantalla 2 Son pantallas de pruebas !!!");
-        _inicioMenu.add(_quitBtnMenu);
-
-        _inicioMenu.setText("Inicio");
+    private void paintInicioMenu() {
+        _inicioMenu.setText(menuInicio);
         _mainMenu.add(_inicioMenu);
 
+        _inicioBtnMenu.setText(menuCambiarUsuario);
+        _inicioBtnMenu.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
+                usuariConectat=null;
+                loginTries=0;
+                showLogin();
+            }
+        });
+        _inicioMenu.add(_inicioBtnMenu);
 
-        //todo ESAU: segun UsuariConectat mostrar menús
-        System.out.println("Usuari: " + usuariConectat.getPerfilString());
+        _quitBtnMenu.setText(menuSalir);
+        _quitBtnMenu.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
+                doDisconnectAndClose();
+            }
+        });
+        _inicioMenu.add(_quitBtnMenu);
+    }
 
-        if (usuariConectat.isAdministrador()) {
-            _mantenimentMenu = new JMenu();
-            _mantenimentMenu.setText(menuManteniment);
-            _gestioTallersMenu = new JMenuItem();
-            _gestioTallersMenu.setText(menuGestioTallers);
-            _gestioTallersMenu.addActionListener(new java.awt.event.ActionListener() {
-                public void actionPerformed(ActionEvent evt) {
-                    openMenuTallers(evt);
-                }
-            });
-            _mantenimentMenu.add(_gestioTallersMenu);
+    private void doDisconnectAndClose() {
+        client.disconnect();
+        dispose();
+    }
 
-            _gestioUsuarisMenu = new JMenuItem();
-            _gestioUsuarisMenu.setText(menuGestioUsuaris);
-            _gestioUsuarisMenu.addActionListener(new java.awt.event.ActionListener() {
-                public void actionPerformed(ActionEvent evt) {
-                    openMenuUsuaris(evt);
-                }
-            });
-            _mantenimentMenu.add(_gestioUsuarisMenu);
-            _mainMenu.add(_mantenimentMenu);
-        }
-
-
+    private void painReparacionsMenu() {
         _reparacioMenu = new JMenu();
-        _reparacioMenu.setText(menuReparacions);
+        _reparacioMenu.setText(menuReparacio);
         _repAsigMenu = new JMenuItem();
         _repAsigMenu.setText(menuRepAsig);
         _repAsigMenu.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+            public void actionPerformed(ActionEvent evt) {
                 try {
                     openMenuRepAsig(evt);
                 } catch (AppException ex) {
@@ -184,7 +208,7 @@ public class SmartRepairApplication extends JFrame {
         _gestioRepMenu = new JMenuItem();
         _gestioRepMenu.setText(menuGestioReparacio);
         _gestioRepMenu.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+            public void actionPerformed(ActionEvent evt) {
                 try {
                     openMenuGesRep(evt);
                 } catch (ExceptionErrorDataBase ex) {
@@ -195,11 +219,11 @@ public class SmartRepairApplication extends JFrame {
             }
         });
         _reparacioMenu.add(_gestioRepMenu);
-        
+
         _stockMenu = new JMenuItem();
         _stockMenu.setText(menuStock);
         _stockMenu.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+            public void actionPerformed(ActionEvent evt) {
                 try {
                     openStock(evt);
                 } catch (ExceptionErrorDataBase ex) {
@@ -211,9 +235,37 @@ public class SmartRepairApplication extends JFrame {
         });
         _reparacioMenu.add(_stockMenu);
         _mainMenu.add(_reparacioMenu);
-        paintEstadisticasMenu();
+    }
 
+    private void paintMantenimentMenu() {
+        _mantenimentMenu = new JMenu();
+        _mantenimentMenu.setText(menuManteniment);
+        _gestioTallersMenu = new JMenuItem();
+        _gestioTallersMenu.setText(menuGestioTallers);
+        _gestioTallersMenu.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
+                try {
+                    openMenuTallers(evt);
+                } catch (RemoteException e) {
+                    e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                } catch (ExceptionErrorDataBase exceptionErrorDataBase) {
+                    exceptionErrorDataBase.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                } catch (ExceptionTipoObjetoFiltroNoPermitido exceptionTipoObjetoFiltroNoPermitido) {
+                    exceptionTipoObjetoFiltroNoPermitido.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                }
+            }
+        });
+        _mantenimentMenu.add(_gestioTallersMenu);
 
+        _gestioUsuarisMenu = new JMenuItem();
+        _gestioUsuarisMenu.setText(menuGestioUsuaris);
+        _gestioUsuarisMenu.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
+                openMenuUsuaris(evt);
+            }
+        });
+        _mantenimentMenu.add(_gestioUsuarisMenu);
+        _mainMenu.add(_mantenimentMenu);
     }
 
     private void openMenuUsuaris(ActionEvent evt) {
@@ -236,7 +288,7 @@ public class SmartRepairApplication extends JFrame {
         _mainPanel.validate();
     }
 
-    private void openMenuTallers(ActionEvent evt) {
+    private void openMenuTallers(ActionEvent evt) throws RemoteException, ExceptionErrorDataBase, ExceptionTipoObjetoFiltroNoPermitido {
         removePanelFromMain();
         GestioTallerPanel tallerPanel = new GestioTallerPanel(client);
         setTitle(title + " - " + gestioTallersTitle);
@@ -357,7 +409,7 @@ public class SmartRepairApplication extends JFrame {
         _mainMenu.add(_estadisticasMenu);
     }
 
-    private void repaintMainMenuByUserRole(UsuariConectat usuariConectat) {
+    private void repaintMenusByUserRole(UsuariConectat usuariConectat) {
        //TODO EN ESTE METODO COMPLETEMOS CADA UNO SU PARTE , DESPUES DE HACER EL LOGIN , EN FUNCION DEL ROLE DE SUARIO QUE PINTE UNOS MENUS U OTROS.
         // SI VEIS EL METODO  paintEstadisticasMenu() , SI LE LLAMAIS PINTARA TODO EL MENU DE MENU ESTADISTICO , CREO QUE ES RAPIDO I LIMPIO , SI CADA UNO
         //HACE UN METODO PARECIDO PERO CON SUS MENUS , SERAN FACILMENTE MANEJABLES .

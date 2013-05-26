@@ -52,7 +52,7 @@ public class AltaTallerDialog extends JDialog{
     private JTextField capacitatTextField;
     private JTextField fechaModifTextField;
     private JTextField fechaBajaTextField;
-    private JComboBox tallerComboBox;
+    private JComboBox jefeTallerComboBox;
     private JCheckBox actiuCheckBox;
     private JLabel lblAltaTaller;
     private JButton okButton;
@@ -141,12 +141,12 @@ public class AltaTallerDialog extends JDialog{
             contentPanel.add(fechaAltaText);
         }
         {
-            tallerComboBox = new JComboBox();
+            jefeTallerComboBox = new JComboBox();
 
             Vector<Usuari> capsTaller = new Vector<Usuari>(client.listaCapsTaller());
-            tallerComboBox.setModel(new DefaultComboBoxModel(capsTaller));
-            tallerComboBox.setBounds(377, 154, 86, 20);
-            contentPanel.add(tallerComboBox);
+            jefeTallerComboBox.setModel(new DefaultComboBoxModel(capsTaller));
+            jefeTallerComboBox.setBounds(377, 154, 86, 20);
+            contentPanel.add(jefeTallerComboBox);
         }
         {
             JLabel telefonoLabel = new JLabel(telefonLabel);
@@ -243,6 +243,13 @@ public class AltaTallerDialog extends JDialog{
     protected void updateOKButtonText(String pNewText){
         okButton.setText(pNewText);
     }
+    protected void setActionListenerOKButton(ActionListener pActionListener){
+        ActionListener[] actionListeners = okButton.getActionListeners();
+        for (ActionListener actionListener : actionListeners) {
+            okButton.removeActionListener(actionListener);
+        }
+        okButton.addActionListener(pActionListener);
+    }
 
     protected void disableTextBoxes(){
         idTextField.setEnabled(false);
@@ -276,10 +283,27 @@ public class AltaTallerDialog extends JDialog{
         newTaller.setCif(cifTextField.getText());
         newTaller.setAdreca(adrecaTextField.getText());
         newTaller.setCapacitat(Integer.parseInt(capacitatTextField.getText()));
-        newTaller.setCapTaller(((Usuari) tallerComboBox.getSelectedItem()).getId());
+        newTaller.setCapTaller(((Usuari) jefeTallerComboBox.getSelectedItem()).getId());
         newTaller.setTelefon(telefonoTextField.getText());
         newTaller.setWeb(webTextField.getText());
         newTaller.setActiu(actiuCheckBox.isSelected());
+    }
+
+    protected void fillTallerData(Taller pTaller) throws ExceptionErrorDataBase, RemoteException {
+        idTextField.setText(pTaller.getId().toString());
+        nomTextField.setText(pTaller.getNom());
+        adrecaTextField.setText(pTaller.getAdreca());
+        cifTextField.setText(pTaller.getCif());
+        capacitatTextField.setText(""+pTaller.getCapacitat());
+        telefonoTextField.setText(pTaller.getTelefon());
+        Integer jefeTaller = pTaller.getCapTaller();
+        jefeTallerComboBox.setSelectedItem(client.buscarUsuariPorId(jefeTaller));
+        webTextField.setText(pTaller.getWeb());
+        actiuCheckBox.setSelected(pTaller.isActiu());
+        fechaAltaText.setText(pTaller.getDataApertura()!=null?pTaller.getDataApertura().toString():"");
+        fechaBajaTextField.setText(pTaller.getDataBaixa() != null ? pTaller.getDataBaixa().toString() : "");
+        fechaModifTextField.setText(pTaller.getDataModificacio() != null ? pTaller.getDataModificacio().toString() : "");
+
     }
 
     protected boolean checkInputDataOK() {
@@ -365,6 +389,44 @@ public class AltaTallerDialog extends JDialog{
         @Override
         public void actionPerformed(ActionEvent e) {
             dispose();
+        }
+    }
+
+    protected class ModificaTallerActionListener implements ActionListener{
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            if (checkInputDataOK()) {
+                Taller newTaller= new Taller();
+                fillTallerWithNewData(newTaller, false);
+
+                try {
+                    client.modificaTaller(newTaller);
+                } catch (ExceptionErrorDataBase exceptionErrorDataBase) {
+                    //todo i18n mensajes de error
+                    JOptionPane.showMessageDialog(contentPanel, "Error de BD", "BD Error", JOptionPane.ERROR_MESSAGE);
+                    exceptionErrorDataBase.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                } catch (RemoteException e1) {
+                    //todo i18n mensajes de error
+                    JOptionPane.showMessageDialog(contentPanel, "Error conectando con server", "Server Error", JOptionPane.ERROR_MESSAGE);
+                    e1.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                } catch (Exception e2){
+                    //todo i18n mensajes de error
+                    JOptionPane.showMessageDialog(contentPanel, "Error", "Generic Error", JOptionPane.ERROR_MESSAGE);
+                    e2.printStackTrace();
+                }
+                dispose();
+            } else {
+                StringBuilder camposMiss = new StringBuilder();
+                //todo i18n mensajes de error
+                camposMiss.append("Error en campos obligatorios:").append("\n");
+                for (String campoMiss : camposMissing) {
+                    if (campoMiss != null) camposMiss.append(campoMiss).append(" está vacío.").append("\n");
+                }
+                if (!capacitatCorrectNumber) camposMiss.append("El valor en Capacidad no es un número válido").append("\n");
+                capacitatCorrectNumber=false;
+                JOptionPane.showMessageDialog(contentPanel, camposMiss, "Missing Fields", JOptionPane.ERROR_MESSAGE);
+            }
         }
     }
 }

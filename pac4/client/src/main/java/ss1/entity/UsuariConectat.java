@@ -47,6 +47,8 @@ public class UsuariConectat {
         return usuari.isMecanic();
     }
 
-    //todo thread que vaya mirando la hora de conexión y haga un timeout?? --> ventana de error + login
+    public String getNom(){
+        return usuari.getNom();
+    }
 
 }

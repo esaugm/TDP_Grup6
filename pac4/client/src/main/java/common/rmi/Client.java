@@ -42,10 +42,8 @@ public class Client {
     private final String JNDI_SS2_NAME = "GestionAdministrativa";
     private SS3Reparaciones remoteSS3;
     private final String JNDI_SS3_NAME = "Reparaciones";
-
-    private final String JNDI_SS4_NAME = "Estadisticas";
     private ISS4Estadisticas _remoteSS4 ;
-    //todo añadir Interface y JNDI para cada subsistema
+    private final String JNDI_SS4_NAME = "Estadisticas";
 
 
     /**
@@ -113,6 +111,10 @@ public class Client {
 
     public Usuari buscarUsuariPorId(Integer pId) throws ExceptionErrorDataBase, RemoteException{
         return remoteSS1.findUsuariByPK(pId);
+    }
+    
+    public void modificaTaller(Taller pTaller) throws ExceptionErrorDataBase, RemoteException {
+        remoteSS1.modificaTaller(pTaller);
     }
 
     // final SS1
