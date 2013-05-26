@@ -366,7 +366,7 @@ public class StockPiezas extends javax.swing.JPanel {
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
-        jTable2.getSelectionModel().setSelectionInterval(0, 0);
+        /*jTable2.getSelectionModel().setSelectionInterval(0, 0);
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");  
         Date date = new Date();  
         try {
@@ -378,7 +378,10 @@ public class StockPiezas extends javax.swing.JPanel {
             ex.printStackTrace();
         } catch (RemoteException ex) {
             ex.printStackTrace();
-        }
+        }*/
+        Avisos av = new Avisos("Función no implementada. Disculpe las molestias.");
+        av.setVisible(true);
+        av.setModal(true);
         
     }//GEN-LAST:event_jButton2ActionPerformed
 
