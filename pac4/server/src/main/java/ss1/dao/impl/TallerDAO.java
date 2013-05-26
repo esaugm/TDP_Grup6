@@ -180,7 +180,7 @@ public class TallerDAO extends GenericDaoImpl implements ITallerDAO {
         PreparedStatement ps = null;
         try{
             conn = getConnection();
-            ps = conn.prepareStatement("update taller set cif=?, adreca=?, capacitat=?, capTaller=?, telefon=? " +
+            ps = conn.prepareStatement("update taller set cif=?, adreca=?, capacitat=?, capTaller=?, telefon=?, " +
                     "web=?, actiu=?, nom=?,  dataModificacio=now() where id=?");
 
             ps.setString(1, pTaller.getCif());

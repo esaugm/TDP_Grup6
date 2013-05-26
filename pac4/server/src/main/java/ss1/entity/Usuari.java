@@ -209,4 +209,8 @@ public class Usuari implements Serializable {
     public void setReparacionsAssignades(int pReparacionsassignades) {
         reparacionsAssignades=pReparacionsassignades;
     }
+    
+    public String toString(){
+        return nom;
+    }
 }

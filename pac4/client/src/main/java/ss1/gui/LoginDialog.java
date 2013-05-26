@@ -38,7 +38,6 @@ public class LoginDialog extends JDialog {
     private JTextField passwdTxt;
     private Client client;
     private UsuariConectat usuariConectat=null;
-    private int loginRetries=0;
 
 
     public LoginDialog(Frame owner, boolean modal, Client pClient) {
@@ -78,6 +77,7 @@ public class LoginDialog extends JDialog {
         contentPane.add(lblPasswd);
         //textbox contrasenya
         passwdTxt = new JTextField();
+        passwdTxt.addActionListener(new LoginActionListener());
         passwdTxt.setBounds(66, 187, 150, 25);
         contentPane.add(passwdTxt);
         passwdTxt.setColumns(10);
@@ -106,11 +106,9 @@ public class LoginDialog extends JDialog {
             try {
                 usuariConectat = makeLogin(usuariTxt.getText(), passwdTxt.getText(), evt);
             } catch (ExceptionUsuariNoExisteix exceptionUsuariNoExisteix) {
-                loginRetries++;
                 JOptionPane.showMessageDialog(contentPane, errorLoginUsuarioNoExisteLbl, errorLoginTitleLbl, JOptionPane.ERROR_MESSAGE);
                 //cleanValues();
             } catch (ExceptionContrasenyaIncorrecta exceptionContrasenyaIncorrecta) {
-                loginRetries++;
                 JOptionPane.showMessageDialog(contentPane, errorLoginPasswdIncorrectoLbl, errorLoginTitleLbl, JOptionPane.ERROR_MESSAGE);
                 //cleanValues();
             } catch (ExceptionErrorDataBase exceptionErrorDataBase) {

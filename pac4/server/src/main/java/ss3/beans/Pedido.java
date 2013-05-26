@@ -19,7 +19,6 @@ public class Pedido implements java.io.Serializable {
     private Integer idcaptaller;
     private Integer idproveidor;
     private Integer ordrereparacio;
-    private Boolean tipusreparacio;
 
     public static final Integer NUMCOM_UNDEF = -1;
     public Pedido(){
@@ -34,7 +33,6 @@ public class Pedido implements java.io.Serializable {
         this.idcaptaller = idcaptaller;
         this.idproveidor = idproveidor;
         this.ordrereparacio = ordrereparacio;
-        this.tipusreparacio = tipusreparacio;
     }
     
     public Pedido(Boolean estat, Date date, Integer codipeca, Integer idcaptaller, Integer idproveidor, Integer ordrereparacio, Boolean tipusreparacio) {
@@ -46,7 +44,6 @@ public class Pedido implements java.io.Serializable {
         this.idcaptaller = idcaptaller;
         this.idproveidor = idproveidor;
         this.ordrereparacio = ordrereparacio;
-        this.tipusreparacio = tipusreparacio;
     }
     
 
@@ -54,7 +51,7 @@ public class Pedido implements java.io.Serializable {
 
 @Override
 	public String toString() {
-		return "\n\nPedido{\n" + "Numero Pedido= " + numcom + ", Estado= " + estat + ", Fecha= " + date + ", Codigo Pieza= " + codipeca + ", Id JefeTaller= " + idcaptaller + ", Id Proveedor= " + idproveidor + ", Orden Reparacion= " + ordrereparacio+ ", Tipo Reparacion=" + tipusreparacio + "\n}";
+		return "\n\nPedido{\n" + "Numero Pedido= " + numcom + ", Estado= " + estat + ", Fecha= " + date + ", Codigo Pieza= " + codipeca + ", Id JefeTaller= " + idcaptaller + ", Id Proveedor= " + idproveidor + ", Orden Reparacion= " + ordrereparacio + "\n}";
         
 	}
 
@@ -67,7 +64,6 @@ public class Pedido implements java.io.Serializable {
 		values.add(idcaptaller);
 		values.add(idproveidor);
 		values.add(ordrereparacio);
-                values.add(tipusreparacio);
                 
 		return values.toArray();
 	}
@@ -126,13 +122,5 @@ public class Pedido implements java.io.Serializable {
 
     public void setOrdrereparacio(Integer ordrereparacio) {
         this.ordrereparacio = ordrereparacio;
-    }
-
-    public Boolean getTipusreparacio() {
-        return tipusreparacio;
-    }
-
-    public void setTipusreparacio(Boolean tipusreparacio) {
-        this.tipusreparacio = tipusreparacio;
     }
 }

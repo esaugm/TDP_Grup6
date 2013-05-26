@@ -17,7 +17,7 @@ import java.util.ArrayList;
  * @author jiquintana (jiquintana@uoc.edu)
  *
  */
-public class StockPeca {
+public class StockPeca implements java.io.Serializable{
 
 	private	Integer idstockpeca;
 	private	Integer codipeca;

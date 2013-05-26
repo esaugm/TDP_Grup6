@@ -279,7 +279,6 @@ public class GestioUsuariPanel extends JPanel{
     private class GestioModificacioUsuariActionListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            //todo pasar por parametro el Usuari seleccionado al constructor
             ModificaUsuariDialog modificaUsuariDialog = null;
             try {
                 int selectedRow = filteringTbl.getSelectedRow();

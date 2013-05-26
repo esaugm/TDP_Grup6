@@ -27,6 +27,9 @@ public class UsuariConectat {
         return usuari.getPerfil().toString();
     }
 
+    public Integer getTaller(){
+        return usuari.getTaller();
+    }
 
     public boolean isAdministrador(){
         return usuari.isAdministrador();
@@ -44,6 +47,8 @@ public class UsuariConectat {
         return usuari.isMecanic();
     }
 
-    //todo thread que vaya mirando la hora de conexión y haga un timeout?? --> ventana de error + login
+    public String getNom(){
+        return usuari.getNom();
+    }
 
 }

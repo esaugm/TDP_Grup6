@@ -15,6 +15,7 @@ import ss3.beans.Pieza;
 public interface PiezaService {
     
     public Pieza ConsultaCodigo(Integer codigo) throws ExceptionErrorDataBase;
+    public Pieza ConsultaPorOrden(Integer pOrden) throws ExceptionErrorDataBase;
     public ArrayList<Pieza> ConsultaPiezas() throws ExceptionErrorDataBase;
     public ArrayList<Pieza> ConsultaDescripcion(String descripcion) throws ExceptionErrorDataBase;
 }

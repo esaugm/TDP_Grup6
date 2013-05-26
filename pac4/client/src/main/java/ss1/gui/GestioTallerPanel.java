@@ -1,11 +1,20 @@
 package ss1.gui;
 
+import common.rmi.Client;
 import common.utils.TDSLanguageUtils;
+import ss1.dao.exception.ExceptionErrorDataBase;
+import ss1.dao.exception.ExceptionTipoObjetoFiltroNoPermitido;
+import ss1.entity.Taller;
+import ss1.entity.Usuari;
+import ss1.service.filter.FilterItems;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.rmi.RemoteException;
+import java.util.List;
+import java.util.Vector;
 
 /**
  * TDP Grup6
@@ -14,12 +23,12 @@ import java.awt.event.ActionListener;
  * Time: 16:35
  */
 public class GestioTallerPanel extends JPanel{
-
+    private Client client;
+    private List<Taller> filteredTallerList;
     private String altesBtnLabel = TDSLanguageUtils.getMessage("gestioTaller.altesBtnLabel");
     private String modificacionsBtnLabel = TDSLanguageUtils.getMessage("gestioTaller.modificacionsBtnLabel");
     private String baixesBtnLabel = TDSLanguageUtils.getMessage("gestioTaller.baixesBtnLabel");
     private String filtrarBtnLabel = TDSLanguageUtils.getMessage("gestioTaller.filtrarBtnLabel");
-    private String salirBtnLabel = TDSLanguageUtils.getMessage("gestioTaller.salirBtnLabel");
     private String criterisFiltreLblText = TDSLanguageUtils.getMessage("gestioTaller.criterisFiltreText");
     private String criteriFiltreIDLblText = TDSLanguageUtils.getMessage("gestioTaller.criteriFiltreIDText");
     private String criteriFiltreNomLblText = TDSLanguageUtils.getMessage("gestioTaller.criteriFiltreNomText");
@@ -30,6 +39,7 @@ public class GestioTallerPanel extends JPanel{
     private String criteriFiltreTelefonLblText = TDSLanguageUtils.getMessage("gestioTaller.criteriFiltreTelefonText");
     private String criteriFiltreWebLblText = TDSLanguageUtils.getMessage("gestioTaller.criteriFiltreWebText");
     private String criteriFiltreActiuLblText = TDSLanguageUtils.getMessage("gestioTaller.criteriFiltreActiuText");
+    private String criteriFiltreNONELblText = TDSLanguageUtils.getMessage("gestioTaller.criteriFiltreNONEText");
     private String comboSiValueText = TDSLanguageUtils.getMessage("gestioTaller.comboSiValueText");
     private String comboNoValueText = TDSLanguageUtils.getMessage("gestioTaller.comboNoValueText");
 
@@ -40,12 +50,15 @@ public class GestioTallerPanel extends JPanel{
     private JTextField adrecaTextField;
     private JTextField capacidadTextField;
     private JTextField cifTextField;
-    private JTextField jefeTallerTextField;
+    private JComboBox jefeTallerComboBox;
     private JTextField telefonTextField;
-    private JTextField webTextField_1;
+    private JTextField webTextField;
+    private JComboBox activoCbx;
+    private JScrollPane scrollPane;
 
 
-    public GestioTallerPanel() {
+    public GestioTallerPanel(Client pClient) throws ExceptionErrorDataBase, ExceptionTipoObjetoFiltroNoPermitido, RemoteException {
+        client =pClient;
         setLayout(null);
 
         JButton btnAltas = new JButton(altesBtnLabel);
@@ -98,78 +111,14 @@ public class GestioTallerPanel extends JPanel{
 
         JButton btnFiltrar = new JButton(filtrarBtnLabel);
         btnFiltrar.setBounds(863, 442, 119, 23);
+        btnFiltrar.addActionListener(new FiltrarActionListener());
         add(btnFiltrar);
 
-        filteringTbl = new JTable();
-        filteringTbl.setCellSelectionEnabled(true);
-        filteringTbl.setColumnSelectionAllowed(true);
-        filteringTbl.setModel(new DefaultTableModel(
-                new Object[][] {
-                        {null, null, null, null, null, null, null, null, null},
-                        {null, null, null, null, null, null, null, null, null},
-                        {null, null, null, null, null, null, null, null, null},
-                        {null, null, null, null, null, null, null, null, null},
-                        {null, null, null, null, null, null, null, null, null},
-                        {null, null, null, null, null, null, null, null, null},
-                        {null, null, null, null, null, null, null, null, null},
-                        {null, null, null, null, null, null, null, null, null},
-                        {null, null, null, null, null, null, null, null, null},
-                        {null, null, null, null, null, null, null, null, null},
-                        {null, null, null, null, null, null, null, null, null},
-                        {null, null, null, null, null, null, null, null, null},
-                        {null, null, null, null, null, null, null, null, null},
-                        {null, null, null, null, null, null, null, null, null},
-                        {null, null, null, null, null, null, null, null, null},
-                },
-                new String[] {
-                        criteriFiltreIDLblText, criteriFiltreCIFLblText, criteriFiltreNomLblText, criteriFiltreAdrecaLblText, criteriFiltreCapacidadLblText, criteriFiltreCapTallerLblText, criteriFiltreTelefonLblText, criteriFiltreWebLblText, criteriFiltreActiuLblText
-                }
-        ) {
-            Class[] columnTypes = new Class[] {
-                    Integer.class, String.class, String.class, String.class, Integer.class, Object.class, String.class, String.class, Boolean.class
-            };
-            public Class getColumnClass(int columnIndex) {
-                return columnTypes[columnIndex];
-            }
-        });
-        filteringTbl.getColumnModel().getColumn(0).setResizable(false);
-        filteringTbl.getColumnModel().getColumn(0).setPreferredWidth(56);
-        filteringTbl.getColumnModel().getColumn(0).setMinWidth(56);
-        filteringTbl.getColumnModel().getColumn(0).setMaxWidth(56);
-        filteringTbl.getColumnModel().getColumn(1).setResizable(false);
-        filteringTbl.getColumnModel().getColumn(1).setPreferredWidth(61);
-        filteringTbl.getColumnModel().getColumn(1).setMinWidth(61);
-        filteringTbl.getColumnModel().getColumn(1).setMaxWidth(61);
-        filteringTbl.getColumnModel().getColumn(2).setPreferredWidth(150);
-        filteringTbl.getColumnModel().getColumn(2).setMinWidth(150);
-        filteringTbl.getColumnModel().getColumn(2).setMaxWidth(150);
-        filteringTbl.getColumnModel().getColumn(3).setPreferredWidth(145);
-        filteringTbl.getColumnModel().getColumn(3).setMinWidth(145);
-        filteringTbl.getColumnModel().getColumn(3).setMaxWidth(145);
-        filteringTbl.getColumnModel().getColumn(4).setPreferredWidth(45);
-        filteringTbl.getColumnModel().getColumn(4).setMinWidth(45);
-        filteringTbl.getColumnModel().getColumn(4).setMaxWidth(45);
-        filteringTbl.getColumnModel().getColumn(5).setPreferredWidth(150);
-        filteringTbl.getColumnModel().getColumn(5).setMinWidth(150);
-        filteringTbl.getColumnModel().getColumn(5).setMaxWidth(150);
-        filteringTbl.getColumnModel().getColumn(6).setPreferredWidth(150);
-        filteringTbl.getColumnModel().getColumn(6).setMinWidth(150);
-        filteringTbl.getColumnModel().getColumn(6).setMaxWidth(150);
-        filteringTbl.getColumnModel().getColumn(7).setPreferredWidth(150);
-        filteringTbl.getColumnModel().getColumn(7).setMinWidth(150);
-        filteringTbl.getColumnModel().getColumn(7).setMaxWidth(150);
-        filteringTbl.getColumnModel().getColumn(8).setResizable(false);
-        filteringTbl.getColumnModel().getColumn(8).setPreferredWidth(56);
-        filteringTbl.getColumnModel().getColumn(8).setMinWidth(56);
-        filteringTbl.getColumnModel().getColumn(8).setMaxWidth(56);
-        filteringTbl.setBounds(25, 191, 958, 240);
+        filteringTbl = crearTabla();
+
         add(filteringTbl);
 
-        JButton btnSalir = new JButton(salirBtnLabel);
-        btnSalir.setBounds(856, 29, 140, 23);
-        add(btnSalir);
-
-        JComboBox activoCbx = new JComboBox();
+        activoCbx = new JComboBox();
         activoCbx.setModel(new DefaultComboBoxModel(new String[] {"-", comboSiValueText, comboNoValueText}));
         activoCbx.setBounds(931, 160, 51, 20);
         add(activoCbx);
@@ -209,10 +158,11 @@ public class GestioTallerPanel extends JPanel{
         capTallerLabel.setBounds(488, 135, 140, 14);
         add(capTallerLabel);
 
-        jefeTallerTextField = new JTextField();
-        jefeTallerTextField.setColumns(10);
-        jefeTallerTextField.setBounds(488, 160, 140, 20);
-        add(jefeTallerTextField);
+        jefeTallerComboBox = new JComboBox();
+        Vector<Usuari> capsTaller = new Vector<Usuari>(client.listaCapsTaller());
+        jefeTallerComboBox.setModel(new DefaultComboBoxModel(capsTaller));
+        jefeTallerComboBox.setBounds(488, 160, 140, 20);
+        add(jefeTallerComboBox);
 
         JLabel telefonLabel = new JLabel(criteriFiltreTelefonLblText);
         telefonLabel.setHorizontalAlignment(SwingConstants.CENTER);
@@ -229,19 +179,110 @@ public class GestioTallerPanel extends JPanel{
         webLabel.setBounds(788, 135, 140, 14);
         add(webLabel);
 
-        webTextField_1 = new JTextField();
-        webTextField_1.setColumns(10);
-        webTextField_1.setBounds(788, 160, 140, 20);
-        add(webTextField_1);
+        webTextField = new JTextField();
+        webTextField.setColumns(10);
+        webTextField.setBounds(788, 160, 140, 20);
+        add(webTextField);
 
+        scrollPane = new JScrollPane();
+        scrollPane.setBounds(25, 191, 970, 240);
+        add(scrollPane);
+        scrollPane.setViewportView(filteringTbl);
+
+    }
+
+    private JTable crearTabla() {
+        DefaultTableModel tableModel = (new DefaultTableModel(
+                new Object[][] {
+                        {null, null, null, null, null, null, null, null, null},
+                        {null, null, null, null, null, null, null, null, null},
+                        {null, null, null, null, null, null, null, null, null},
+                        {null, null, null, null, null, null, null, null, null},
+                        {null, null, null, null, null, null, null, null, null},
+                        {null, null, null, null, null, null, null, null, null},
+                        {null, null, null, null, null, null, null, null, null},
+                        {null, null, null, null, null, null, null, null, null},
+                        {null, null, null, null, null, null, null, null, null},
+                        {null, null, null, null, null, null, null, null, null},
+                        {null, null, null, null, null, null, null, null, null},
+                        {null, null, null, null, null, null, null, null, null},
+                        {null, null, null, null, null, null, null, null, null},
+                        {null, null, null, null, null, null, null, null, null},
+                        {null, null, null, null, null, null, null, null, null},
+                },
+                new String[] {
+                        criteriFiltreIDLblText, criteriFiltreCIFLblText, criteriFiltreNomLblText, criteriFiltreAdrecaLblText, criteriFiltreCapacidadLblText, criteriFiltreCapTallerLblText, criteriFiltreTelefonLblText, criteriFiltreWebLblText, criteriFiltreActiuLblText
+                }
+        ) {
+            Class[] columnTypes = new Class[] {
+                    Integer.class, String.class, String.class, String.class, Integer.class, Object.class, String.class, String.class, String.class
+            };
+            public Class getColumnClass(int columnIndex) {
+                return columnTypes[columnIndex];
+            }
+        });
+        return createTabla(tableModel);
+    }
+
+    private JTable createTabla(DefaultTableModel tableModel) {
+        JTable table = new JTable();
+        table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        table.setCellSelectionEnabled(false);
+        table.setColumnSelectionAllowed(false);
+        table.setModel(tableModel);
+        table.setRowSelectionAllowed(true);
+
+        table.getColumnModel().getColumn(0).setResizable(false);
+        table.getColumnModel().getColumn(0).setPreferredWidth(56);
+        table.getColumnModel().getColumn(0).setMinWidth(56);
+        table.getColumnModel().getColumn(0).setMaxWidth(56);
+        table.getColumnModel().getColumn(1).setResizable(false);
+        table.getColumnModel().getColumn(1).setPreferredWidth(61);
+        table.getColumnModel().getColumn(1).setMinWidth(61);
+        table.getColumnModel().getColumn(1).setMaxWidth(61);
+        table.getColumnModel().getColumn(2).setPreferredWidth(150);
+        table.getColumnModel().getColumn(2).setMinWidth(150);
+        table.getColumnModel().getColumn(2).setMaxWidth(150);
+        table.getColumnModel().getColumn(3).setPreferredWidth(145);
+        table.getColumnModel().getColumn(3).setMinWidth(145);
+        table.getColumnModel().getColumn(3).setMaxWidth(145);
+        table.getColumnModel().getColumn(4).setPreferredWidth(45);
+        table.getColumnModel().getColumn(4).setMinWidth(45);
+        table.getColumnModel().getColumn(4).setMaxWidth(45);
+        table.getColumnModel().getColumn(5).setPreferredWidth(150);
+        table.getColumnModel().getColumn(5).setMinWidth(150);
+        table.getColumnModel().getColumn(5).setMaxWidth(150);
+        table.getColumnModel().getColumn(6).setPreferredWidth(150);
+        table.getColumnModel().getColumn(6).setMinWidth(150);
+        table.getColumnModel().getColumn(6).setMaxWidth(150);
+        table.getColumnModel().getColumn(7).setPreferredWidth(150);
+        table.getColumnModel().getColumn(7).setMinWidth(150);
+        table.getColumnModel().getColumn(7).setMaxWidth(150);
+        table.getColumnModel().getColumn(8).setResizable(false);
+        table.getColumnModel().getColumn(8).setPreferredWidth(56);
+        table.getColumnModel().getColumn(8).setMinWidth(56);
+        table.getColumnModel().getColumn(8).setMaxWidth(56);
+        table.setBounds(25, 191, 958, 240);
+        add(table);
+        return table;
     }
 
     private class GestionAltaTallerActionListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            AltaTallerDialog altaTallerDialog = new AltaTallerDialog();
-            altaTallerDialog.setVisible(true);
-            altaTallerDialog.setModal(true);
+            AltaTallerDialog altaTallerDialog = null;
+            try {
+                altaTallerDialog = new AltaTallerDialog(client);
+                altaTallerDialog.setVisible(true);
+                altaTallerDialog.setModal(true);
+            } catch (ExceptionErrorDataBase exceptionErrorDataBase) {
+                //todo pensar que hacer aqui
+                exceptionErrorDataBase.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            } catch (RemoteException e1) {
+                e1.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            } catch (ExceptionTipoObjetoFiltroNoPermitido exceptionTipoObjetoFiltroNoPermitido) {
+                exceptionTipoObjetoFiltroNoPermitido.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            }
         }
     }
 
@@ -249,9 +290,34 @@ public class GestioTallerPanel extends JPanel{
         @Override
         public void actionPerformed(ActionEvent e) {
             //todo pasarle el usuario seleccionado en el filtro
-            ModificaTallerDialog modificaTallerDialog = new ModificaTallerDialog(null);
-            modificaTallerDialog.setVisible(true);
-            modificaTallerDialog.setModal(true);
+            ModificaTallerDialog modificaTallerDialog = null;
+            try {
+                int selectedRow = filteringTbl.getSelectedRow();
+                if(selectedRow==-1){
+                    JOptionPane.showMessageDialog(filteringTbl, "No hay seleccionado ningún usuario", "Usuario no seleccionado Error", JOptionPane.ERROR_MESSAGE);
+
+                }
+                Integer selectedTallerId = Integer.parseInt((String) filteringTbl.getValueAt(selectedRow, 0));
+                Taller selectedTaller=null;
+                for (Taller taller : filteredTallerList) {
+                    if (taller.getId().equals(selectedTallerId)) {
+                        selectedTaller = taller;
+                        break;
+                    }
+                }
+                System.out.println("usuari selected: " + selectedTaller.getNom());
+
+                modificaTallerDialog = new ModificaTallerDialog(selectedTaller, client);
+                modificaTallerDialog.setVisible(true);
+                modificaTallerDialog.setModal(true);
+            } catch (ExceptionErrorDataBase exceptionErrorDataBase) {
+                //todo pensar que hacer aqui
+                exceptionErrorDataBase.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            } catch (ExceptionTipoObjetoFiltroNoPermitido exceptionTipoObjetoFiltroNoPermitido) {
+                exceptionTipoObjetoFiltroNoPermitido.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            } catch (RemoteException e1) {
+                e1.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            }
         }
     }
 
@@ -259,9 +325,80 @@ public class GestioTallerPanel extends JPanel{
         @Override
         public void actionPerformed(ActionEvent e) {
             //todo pasarle el usuario seleccionado en el filtro
-            BaixaTallerDialog baixaTallerDialog = new BaixaTallerDialog(null);
-            baixaTallerDialog.setVisible(true);
-            baixaTallerDialog.setModal(true);
+            BaixaTallerDialog baixaTallerDialog = null;
+            try {
+                baixaTallerDialog = new BaixaTallerDialog(null, client);
+                baixaTallerDialog.setVisible(true);
+                baixaTallerDialog.setModal(true);
+            } catch (ExceptionErrorDataBase exceptionErrorDataBase) {
+                //todo pensar que hacer aqui
+                exceptionErrorDataBase.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            } catch (ExceptionTipoObjetoFiltroNoPermitido exceptionTipoObjetoFiltroNoPermitido) {
+                exceptionTipoObjetoFiltroNoPermitido.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            } catch (RemoteException e1) {
+                e1.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            }
+        }
+    }
+
+    private class FiltrarActionListener implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            //crear FilterItems con los valores de filtro
+            FilterItems filterItems = new FilterItems();
+            if (!idTxt.getText().isEmpty()) filterItems.addFilterValue("id",Integer.parseInt(idTxt.getText()));
+            if (!cifTextField.getText().isEmpty()) filterItems.addFilterValue("cif",cifTextField.getText());
+            if (!criteriFiltreNONELblText.equals(((Usuari) jefeTallerComboBox.getSelectedItem()).getNom()))
+                filterItems.addFilterValue("captaller",((Usuari) jefeTallerComboBox.getSelectedItem()).getId());
+            if(!"-".equals(activoCbx.getSelectedItem().toString())) filterItems.addFilterValue("actiu", activoCbx.getSelectedItem().toString().equals(comboSiValueText));
+            if(!nomTxt.getText().isEmpty()) filterItems.addFilterValue("nom", nomTxt.getText());
+            if(!adrecaTextField.getText().isEmpty()) filterItems.addFilterValue("adreca", adrecaTextField.getText());
+            if(!capacidadTextField.getText().isEmpty()) filterItems.addFilterValue("cognom", capacidadTextField.getText());
+            if(!telefonTextField.getText().isEmpty()) filterItems.addFilterValue("telefon", telefonTextField.getText());
+            if(!webTextField.getText().isEmpty()) filterItems.addFilterValue("web", webTextField.getText());
+
+            //pedir al interface los valores filtrados y rellenar la tabla
+            try {
+                DefaultTableModel tableModel = (DefaultTableModel) filteringTbl.getModel();
+                int rowCount = tableModel.getRowCount();
+                filteredTallerList = client.filtrarTaller(filterItems);
+                int i=0;
+                for (Taller taller : filteredTallerList) {
+                    if(i==rowCount-1) tableModel.addRow(new Object[]{});
+                    tableModel.setValueAt(taller.getId().toString(),i, 0);
+                    tableModel.setValueAt(taller.getCif(),i, 1);
+                    tableModel.setValueAt(taller.getNom(),i, 2);
+                    tableModel.setValueAt(taller.getAdreca(),i, 3);
+                    tableModel.setValueAt(taller.getCapacitat().toString(),i, 4);
+                    tableModel.setValueAt(taller.getCapTaller(),i, 5);
+                    tableModel.setValueAt(taller.getTelefon().toString(),i, 6);
+                    tableModel.setValueAt(taller.getWeb().toString(),i, 7);
+                    tableModel.setValueAt(taller.isActiu()?comboSiValueText:comboNoValueText,i, 8);
+                    i++;
+                }
+                for (int rowIdx=i;rowIdx<rowCount ;rowIdx++){
+                    tableModel.setValueAt("",rowIdx,0);
+                    tableModel.setValueAt("",rowIdx,1);
+                    tableModel.setValueAt("",rowIdx,2);
+                    tableModel.setValueAt("",rowIdx,3);
+                    tableModel.setValueAt("",rowIdx,4);
+                    tableModel.setValueAt("",rowIdx,5);
+                    tableModel.setValueAt("",rowIdx,6);
+                    tableModel.setValueAt("",rowIdx,7);
+                    tableModel.setValueAt("",rowIdx,8);
+                }
+
+                filteringTbl= createTabla(tableModel);
+                scrollPane.setViewportView(filteringTbl);
+            } catch (ExceptionErrorDataBase exceptionErrorDataBase) {
+                //todo pensar que se hace aqui
+                exceptionErrorDataBase.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            } catch (ExceptionTipoObjetoFiltroNoPermitido exceptionTipoObjetoFiltroNoPermitido) {
+                exceptionTipoObjetoFiltroNoPermitido.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            } catch (RemoteException e1) {
+                e1.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            }
+
         }
     }
 }

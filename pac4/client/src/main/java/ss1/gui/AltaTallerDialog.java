@@ -1,10 +1,19 @@
 package ss1.gui;
 
+import common.rmi.Client;
 import common.utils.TDSLanguageUtils;
+import ss1.dao.exception.ExceptionErrorDataBase;
+import ss1.dao.exception.ExceptionTipoObjetoFiltroNoPermitido;
+import ss1.entity.Taller;
+import ss1.entity.Usuari;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.rmi.RemoteException;
+import java.util.Vector;
 
 /**
  * TDP Grup6
@@ -13,7 +22,8 @@ import java.awt.*;
  * Time: 18:20
  */
 public class AltaTallerDialog extends JDialog{
-
+    private Client client;
+    private Taller taller = null;
     private String altaTallerLabel = TDSLanguageUtils.getMessage("gestioTaller.altaTallerDialog.altaTallerLabel");
     private String idLabel = TDSLanguageUtils.getMessage("gestioTaller.altaTallerDialog.idLabel");
     private String jefeTallerLabel = TDSLanguageUtils.getMessage("gestioTaller.altaTallerDialog.jefeTallerLabel");
@@ -42,11 +52,16 @@ public class AltaTallerDialog extends JDialog{
     private JTextField capacitatTextField;
     private JTextField fechaModifTextField;
     private JTextField fechaBajaTextField;
+    private JComboBox jefeTallerComboBox;
+    private JCheckBox actiuCheckBox;
     private JLabel lblAltaTaller;
     private JButton okButton;
 
-
-    public AltaTallerDialog() {
+    private String[] camposMissing;
+    private boolean capacitatCorrectNumber =false;
+    
+    public AltaTallerDialog(Client pClient) throws ExceptionErrorDataBase, RemoteException, ExceptionTipoObjetoFiltroNoPermitido {
+        client = pClient;
         setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
         setAlwaysOnTop(true);
         setBounds(100, 100, 551, 442);
@@ -120,14 +135,18 @@ public class AltaTallerDialog extends JDialog{
         {
             fechaAltaText = new JTextField();
             fechaAltaText.setColumns(10);
+            fechaAltaText.setEnabled(false);
+            fechaAltaText.setEditable(false);
             fechaAltaText.setBounds(203, 257, 113, 20);
             contentPanel.add(fechaAltaText);
         }
         {
-            JComboBox tallerComboBox = new JComboBox();
-            tallerComboBox.setModel(new DefaultComboBoxModel(new String[] {"-", "1", "2", "3", "4"}));
-            tallerComboBox.setBounds(377, 154, 86, 20);
-            contentPanel.add(tallerComboBox);
+            jefeTallerComboBox = new JComboBox();
+
+            Vector<Usuari> capsTaller = new Vector<Usuari>(client.listaCapsTaller());
+            jefeTallerComboBox.setModel(new DefaultComboBoxModel(capsTaller));
+            jefeTallerComboBox.setBounds(377, 154, 86, 20);
+            contentPanel.add(jefeTallerComboBox);
         }
         {
             JLabel telefonoLabel = new JLabel(telefonLabel);
@@ -152,7 +171,7 @@ public class AltaTallerDialog extends JDialog{
             contentPanel.add(webTextField);
         }
 
-        JCheckBox actiuCheckBox = new JCheckBox(actiuLabel);
+        actiuCheckBox = new JCheckBox(actiuLabel);
         actiuCheckBox.setBounds(377, 253, 97, 23);
         contentPanel.add(actiuCheckBox);
         {
@@ -179,6 +198,8 @@ public class AltaTallerDialog extends JDialog{
         {
             fechaModifTextField = new JTextField();
             fechaModifTextField.setColumns(10);
+            fechaModifTextField.setEditable(false);
+            fechaModifTextField.setEnabled(false);
             fechaModifTextField.setBounds(203, 285, 113, 20);
             contentPanel.add(fechaModifTextField);
         }
@@ -190,6 +211,8 @@ public class AltaTallerDialog extends JDialog{
         {
             fechaBajaTextField = new JTextField();
             fechaBajaTextField.setColumns(10);
+            fechaBajaTextField.setEditable(false);
+            fechaBajaTextField.setEnabled(false);
             fechaBajaTextField.setBounds(203, 313, 113, 20);
             contentPanel.add(fechaBajaTextField);
         }
@@ -200,12 +223,14 @@ public class AltaTallerDialog extends JDialog{
             {
                 okButton = new JButton(okBtnLabel);
                 okButton.setActionCommand("OK");
+                okButton.addActionListener(new AltaTallerActionListener());
                 buttonPane.add(okButton);
                 getRootPane().setDefaultButton(okButton);
             }
             {
                 JButton cancelButton = new JButton(cancelBtnLabel);
                 cancelButton.setActionCommand("Cancel");
+                cancelButton.addActionListener(new CancelButtonActionListener());
                 buttonPane.add(cancelButton);
             }
         }
@@ -217,6 +242,13 @@ public class AltaTallerDialog extends JDialog{
 
     protected void updateOKButtonText(String pNewText){
         okButton.setText(pNewText);
+    }
+    protected void setActionListenerOKButton(ActionListener pActionListener){
+        ActionListener[] actionListeners = okButton.getActionListeners();
+        for (ActionListener actionListener : actionListeners) {
+            okButton.removeActionListener(actionListener);
+        }
+        okButton.addActionListener(pActionListener);
     }
 
     protected void disableTextBoxes(){
@@ -240,6 +272,161 @@ public class AltaTallerDialog extends JDialog{
         fechaModifTextField.setEditable(false);
         fechaBajaTextField.setEnabled(false);
         fechaBajaTextField.setEditable(false);
+        actiuCheckBox.setEnabled(false);
 
+    }
+
+
+    protected void fillTallerWithNewData(Taller newTaller, boolean isNewTaller) {
+        if (!isNewTaller) newTaller.setId(Integer.parseInt(idTextField.getText()));
+        newTaller.setNom(nomTextField.getText());
+        newTaller.setCif(cifTextField.getText());
+        newTaller.setAdreca(adrecaTextField.getText());
+        newTaller.setCapacitat(Integer.parseInt(capacitatTextField.getText()));
+        newTaller.setCapTaller(((Usuari) jefeTallerComboBox.getSelectedItem()).getId());
+        newTaller.setTelefon(telefonoTextField.getText());
+        newTaller.setWeb(webTextField.getText());
+        newTaller.setActiu(actiuCheckBox.isSelected());
+    }
+
+    protected void fillTallerData(Taller pTaller) throws ExceptionErrorDataBase, RemoteException {
+        idTextField.setText(pTaller.getId().toString());
+        nomTextField.setText(pTaller.getNom());
+        adrecaTextField.setText(pTaller.getAdreca());
+        cifTextField.setText(pTaller.getCif());
+        capacitatTextField.setText(""+pTaller.getCapacitat());
+        telefonoTextField.setText(pTaller.getTelefon());
+        Integer jefeTaller = pTaller.getCapTaller();
+        jefeTallerComboBox.setSelectedItem(client.buscarUsuariPorId(jefeTaller));
+        webTextField.setText(pTaller.getWeb());
+        actiuCheckBox.setSelected(pTaller.isActiu());
+        fechaAltaText.setText(pTaller.getDataApertura()!=null?pTaller.getDataApertura().toString():"");
+        fechaBajaTextField.setText(pTaller.getDataBaixa() != null ? pTaller.getDataBaixa().toString() : "");
+        fechaModifTextField.setText(pTaller.getDataModificacio() != null ? pTaller.getDataModificacio().toString() : "");
+
+    }
+
+    protected boolean checkInputDataOK() {
+        camposMissing = new String[9];
+        int i=1;
+        if (nomTextField.getText().isEmpty()){
+            camposMissing[i]=nomLabelTxt;
+            i++;
+        }
+        if (cifTextField.getText().isEmpty()){
+            camposMissing[i]=cifLabelTxt;
+            i++;
+        }
+        if (adrecaTextField.getText().isEmpty()){
+            camposMissing[i]=adrecaLabelTxt;
+            i++;
+        }
+        if (capacitatTextField.getText().isEmpty()){
+            camposMissing[i]=capacidadLabelTxt;
+            i++;
+        }
+        try{
+            Integer.parseInt(capacitatTextField.getText());
+            capacitatCorrectNumber =true;    
+        } catch (Exception e){
+            capacitatCorrectNumber =false;
+        }
+        if (telefonoTextField.getText().isEmpty()){
+            camposMissing[i]=telefonLabel;
+            i++;
+        }
+        if (webTextField.getText().isEmpty()){
+            camposMissing[i]=webLabelTxt;
+            i++;
+        }
+
+        //Si no hay missing field  true
+        return i==1 && capacitatCorrectNumber;
+    }
+    protected void setTaller(Taller pTaller){
+        taller = pTaller;
+    }
+
+
+    private class AltaTallerActionListener implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            if (checkInputDataOK()) {
+                taller = new Taller();
+                fillTallerWithNewData(taller, true);
+
+                try {
+                    client.altaTaller(taller);
+                } catch (ExceptionErrorDataBase exceptionErrorDataBase) {
+                    //todo i18n mensajes de error
+                    JOptionPane.showMessageDialog(contentPanel, "Error de BD", "BD Error", JOptionPane.ERROR_MESSAGE);
+                    exceptionErrorDataBase.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                } catch (RemoteException e1) {
+                    //todo i18n mensajes de error
+                    JOptionPane.showMessageDialog(contentPanel, "Error conectando con server", "Server Error", JOptionPane.ERROR_MESSAGE);
+                    e1.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                } catch (Exception e2){
+                    //todo i18n mensajes de error
+                    JOptionPane.showMessageDialog(contentPanel, "Error", "Generic Error", JOptionPane.ERROR_MESSAGE);
+                    e2.printStackTrace();
+                }
+                dispose();
+            } else {
+                StringBuilder camposMiss = new StringBuilder();
+                //todo i18n mensajes de error
+                camposMiss.append("Error en campos obligatorios:").append("\n");
+                for (String campoMiss : camposMissing) {
+                    if (campoMiss != null) camposMiss.append(campoMiss).append(" está vacío.").append("\n");
+                }
+                if (!capacitatCorrectNumber) camposMiss.append("El valor en Capacidad no es un número válido").append("\n");
+                capacitatCorrectNumber=false;
+                JOptionPane.showMessageDialog(contentPanel, camposMiss, "Missing Fields", JOptionPane.ERROR_MESSAGE);
+            }
+        }
+    }
+
+    private class CancelButtonActionListener implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            dispose();
+        }
+    }
+
+    protected class ModificaTallerActionListener implements ActionListener{
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            if (checkInputDataOK()) {
+                Taller newTaller= new Taller();
+                fillTallerWithNewData(newTaller, false);
+
+                try {
+                    client.modificaTaller(newTaller);
+                } catch (ExceptionErrorDataBase exceptionErrorDataBase) {
+                    //todo i18n mensajes de error
+                    JOptionPane.showMessageDialog(contentPanel, "Error de BD", "BD Error", JOptionPane.ERROR_MESSAGE);
+                    exceptionErrorDataBase.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                } catch (RemoteException e1) {
+                    //todo i18n mensajes de error
+                    JOptionPane.showMessageDialog(contentPanel, "Error conectando con server", "Server Error", JOptionPane.ERROR_MESSAGE);
+                    e1.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                } catch (Exception e2){
+                    //todo i18n mensajes de error
+                    JOptionPane.showMessageDialog(contentPanel, "Error", "Generic Error", JOptionPane.ERROR_MESSAGE);
+                    e2.printStackTrace();
+                }
+                dispose();
+            } else {
+                StringBuilder camposMiss = new StringBuilder();
+                //todo i18n mensajes de error
+                camposMiss.append("Error en campos obligatorios:").append("\n");
+                for (String campoMiss : camposMissing) {
+                    if (campoMiss != null) camposMiss.append(campoMiss).append(" está vacío.").append("\n");
+                }
+                if (!capacitatCorrectNumber) camposMiss.append("El valor en Capacidad no es un número válido").append("\n");
+                capacitatCorrectNumber=false;
+                JOptionPane.showMessageDialog(contentPanel, camposMiss, "Missing Fields", JOptionPane.ERROR_MESSAGE);
+            }
+        }
     }
 }

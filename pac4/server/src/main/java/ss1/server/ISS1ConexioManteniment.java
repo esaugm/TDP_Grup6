@@ -45,5 +45,7 @@ public interface ISS1ConexioManteniment extends Remote {
     
     public Taller getTallerById(Integer pId) throws ExceptionErrorDataBase, RemoteException;
 
+    public Usuari findUsuariByPK(Integer pId) throws ExceptionErrorDataBase, RemoteException;
 
+    public List<Usuari> getAllCapsTaller() throws ExceptionErrorDataBase, ExceptionTipoObjetoFiltroNoPermitido, RemoteException;
 }

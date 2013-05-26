@@ -32,6 +32,7 @@ public interface ReparacionDAO extends GenericDao{
     public Boolean aceptaReparacion(Integer orden) throws ExceptionErrorDataBase;
     public Boolean anotaObservacion(Integer orden, String observaciones) throws ExceptionErrorDataBase;
     public Boolean asignaAMecanico(Integer orden, Integer idMecanico) throws ExceptionErrorDataBase;
+    public Boolean desasignaMecanico(Integer orden, Integer idMecanico) throws ExceptionErrorDataBase;
     public Boolean createReparacion(Reparacion rep) throws ExceptionErrorDataBase, AppException;
     public ArrayList<Reparacion> findReparacionesByTerms(Map values) throws ExceptionErrorDataBase;
 }

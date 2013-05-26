@@ -6,11 +6,15 @@ import ss1.dao.exception.ExceptionErrorDataBase;
 
 import java.io.IOException;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import ss2.exception.AppException;
+import ss3.beans.Pedido;
 import ss3.beans.Pieza;
 import ss3.dao.PiezaDAO;
 
@@ -151,7 +155,7 @@ public class PiezaDAOImpl extends GenericDaoImpl implements PiezaDAO {
         ArrayList<Pieza> listaPieza = new ArrayList<Pieza>();
         try{
             conn = getConnection();
-            ps = conn.prepareStatement("select * from peca where descripcion like ?");
+            ps = conn.prepareStatement("select * from peca where descripcio like ?");
             ps.setString(1,"%"+pDescripcion+"%");
             
             rs = ps.executeQuery();
@@ -182,5 +186,96 @@ public class PiezaDAOImpl extends GenericDaoImpl implements PiezaDAO {
         }
         return listaPieza;
     }
-     
+    
+    public Pieza findByOrden(Integer pOrden) throws ExceptionErrorDataBase {
+        Connection conn=null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        Pieza toReturn = null;
+        try{
+            conn = getConnection();
+            ps = conn.prepareStatement( "SELECT *\n" +
+                                        "FROM reparacio\n" +
+                                        "JOIN solicitud ON reparacio.ordrereparacio = solicitud.numreparacio\n" +
+                                        "JOIN client   ON solicitud.client = client.nif\n" +
+                                        "JOIN usuari ON reparacio.idmecanic = usuari.id\n" +
+                                        "JOIN vehicle ON reparacio.ordrereparacio = vehicle.numreparacio\n" +
+                                        "JOIN comanda ON reparacio.numcom = comanda.numcom\n" +
+                                        "JOIN peca ON comanda.codipeca = peca.codipeca\n" +
+                                        "WHERE reparacio.ordrereparacio = ?\n");
+            ps.setInt(1,pOrden);
+            
+            rs = ps.executeQuery();
+
+            if (rs.next()){
+                 toReturn = new Pieza(
+                    rs.getInt("codipeca"),
+                    rs.getString("descripcio"),
+                    rs.getFloat("pvp"),
+                    rs.getFloat("pvd"),
+                    rs.getString("marca"),
+                    rs.getString("model"),
+                    rs.getInt("idProveidor"));
+            }
+
+        } catch (ClassNotFoundException e) {
+            //todo FERNANDO: log exception
+            throw new ExceptionErrorDataBase("Error conectando a BD", e);
+        } catch (SQLException e) {
+            //todo FERNANDO: log exception
+            throw new ExceptionErrorDataBase("Error de sql", e);
+        } catch (IOException e) {
+            //todo FERNANDO: log exception
+            throw new ExceptionErrorDataBase("Error conectando a BD", e);
+        } finally {
+            ConnectionFactory.freeResources(conn, ps, rs);
+        }
+        return toReturn;
+    }
+    
+    public Boolean insertComanda(Pedido com) throws ExceptionErrorDataBase{
+        Boolean succeded = false;
+        Boolean wasconnected = false;
+        String SQL = "INSERT INTO comanda "
+            + "(estat,date,codipeca,"
+            + "idcaptaller,idproveidor,ordrereparacio) VALUES (?,?,?,?,?,?)";
+        try {
+        
+            connection = getConnection();
+            ptmt.setInt(2, com.getCodipeca());
+            ptmt.setDate(3, (Date) com.getDate());
+            ptmt.setInt(4, com.getIdcaptaller());
+            ptmt.setInt(5, com.getIdproveidor());
+            ptmt.setInt(6, com.getOrdrereparacio());
+
+            if (ptmt.executeUpdate() > 0) {
+                succeded = true;
+            } else {
+                System.err.println(ptmt.getWarnings());
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        } catch (ClassNotFoundException ex) {
+            ex.printStackTrace();
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+            wasconnected = true;
+        try {
+            ptmt = connection.prepareStatement(SQL);
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        try {
+            ptmt.setBoolean(1, com.getEstat());
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+           
+        
+            ConnectionFactory.freeResources(connection, ptmt, resultSet);
+
+
+        return succeded;
+    }
 }

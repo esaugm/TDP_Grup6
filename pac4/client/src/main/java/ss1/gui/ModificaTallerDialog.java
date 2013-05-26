@@ -1,7 +1,12 @@
 package ss1.gui;
 
+import common.rmi.Client;
 import common.utils.TDSLanguageUtils;
+import ss1.dao.exception.ExceptionErrorDataBase;
+import ss1.dao.exception.ExceptionTipoObjetoFiltroNoPermitido;
 import ss1.entity.Taller;
+
+import java.rmi.RemoteException;
 
 /**
  * TDP Grup6
@@ -14,14 +19,16 @@ public class ModificaTallerDialog extends AltaTallerDialog{
     private String okBtnLabel = TDSLanguageUtils.getMessage("gestioTaller.modificaTallerDialog.okBtnLabel");
     private Taller taller;
 
-    public ModificaTallerDialog(Taller pTaller) {
-        super();
-        this.taller = pTaller;
+    public ModificaTallerDialog(Taller pTaller, Client pClient) throws ExceptionErrorDataBase, ExceptionTipoObjetoFiltroNoPermitido, RemoteException {
+        super(pClient);
+        setTaller(pTaller);
         setModificaDialogProperties();
+        fillTallerData(pTaller);
     }
 
     private void setModificaDialogProperties() {
         updateTitle(modificaUsuariLabel);
         updateOKButtonText(okBtnLabel);
+        setActionListenerOKButton(new ModificaTallerActionListener());
     }
 }

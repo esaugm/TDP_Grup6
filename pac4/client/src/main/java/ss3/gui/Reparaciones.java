@@ -6,6 +6,7 @@ package ss3.gui;
 
 import common.rmi.Client;
 import java.rmi.RemoteException;
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
@@ -15,6 +16,7 @@ import java.util.logging.Logger;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import ss1.dao.exception.ExceptionErrorDataBase;
+import ss1.dao.exception.ExceptionTipoObjetoFiltroNoPermitido;
 import ss2.entity.Solicitud;
 import ss2.exception.AppException;
 import ss3.beans.Reparacion;
@@ -30,56 +32,158 @@ public class Reparaciones extends JPanel {
      */
     
     public Client cliente;
-    private DefaultTableModel dtm;
+    JTable jTable1;
+    JScrollPane scrollPane;
      
     
     public Reparaciones(Client cli) throws ExceptionErrorDataBase, RemoteException {
         cliente = cli;
         initComponents();
-        
+               
+        jTable1 = crearTabla();
+        scrollPane = new JScrollPane();
+        scrollPane.setBounds(12, 190, 830, 125);
+        add(scrollPane);
+        scrollPane.setViewportView(jTable1);
         rellenaTabla(cliente.ConsultaTodas());
+        
     }
     
     public void rellenaTabla(ArrayList<Reparacion> repa) throws AppException, ExceptionErrorDataBase, RemoteException {
         
-        int con = 0;
-        //
-        String data[][] = {};
-        String col[] = {"Orden Reparacion","Fecha Entrada","Cont. Minutos", "Matrícula","Marca","Modelo","Observaciones","Aceptada","Asignada"};
-        dtm = new DefaultTableModel(data,col);
-        jTable1.setModel(dtm);
         
-        
-        Iterator itRep = repa.iterator();
-        Reparacion r1 = new Reparacion();
-        Solicitud s1 = new Solicitud();
-        Vehiculo v1 = new Vehiculo();
-        while (itRep.hasNext()){
-            r1 = (Reparacion) itRep.next();
-            s1 = cliente.buscaSolicitudbynumrep(r1.getIdOrden());
-            v1 = cliente.ConsultaReparacion(r1.getIdOrden());
-            if (r1.getIdOrden() > 0){
-                dtm.insertRow(con, new Object[]{});
-                dtm.setValueAt(r1.getIdOrden(), con, 0);
-                dtm.setValueAt(s1.getDataAlta(),con,1);
-                dtm.setValueAt(r1.getContador(),con,2);
-                dtm.setValueAt(v1.getMatricula(),con,3);
-                dtm.setValueAt(v1.getMarca(),con,4);
-                dtm.setValueAt(v1.getModelo(),con,5);
-                dtm.setValueAt(r1.getObservaciones(),con,6);
-                if (r1.isAceptada())
-                    dtm.setValueAt("SI",con,7);
-                else
-                    dtm.setValueAt("NO",con,7);
-                if (r1.isAsignada())
-                    dtm.setValueAt("SI",con,8);
-                else
-                    dtm.setValueAt("NO",con,8);
+        try {
+                DefaultTableModel tableModel = (DefaultTableModel) jTable1.getModel();
+                int rowCount = tableModel.getRowCount();
+                Iterator itRep = repa.iterator();
+                int i=0;
+                Reparacion r1 = new Reparacion();
+                Solicitud s1 = new Solicitud();
+                Vehiculo v1 = new Vehiculo();
+                
+                while (itRep.hasNext()){
+                    r1 = (Reparacion) itRep.next();
+                    s1 = cliente.buscaSolicitudbynumrep(r1.getIdOrden());
+                    v1 = cliente.ConsultaReparacion(r1.getIdOrden());
+                    if (r1.getIdOrden() > 0){
+                        if(i==rowCount-1) 
+                            tableModel.addRow(new Object[]{});
+                        tableModel.setValueAt(r1.getIdOrden(), i, 0);
+                        tableModel.setValueAt(s1.getDataAlta(),i,1);
+                        tableModel.setValueAt(r1.getContador(),i,2);
+                        tableModel.setValueAt(v1.getMatricula(),i,3);
+                        tableModel.setValueAt(v1.getMarca(),i,4);
+                        tableModel.setValueAt(v1.getModelo(),i,5);
+                        tableModel.setValueAt(r1.getObservaciones(),i,6);
+                        if (r1.isAceptada())
+                            tableModel.setValueAt("SI",i,7);
+                        else
+                            tableModel.setValueAt("NO",i,7);
+                        if (r1.isAsignada())
+                            tableModel.setValueAt("SI",i,8);
+                        else
+                            tableModel.setValueAt("NO",i,8);
+                        i++;
+                    }
+                }
+                for (int rowIdx=i;rowIdx<rowCount ;rowIdx++){
+                    tableModel.setValueAt("",rowIdx,0);
+                    tableModel.setValueAt("",rowIdx,1);
+                    tableModel.setValueAt("",rowIdx,2);
+                    tableModel.setValueAt("",rowIdx,3);
+                    tableModel.setValueAt("",rowIdx,4);
+                    tableModel.setValueAt("",rowIdx,5);
+                    tableModel.setValueAt("",rowIdx,6);
+                    tableModel.setValueAt("",rowIdx,7);
+                    tableModel.setValueAt("",rowIdx,8);
+                }
+
+                jTable1 = createTabla(tableModel);
+                scrollPane.setViewportView(jTable1);
+                
+            } catch (ExceptionErrorDataBase exceptionErrorDataBase) {
+                //todo pensar que se hace aqui
+                exceptionErrorDataBase.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            } catch (RemoteException e1) {
+                e1.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
             }
-            con++;
-        }
+
     }
 
+    private JTable crearTabla() {
+        DefaultTableModel tableModel = (new DefaultTableModel(
+                new Object[][] {
+                        {null, null, null, null, null, null, null, null, null},
+                        {null, null, null, null, null, null, null, null, null},
+                        {null, null, null, null, null, null, null, null, null},
+                        {null, null, null, null, null, null, null, null, null},
+                        {null, null, null, null, null, null, null, null, null},
+                        {null, null, null, null, null, null, null, null, null},
+                        {null, null, null, null, null, null, null, null, null},
+                        {null, null, null, null, null, null, null, null, null},
+                        {null, null, null, null, null, null, null, null, null},
+                        {null, null, null, null, null, null, null, null, null},
+                        {null, null, null, null, null, null, null, null, null},
+                        {null, null, null, null, null, null, null, null, null},
+                        {null, null, null, null, null, null, null, null, null},
+                        {null, null, null, null, null, null, null, null, null},
+                        {null, null, null, null, null, null, null, null, null},
+                },
+                new String[] {"Orden","Fecha Entrada","Cont. Minutos", "Matrícula","Marca","Modelo","Observaciones","Aceptada","Asignada"}
+        ){
+            Class[] columnTypes = new Class[] {
+                    Integer.class, String.class, Integer.class, String.class, String.class, String.class, String.class, String.class, String.class
+            };
+            public Class getColumnClass(int columnIndex) {
+                return columnTypes[columnIndex];
+            }
+        });
+        return createTabla(tableModel);
+    }
+
+    private JTable createTabla(DefaultTableModel tableModel) {
+        JTable table = new JTable();
+        table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        table.setCellSelectionEnabled(false);
+        table.setColumnSelectionAllowed(false);
+        table.setModel(tableModel);
+        table.setRowSelectionAllowed(true);
+
+        table.getColumnModel().getColumn(0).setResizable(false);
+        table.getColumnModel().getColumn(0).setPreferredWidth(75);
+        table.getColumnModel().getColumn(0).setMinWidth(75);
+        table.getColumnModel().getColumn(0).setMaxWidth(75);
+        table.getColumnModel().getColumn(1).setResizable(false);
+        table.getColumnModel().getColumn(1).setPreferredWidth(100);
+        table.getColumnModel().getColumn(1).setMinWidth(100);
+        table.getColumnModel().getColumn(1).setMaxWidth(100);
+        table.getColumnModel().getColumn(2).setPreferredWidth(80);
+        table.getColumnModel().getColumn(2).setMinWidth(80);
+        table.getColumnModel().getColumn(2).setMaxWidth(80);
+        table.getColumnModel().getColumn(3).setPreferredWidth(80);
+        table.getColumnModel().getColumn(3).setMinWidth(80);
+        table.getColumnModel().getColumn(3).setMaxWidth(80);
+        table.getColumnModel().getColumn(4).setPreferredWidth(80);
+        table.getColumnModel().getColumn(4).setMinWidth(80);
+        table.getColumnModel().getColumn(4).setMaxWidth(80);
+        table.getColumnModel().getColumn(5).setPreferredWidth(80);
+        table.getColumnModel().getColumn(5).setMinWidth(80);
+        table.getColumnModel().getColumn(5).setMaxWidth(80);
+        table.getColumnModel().getColumn(6).setPreferredWidth(205);
+        table.getColumnModel().getColumn(6).setMinWidth(205);
+        table.getColumnModel().getColumn(6).setMaxWidth(205);
+        table.getColumnModel().getColumn(7).setResizable(false);
+        table.getColumnModel().getColumn(7).setPreferredWidth(56);
+        table.getColumnModel().getColumn(7).setMinWidth(56);
+        table.getColumnModel().getColumn(7).setMaxWidth(56);
+        table.getColumnModel().getColumn(8).setResizable(false);
+        table.getColumnModel().getColumn(8).setPreferredWidth(56);
+        table.getColumnModel().getColumn(8).setMinWidth(56);
+        table.getColumnModel().getColumn(8).setMaxWidth(56);
+        table.setBounds(12, 350, 830, 125);
+        return table;
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -109,8 +213,6 @@ public class Reparaciones extends JPanel {
         jTextField4 = new javax.swing.JTextField();
         jCheckBox1 = new javax.swing.JCheckBox();
         jCheckBox2 = new javax.swing.JCheckBox();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
         jButton8 = new javax.swing.JButton();
         jButton9 = new javax.swing.JButton();
         jButton10 = new javax.swing.JButton();
@@ -204,22 +306,6 @@ public class Reparaciones extends JPanel {
         add(jPanel1);
         jPanel1.setBounds(10, 68, 0, 120);
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
-            }
-        ));
-        jScrollPane1.setViewportView(jTable1);
-
-        add(jScrollPane1);
-        jScrollPane1.setBounds(10, 190, 834, 91);
-
         jButton8.setText("Consultar/Filtrar");
         jButton8.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -227,7 +313,7 @@ public class Reparaciones extends JPanel {
             }
         });
         add(jButton8);
-        jButton8.setBounds(10, 290, 140, 52);
+        jButton8.setBounds(10, 360, 140, 52);
 
         jButton9.setText("Detalle");
         jButton9.addActionListener(new java.awt.event.ActionListener() {
@@ -236,7 +322,7 @@ public class Reparaciones extends JPanel {
             }
         });
         add(jButton9);
-        jButton9.setBounds(180, 290, 90, 52);
+        jButton9.setBounds(290, 360, 90, 52);
 
         jButton10.setText("Aceptar");
         jButton10.addActionListener(new java.awt.event.ActionListener() {
@@ -245,7 +331,7 @@ public class Reparaciones extends JPanel {
             }
         });
         add(jButton10);
-        jButton10.setBounds(290, 290, 90, 52);
+        jButton10.setBounds(380, 360, 90, 52);
 
         jButton11.setText("Asignar");
         jButton11.addActionListener(new java.awt.event.ActionListener() {
@@ -254,7 +340,7 @@ public class Reparaciones extends JPanel {
             }
         });
         add(jButton11);
-        jButton11.setBounds(380, 290, 100, 52);
+        jButton11.setBounds(470, 360, 100, 52);
 
         jButton12.setText("Finalizar");
         jButton12.addActionListener(new java.awt.event.ActionListener() {
@@ -263,7 +349,7 @@ public class Reparaciones extends JPanel {
             }
         });
         add(jButton12);
-        jButton12.setBounds(480, 290, 90, 52);
+        jButton12.setBounds(570, 360, 90, 52);
 
         jButton13.setText("Salir");
         jButton13.addActionListener(new java.awt.event.ActionListener() {
@@ -272,7 +358,7 @@ public class Reparaciones extends JPanel {
             }
         });
         add(jButton13);
-        jButton13.setBounds(751, 289, 93, 52);
+        jButton13.setBounds(750, 360, 93, 52);
 
         jPanel2.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
@@ -413,9 +499,19 @@ public class Reparaciones extends JPanel {
 
     private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
         // TODO add your handling code here:
-        DetalleReparacionAsig dra = new DetalleReparacionAsig(cliente, (Integer) jTable1.getValueAt(jTable1.getSelectedRow(), 0), (String) jTable1.getValueAt(jTable1.getSelectedRow(), 3), (String) jTable1.getValueAt(jTable1.getSelectedRow(), 4), (String) jTable1.getValueAt(jTable1.getSelectedRow(), 5));
-        dra.setVisible(true);
-        dra.setModal(true);
+        DetalleReparacionAsig dra;
+        try {
+            dra = new DetalleReparacionAsig(cliente, (Integer) jTable1.getValueAt(jTable1.getSelectedRow(), 0), (String) jTable1.getValueAt(jTable1.getSelectedRow(), 3), (String) jTable1.getValueAt(jTable1.getSelectedRow(), 4), (String) jTable1.getValueAt(jTable1.getSelectedRow(), 5));
+            dra.setVisible(true);
+            dra.setModal(true);
+        } catch (ExceptionErrorDataBase ex) {
+            ex.printStackTrace();
+        } catch (AppException ex) {
+            ex.printStackTrace();
+        } catch (RemoteException ex) {
+            ex.printStackTrace();
+        }
+        
     }//GEN-LAST:event_jButton9ActionPerformed
 
     private void jButton10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton10ActionPerformed
@@ -428,23 +524,93 @@ public class Reparaciones extends JPanel {
             } catch (RemoteException ex) {
                 ex.printStackTrace();
         }
-        PiezasReparacion pr = new PiezasReparacion(cliente, (Integer) jTable1.getValueAt(jTable1.getSelectedRow(), 0), (String) jTable1.getValueAt(jTable1.getSelectedRow(), 3), (String) jTable1.getValueAt(jTable1.getSelectedRow(), 4), (String) jTable1.getValueAt(jTable1.getSelectedRow(), 5));
-        pr.setVisible(true);
-        pr.setModal(true);
+        PiezasReparacion pr;
+        try {
+            pr = new PiezasReparacion(cliente, (Integer) jTable1.getValueAt(jTable1.getSelectedRow(), 0), (String) jTable1.getValueAt(jTable1.getSelectedRow(), 3), (String) jTable1.getValueAt(jTable1.getSelectedRow(), 4), (String) jTable1.getValueAt(jTable1.getSelectedRow(), 5));
+            pr.setVisible(true);
+            pr.setModal(true);
+        } catch (RemoteException ex) {
+            ex.printStackTrace();
+        } catch (ExceptionErrorDataBase ex) {
+            ex.printStackTrace();
+        }
+       
     }//GEN-LAST:event_jButton10ActionPerformed
 
     private void jButton11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton11ActionPerformed
         //Si está aceptada pero no asignada a Mecanico, abrirá la pantalla AsignarAMecanico
         //Si está aceptada y asignada, mostrará un mensaje indicando que ya está asignada y dará la posibilidad de asignar otro
         //Si no está aceptada y pulsamos en ASignada, saldrá un mensaje indicando que aún no se ha aceptado la orden
-        AsignacionAMecanico aam = null;
-        aam = new AsignacionAMecanico();
-        aam.setVisible(true);
-        aam.setModal(true);
+        if (jTable1.getValueAt(jTable1.getSelectedRow(), 7).equals("SI")&&jTable1.getValueAt(jTable1.getSelectedRow(), 8).equals("NO")){
+            AsignacionAMecanico aam;
+            try {
+                aam = new AsignacionAMecanico(cliente, (Integer) jTable1.getValueAt(jTable1.getSelectedRow(), 0), (String) jTable1.getValueAt(jTable1.getSelectedRow(), 3), (String) jTable1.getValueAt(jTable1.getSelectedRow(), 4), (String) jTable1.getValueAt(jTable1.getSelectedRow(), 5));
+                aam.setVisible(true);
+                aam.setModal(true);
+            } catch (ExceptionErrorDataBase ex) {
+                ex.printStackTrace();            
+            } catch (AppException ex) {
+                ex.printStackTrace();     
+            } catch (RemoteException ex) {
+                ex.printStackTrace();     
+            } catch (ExceptionTipoObjetoFiltroNoPermitido ex) {
+                ex.printStackTrace();
+            }
+        }
+        if (jTable1.getValueAt(jTable1.getSelectedRow(), 7).equals("SI")&&jTable1.getValueAt(jTable1.getSelectedRow(), 8).equals("SI")){
+            
+            AsignacionAMecanico aam;
+            try {
+                aam = new AsignacionAMecanico(cliente, (Integer) jTable1.getValueAt(jTable1.getSelectedRow(), 0), (String) jTable1.getValueAt(jTable1.getSelectedRow(), 3), (String) jTable1.getValueAt(jTable1.getSelectedRow(), 4), (String) jTable1.getValueAt(jTable1.getSelectedRow(), 5));
+                aam.setVisible(true);
+                aam.setModal(true);
+            } catch (ExceptionErrorDataBase ex) {
+                ex.printStackTrace();            
+            } catch (AppException ex) {
+                ex.printStackTrace();     
+            } catch (RemoteException ex) {
+                ex.printStackTrace();     
+            } catch (ExceptionTipoObjetoFiltroNoPermitido ex) {
+                ex.printStackTrace();
+            }
+            
+            Avisos av = new Avisos("Esta reparación ya asignada, sin embargo, puede cambiar al mecánico si lo desea.");
+            av.setVisible(true);
+            av.setModal(true);
+        }
+        if (jTable1.getValueAt(jTable1.getSelectedRow(), 7).equals("NO")){
+            Avisos av = new Avisos("Esta reparación aún no ha sido aceptada.");
+            av.setVisible(true);
+            av.setModal(true);
+        }
+        jButton8ActionPerformed(evt);
     }//GEN-LAST:event_jButton11ActionPerformed
 
     private void jButton12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton12ActionPerformed
         // TODO add your handling code here:
+        Avisos av=null;
+        if(jTable1.getValueAt(jTable1.getSelectedRow(),7).equals("NO")){
+            av = new Avisos("Esta reparación aún no ha sido aceptada. No puede finalizarse");
+            av.setVisible(true);
+            av.setModal(true);
+        }else{
+            try {
+                Solicitud sol = cliente.buscaSolicitudbynumrep((Integer) jTable1.getValueAt(jTable1.getSelectedRow(), 0));
+                if (sol.getFinalitzada()){
+                    av = new Avisos("Esta reparación ya está finalizada.");
+                    av.setVisible(true);
+                    av.setModal(true);
+                }else{
+                    sol.setFinalitzada(true);
+                    cliente.modificaSolicitud(sol);
+                }
+            } catch (AppException ex) {
+                ex.printStackTrace();
+            } catch (RemoteException ex) {
+                ex.printStackTrace();
+            }
+            jButton8ActionPerformed(evt);
+        }
     }//GEN-LAST:event_jButton12ActionPerformed
 
     private void jButton13ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton13ActionPerformed
@@ -480,8 +646,6 @@ public class Reparaciones extends JPanel {
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField13;
     private javax.swing.JTextField jTextField14;

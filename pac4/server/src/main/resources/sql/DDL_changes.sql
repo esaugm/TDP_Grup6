@@ -174,3 +174,54 @@ alter table Taller add column nom character varying;
 -----------------------
 --- Fin cambios SS1 ---
 -----------------------
+
+--
+-- Cambiamos campo Contador a tipo Integer en la tabla Reparacion
+ALTER TABLE reparacio ALTER COLUMN comptador TYPE integer
+-- Eliminación de las tablas Mecanic y CapTaller, totalmente innecesarias, ya que trabajamos directamente con Usuario y sus perfiles
+drop table mecanic cascade;
+drop table captaller cascade;
+-- Cambiamos la dependencia de los idMecanic y idCapTaller de la tabla reparacio por las idUsuario de la tabla Usuario
+alter table reparacio
+  add constraint fk_idmecanic
+  foreign key (idmecanic)
+  references usuari (id);
+
+alter table reparacio
+  add constraint fk_idcaptaller
+  foreign key (idcaptaller)
+  references usuari (id);
+--
+-- Eliminamos constrain not null idmecanic e idcaptaller de la tabla reparacio
+ALTER TABLE reparacio ALTER COLUMN idmecanic DROP NOT NULL;
+ALTER TABLE reparacio ALTER COLUMN idcaptaller DROP NOT NULL;
+
+--	creacion de secuencia a max(numcom)+1
+--
+CREATE SEQUENCE comanda_id_seq;
+select setval('comanda_id_seq', (select max(numcom) from comanda) + 1);
+
+--
+-- cambio valor defecto numclient a siguiente valor secuencia
+alter table comanda alter column numcom set default nextval('comanda_id_seq');
+
+-- Actualizacion de date automatica on updates
+-- Tablas Comanda
+CREATE OR REPLACE FUNCTION update_date() RETURNS TRIGGER AS $$
+BEGIN
+	IF NEW.date THEN
+            NEW.date := now();
+    ELSE
+	    NEW.date := NULL;
+	END IF;
+    RETURN NEW;
+END; $$
+LANGUAGE plpgsql;
+
+-- creacion trigger actualizacion date on updates
+CREATE TRIGGER update_date
+BEFORE update ON comanda
+FOR EACH ROW EXECUTE PROCEDURE update_date();
+
+--Se elimina el campo tipusreparacio de la tabla comanda, no tiene ningún uso y no existe coherencia entre su posible uso y el tipo de dato(boolean)
+ALTER TABLE comanda DROP COLUMN tipusreparacio;

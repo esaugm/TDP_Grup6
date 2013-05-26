@@ -1,5 +1,6 @@
 package ss1.server.impl;
 
+import common.entity.PerfilUsuari;
 import ss1.dao.exception.ExceptionContrasenyaIncorrecta;
 import ss1.dao.exception.ExceptionErrorDataBase;
 import ss1.dao.exception.ExceptionTipoObjetoFiltroNoPermitido;
@@ -103,5 +104,17 @@ public class SS1ConexioMantenimentImpl extends UnicastRemoteObject implements IS
     @Override
     public Taller getTallerById(Integer pId) throws ExceptionErrorDataBase {
         return tallerService.findTallerByID(pId);
+    }
+
+    @Override
+    public Usuari findUsuariByPK(Integer pId) throws ExceptionErrorDataBase {
+        return usuariService.findUsuariByID(pId);
+    }
+
+    @Override
+    public List<Usuari> getAllCapsTaller() throws ExceptionErrorDataBase, ExceptionTipoObjetoFiltroNoPermitido {
+        FilterItems filtro = new FilterItems();
+        filtro.addFilterValue("perfil", PerfilUsuari.CAPTALLER);
+        return usuariService.findAllUsuariByUsuariFilter(filtro);
     }
 }
