@@ -180,6 +180,11 @@ public class Client {
     public Boolean desasignaMec(Integer orden, Integer idMecanico) throws ExceptionErrorDataBase, RemoteException{
         return remoteSS3.desasignaMec(orden, idMecanico);
     }
+    
+    public Boolean asignaAMec(Integer orden, Integer idMecanico) throws ExceptionErrorDataBase, RemoteException{
+        return remoteSS3.asignaAMec(orden, idMecanico);
+    }
+    
     public ISS4Estadisticas get_remoteSS4() {
         return _remoteSS4;
     }

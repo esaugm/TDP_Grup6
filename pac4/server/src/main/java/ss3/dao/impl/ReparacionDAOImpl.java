@@ -521,7 +521,7 @@ public class ReparacionDAOImpl extends GenericDaoImpl implements ReparacionDAO {
         Boolean succeded = false;
         Boolean wasconnected = false;
 
-        String SQL = "UPDATE reparacio SET idmecanic = ? WHERE ordrereparacio = ? ";
+        String SQL = "UPDATE reparacio SET idmecanic = ?, assignada = true WHERE ordrereparacio = ? ";
 
         try {
             connection = getConnection();
@@ -551,7 +551,7 @@ public class ReparacionDAOImpl extends GenericDaoImpl implements ReparacionDAO {
         Boolean succeded = false;
         Boolean wasconnected = false;
 
-        String SQL = "UPDATE reparacio SET idmecanic = null WHERE ordrereparacio = ? and idmecanic = ?";
+        String SQL = "UPDATE reparacio SET idmecanic = null, assignada = false WHERE ordrereparacio = ? and idmecanic = ?";
 
         try {
             connection = getConnection();
