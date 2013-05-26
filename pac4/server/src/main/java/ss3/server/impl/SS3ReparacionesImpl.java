@@ -86,6 +86,11 @@ public class SS3ReparacionesImpl extends UnicastRemoteObject implements SS3Repar
     }
     
     @Override
+    public Boolean desasignaMec(Integer orden, Integer idMecanico) throws ExceptionErrorDataBase{
+        return reparacionService.desasignaMec(orden,idMecanico);
+    }
+    
+    @Override
     public Pieza ConsultaCodigo(Integer codigo) throws ExceptionErrorDataBase{
         return piezaService.ConsultaCodigo(codigo);
     }

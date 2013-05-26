@@ -26,6 +26,7 @@ public interface ReparacionService {
     public ArrayList<Reparacion> ConsultaAsigMecanico(Integer idMecanico) throws ExceptionErrorDataBase;
     public Boolean anotaObs(Integer orden, String observaciones) throws ExceptionErrorDataBase;
     public Boolean asignaAMec(Integer orden, Integer idMecanico) throws ExceptionErrorDataBase;
+    public Boolean desasignaMec(Integer orden, Integer idMecanico) throws ExceptionErrorDataBase;
     public Boolean creaReparacion(Reparacion rep) throws ExceptionErrorDataBase, AppException;
     public ArrayList<Reparacion> findReparacionesByTerms(Map values) throws ExceptionErrorDataBase;
     public Boolean aceptaReparacion(Integer orden) throws ExceptionErrorDataBase;

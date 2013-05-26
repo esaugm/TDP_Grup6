@@ -551,14 +551,14 @@ public class ReparacionDAOImpl extends GenericDaoImpl implements ReparacionDAO {
         Boolean succeded = false;
         Boolean wasconnected = false;
 
-        String SQL = "UPDATE reparacio SET idmecanic = ? WHERE ordrereparacio = ? and idmecanic = ?";
+        String SQL = "UPDATE reparacio SET idmecanic = null WHERE ordrereparacio = ? and idmecanic = ?";
 
         try {
             connection = getConnection();
             wasconnected = true;
             ptmt = connection.prepareStatement(SQL);
-            ptmt.setInt(1, idMecanico);
-            ptmt.setInt(2, orden);
+            ptmt.setInt(1, orden);
+            ptmt.setInt(2, idMecanico);
 
             if (ptmt.executeUpdate() > 0) {
                 succeded = true;

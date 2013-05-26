@@ -78,6 +78,10 @@ public class ReparacionServiceImpl implements ReparacionService {
         return reparacion.asignaAMecanico(orden, idMecanico);
     }
     
+    public Boolean desasignaMec(Integer orden, Integer idMecanico) throws ExceptionErrorDataBase{
+        return reparacion.desasignaMecanico(orden, idMecanico);
+    }
+    
     public Boolean creaReparacion(Reparacion rep) throws ExceptionErrorDataBase, AppException{
         return reparacion.createReparacion(rep);
     }

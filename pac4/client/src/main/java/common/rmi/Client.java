@@ -176,7 +176,10 @@ public class Client {
     public Pieza ConsultaPiezaPorOrden(Integer orden) throws ExceptionErrorDataBase, RemoteException{
         return remoteSS3.ConsultaPorOrden(orden);
     }
-
+    
+    public Boolean desasignaMec(Integer orden, Integer idMecanico) throws ExceptionErrorDataBase, RemoteException{
+        return remoteSS3.desasignaMec(orden, idMecanico);
+    }
     public ISS4Estadisticas get_remoteSS4() {
         return _remoteSS4;
     }
