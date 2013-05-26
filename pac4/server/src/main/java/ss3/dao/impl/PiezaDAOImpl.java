@@ -237,15 +237,16 @@ public class PiezaDAOImpl extends GenericDaoImpl implements PiezaDAO {
         Boolean succeded = false;
         Boolean wasconnected = false;
         String SQL = "INSERT INTO comanda "
-            + "(estat,codipeca,"
-            + "idcaptaller,idproveidor,ordrereparacio) VALUES (?,?,?,?,?)";
+            + "(estat,date,codipeca,"
+            + "idcaptaller,idproveidor,ordrereparacio) VALUES (?,?,?,?,?,?)";
         try {
         
             connection = getConnection();
             ptmt.setInt(2, com.getCodipeca());
-            ptmt.setInt(3, com.getIdcaptaller());
-            ptmt.setInt(4, com.getIdproveidor());
-            ptmt.setInt(5, com.getOrdrereparacio());
+            ptmt.setDate(3, (Date) com.getDate());
+            ptmt.setInt(4, com.getIdcaptaller());
+            ptmt.setInt(5, com.getIdproveidor());
+            ptmt.setInt(6, com.getOrdrereparacio());
 
             if (ptmt.executeUpdate() > 0) {
                 succeded = true;

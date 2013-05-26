@@ -187,6 +187,10 @@ public class Client {
         return remoteSS3.ConsultaCodigo(codigo);
     }
     
+    public ArrayList<Pieza> ConsultaDescripcion(String descripcion) throws ExceptionErrorDataBase, RemoteException{
+        return remoteSS3.ConsultaDescripcion(descripcion);
+    }
+    
     public Boolean desasignaMec(Integer orden, Integer idMecanico) throws ExceptionErrorDataBase, RemoteException{
         return remoteSS3.desasignaMec(orden, idMecanico);
     }
